@@ -13,6 +13,7 @@ import ca.tweetzy.spawners.commands.SpawnersCommand;
 import ca.tweetzy.spawners.database.DataManager;
 import ca.tweetzy.spawners.database.migrations._1_InitialMigration;
 import ca.tweetzy.spawners.listeners.JoinListeners;
+import ca.tweetzy.spawners.model.LevelManager;
 import ca.tweetzy.spawners.model.PlayerManager;
 import ca.tweetzy.spawners.settings.Locale;
 import ca.tweetzy.spawners.settings.Settings;
@@ -28,7 +29,8 @@ public final class Spawners extends RosePlugin {
 	private final GuiManager guiManager = new GuiManager(this);
 	private final CommandManager commandManager = new CommandManager(this);
 
-	private final PlayerManager playerManager= new PlayerManager();
+	private final PlayerManager playerManager = new PlayerManager();
+	private final LevelManager levelManager = new LevelManager();
 
 	// database
 	@SuppressWarnings("FieldCanBeLocal")
@@ -95,6 +97,11 @@ public final class Spawners extends RosePlugin {
 	// player manager
 	public static PlayerManager getPlayerManager() {
 		return getInstance().playerManager;
+	}
+
+	// level manager
+	public static LevelManager getLevelManager() {
+		return getInstance().levelManager;
 	}
 
 	@Override
