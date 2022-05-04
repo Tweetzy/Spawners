@@ -12,6 +12,8 @@ import ca.tweetzy.rose.utils.Common;
 import ca.tweetzy.spawners.commands.SpawnersCommand;
 import ca.tweetzy.spawners.database.DataManager;
 import ca.tweetzy.spawners.database.migrations._1_InitialMigration;
+import ca.tweetzy.spawners.listeners.JoinListeners;
+import ca.tweetzy.spawners.model.PlayerManager;
 import ca.tweetzy.spawners.settings.Locale;
 import ca.tweetzy.spawners.settings.Settings;
 
@@ -25,6 +27,8 @@ public final class Spawners extends RosePlugin {
 
 	private final GuiManager guiManager = new GuiManager(this);
 	private final CommandManager commandManager = new CommandManager(this);
+
+	private final PlayerManager playerManager= new PlayerManager();
 
 	// database
 	@SuppressWarnings("FieldCanBeLocal")
@@ -56,11 +60,16 @@ public final class Spawners extends RosePlugin {
 		Locale.setup();
 		Common.setPrefix(Settings.PREFIX.getString());
 
+		// players
+		this.playerManager.load();
+
 		// setup command manager
 		this.commandManager.registerCommandDynamically(new SpawnersCommand());
 
 		// initialize gui manager
 		this.guiManager.init();
+
+		getServer().getPluginManager().registerEvents(new JoinListeners(), this);
 	}
 
 	@Override
@@ -81,6 +90,11 @@ public final class Spawners extends RosePlugin {
 	// gui manager
 	public static GuiManager getGuiManager() {
 		return getInstance().guiManager;
+	}
+
+	// player manager
+	public static PlayerManager getPlayerManager() {
+		return getInstance().playerManager;
 	}
 
 	@Override

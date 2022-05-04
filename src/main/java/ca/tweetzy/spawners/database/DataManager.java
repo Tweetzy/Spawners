@@ -34,7 +34,7 @@ public final class DataManager extends DataManagerAbstract {
 	 * It inserts a new user into the database
 	 *
 	 * @param spawnerUser The SpawnerUser object to insert into the database.
-	 * @param callback The callback to be called when the query is finished.
+	 * @param callback    The callback to be called when the query is finished.
 	 */
 	public void insertUser(@NonNull final SpawnerUser spawnerUser, final Callback<SpawnerUser> callback) {
 		this.runAsync(() -> this.databaseConnector.connect(connection -> {
@@ -94,10 +94,13 @@ public final class DataManager extends DataManagerAbstract {
 	 * @return A SpawnerUser object
 	 */
 	private SpawnerUser extractSpawnerUser(final ResultSet resultSet) throws SQLException {
+		final String placedSpawners = resultSet.getString("placed_spawners");
+		final String[] split = placedSpawners.split(",");
+
 		return new SpawnerPlayer(
 				UUID.fromString(resultSet.getString("uuid")),
 				resultSet.getString("username"),
-				Arrays.stream(resultSet.getString("placed_spawners").split(",")).map(UUID::fromString).collect(Collectors.toList())
+				placedSpawners.length() == 0 || split.length == 0 ? Collections.emptyList() : Arrays.stream(split).map(UUID::fromString).collect(Collectors.toList())
 		);
 	}
 
