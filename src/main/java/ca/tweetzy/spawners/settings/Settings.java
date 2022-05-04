@@ -15,7 +15,7 @@ public final class Settings {
 
 	static final YamlFile config = Spawners.getInstance().getCoreConfig();
 
-	public static final ConfigSetting PREFIX = new ConfigSetting(config, "prefix", "&8[&ESpawners&8]", "The global prefix for the plugin");
+	public static final ConfigSetting PREFIX = new ConfigSetting(config, "prefix", "<GRADIENT:fc67fa>&LSpawners</GRADIENT:f4c4f3> &8»", "The global prefix for the plugin");
 	public static final ConfigSetting LANGUAGE = new ConfigSetting(config, "language", "english", "The default language for the plugin");
 
 	@SneakyThrows
