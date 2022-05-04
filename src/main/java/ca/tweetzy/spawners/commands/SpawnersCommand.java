@@ -3,7 +3,10 @@ package ca.tweetzy.spawners.commands;
 import ca.tweetzy.rose.command.AllowedExecutor;
 import ca.tweetzy.rose.command.Command;
 import ca.tweetzy.rose.command.ReturnType;
+import ca.tweetzy.spawners.Spawners;
+import ca.tweetzy.spawners.guis.SpawnersAdminGUI;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import java.util.List;
 
@@ -21,6 +24,10 @@ public final class SpawnersCommand extends Command {
 
 	@Override
 	protected ReturnType execute(CommandSender sender, String... args) {
+		if (sender instanceof final Player player) {
+			Spawners.getGuiManager().showGUI(player, new SpawnersAdminGUI());
+		}
+
 		return ReturnType.SUCCESS;
 	}
 
