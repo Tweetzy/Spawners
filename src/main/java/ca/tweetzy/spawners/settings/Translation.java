@@ -142,7 +142,7 @@ public enum Translation {
 	final Object value;
 
 	public void send(CommandSender sender, Object... replacements) {
-		Locale.tell(sender, getString(replacements));
+		Common.tell(sender, getString(replacements));
 	}
 
 	public String getString(Object... replacements) {

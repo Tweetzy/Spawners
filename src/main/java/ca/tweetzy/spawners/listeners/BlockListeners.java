@@ -35,6 +35,7 @@ public final class BlockListeners implements Listener {
 		final UUID owner = UUID.fromString(NBTEditor.getString(event.getItemInHand(), "Spawners:Spawner:Owner"));
 		if (!Settings.ALLOW_NON_OWNER_PLACE.getBoolean() && !owner.equals(player.getUniqueId())) {
 			Translation.SPAWNER_NOT_OWNER_PLACE.send(player, "owner_name", NBTEditor.getString(event.getItemInHand(), "Spawners:Spawner:OwnerName"));
+			event.setCancelled(true);
 			return;
 		}
 

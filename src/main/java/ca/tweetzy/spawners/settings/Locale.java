@@ -112,11 +112,10 @@ public final class Locale {
 	}
 
 	public static void tell(CommandSender sender, String key) {
-
 		tell(sender, defaultLanguage, key);
 	}
 
-	public static void tell(CommandSender sender, String language, String key) {
+	public static void tell(CommandSender sender, String language, String key, Object... replacements) {
 		Object phrase = getPhrase(key, language);
 
 		if (phrase instanceof String)
