@@ -35,6 +35,7 @@ public final class SpawnerItem {
 				.tag("Spawners:Spawner", "true")
 				.tag("Spawners:Spawner:EntityType", entityType.name())
 				.tag("Spawners:Spawner:Owner", owner.getUniqueId().toString())
+				.tag("Spawners:Spawner:OwnerName", owner.getName())
 				.tag("Spawners:Spawner:Options", options.getJsonString())
 				.tag("Spawners:Spawner:Level", String.valueOf(levelOverride))
 				.make();
