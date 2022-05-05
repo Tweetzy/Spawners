@@ -1,5 +1,6 @@
 package ca.tweetzy.spawners.impl;
 
+import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.spawner.Options;
 import ca.tweetzy.spawners.api.spawner.Spawner;
 import ca.tweetzy.spawners.model.Serialize;
@@ -74,7 +75,7 @@ public final class PlacedSpawner implements Spawner {
 
 	@Override
 	public void sync() {
-
+		Spawners.getDataManager().updateSpawner(this, null);
 	}
 
 	@Override
