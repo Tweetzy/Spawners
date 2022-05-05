@@ -8,6 +8,8 @@ import ca.tweetzy.spawners.api.spawner.Options;
 import ca.tweetzy.spawners.impl.SpawnerOptions;
 import ca.tweetzy.spawners.settings.Settings;
 import ca.tweetzy.spawners.settings.Translation;
+import com.jeff_media.morepersistentdatatypes.DataType;
+import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.CreatureSpawner;
 import org.bukkit.entity.EntityType;
@@ -33,8 +35,10 @@ public final class BlockListeners implements Listener {
 		if (!NBTEditor.contains(event.getItemInHand(), "Spawners:Spawner")) return;
 
 		final UUID owner = UUID.fromString(NBTEditor.getString(event.getItemInHand(), "Spawners:Spawner:Owner"));
+		final String ownerName = NBTEditor.getString(event.getItemInHand(), "Spawners:Spawner:OwnerName");
+
 		if (!Settings.ALLOW_NON_OWNER_PLACE.getBoolean() && !owner.equals(player.getUniqueId())) {
-			Translation.SPAWNER_NOT_OWNER_PLACE.send(player, "owner_name", NBTEditor.getString(event.getItemInHand(), "Spawners:Spawner:OwnerName"));
+			Translation.SPAWNER_NOT_OWNER_PLACE.send(player, "owner_name", ownerName);
 			event.setCancelled(true);
 			return;
 		}
@@ -59,6 +63,11 @@ public final class BlockListeners implements Listener {
 		creatureSpawner.setSpawnCount(level != null ? Math.max(level.getSpawnCount(), options.getSpawnCount()) : options.getSpawnCount());
 		creatureSpawner.setMaxNearbyEntities(level != null ? Math.max(level.getMaxNearbyEntities(), options.getMaxNearbyEntities()) : options.getMaxNearbyEntities());
 		creatureSpawner.setRequiredPlayerRange(level != null ? Math.max(level.getPlayerActivationRange(), options.getPlayerActivationRange()) : options.getPlayerActivationRange());
+
+		// apply persistent container stuff
+		final NamespacedKey namespacedKey = new NamespacedKey(Spawners.getInstance(), "SpawnersOwner");
+		creatureSpawner.getPersistentDataContainer().set(namespacedKey, DataType.UUID, owner);
+		creatureSpawner.getPersistentDataContainer().set(namespacedKey, DataType.STRING, ownerName);
 
 		// update
 		creatureSpawner.update(true);
