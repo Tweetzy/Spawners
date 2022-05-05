@@ -66,4 +66,9 @@ public final class SpawnerLevel implements Level {
 	public void setPlayerActivationRange(int playerActivationRange) {
 		this.playerActivationRange = playerActivationRange;
 	}
+
+	@Override
+	public void sync() {
+
+	}
 }

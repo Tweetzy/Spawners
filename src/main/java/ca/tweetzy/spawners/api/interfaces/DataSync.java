@@ -2,11 +2,11 @@ package ca.tweetzy.spawners.api.interfaces;
 
 /**
  * Date Created: May 04 2022
- * Time Created: 10:54 a.m.
+ * Time Created: 10:25 p.m.
  *
  * @author Kiran Hart
  */
-public interface Level extends Options, DataSync {
+public interface DataSync {
 
-	int getLevel();
+	void sync();
 }

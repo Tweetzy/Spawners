@@ -32,6 +32,7 @@ public final class LevelEditGUI extends BaseGUI {
 				.make(), click -> UserInput.askInteger(click.player, Translation.INPUT_LEVEL_EDIT_TITLE.getString("level_number", this.level.getLevel()), Translation.INPUT_LEVEL_EDIT_SPAWN_DELAY.getString(), value -> {
 
 			this.level.setSpawnInterval(value);
+			this.level.sync();
 			click.manager.showGUI(click.player, new LevelEditGUI(this.level));
 		}));
 
@@ -41,6 +42,7 @@ public final class LevelEditGUI extends BaseGUI {
 				.make(), click -> UserInput.askInteger(click.player, Translation.INPUT_LEVEL_EDIT_TITLE.getString("level_number", this.level.getLevel()), Translation.INPUT_LEVEL_EDIT_SPAWN_COUNT.getString(), value -> {
 
 			this.level.setSpawnCount(value);
+			this.level.sync();
 			click.manager.showGUI(click.player, new LevelEditGUI(this.level));
 		}));
 
@@ -50,6 +52,7 @@ public final class LevelEditGUI extends BaseGUI {
 				.make(), click -> UserInput.askInteger(click.player, Translation.INPUT_LEVEL_EDIT_TITLE.getString("level_number", this.level.getLevel()), Translation.INPUT_LEVEL_EDIT_MAX_NEARBY_ENTITIES.getString(), value -> {
 
 			this.level.setMaxNearbyEntities(value);
+			this.level.sync();
 			click.manager.showGUI(click.player, new LevelEditGUI(this.level));
 		}));
 
@@ -59,6 +62,7 @@ public final class LevelEditGUI extends BaseGUI {
 				.make(), click -> UserInput.askInteger(click.player, Translation.INPUT_LEVEL_EDIT_TITLE.getString("level_number", this.level.getLevel()), Translation.INPUT_LEVEL_EDIT_ACTIVATION_RANGE.getString(), value -> {
 
 			this.level.setPlayerActivationRange(value);
+			this.level.sync();
 			click.manager.showGUI(click.player, new LevelEditGUI(this.level));
 		}));
 

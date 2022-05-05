@@ -148,6 +148,33 @@ public final class DataManager extends DataManagerAbstract {
 	}
 
 	/**
+	 * It updates the level in the database
+	 *
+	 * @param level The level to update
+	 * @param callback The callback to be called when the query is finished.
+	 */
+	public void updateLevel(@NonNull final Level level, Callback<Boolean> callback) {
+		this.runAsync(() -> this.databaseConnector.connect(connection -> {
+			try (PreparedStatement statement = connection.prepareStatement("UPDATE " + this.getTablePrefix() + "level SET spawn_interval = ?, spawn_count = ?, max_nearby_entities = ?, player_activation_range = ? WHERE id = ?")) {
+
+				statement.setInt(1, level.getSpawnInterval());
+				statement.setInt(2, level.getSpawnCount());
+				statement.setInt(3, level.getMaxNearbyEntities());
+				statement.setInt(4, level.getPlayerActivationRange());
+				statement.setInt(5, level.getLevel());
+
+				int result = statement.executeUpdate();
+
+				if (callback != null)
+					callback.accept(null, result > 0);
+
+			} catch (Exception e) {
+				resolveCallback(callback, e);
+			}
+		}));
+	}
+
+	/**
 	 * It takes a ResultSet and returns a SpawnerUser
 	 *
 	 * @param resultSet The result set from the database.
