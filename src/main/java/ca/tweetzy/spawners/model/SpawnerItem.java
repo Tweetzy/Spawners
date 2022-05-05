@@ -32,6 +32,8 @@ public final class SpawnerItem {
 						"spawner_max_nearby_entities", options.getMaxNearbyEntities(),
 						"spawner_player_activation_range", options.getPlayerActivationRange()
 				))
+				.tag("Spawners:Spawner", "true")
+				.tag("Spawners:Spawner:EntityType", entityType.name())
 				.tag("Spawners:Spawner:Owner", owner.getUniqueId().toString())
 				.tag("Spawners:Spawner:Options", options.getJsonString())
 				.tag("Spawners:Spawner:Level", String.valueOf(levelOverride))
