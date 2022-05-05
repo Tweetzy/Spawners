@@ -5,10 +5,15 @@ import ca.tweetzy.rose.database.DataManagerAbstract;
 import ca.tweetzy.rose.database.DatabaseConnector;
 import ca.tweetzy.rose.database.UpdateCallback;
 import ca.tweetzy.spawners.api.spawner.Level;
+import ca.tweetzy.spawners.api.spawner.Spawner;
 import ca.tweetzy.spawners.api.spawner.SpawnerUser;
+import ca.tweetzy.spawners.impl.PlacedSpawner;
 import ca.tweetzy.spawners.impl.SpawnerLevel;
+import ca.tweetzy.spawners.impl.SpawnerOptions;
 import ca.tweetzy.spawners.impl.SpawnerPlayer;
+import ca.tweetzy.spawners.model.Serialize;
 import lombok.NonNull;
+import org.bukkit.entity.EntityType;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -127,6 +132,92 @@ public final class DataManager extends DataManagerAbstract {
 	}
 
 	/**
+	 * It inserts a spawner into the database
+	 *
+	 * @param spawner The spawner to insert into the database.
+	 * @param callback The callback to be called when the query is finished.
+	 */
+	public void insertSpawner(@NonNull final Spawner spawner, final Callback<Spawner> callback) {
+		this.runAsync(() -> this.databaseConnector.connect(connection -> {
+			final String query = "INSERT INTO " + this.getTablePrefix() + "spawner (id, owner, entity_type, level, options, location) VALUES (?, ?, ?, ?, ?, ?)";
+			final String fetchQuery = "SELECT * FROM " + this.getTablePrefix() + "spawner WHERE id = ?";
+
+			try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+				final PreparedStatement fetch = connection.prepareStatement(fetchQuery);
+
+				fetch.setString(1, spawner.getID().toString());
+
+				preparedStatement.setString(1, spawner.getID().toString());
+				preparedStatement.setString(2, spawner.getOwner().toString());
+				preparedStatement.setString(3, spawner.getEntityType().name());
+				preparedStatement.setInt(4, spawner.getLevel());
+				preparedStatement.setString(5, spawner.getOptions().getJsonString());
+				preparedStatement.setString(6, Serialize.serializeLocation(spawner.getLocation()));
+
+				preparedStatement.executeUpdate();
+
+				if (callback != null) {
+					final ResultSet res = fetch.executeQuery();
+					res.next();
+					callback.accept(null, extractSpawner(res));
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				resolveCallback(callback, e);
+			}
+		}));
+	}
+
+	/**
+	 * "Get all spawners from the database and return them in a list."
+	 *
+	 * @param callback The callback to be called when the query is finished.
+	 */
+	public void getSpawners(@NonNull final Callback<List<Spawner>> callback) {
+		final List<Spawner> spawners = new ArrayList<>();
+		this.runAsync(() -> this.databaseConnector.connect(connection -> {
+			try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM " + this.getTablePrefix() + "spawner")) {
+				final ResultSet resultSet = statement.executeQuery();
+				while (resultSet.next()) {
+					spawners.add(extractSpawner(resultSet));
+				}
+
+				callback.accept(null, spawners);
+			} catch (Exception e) {
+				resolveCallback(callback, e);
+			}
+		}));
+	}
+
+	/**
+	 * It updates a spawner in the database
+	 *
+	 * @param spawner The spawner to update.
+	 * @param callback The callback to be called when the query is finished.
+	 */
+	public void updateSpawner(@NonNull final Spawner spawner, Callback<Boolean> callback) {
+		this.runAsync(() -> this.databaseConnector.connect(connection -> {
+			try (PreparedStatement statement = connection.prepareStatement("UPDATE " + this.getTablePrefix() + "spawner SET owner = ?, entity_type = ?, level = ?, options = ? WHERE id = ?")) {
+
+				statement.setString(1, spawner.getOwner().toString());
+				statement.setString(2, spawner.getEntityType().name());
+				statement.setInt(3, spawner.getLevel());
+				statement.setString(4, spawner.getOptions().getJsonString());
+				statement.setString(5, spawner.getID().toString());
+
+				int result = statement.executeUpdate();
+
+				if (callback != null)
+					callback.accept(null, result > 0);
+
+			} catch (Exception e) {
+				resolveCallback(callback, e);
+			}
+		}));
+	}
+
+	/**
 	 * "Get all levels from the database and return them in a list."
 	 *
 	 * @param callback The callback to be called when the query is finished.
@@ -204,6 +295,23 @@ public final class DataManager extends DataManagerAbstract {
 				resultSet.getInt("spawn_count"),
 				resultSet.getInt("max_nearby_entities"),
 				resultSet.getInt("player_activation_range")
+		);
+	}
+
+	/**
+	 * It takes a ResultSet and returns a Spawner
+	 *
+	 * @param resultSet The result set from the database.
+	 * @return A Spawner object
+	 */
+	private Spawner extractSpawner(final ResultSet resultSet) throws SQLException {
+		return new PlacedSpawner(
+				UUID.fromString(resultSet.getString("id")),
+				UUID.fromString(resultSet.getString("owner")),
+				EntityType.valueOf(resultSet.getString("entity_type")),
+				resultSet.getInt("level"),
+				SpawnerOptions.decodeJson(resultSet.getString("options")),
+				Serialize.deserializeLocation(resultSet.getString("location"))
 		);
 	}
 
