@@ -56,7 +56,7 @@ public final class LevelListAdminGUI extends PagedGUI<Level> {
 
 	@Override
 	protected void onClick(Level level, GuiClickEvent event) {
-
+		event.manager.showGUI(event.player, new LevelEditGUI(level));
 	}
 
 	@Override
