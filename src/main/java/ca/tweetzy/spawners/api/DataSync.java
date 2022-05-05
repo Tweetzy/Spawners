@@ -1,4 +1,4 @@
-package ca.tweetzy.spawners.api.interfaces;
+package ca.tweetzy.spawners.api;
 
 /**
  * Date Created: May 04 2022

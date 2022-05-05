@@ -1,4 +1,4 @@
-package ca.tweetzy.spawners.api.interfaces;
+package ca.tweetzy.spawners.api.spawner;
 
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
@@ -30,4 +30,5 @@ public interface Spawner {
 	void setLevel(int level);
 
 	void setOptions(Options options);
+
 }

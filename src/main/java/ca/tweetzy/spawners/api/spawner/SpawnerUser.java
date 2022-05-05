@@ -1,4 +1,4 @@
-package ca.tweetzy.spawners.api.interfaces;
+package ca.tweetzy.spawners.api.spawner;
 
 import java.util.List;
 import java.util.UUID;
