@@ -27,8 +27,12 @@ public final class UserInput {
 		askString(player, null, title, subtitle, input);
 	}
 
-	public void askNumber(@NonNull final Player player, @NonNull final String title, @NonNull final String subtitle, @NonNull final Consumer<Double> input) {
-		askNumber(player, null, title, subtitle, input);
+	public void askDouble(@NonNull final Player player, @NonNull final String title, @NonNull final String subtitle, @NonNull final Consumer<Double> input) {
+		askDouble(player, null, title, subtitle, input);
+	}
+
+	public void askInteger(@NonNull final Player player, @NonNull final String title, @NonNull final String subtitle, @NonNull final Consumer<Integer> input) {
+		askInteger(player, null, title, subtitle, input);
 	}
 
 	public void askString(@NonNull final Player player, final Gui exitGui, @NonNull final String title, @NonNull final String subtitle, @NonNull final Consumer<String> input) {
@@ -50,7 +54,31 @@ public final class UserInput {
 		};
 	}
 
-	public void askNumber(@NonNull final Player player, final Gui exitGui, @NonNull final String title, @NonNull final String subtitle, @NonNull final Consumer<Double> input) {
+	public void askInteger(@NonNull final Player player, final Gui exitGui, @NonNull final String title, @NonNull final String subtitle, @NonNull final Consumer<Integer> input) {
+		player.closeInventory();
+
+		new TitleInput(player, Common.colorize(title), Common.colorize(subtitle)) {
+
+			@Override
+			public void onExit(Player player) {
+				if (exitGui != null)
+					Spawners.getGuiManager().showGUI(player, exitGui);
+			}
+
+			@Override
+			public boolean onResult(String string) {
+				if (!NumberUtils.isNumber(ChatColor.stripColor(string))) {
+					Locale.tell(player, Translation.NOT_A_NUMBER.getKey());
+					return false;
+				}
+
+				input.accept(Integer.parseInt(ChatColor.stripColor(string)));
+				return true;
+			}
+		};
+	}
+
+	public void askDouble(@NonNull final Player player, final Gui exitGui, @NonNull final String title, @NonNull final String subtitle, @NonNull final Consumer<Double> input) {
 		player.closeInventory();
 
 		new TitleInput(player, Common.colorize(title), Common.colorize(subtitle)) {
