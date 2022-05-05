@@ -1,5 +1,8 @@
 package ca.tweetzy.spawners.api.spawner;
 
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -16,4 +19,8 @@ public interface SpawnerUser {
 	String getName();
 
 	List<UUID> getPlacedSpawners();
+
+	boolean isAllowedToPlaceEntity(Player player, EntityType entityType);
+
+	boolean isAllowedToMineEntity(Player player, EntityType entityType);
 }

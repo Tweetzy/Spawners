@@ -5,6 +5,8 @@ import ca.tweetzy.rose.comp.enums.CompMaterial;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.spawner.Level;
 import ca.tweetzy.spawners.api.spawner.Options;
+import ca.tweetzy.spawners.api.spawner.Spawner;
+import ca.tweetzy.spawners.impl.PlacedSpawner;
 import ca.tweetzy.spawners.impl.SpawnerOptions;
 import ca.tweetzy.spawners.settings.Settings;
 import ca.tweetzy.spawners.settings.Translation;
@@ -17,7 +19,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.UUID;
 
@@ -55,6 +59,10 @@ public final class BlockListeners implements Listener {
 		final Options options = SpawnerOptions.decodeJson(NBTEditor.getString(event.getItemInHand(), "Spawners:Spawner:Options"));
 		final Level level = Spawners.getLevelManager().findLevel(Integer.parseInt(NBTEditor.getString(event.getItemInHand(), "Spawners:Spawner:Level")));
 
+		// insert spawner here and check place event
+		final Spawner spawner = new PlacedSpawner(UUID.randomUUID(), owner, entityType, level != null ? level.getLevel() : -1, options, placedBlock.getLocation());
+		Spawners.getSpawnerManager().createSpawner(spawner, null);
+
 		final CreatureSpawner creatureSpawner = (CreatureSpawner) placedBlock.getState();
 		creatureSpawner.setSpawnedType(entityType);
 
@@ -71,5 +79,33 @@ public final class BlockListeners implements Listener {
 
 		// update
 		creatureSpawner.update(true);
+	}
+
+	@EventHandler(priority = EventPriority.LOW)
+	public void onSpawnerBreak(final BlockBreakEvent event) {
+		final Player player = event.getPlayer();
+		final Block block = event.getBlock();
+
+		if (block.getType() != CompMaterial.SPAWNER.parseMaterial()) return;
+
+		final CreatureSpawner creatureSpawner = (CreatureSpawner) block.getState();
+		final NamespacedKey namespacedKey = new NamespacedKey(Spawners.getInstance(), "SpawnersOwner");
+
+		// spawner placed by user
+		if (creatureSpawner.getPersistentDataContainer().has(namespacedKey, DataType.UUID)) {
+			final Spawner spawner = Spawners.getSpawnerManager().findSpawner(event.getBlock().getLocation());
+			if (spawner == null) return;
+
+			// stop exp dropping, since they could repeatedly break/place
+			event.setExpToDrop(0);
+
+			// check allowed players
+
+
+			Spawners.getSpawnerManager().deleteSpawner(spawner, null);
+			return;
+		}
+
+		// natural spawner
 	}
 }

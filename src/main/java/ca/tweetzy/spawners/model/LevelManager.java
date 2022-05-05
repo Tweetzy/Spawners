@@ -48,15 +48,6 @@ public final class LevelManager implements Manager {
 	=================== DATABASE CALLS ===================
 	 */
 
-//	public void createPlayer(@NonNull final Player player, final BiConsumer<Boolean, SpawnerUser> consumer) {
-//		Spawners.getDataManager().insertUser(new SpawnerPlayer(player), (error, created) -> {
-//			if (error == null)
-//				this.addLevel(created);
-//
-//			if (consumer != null)
-//				consumer.accept(error == null, created);
-//		});
-//	}
 
 	@Override
 	public void load() {

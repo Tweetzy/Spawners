@@ -3,6 +3,7 @@ package ca.tweetzy.spawners.impl;
 import ca.tweetzy.spawners.api.spawner.SpawnerUser;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -43,5 +44,15 @@ public final class SpawnerPlayer implements SpawnerUser {
 	@Override
 	public List<UUID> getPlacedSpawners() {
 		return this.placedSpawners;
+	}
+
+	@Override
+	public boolean isAllowedToMineEntity(Player player, EntityType entityType) {
+		return player.hasPermission("spawners.mine." + entityType.name().toLowerCase().replace("_", "")) || player.isOp();
+	}
+
+	@Override
+	public boolean isAllowedToPlaceEntity(Player player, EntityType entityType) {
+		return player.hasPermission("spawners.place." + entityType.name().toLowerCase().replace("_", "")) || player.isOp();
 	}
 }
