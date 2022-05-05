@@ -64,6 +64,7 @@ public final class Spawners extends RosePlugin {
 
 		// players
 		this.playerManager.load();
+		this.levelManager.load();
 
 		// setup command manager
 		this.commandManager.registerCommandDynamically(new SpawnersCommand());
