@@ -2,6 +2,7 @@ package ca.tweetzy.spawners.impl;
 
 import ca.tweetzy.spawners.api.spawner.Options;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import lombok.AllArgsConstructor;
 
 /**
@@ -68,4 +69,14 @@ public final class SpawnerOptions implements Options {
 		return object.toString();
 	}
 
+	public static Options decodeJson(String json) {
+		final JsonObject object = JsonParser.parseString(json).getAsJsonObject();
+
+		return new SpawnerOptions(
+				object.get("delay").getAsInt(),
+				object.get("spawnCount").getAsInt(),
+				object.get("maxNearbyEntities").getAsInt(),
+				object.get("activationRange").getAsInt()
+		);
+	}
 }
