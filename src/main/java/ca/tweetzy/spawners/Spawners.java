@@ -9,14 +9,17 @@ import ca.tweetzy.rose.database.DatabaseConnector;
 import ca.tweetzy.rose.database.SQLiteConnector;
 import ca.tweetzy.rose.gui.GuiManager;
 import ca.tweetzy.rose.utils.Common;
+import ca.tweetzy.spawners.commands.GiveCommand;
 import ca.tweetzy.spawners.commands.SpawnersCommand;
 import ca.tweetzy.spawners.database.DataManager;
 import ca.tweetzy.spawners.database.migrations._1_InitialMigration;
+import ca.tweetzy.spawners.listeners.BlockListeners;
 import ca.tweetzy.spawners.listeners.JoinListeners;
 import ca.tweetzy.spawners.model.LevelManager;
 import ca.tweetzy.spawners.model.PlayerManager;
 import ca.tweetzy.spawners.settings.Locale;
 import ca.tweetzy.spawners.settings.Settings;
+import org.bukkit.block.Block;
 
 /**
  * Date Created: May 04 2022
@@ -67,12 +70,13 @@ public final class Spawners extends RosePlugin {
 		this.levelManager.load();
 
 		// setup command manager
-		this.commandManager.registerCommandDynamically(new SpawnersCommand());
+		this.commandManager.registerCommandDynamically(new SpawnersCommand()).addSubCommands(new GiveCommand());
 
 		// initialize gui manager
 		this.guiManager.init();
 
 		getServer().getPluginManager().registerEvents(new JoinListeners(), this);
+		getServer().getPluginManager().registerEvents(new BlockListeners(), this);
 	}
 
 	@Override
