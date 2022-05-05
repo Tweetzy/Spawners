@@ -29,6 +29,16 @@ public enum Translation {
 	PLAYER_OFFLINE("misc.player not found", "&cThe player &4%player% &cis not online!"),
 
 	/*
+	============= inputs =============
+	 */
+	INPUT_LEVEL_EDIT_TITLE("input.level edit.title", "<GRADIENT:fc67fa>&lLevel %level_number%</GRADIENT:f4c4f3>"),
+	INPUT_LEVEL_EDIT_SPAWN_DELAY("input.level edit.spawn delay", "&fEnter new spawn delay for level"),
+	INPUT_LEVEL_EDIT_SPAWN_COUNT("input.level edit.spawn count", "&fEnter new spawn count for level"),
+	INPUT_LEVEL_EDIT_MAX_NEARBY_ENTITIES("input.level edit.max nearby entities", "&fEnter new max nearby entities for level"),
+	INPUT_LEVEL_EDIT_ACTIVATION_RANGE("input.level edit.player activation range", "&fEnter new activation range for level"),
+
+
+	/*
 	============= guis =============
 	 */
 	GUI_ADMIN_MAIN_TITLE("gui.admin main.title", "<GRADIENT:fc67fa>&LSpawners</GRADIENT:f4c4f3> &7v%plugin_version%"),
@@ -59,6 +69,53 @@ public enum Translation {
 			"&e&lClick &8» &7To create new level"
 	)),
 
+
+	// level edit
+	GUI_LEVEL_EDIT_TITLE("gui.level edit.title", "<GRADIENT:fc67fa>&LSpawners</GRADIENT:f4c4f3> &8> &7Level &8> &7%level_number%"),
+	GUI_LEVEL_EDIT_ITEMS_SPAWN_DELAY_NAME("gui.level edit.items.spawn delay.name", "<GRADIENT:fc67fa>&lSpawn Delay</GRADIENT:f4c4f3>"),
+	GUI_LEVEL_EDIT_ITEMS_SPAWN_DELAY_LORE("gui.level edit.items.spawn delay.lore", Arrays.asList(
+			"&8Spawner delay",
+			"&7Adjust the time it takes for the",
+			"&7mob spawner to activate.",
+			"",
+			"&7Current&f: &e%level_spawn_interval%",
+			"",
+			"&e&lClick &8» &7To edit interval"
+	)),
+
+	GUI_LEVEL_EDIT_ITEMS_SPAWN_COUNT_NAME("gui.level edit.items.spawn count.name", "<GRADIENT:fc67fa>&lSpawn Count</GRADIENT:f4c4f3>"),
+	GUI_LEVEL_EDIT_ITEMS_SPAWN_COUNT_LORE("gui.level edit.items.spawn count.lore", Arrays.asList(
+			"&8Spawner Mob Count",
+			"&7Adjust the max amount of mobs that",
+			"&7the spawner can spawn each run.",
+			"",
+			"&7Current&f: &e%level_spawn_count%",
+			"",
+			"&e&lClick &8» &7To edit spawn count"
+	)),
+
+	GUI_LEVEL_EDIT_ITEMS_NEARBY_ENTITIES_NAME("gui.level edit.items.nearby entities.name", "<GRADIENT:fc67fa>&lNearby Entities</GRADIENT:f4c4f3>"),
+	GUI_LEVEL_EDIT_ITEMS_NEARBY_ENTITIES_LORE("gui.level edit.items.nearby entities.lore", Arrays.asList(
+			"&8Max Nearby Entities",
+			"&7Adjust the maximum amount of entities",
+			"&7that can be near the spawner to spawner",
+			"&7before it cannot spawn anymore mobs.",
+			"",
+			"&7Current&f: &e%level_max_nearby_entities%",
+			"",
+			"&e&lClick &8» &7To edit max nearby entities"
+	)),
+
+	GUI_LEVEL_EDIT_ITEMS_ACTIVATION_RANGE_NAME("gui.level edit.items.activation range.name", "<GRADIENT:fc67fa>&lActivation Range</GRADIENT:f4c4f3>"),
+	GUI_LEVEL_EDIT_ITEMS_ACTIVATION_RANGE_LORE("gui.level edit.items.activation range.lore", Arrays.asList(
+			"&8Player Activation Range",
+			"&7Adjust the range in which a player must",
+			"&7be within the spawner for it to activate.",
+			"",
+			"&7Current&f: &e%level_player_activation_range%",
+			"",
+			"&e&lClick &8» &7To edit activation range"
+	)),
 	;
 
 	final String key;
