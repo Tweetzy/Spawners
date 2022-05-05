@@ -1,5 +1,6 @@
 package ca.tweetzy.spawners.model;
 
+import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.interfaces.Level;
 import lombok.NonNull;
 
@@ -41,6 +42,10 @@ public final class LevelManager implements Manager {
 		return List.copyOf(this.levels.values());
 	}
 
+	public int getHighestLevel() {
+		return this.levels.keySet().stream().max(Integer::compare).orElse(0);
+	}
+
 	/*
 	=================== DATABASE CALLS ===================
 	 */
@@ -60,6 +65,9 @@ public final class LevelManager implements Manager {
 		// clear player list
 		this.levels.clear();
 
-
+		Spawners.getDataManager().getLevels((error, result) -> {
+			if (error == null)
+				result.forEach(this::addLevel);
+		});
 	}
 }
