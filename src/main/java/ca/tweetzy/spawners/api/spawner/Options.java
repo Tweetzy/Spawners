@@ -1,4 +1,6 @@
-package ca.tweetzy.spawners.api.interfaces;
+package ca.tweetzy.spawners.api.spawner;
+
+import ca.tweetzy.spawners.api.Jsonable;
 
 /**
  * Date Created: May 04 2022
@@ -6,7 +8,7 @@ package ca.tweetzy.spawners.api.interfaces;
  *
  * @author Kiran Hart
  */
-public interface Options {
+public interface Options extends Jsonable {
 
 	int getSpawnInterval();
 

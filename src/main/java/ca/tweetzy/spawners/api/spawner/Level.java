@@ -1,4 +1,6 @@
-package ca.tweetzy.spawners.api.interfaces;
+package ca.tweetzy.spawners.api.spawner;
+
+import ca.tweetzy.spawners.api.DataSync;
 
 /**
  * Date Created: May 04 2022
