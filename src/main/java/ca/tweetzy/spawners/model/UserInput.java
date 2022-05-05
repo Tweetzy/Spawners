@@ -68,7 +68,7 @@ public final class UserInput {
 			@Override
 			public boolean onResult(String string) {
 				if (!NumberUtils.isNumber(ChatColor.stripColor(string))) {
-					Locale.tell(player, Translation.NOT_A_NUMBER.getKey());
+					Translation.NOT_A_NUMBER.send(player);
 					return false;
 				}
 
@@ -92,7 +92,7 @@ public final class UserInput {
 			@Override
 			public boolean onResult(String string) {
 				if (!NumberUtils.isNumber(ChatColor.stripColor(string))) {
-					Locale.tell(player, Translation.NOT_A_NUMBER.getKey());
+					Translation.NOT_A_NUMBER.send(player);
 					return false;
 				}
 
