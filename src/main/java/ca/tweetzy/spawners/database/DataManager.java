@@ -4,7 +4,9 @@ import ca.tweetzy.rose.database.Callback;
 import ca.tweetzy.rose.database.DataManagerAbstract;
 import ca.tweetzy.rose.database.DatabaseConnector;
 import ca.tweetzy.rose.database.UpdateCallback;
+import ca.tweetzy.spawners.api.interfaces.Level;
 import ca.tweetzy.spawners.api.interfaces.SpawnerUser;
+import ca.tweetzy.spawners.impl.SpawnerLevel;
 import ca.tweetzy.spawners.impl.SpawnerPlayer;
 import lombok.NonNull;
 import org.bukkit.plugin.Plugin;
@@ -88,6 +90,64 @@ public final class DataManager extends DataManagerAbstract {
 	}
 
 	/**
+	 * It inserts a level into the database
+	 *
+	 * @param level The level to insert
+	 * @param callback The callback to be called when the query is finished.
+	 */
+	public void insertLevel(@NonNull final Level level, final Callback<Level> callback) {
+		this.runAsync(() -> this.databaseConnector.connect(connection -> {
+			final String query = "INSERT INTO " + this.getTablePrefix() + "level (id, spawn_interval, spawn_count, max_nearby_entities, player_activation_range) VALUES (?, ?, ?, ?, ?)";
+			final String fetchQuery = "SELECT * FROM " + this.getTablePrefix() + "level WHERE id = ?";
+
+			try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+				final PreparedStatement fetch = connection.prepareStatement(fetchQuery);
+
+				fetch.setInt(1, level.getLevel());
+
+				preparedStatement.setInt(1, level.getLevel());
+				preparedStatement.setInt(2, level.getSpawnInterval());
+				preparedStatement.setInt(3, level.getSpawnCount());
+				preparedStatement.setInt(4, level.getMaxNearbyEntities());
+				preparedStatement.setInt(5, level.getPlayerActivationRange());
+
+				preparedStatement.executeUpdate();
+
+				if (callback != null) {
+					final ResultSet res = fetch.executeQuery();
+					res.next();
+					callback.accept(null, extractLevel(res));
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				resolveCallback(callback, e);
+			}
+		}));
+	}
+
+	/**
+	 * "Get all levels from the database and return them in a list."
+	 *
+	 * @param callback The callback to be called when the query is finished.
+	 */
+	public void getLevels(@NonNull final Callback<List<Level>> callback) {
+		final List<Level> levels = new ArrayList<>();
+		this.runAsync(() -> this.databaseConnector.connect(connection -> {
+			try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM " + this.getTablePrefix() + "level")) {
+				final ResultSet resultSet = statement.executeQuery();
+				while (resultSet.next()) {
+					levels.add(extractLevel(resultSet));
+				}
+
+				callback.accept(null, levels);
+			} catch (Exception e) {
+				resolveCallback(callback, e);
+			}
+		}));
+	}
+
+	/**
 	 * It takes a ResultSet and returns a SpawnerUser
 	 *
 	 * @param resultSet The result set from the database.
@@ -101,6 +161,22 @@ public final class DataManager extends DataManagerAbstract {
 				UUID.fromString(resultSet.getString("uuid")),
 				resultSet.getString("username"),
 				placedSpawners.length() == 0 || split.length == 0 ? Collections.emptyList() : Arrays.stream(split).map(UUID::fromString).collect(Collectors.toList())
+		);
+	}
+
+	/**
+	 * It extracts a `SpawnerLevel` from a `ResultSet`
+	 *
+	 * @param resultSet The result set from the database.
+	 * @return A SpawnerLevel object.
+	 */
+	private Level extractLevel(final ResultSet resultSet) throws SQLException {
+		return new SpawnerLevel(
+				resultSet.getInt("id"),
+				resultSet.getInt("spawn_interval"),
+				resultSet.getInt("spawn_count"),
+				resultSet.getInt("max_nearby_entities"),
+				resultSet.getInt("player_activation_range")
 		);
 	}
 
