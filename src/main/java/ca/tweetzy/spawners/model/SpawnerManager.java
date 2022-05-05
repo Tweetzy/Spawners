@@ -7,6 +7,8 @@ import org.bukkit.Location;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 /**
  * Date Created: May 05 2022
@@ -34,6 +36,30 @@ public final class SpawnerManager implements Manager {
 
 	public Spawner findSpawner(@NonNull final Spawner spawner) {
 		return findSpawner(spawner.getLocation());
+	}
+
+	/*
+	=================== DATABASE CALLS ===================
+	 */
+
+	public void createSpawner(@NonNull final Spawner spawner, final BiConsumer<Boolean, Spawner> consumer) {
+		Spawners.getDataManager().insertSpawner(spawner, (error, created) -> {
+			if (error == null)
+				this.addSpawner(created);
+
+			if (consumer != null)
+				consumer.accept(error == null, created);
+		});
+	}
+
+	public void deleteSpawner(@NonNull final Spawner spawner, final Consumer<Boolean> success) {
+		Spawners.getDataManager().deleteSpawner(spawner.getID(), (error, deleted) -> {
+			if (error == null && deleted)
+				this.removeSpawner(spawner.getLocation());
+
+			if (success != null)
+				success.accept(error == null && deleted);
+		});
 	}
 
 	@Override

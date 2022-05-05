@@ -218,6 +218,26 @@ public final class DataManager extends DataManagerAbstract {
 	}
 
 	/**
+	 * "Delete a spawner from the database."
+	 *
+	 * @param uuid The UUID of the spawner to delete.
+	 * @param callback The callback to be called when the query is finished.
+	 */
+	public void deleteSpawner(@NonNull final UUID uuid, Callback<Boolean> callback) {
+		this.runAsync(() -> this.databaseConnector.connect(connection -> {
+			try (PreparedStatement statement = connection.prepareStatement("DELETE FROM " + this.getTablePrefix() + "spawner WHERE id = ?")) {
+				statement.setString(1, uuid.toString());
+
+				int result = statement.executeUpdate();
+				callback.accept(null, result > 0);
+
+			} catch (Exception e) {
+				resolveCallback(callback, e);
+			}
+		}));
+	}
+
+	/**
 	 * "Get all levels from the database and return them in a list."
 	 *
 	 * @param callback The callback to be called when the query is finished.
