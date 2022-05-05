@@ -4,8 +4,8 @@ import ca.tweetzy.rose.database.Callback;
 import ca.tweetzy.rose.database.DataManagerAbstract;
 import ca.tweetzy.rose.database.DatabaseConnector;
 import ca.tweetzy.rose.database.UpdateCallback;
-import ca.tweetzy.spawners.api.interfaces.Level;
-import ca.tweetzy.spawners.api.interfaces.SpawnerUser;
+import ca.tweetzy.spawners.api.spawner.Level;
+import ca.tweetzy.spawners.api.spawner.SpawnerUser;
 import ca.tweetzy.spawners.impl.SpawnerLevel;
 import ca.tweetzy.spawners.impl.SpawnerPlayer;
 import lombok.NonNull;
@@ -92,7 +92,7 @@ public final class DataManager extends DataManagerAbstract {
 	/**
 	 * It inserts a level into the database
 	 *
-	 * @param level The level to insert
+	 * @param level    The level to insert
 	 * @param callback The callback to be called when the query is finished.
 	 */
 	public void insertLevel(@NonNull final Level level, final Callback<Level> callback) {
@@ -150,7 +150,7 @@ public final class DataManager extends DataManagerAbstract {
 	/**
 	 * It updates the level in the database
 	 *
-	 * @param level The level to update
+	 * @param level    The level to update
 	 * @param callback The callback to be called when the query is finished.
 	 */
 	public void updateLevel(@NonNull final Level level, Callback<Boolean> callback) {

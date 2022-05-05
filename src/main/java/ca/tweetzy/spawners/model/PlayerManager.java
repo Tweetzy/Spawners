@@ -1,7 +1,7 @@
 package ca.tweetzy.spawners.model;
 
 import ca.tweetzy.spawners.Spawners;
-import ca.tweetzy.spawners.api.interfaces.SpawnerUser;
+import ca.tweetzy.spawners.api.spawner.SpawnerUser;
 import ca.tweetzy.spawners.impl.SpawnerPlayer;
 import lombok.NonNull;
 import org.bukkit.entity.Player;

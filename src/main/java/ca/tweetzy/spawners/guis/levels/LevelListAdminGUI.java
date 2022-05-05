@@ -6,7 +6,7 @@ import ca.tweetzy.rose.gui.helper.InventoryBorder;
 import ca.tweetzy.rose.gui.template.PagedGUI;
 import ca.tweetzy.rose.utils.QuickItem;
 import ca.tweetzy.spawners.Spawners;
-import ca.tweetzy.spawners.api.interfaces.Level;
+import ca.tweetzy.spawners.api.spawner.Level;
 import ca.tweetzy.spawners.guis.SpawnersAdminGUI;
 import ca.tweetzy.spawners.impl.SpawnerLevel;
 import ca.tweetzy.spawners.settings.Translation;

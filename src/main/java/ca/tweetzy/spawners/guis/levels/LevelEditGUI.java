@@ -3,7 +3,7 @@ package ca.tweetzy.spawners.guis.levels;
 import ca.tweetzy.rose.comp.enums.CompMaterial;
 import ca.tweetzy.rose.gui.template.BaseGUI;
 import ca.tweetzy.rose.utils.QuickItem;
-import ca.tweetzy.spawners.api.interfaces.Level;
+import ca.tweetzy.spawners.api.spawner.Level;
 import ca.tweetzy.spawners.model.UserInput;
 import ca.tweetzy.spawners.settings.Translation;
 import lombok.NonNull;

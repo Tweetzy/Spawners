@@ -1,11 +1,9 @@
 package ca.tweetzy.spawners.model;
 
 import ca.tweetzy.spawners.Spawners;
-import ca.tweetzy.spawners.api.interfaces.Level;
+import ca.tweetzy.spawners.api.spawner.Level;
 import lombok.NonNull;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

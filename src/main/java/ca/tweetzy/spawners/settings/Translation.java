@@ -29,6 +29,22 @@ public enum Translation {
 	PLAYER_OFFLINE("misc.player not found", "&cThe player &4%player% &cis not online!"),
 
 	/*
+	============= spawner =============
+	 */
+	SPAWNER_NAME("spawner.name", "&e%entity_type% Spawner"),
+	SPAWNER_LORE("spawner.lore", Arrays.asList(
+			"&8Owner",
+			"&e%spawner_owner_name%",
+			"",
+			"&7Spawn Delay &8» &e%spawner_spawn_delay%",
+			"&7Spawn Count &8» &e%spawner_spawn_count%",
+			"&7Max Nearby Entities &8» &e%spawner_max_nearby_entities%",
+			"&7Activation Range &8» &e%spawner_player_activation_range%",
+			"",
+			"&e&lPlace &8» &7To activate spawner"
+	)),
+
+	/*
 	============= inputs =============
 	 */
 	INPUT_LEVEL_EDIT_TITLE("input.level edit.title", "<GRADIENT:fc67fa>&lLevel %level_number%</GRADIENT:f4c4f3>"),
@@ -36,7 +52,6 @@ public enum Translation {
 	INPUT_LEVEL_EDIT_SPAWN_COUNT("input.level edit.spawn count", "&fEnter new spawn count for level"),
 	INPUT_LEVEL_EDIT_MAX_NEARBY_ENTITIES("input.level edit.max nearby entities", "&fEnter new max nearby entities for level"),
 	INPUT_LEVEL_EDIT_ACTIVATION_RANGE("input.level edit.player activation range", "&fEnter new activation range for level"),
-
 
 	/*
 	============= guis =============

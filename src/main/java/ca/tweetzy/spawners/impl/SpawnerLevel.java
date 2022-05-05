@@ -1,7 +1,7 @@
 package ca.tweetzy.spawners.impl;
 
 import ca.tweetzy.spawners.Spawners;
-import ca.tweetzy.spawners.api.interfaces.Level;
+import ca.tweetzy.spawners.api.spawner.Level;
 import lombok.AllArgsConstructor;
 
 /**
@@ -71,5 +71,10 @@ public final class SpawnerLevel implements Level {
 	@Override
 	public void sync() {
 		Spawners.getDataManager().updateLevel(this, null);
+	}
+
+	@Override
+	public String getJsonString() {
+		return null;
 	}
 }
