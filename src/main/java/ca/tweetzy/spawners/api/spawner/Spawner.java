@@ -2,8 +2,12 @@ package ca.tweetzy.spawners.api.spawner;
 
 import ca.tweetzy.spawners.api.DataSync;
 import ca.tweetzy.spawners.api.Jsonable;
+import ca.tweetzy.spawners.model.SpawnerItem;
 import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.UUID;
 

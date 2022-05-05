@@ -2,15 +2,19 @@ package ca.tweetzy.spawners.listeners;
 
 import ca.tweetzy.rose.comp.NBTEditor;
 import ca.tweetzy.rose.comp.enums.CompMaterial;
+import ca.tweetzy.rose.utils.Common;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.spawner.Level;
 import ca.tweetzy.spawners.api.spawner.Options;
 import ca.tweetzy.spawners.api.spawner.Spawner;
+import ca.tweetzy.spawners.api.spawner.SpawnerUser;
 import ca.tweetzy.spawners.impl.PlacedSpawner;
 import ca.tweetzy.spawners.impl.SpawnerOptions;
+import ca.tweetzy.spawners.model.SpawnerItem;
 import ca.tweetzy.spawners.settings.Settings;
 import ca.tweetzy.spawners.settings.Translation;
 import com.jeff_media.morepersistentdatatypes.DataType;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.CreatureSpawner;
@@ -21,7 +25,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.UUID;
 
@@ -84,28 +88,68 @@ public final class BlockListeners implements Listener {
 	@EventHandler(priority = EventPriority.LOW)
 	public void onSpawnerBreak(final BlockBreakEvent event) {
 		final Player player = event.getPlayer();
+		final SpawnerUser spawnerUser = Spawners.getPlayerManager().findUser(player);
 		final Block block = event.getBlock();
 
 		if (block.getType() != CompMaterial.SPAWNER.parseMaterial()) return;
 
 		final CreatureSpawner creatureSpawner = (CreatureSpawner) block.getState();
 		final NamespacedKey namespacedKey = new NamespacedKey(Spawners.getInstance(), "SpawnersOwner");
+		final Spawner spawner = Spawners.getSpawnerManager().findSpawner(event.getBlock().getLocation());
 
 		// spawner placed by user
-		if (creatureSpawner.getPersistentDataContainer().has(namespacedKey, DataType.UUID)) {
-			final Spawner spawner = Spawners.getSpawnerManager().findSpawner(event.getBlock().getLocation());
-			if (spawner == null) return;
+		if (spawner != null) {
+			final String ownerName = creatureSpawner.getPersistentDataContainer().get(namespacedKey, DataType.STRING);
 
 			// stop exp dropping, since they could repeatedly break/place
 			event.setExpToDrop(0);
 
-			// check allowed players
+			// check owner
+			if (!player.getUniqueId().equals(spawner.getOwner()) && !Settings.ALLOW_NON_OWNER_BREAK.getBoolean()) {
+				Translation.SPAWNER_NOT_OWNER_BREAK.send(player, "owner_name", ownerName);
+				event.setCancelled(true);
+				return;
+			}
 
+			// check entity break perm
+			if (!handleEntityBreakPerm(spawnerUser, player, spawner.getEntityType())) {
+				event.setCancelled(true);
+				return;
+			}
 
-			Spawners.getSpawnerManager().deleteSpawner(spawner, null);
+			// probs add allowed players
+			Spawners.getSpawnerManager().deleteSpawner(spawner, success -> {
+				// drop spawner
+				ItemStack built = SpawnerItem.make(spawner.getOwner(), ownerName, spawner.getEntityType(), spawner.getLevel(), spawner.getOptions());
+				Common.runLater(() -> block.getWorld().dropItemNaturally(block.getLocation(), built));
+			});
+
 			return;
 		}
 
 		// natural spawner
+		// check entity break perm
+		if (!handleEntityBreakPerm(spawnerUser, player, creatureSpawner.getSpawnedType())) {
+			event.setCancelled(true);
+			return;
+		}
+
+
+	}
+
+	private boolean handleEntityBreakPerm(SpawnerUser spawnerUser, Player player, EntityType entityType) {
+		if (!spawnerUser.isAllowedToPlaceEntity(player, entityType)) {
+			Translation.SPAWNER_CANNOT_BREAK_ENTITY.send(player, "entity_type", StringUtils.capitalize(entityType.name().toLowerCase().replace("_", " ")));
+			return false;
+		}
+		return true;
+	}
+
+	private boolean handleEntityPlacePerm(SpawnerUser spawnerUser, Player player, EntityType entityType) {
+		if (!spawnerUser.isAllowedToPlaceEntity(player, entityType)) {
+			Translation.SPAWNER_CANNOT_PLACE_ENTITY.send(player, "entity_type", StringUtils.capitalize(entityType.name().toLowerCase().replace("_", " ")));
+			return false;
+		}
+		return true;
 	}
 }
