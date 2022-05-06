@@ -31,6 +31,8 @@ public enum Translation {
 	PLAYER_OFFLINE("misc.player not found", "&cThe player &4%player% &cis not online!"),
 
 	SPAWNER_NO_OWNER("spawner.no owner", "No Owner"),
+	SPAWNER_REQUIRE_SILK("spawner.requires silk touch", "&cYou need silk touch to mine spawners!"),
+	SPAWNER_REQUIRE_PICKAXE("spawner.requires pickaxe", "&cYou need a pickaxe to mine spawners!"),
 
 	// spawner error
 	SPAWNER_NOT_OWNER_PLACE("spawner.not owner.place", "&cYou are not allowed to place &4%owner_name%&c's spawner!"),

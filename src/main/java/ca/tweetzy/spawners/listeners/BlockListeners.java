@@ -19,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.CreatureSpawner;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -130,6 +131,11 @@ public final class BlockListeners implements Listener {
 				return;
 			}
 
+			if (!handleTool(player)) {
+				event.setCancelled(true);
+				return;
+			}
+
 			// todo add allowed players
 			Spawners.getSpawnerManager().deleteSpawner(spawner, success -> {
 				// drop spawner
@@ -140,6 +146,11 @@ public final class BlockListeners implements Listener {
 			return;
 		}
 
+		if (!handleTool(player)) {
+			event.setCancelled(true);
+			return;
+		}
+
 		// natural spawner
 		// check entity break perm
 		if (!handleEntityBreakPerm(spawnerUser, player, creatureSpawner.getSpawnedType())) {
@@ -147,7 +158,18 @@ public final class BlockListeners implements Listener {
 			return;
 		}
 
-
+		block.getWorld().dropItemNaturally(block.getLocation(), SpawnerItem.make(
+				player.getUniqueId(),
+				player.getName(),
+				creatureSpawner.getSpawnedType(),
+				-1,
+				new SpawnerOptions(
+						creatureSpawner.getDelay(),
+						creatureSpawner.getSpawnCount(),
+						creatureSpawner.getMaxNearbyEntities(),
+						creatureSpawner.getRequiredPlayerRange()
+				)
+		));
 	}
 
 	/*
@@ -229,6 +251,27 @@ public final class BlockListeners implements Listener {
 			Translation.SPAWNER_CANNOT_PLACE_ENTITY.send(player, "entity_type", StringUtils.capitalize(entityType.name().toLowerCase().replace("_", " ")));
 			return false;
 		}
+		return true;
+	}
+
+	private boolean handleTool(Player player) {
+		final ItemStack stack = player.getInventory().getItemInMainHand();
+
+		if (stack.getType() == CompMaterial.AIR.parseMaterial()) {
+			Translation.SPAWNER_REQUIRE_PICKAXE.send(player);
+			return false;
+		}
+
+		if (!stack.getType().name().endsWith("_PICKAXE")) {
+			Translation.SPAWNER_REQUIRE_PICKAXE.send(player);
+			return false;
+		}
+
+		if (Settings.MINE_REQUIRES_SILK_TOUCH.getBoolean() && !stack.containsEnchantment(Enchantment.SILK_TOUCH)) {
+			Translation.SPAWNER_REQUIRE_SILK.send(player);
+			return false;
+		}
+
 		return true;
 	}
 }
