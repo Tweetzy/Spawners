@@ -1,4 +1,4 @@
-package ca.tweetzy.spawners.model;
+package ca.tweetzy.spawners.model.manager;
 
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.spawner.SpawnerUser;

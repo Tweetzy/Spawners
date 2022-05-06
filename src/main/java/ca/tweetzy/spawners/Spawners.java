@@ -15,9 +15,9 @@ import ca.tweetzy.spawners.database.DataManager;
 import ca.tweetzy.spawners.database.migrations._1_InitialMigration;
 import ca.tweetzy.spawners.listeners.BlockListeners;
 import ca.tweetzy.spawners.listeners.JoinListeners;
-import ca.tweetzy.spawners.model.LevelManager;
-import ca.tweetzy.spawners.model.PlayerManager;
-import ca.tweetzy.spawners.model.SpawnerManager;
+import ca.tweetzy.spawners.model.manager.LevelManager;
+import ca.tweetzy.spawners.model.manager.PlayerManager;
+import ca.tweetzy.spawners.model.manager.SpawnerManager;
 import ca.tweetzy.spawners.settings.Locale;
 import ca.tweetzy.spawners.settings.Settings;
 

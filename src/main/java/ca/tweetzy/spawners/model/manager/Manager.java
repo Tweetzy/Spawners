@@ -1,4 +1,4 @@
-package ca.tweetzy.spawners.model;
+package ca.tweetzy.spawners.model.manager;
 
 /**
  * Date Created: May 04 2022
