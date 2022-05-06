@@ -30,6 +30,8 @@ public enum Translation {
 	NOT_A_NUMBER("misc.not a number", "&cThat is not a valid number"),
 	PLAYER_OFFLINE("misc.player not found", "&cThe player &4%player% &cis not online!"),
 
+	SPAWNER_NO_OWNER("spawner.no owner", "No Owner"),
+
 	// spawner error
 	SPAWNER_NOT_OWNER_PLACE("spawner.not owner.place", "&cYou are not allowed to place &4%owner_name%&c's spawner!"),
 	SPAWNER_NOT_OWNER_BREAK("spawner.not owner.break", "&cYou are not allowed to break &4%owner_name%&c's spawner!"),

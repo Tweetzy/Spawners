@@ -28,9 +28,13 @@ public final class Settings {
 	public static final ConfigSetting DEFAULT_SPAWNER_ENTITY = new ConfigSetting(config, "default spawner entity", EntityType.PIG.name(), "For non Spawners spawners, what should the default mob be when placed");
 	public static final ConfigSetting ASSIGN_OWNER_TO_NATURAL = new ConfigSetting(config, "assign owner to natural", true, "When a natural spawner is broken, should the miner become the owner?");
 
-	public static final ConfigSetting EXPLOSION_DROP_ENABLED = new ConfigSetting(config, "explosion.drop enabled", false, "Should spawners break during an explosion");
+	public static final ConfigSetting MINE_DROP_CHANCE = new ConfigSetting(config, "mine.drop chance", 50D, "Chance for the spawner to drop when mined");
+	public static final ConfigSetting MINE_REQUIRES_SILK_TOUCH = new ConfigSetting(config, "mine.requires silk touch", true, "Should silk touch be required to mine spawners?");
+
+	public static final ConfigSetting EXPLOSION_DROP_ENABLED = new ConfigSetting(config, "explosion.drop enabled", true, "Should spawners break during an explosion");
 	public static final ConfigSetting EXPLOSION_DROP_CHANCE = new ConfigSetting(config, "explosion.drop chance", 25D, "The chance for the spawner to drop if exploded by tnt");
 	public static final ConfigSetting EXPLOSION_RESETS_OWNER = new ConfigSetting(config, "explosion.reset owner", true, "If the spawner is dropped by explosion, should the owner be reset?");
+	public static final ConfigSetting EXPLOSION_PREVENT_UNKNOWN_SOURCE = new ConfigSetting(config, "explosion.prevent unknown source", true, "If the spawner is broken due to an unknown explosion source, should it cancel?");
 
 
 	@SneakyThrows

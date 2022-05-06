@@ -47,4 +47,5 @@ public final class SpawnerItem {
 	public ItemStack make(@NonNull final OfflinePlayer owner, @NonNull final EntityType entityType, final int levelOverride, final Options options) {
 		return make(owner.getUniqueId(), owner.getName(), entityType, levelOverride, options);
 	}
+
 }
