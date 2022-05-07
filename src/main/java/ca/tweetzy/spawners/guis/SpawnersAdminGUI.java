@@ -28,5 +28,12 @@ public final class SpawnersAdminGUI extends BaseGUI {
 				.name(Translation.GUI_ADMIN_MAIN_ITEMS_LEVELS_NAME.getString())
 				.lore(Translation.GUI_ADMIN_MAIN_ITEMS_LEVELS_LORE.getList())
 				.make(), click -> click.manager.showGUI(click.player, new LevelListAdminGUI()));
+
+		setButton(1, 6, QuickItem
+				.of(CompMaterial.MOSS_BLOCK)
+				.name("entities")
+				.lore("entities")
+				.make(), click -> click.manager.showGUI(click.player, new EntitySelectorGUI(this, EntitySelectorGUI.EntityViewMode.ALL, selected -> {
+		})));
 	}
 }

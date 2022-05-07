@@ -143,6 +143,22 @@ public enum Translation {
 	/*
 	============= guis =============
 	 */
+	GUI_ENTITY_SELECTOR_TITLE("gui.entity selector.title", "<GRADIENT:fc67fa>&lSpawners</GRADIENT:f4c4f3> &8> &7Select Entity"),
+	GUI_ENTITY_SELECTOR_ITEMS_ENTITY_NAME("gui.entity selector.items.entity.name", "<GRADIENT:fc67fa>&l%entity_name%</GRADIENT:f4c4f3>"),
+	GUI_ENTITY_SELECTOR_ITEMS_ENTITY_LORE("gui.entity selector.items.entity.lore", Arrays.asList(
+			"",
+			"&e&lClick &8» &7To select entity"
+	)),
+
+	GUI_ENTITY_SELECTOR_ITEMS_MODE_NAME("gui.entity selector.items.mode.name", "&a&lSwitch Mode"),
+	GUI_ENTITY_SELECTOR_ITEMS_MODE_LORE("gui.entity selector.items.mode.lore", Arrays.asList(
+			"&8Entity Behaviour",
+			"",
+			"&7Current&f: &e%entity_behaviour%",
+			"",
+			"&e&lClick &8» &7To switch mode"
+	)),
+
 	GUI_ADMIN_MAIN_TITLE("gui.admin main.title", "<GRADIENT:fc67fa>&LSpawners</GRADIENT:f4c4f3> &7v%plugin_version%"),
 	GUI_ADMIN_MAIN_ITEMS_LEVELS_NAME("gui.admin main.items.level.name", "<GRADIENT:fc67fa>&lLevels</GRADIENT:f4c4f3>"),
 	GUI_ADMIN_MAIN_ITEMS_LEVELS_LORE("gui.admin main.items.level.lore", Arrays.asList(
