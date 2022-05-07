@@ -16,6 +16,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -35,9 +36,9 @@ public final class EntitySelectorGUI extends PagedGUI<SpawnerMob> {
 	public EntitySelectorGUI(Gui parent, @NonNull final EntityViewMode entityViewMode, @NonNull final Consumer<EntityType> selected) {
 		super(parent, Translation.GUI_ENTITY_SELECTOR_TITLE.getString(), 6,
 				entityViewMode == EntityViewMode.ALL ?
-						Arrays.stream(SpawnerMob.values()).sorted().collect(Collectors.toList())
+						Arrays.stream(SpawnerMob.values()).sorted(Comparator.comparing(SpawnerMob::getMobName)).collect(Collectors.toList())
 						:
-						Arrays.stream(SpawnerMob.values()).filter(mob -> mob.getBehaviour() == MobBehaviour.valueOf(mob.getBehaviour().name())).sorted().collect(Collectors.toList())
+						Arrays.stream(SpawnerMob.values()).filter(mob -> mob.getBehaviour() == MobBehaviour.valueOf(entityViewMode.name())).sorted(Comparator.comparing(SpawnerMob::getMobName)).collect(Collectors.toList())
 		);
 
 		this.parent = parent;
@@ -48,7 +49,11 @@ public final class EntitySelectorGUI extends PagedGUI<SpawnerMob> {
 
 	@Override
 	protected ItemStack makeDisplayItem(SpawnerMob spawnerMob) {
-		return QuickItem.of(NBTEditor.getHead(spawnerMob.getHeadTexture())).name(spawnerMob.getMobName()).make();
+		return QuickItem
+				.of(NBTEditor.getHead(spawnerMob.getHeadTexture()))
+				.name(Translation.GUI_ENTITY_SELECTOR_ITEMS_ENTITY_NAME.getString("entity_name", spawnerMob.getMobName()))
+				.lore(Translation.GUI_ENTITY_SELECTOR_ITEMS_ENTITY_LORE.getList())
+				.make();
 	}
 
 	@Override
