@@ -13,7 +13,6 @@ import org.apache.commons.lang.StringUtils;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.UUID;
 import java.util.stream.Collectors;
 

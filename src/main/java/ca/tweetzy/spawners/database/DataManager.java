@@ -134,7 +134,7 @@ public final class DataManager extends DataManagerAbstract {
 	/**
 	 * It inserts a spawner into the database
 	 *
-	 * @param spawner The spawner to insert into the database.
+	 * @param spawner  The spawner to insert into the database.
 	 * @param callback The callback to be called when the query is finished.
 	 */
 	public void insertSpawner(@NonNull final Spawner spawner, final Callback<Spawner> callback) {
@@ -194,7 +194,7 @@ public final class DataManager extends DataManagerAbstract {
 	/**
 	 * It updates a spawner in the database
 	 *
-	 * @param spawner The spawner to update.
+	 * @param spawner  The spawner to update.
 	 * @param callback The callback to be called when the query is finished.
 	 */
 	public void updateSpawner(@NonNull final Spawner spawner, Callback<Boolean> callback) {
@@ -222,7 +222,7 @@ public final class DataManager extends DataManagerAbstract {
 	/**
 	 * "Delete a spawner from the database."
 	 *
-	 * @param uuid The UUID of the spawner to delete.
+	 * @param uuid     The UUID of the spawner to delete.
 	 * @param callback The callback to be called when the query is finished.
 	 */
 	public void deleteSpawner(@NonNull final UUID uuid, Callback<Boolean> callback) {

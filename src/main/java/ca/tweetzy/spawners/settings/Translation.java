@@ -109,7 +109,6 @@ public enum Translation {
 	MOB_NAME_GOAT("mob names.goat", "Goat"),
 
 
-
 	SPAWNER_NO_OWNER("spawner.no owner", "No Owner"),
 	SPAWNER_REQUIRE_SILK("spawner.requires silk touch", "&cYou need silk touch to mine spawners!"),
 	SPAWNER_REQUIRE_PICKAXE("spawner.requires pickaxe", "&cYou need a pickaxe to mine spawners!"),

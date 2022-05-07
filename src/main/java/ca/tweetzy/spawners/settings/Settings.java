@@ -5,7 +5,6 @@ import ca.tweetzy.rose.files.ConfigSetting;
 import ca.tweetzy.rose.files.file.YamlFile;
 import ca.tweetzy.spawners.Spawners;
 import lombok.SneakyThrows;
-import net.minecraft.world.entity.EntityTameableAnimal;
 import org.bukkit.entity.EntityType;
 
 /**

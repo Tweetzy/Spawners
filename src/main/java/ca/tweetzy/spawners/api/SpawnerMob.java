@@ -59,7 +59,7 @@ public enum SpawnerMob {
 	ENDERMAN(EntityType.ENDERMAN, Translation.MOB_NAME_ENDERMAN.getString(), MobBehaviour.NEUTRAL, "https://textures.minecraft.net/texture/aacb357709d8cdf1cd9c9dbe313e7bab3276ae84234982e93e13839ab7cc5d16"),
 	CAVE_SPIDER(EntityType.CAVE_SPIDER, Translation.MOB_NAME_CAVE_SPIDER.getString(), MobBehaviour.NEUTRAL, "https://textures.minecraft.net/texture/41645dfd77d09923107b3496e94eeb5c30329f97efc96ed76e226e98224"),
 	SPIDER(EntityType.SPIDER, Translation.MOB_NAME_SPIDER.getString(), MobBehaviour.NEUTRAL, "https://textures.minecraft.net/texture/5f7e82446fab1e41577ba70ab40e290ef841c245233011f39459ac6f852c8331"),
-	
+
 	// hostile
 	ELDER_GUARDIAN(EntityType.ELDER_GUARDIAN, Translation.MOB_NAME_ELDER_GUARDIAN.getString(), MobBehaviour.HOSTILE, "https://textures.minecraft.net/texture/4340a268f25fd5cc276ca147a8446b2630a55867a2349f7ca107c26eb58991"),
 	WITHER_SKELETON(EntityType.WITHER_SKELETON, Translation.MOB_NAME_WITHER_SKELETON.getString(), MobBehaviour.HOSTILE, "https://textures.minecraft.net/texture/2d26f2dfdf5dffc16fc80811a843524daf12c4931ec850307775c6d35a5f46c1"),

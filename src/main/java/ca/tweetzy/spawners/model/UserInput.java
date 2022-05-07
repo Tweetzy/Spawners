@@ -4,7 +4,6 @@ import ca.tweetzy.rose.gui.Gui;
 import ca.tweetzy.rose.utils.Common;
 import ca.tweetzy.rose.utils.input.TitleInput;
 import ca.tweetzy.spawners.Spawners;
-import ca.tweetzy.spawners.settings.Locale;
 import ca.tweetzy.spawners.settings.Translation;
 import lombok.NonNull;
 import lombok.experimental.UtilityClass;
