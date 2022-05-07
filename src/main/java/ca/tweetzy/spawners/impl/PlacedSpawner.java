@@ -23,6 +23,7 @@ public final class PlacedSpawner implements Spawner {
 
 	private final UUID uuid;
 	private UUID owner;
+	private String ownerName;
 	private EntityType entityType;
 	private int level;
 	private Options options;
@@ -36,6 +37,11 @@ public final class PlacedSpawner implements Spawner {
 	@Override
 	public UUID getOwner() {
 		return this.owner;
+	}
+
+	@Override
+	public String getOwnerName() {
+		return this.ownerName;
 	}
 
 	@Override
@@ -56,6 +62,11 @@ public final class PlacedSpawner implements Spawner {
 	@Override
 	public Location getLocation() {
 		return this.location;
+	}
+
+	@Override
+	public void setOwnerName(String ownerName) {
+		this.ownerName = ownerName;
 	}
 
 	@Override
@@ -84,6 +95,7 @@ public final class PlacedSpawner implements Spawner {
 
 		object.addProperty("uuid", this.uuid.toString());
 		object.addProperty("owner", this.owner.toString());
+		object.addProperty("ownerName", this.ownerName);
 		object.addProperty("entityType", this.entityType.name());
 		object.addProperty("level", this.level);
 		object.add("options", JsonParser.parseString(this.options.getJsonString()));

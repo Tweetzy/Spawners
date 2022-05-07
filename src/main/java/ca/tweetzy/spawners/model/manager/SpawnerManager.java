@@ -5,6 +5,7 @@ import ca.tweetzy.spawners.api.spawner.Spawner;
 import lombok.NonNull;
 import org.bukkit.Location;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
@@ -60,6 +61,10 @@ public final class SpawnerManager implements Manager {
 			if (success != null)
 				success.accept(error == null && deleted);
 		});
+	}
+
+	public List<Spawner> getSpawners() {
+		return List.copyOf(this.spawners.values());
 	}
 
 	@Override

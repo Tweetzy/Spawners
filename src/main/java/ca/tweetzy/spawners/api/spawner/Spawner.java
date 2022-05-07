@@ -23,6 +23,8 @@ public interface Spawner extends DataSync, Jsonable {
 
 	UUID getOwner();
 
+	String getOwnerName();
+
 	EntityType getEntityType();
 
 	int getLevel();
@@ -30,6 +32,8 @@ public interface Spawner extends DataSync, Jsonable {
 	Options getOptions();
 
 	Location getLocation();
+
+	void setOwnerName(String ownerName);
 
 	void setEntityType(EntityType entityType);
 

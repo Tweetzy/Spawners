@@ -139,7 +139,7 @@ public final class DataManager extends DataManagerAbstract {
 	 */
 	public void insertSpawner(@NonNull final Spawner spawner, final Callback<Spawner> callback) {
 		this.runAsync(() -> this.databaseConnector.connect(connection -> {
-			final String query = "INSERT INTO " + this.getTablePrefix() + "spawner (id, owner, entity_type, level, options, location) VALUES (?, ?, ?, ?, ?, ?)";
+			final String query = "INSERT INTO " + this.getTablePrefix() + "spawner (id, owner, owner_name, entity_type, level, options, location) VALUES (?, ?, ?, ?, ?, ?, ?)";
 			final String fetchQuery = "SELECT * FROM " + this.getTablePrefix() + "spawner WHERE id = ?";
 
 			try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -149,10 +149,11 @@ public final class DataManager extends DataManagerAbstract {
 
 				preparedStatement.setString(1, spawner.getID().toString());
 				preparedStatement.setString(2, spawner.getOwner().toString());
-				preparedStatement.setString(3, spawner.getEntityType().name());
-				preparedStatement.setInt(4, spawner.getLevel());
-				preparedStatement.setString(5, spawner.getOptions().getJsonString());
-				preparedStatement.setString(6, Serialize.serializeLocation(spawner.getLocation()));
+				preparedStatement.setString(3, spawner.getOwnerName());
+				preparedStatement.setString(4, spawner.getEntityType().name());
+				preparedStatement.setInt(5, spawner.getLevel());
+				preparedStatement.setString(6, spawner.getOptions().getJsonString());
+				preparedStatement.setString(7, Serialize.serializeLocation(spawner.getLocation()));
 
 				preparedStatement.executeUpdate();
 
@@ -198,13 +199,14 @@ public final class DataManager extends DataManagerAbstract {
 	 */
 	public void updateSpawner(@NonNull final Spawner spawner, Callback<Boolean> callback) {
 		this.runAsync(() -> this.databaseConnector.connect(connection -> {
-			try (PreparedStatement statement = connection.prepareStatement("UPDATE " + this.getTablePrefix() + "spawner SET owner = ?, entity_type = ?, level = ?, options = ? WHERE id = ?")) {
+			try (PreparedStatement statement = connection.prepareStatement("UPDATE " + this.getTablePrefix() + "spawner SET owner = ?, owner_name = ?, entity_type = ?, level = ?, options = ? WHERE id = ?")) {
 
 				statement.setString(1, spawner.getOwner().toString());
-				statement.setString(2, spawner.getEntityType().name());
-				statement.setInt(3, spawner.getLevel());
-				statement.setString(4, spawner.getOptions().getJsonString());
-				statement.setString(5, spawner.getID().toString());
+				statement.setString(2, spawner.getOwnerName());
+				statement.setString(3, spawner.getEntityType().name());
+				statement.setInt(4, spawner.getLevel());
+				statement.setString(5, spawner.getOptions().getJsonString());
+				statement.setString(6, spawner.getID().toString());
 
 				int result = statement.executeUpdate();
 
@@ -328,6 +330,7 @@ public final class DataManager extends DataManagerAbstract {
 		return new PlacedSpawner(
 				UUID.fromString(resultSet.getString("id")),
 				UUID.fromString(resultSet.getString("owner")),
+				resultSet.getString("owner_name"),
 				EntityType.valueOf(resultSet.getString("entity_type")),
 				resultSet.getInt("level"),
 				SpawnerOptions.decodeJson(resultSet.getString("options")),

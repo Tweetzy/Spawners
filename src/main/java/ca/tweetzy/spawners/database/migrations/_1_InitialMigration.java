@@ -40,6 +40,7 @@ public final class _1_InitialMigration extends DataMigration {
 			statement.execute("CREATE TABLE " + tablePrefix + "spawner (" +
 					"id VARCHAR(36) PRIMARY KEY, " +
 					"owner VARCHAR(36) NOT NULL, " +
+					"owner_name VARCHAR(16) NOT NULL, " +
 					"entity_type VARCHAR(60) NOT NULL, " +
 					"level INTEGER NOT NULL, " +
 					"options TEXT NOT NULL, " +

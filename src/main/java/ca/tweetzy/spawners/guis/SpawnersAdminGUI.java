@@ -5,6 +5,7 @@ import ca.tweetzy.rose.gui.template.BaseGUI;
 import ca.tweetzy.rose.utils.QuickItem;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.guis.levels.LevelListAdminGUI;
+import ca.tweetzy.spawners.guis.spawners.SpawnerListAdminGUI;
 import ca.tweetzy.spawners.settings.Translation;
 
 /**
@@ -29,11 +30,10 @@ public final class SpawnersAdminGUI extends BaseGUI {
 				.lore(Translation.GUI_ADMIN_MAIN_ITEMS_LEVELS_LORE.getList())
 				.make(), click -> click.manager.showGUI(click.player, new LevelListAdminGUI()));
 
-		setButton(1, 6, QuickItem
-				.of(CompMaterial.MOSS_BLOCK)
-				.name("entities")
-				.lore("entities")
-				.make(), click -> click.manager.showGUI(click.player, new EntitySelectorGUI(this, EntitySelectorGUI.EntityViewMode.ALL, selected -> {
-		})));
+		setButton(1, 4, QuickItem
+				.of(CompMaterial.SPAWNER)
+				.name(Translation.GUI_ADMIN_MAIN_ITEMS_SPAWNERS_NAME.getString())
+				.lore(Translation.GUI_ADMIN_MAIN_ITEMS_SPAWNERS_LORE.getList())
+				.make(), click -> click.manager.showGUI(click.player, new SpawnerListAdminGUI()));
 	}
 }

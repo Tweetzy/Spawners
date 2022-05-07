@@ -172,6 +172,21 @@ public enum Translation {
 			"&e&lClick &8» &7To view levels"
 	)),
 
+	GUI_ADMIN_MAIN_ITEMS_SPAWNERS_NAME("gui.admin main.items.spawners.name", "<GRADIENT:fc67fa>&lSpawners</GRADIENT:f4c4f3>"),
+	GUI_ADMIN_MAIN_ITEMS_SPAWNERS_LORE("gui.admin main.items.spawners.lore", Arrays.asList(
+			"&7View all the known spawners",
+			"",
+			"&e&lClick &8» &7To view player spawners"
+	)),
+
+	GUI_SPAWNER_ADMIN_LIST_TITLE("gui.spawner admin list.title", "<GRADIENT:fc67fa>&LSpawners</GRADIENT:f4c4f3> &8> &7Known Spawners"),
+	GUI_SPAWNER_ADMIN_LIST_LEVELS_NAME("gui.spawner admin list.items.level.name", "<GRADIENT:fc67fa>&l%owner_name%'s Spawner</GRADIENT:f4c4f3>"),
+	GUI_SPAWNER_ADMIN_LIST_LEVELS_LORE("gui.spawner admin list.items.level.lore", Arrays.asList(
+			"&8Spawner Level",
+			""
+
+	)),
+
 	GUI_LEVEL_ADMIN_LIST_TITLE("gui.level admin list.title", "<GRADIENT:fc67fa>&LSpawners</GRADIENT:f4c4f3> &8> &7Levels"),
 	GUI_LEVEL_ADMIN_LIST_LEVELS_NAME("gui.level admin list.items.level.name", "<GRADIENT:fc67fa>&lLevel %level_number%</GRADIENT:f4c4f3>"),
 	GUI_LEVEL_ADMIN_LIST_LEVELS_LORE("gui.level admin list.items.level.lore", Arrays.asList(
