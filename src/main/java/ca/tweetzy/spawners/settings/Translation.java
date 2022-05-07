@@ -30,6 +30,10 @@ public enum Translation {
 	NOT_A_NUMBER("misc.not a number", "&cThat is not a valid number"),
 	PLAYER_OFFLINE("misc.player not found", "&cThe player &4%player% &cis not online!"),
 
+	NOT_A_SPAWNER("misc.not a spawner", "&cThat block is not a spawner!"),
+	UPDATED_SPAWN_TYPE("misc.updated spawn tpye", "&aSuccessfully set spawner's entity type to&f: &e%entity_type%"),
+
+
 	MOB_NAME_ELDER_GUARDIAN("mob names.elder guardian", "Elder guardian"),
 	MOB_NAME_WITHER_SKELETON("mob names.wither skeleton", "Wither skeleton"),
 	MOB_NAME_STRAY("mob names.stray", "Stray"),
@@ -103,6 +107,7 @@ public enum Translation {
 	MOB_NAME_AXOLOTL("mob names.axolotl", "Axolotl"),
 	MOB_NAME_GLOW_SQUID("mob names.glow squid", "Glow squid"),
 	MOB_NAME_GOAT("mob names.goat", "Goat"),
+
 
 
 	SPAWNER_NO_OWNER("spawner.no owner", "No Owner"),

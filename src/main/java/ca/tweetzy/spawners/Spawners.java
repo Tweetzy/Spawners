@@ -10,6 +10,7 @@ import ca.tweetzy.rose.database.SQLiteConnector;
 import ca.tweetzy.rose.gui.GuiManager;
 import ca.tweetzy.rose.utils.Common;
 import ca.tweetzy.spawners.commands.GiveCommand;
+import ca.tweetzy.spawners.commands.SetCommand;
 import ca.tweetzy.spawners.commands.SpawnersCommand;
 import ca.tweetzy.spawners.database.DataManager;
 import ca.tweetzy.spawners.database.migrations._1_InitialMigration;
@@ -72,7 +73,10 @@ public final class Spawners extends RosePlugin {
 		this.spawnerManager.load();
 
 		// setup command manager
-		this.commandManager.registerCommandDynamically(new SpawnersCommand()).addSubCommands(new GiveCommand());
+		this.commandManager.registerCommandDynamically(new SpawnersCommand()).addSubCommands(
+				new GiveCommand(),
+				new SetCommand()
+		);
 
 		// initialize gui manager
 		this.guiManager.init();

@@ -74,7 +74,7 @@ public final class EntitySelectorGUI extends PagedGUI<SpawnerMob> {
 		return InventoryBorder.getInsideBorders(5);
 	}
 
-	enum EntityViewMode {
+	public enum EntityViewMode {
 		PASSIVE, HOSTILE, NEUTRAL, ALL;
 
 		private static final EntityViewMode[] val = values();
