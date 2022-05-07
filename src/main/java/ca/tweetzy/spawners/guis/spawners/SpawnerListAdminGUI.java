@@ -4,12 +4,16 @@ import ca.tweetzy.rose.comp.enums.CompMaterial;
 import ca.tweetzy.rose.gui.events.GuiClickEvent;
 import ca.tweetzy.rose.gui.helper.InventoryBorder;
 import ca.tweetzy.rose.gui.template.PagedGUI;
+import ca.tweetzy.rose.utils.Common;
 import ca.tweetzy.rose.utils.QuickItem;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.spawner.Spawner;
 import ca.tweetzy.spawners.guis.SpawnersAdminGUI;
 import ca.tweetzy.spawners.settings.Translation;
 import org.apache.commons.lang.StringUtils;
+import org.bukkit.Location;
+import org.bukkit.event.inventory.ClickType;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
@@ -61,7 +65,22 @@ public final class SpawnerListAdminGUI extends PagedGUI<Spawner> {
 
 	@Override
 	protected void onClick(Spawner spawner, GuiClickEvent event) {
+		if (event.clickType == ClickType.LEFT)
+			event.player.teleport(spawner.getLocation(), PlayerTeleportEvent.TeleportCause.PLUGIN);
 
+		if (event.clickType == ClickType.NUMBER_KEY) {
+			final Location location = spawner.getLocation();
+			if (!location.isWorldLoaded()) return;
+
+			if (!location.getChunk().isLoaded())
+				location.getChunk().load();
+
+			Spawners.getSpawnerManager().deleteSpawner(spawner, success -> {
+				assert CompMaterial.AIR.parseMaterial() != null;
+				Common.runLater(() -> location.getBlock().setType(CompMaterial.AIR.parseMaterial()));
+				event.manager.showGUI(event.player, new SpawnerListAdminGUI());
+			});
+		}
 	}
 
 	@Override
