@@ -180,11 +180,19 @@ public enum Translation {
 	)),
 
 	GUI_SPAWNER_ADMIN_LIST_TITLE("gui.spawner admin list.title", "<GRADIENT:fc67fa>&LSpawners</GRADIENT:f4c4f3> &8> &7Known Spawners"),
-	GUI_SPAWNER_ADMIN_LIST_LEVELS_NAME("gui.spawner admin list.items.level.name", "<GRADIENT:fc67fa>&l%owner_name%'s Spawner</GRADIENT:f4c4f3>"),
-	GUI_SPAWNER_ADMIN_LIST_LEVELS_LORE("gui.spawner admin list.items.level.lore", Arrays.asList(
-			"&8Spawner Level",
-			""
-
+	GUI_SPAWNER_ADMIN_LIST_SPAWNER_NAME("gui.spawner admin list.items.spawner.name", "<GRADIENT:fc67fa>&l%owner_name%'s Spawner</GRADIENT:f4c4f3>"),
+	GUI_SPAWNER_ADMIN_LIST_SPAWNER_LORE("gui.spawner admin list.items.spawner.lore", Arrays.asList(
+			"",
+			"&7Location&f: &e%world_name% %world_x%&f,&e %world_y%&f,&e %world_z%",
+			"&7Entity&f: &e%entity_type%",
+			"",
+			"&7Spawn Delay &8» &e%spawner_spawn_delay%",
+			"&7Spawn Count &8» &e%spawner_spawn_count%",
+			"&7Max Nearby Entities &8» &e%spawner_max_nearby_entities%",
+			"&7Activation Range &8» &e%spawner_player_activation_range%",
+			"",
+			"&e&lLeft Click &8» &7To teleport to spawner",
+			"&c&lPress 1 &8» &7To delete spawner"
 	)),
 
 	GUI_LEVEL_ADMIN_LIST_TITLE("gui.level admin list.title", "<GRADIENT:fc67fa>&LSpawners</GRADIENT:f4c4f3> &8> &7Levels"),
