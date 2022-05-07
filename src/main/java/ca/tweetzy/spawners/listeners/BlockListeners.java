@@ -80,7 +80,7 @@ public final class BlockListeners implements Listener {
 		final Level level = Spawners.getLevelManager().findLevel(Integer.parseInt(NBTEditor.getString(event.getItemInHand(), "Spawners:Spawner:Level")));
 
 		// insert spawner here and check place event
-		final Spawner spawner = new PlacedSpawner(UUID.randomUUID(), noOwner ? player.getUniqueId() : owner, entityType, level != null ? level.getLevel() : -1, options, placedBlock.getLocation());
+		final Spawner spawner = new PlacedSpawner(UUID.randomUUID(), noOwner ? player.getUniqueId() : owner, noOwner ? Translation.SPAWNER_NO_OWNER.getString() : player.getName(), entityType, level != null ? level.getLevel() : -1, options, placedBlock.getLocation());
 		Spawners.getSpawnerManager().createSpawner(spawner, null);
 
 		final CreatureSpawner creatureSpawner = (CreatureSpawner) placedBlock.getState();

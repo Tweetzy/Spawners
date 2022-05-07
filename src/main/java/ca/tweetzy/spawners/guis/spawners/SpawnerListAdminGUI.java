@@ -6,6 +6,7 @@ import ca.tweetzy.rose.gui.template.PagedGUI;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.spawner.Spawner;
 import ca.tweetzy.spawners.guis.SpawnersAdminGUI;
+import ca.tweetzy.spawners.settings.Translation;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public final class SpawnerListAdminGUI extends PagedGUI<Spawner> {
 	}
 
 	public SpawnerListAdminGUI(final UUID spawnerOwner) {
-		super(new SpawnersAdminGUI(), "dfsdf", 6, spawnerOwner != null ?
+		super(new SpawnersAdminGUI(), Translation.GUI_SPAWNER_ADMIN_LIST_TITLE.getString(), 6, spawnerOwner != null ?
 				Spawners.getSpawnerManager().getSpawners().stream().filter(spawner -> spawner.getOwner().equals(spawnerOwner)).collect(Collectors.toList())
 				:
 				Spawners.getSpawnerManager().getSpawners()
