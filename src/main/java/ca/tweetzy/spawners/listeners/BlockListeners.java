@@ -33,6 +33,8 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.Random;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Date Created: May 04 2022
@@ -139,8 +141,10 @@ public final class BlockListeners implements Listener {
 			// todo add allowed players
 			Spawners.getSpawnerManager().deleteSpawner(spawner, success -> {
 				// drop spawner
-				ItemStack built = SpawnerItem.make(spawner.getOwner(), ownerName, spawner.getEntityType(), spawner.getLevel(), spawner.getOptions());
-				Common.runLater(() -> block.getWorld().dropItemNaturally(block.getLocation(), built));
+				if (breakChanceSucceeded(player)) {
+					ItemStack built = SpawnerItem.make(spawner.getOwner(), ownerName, spawner.getEntityType(), spawner.getLevel(), spawner.getOptions());
+					Common.runLater(() -> block.getWorld().dropItemNaturally(block.getLocation(), built));
+				}
 			});
 
 			return;
@@ -158,18 +162,19 @@ public final class BlockListeners implements Listener {
 			return;
 		}
 
-		block.getWorld().dropItemNaturally(block.getLocation(), SpawnerItem.make(
-				player.getUniqueId(),
-				player.getName(),
-				creatureSpawner.getSpawnedType(),
-				-1,
-				new SpawnerOptions(
-						creatureSpawner.getDelay(),
-						creatureSpawner.getSpawnCount(),
-						creatureSpawner.getMaxNearbyEntities(),
-						creatureSpawner.getRequiredPlayerRange()
-				)
-		));
+		if (breakChanceSucceeded(player))
+			block.getWorld().dropItemNaturally(block.getLocation(), SpawnerItem.make(
+					player.getUniqueId(),
+					player.getName(),
+					creatureSpawner.getSpawnedType(),
+					-1,
+					new SpawnerOptions(
+							creatureSpawner.getDelay(),
+							creatureSpawner.getSpawnCount(),
+							creatureSpawner.getMaxNearbyEntities(),
+							creatureSpawner.getRequiredPlayerRange()
+					)
+			));
 	}
 
 	/*
@@ -273,5 +278,29 @@ public final class BlockListeners implements Listener {
 		}
 
 		return true;
+	}
+
+	private boolean breakChanceSucceeded(Player player) {
+		final Pattern spawnerBreakChancePerm = Pattern.compile("spawners\\.minechance\\.(\\d+)");
+		double defaultBreakChance = Settings.MINE_DROP_CHANCE.getDouble();
+
+		int max = player.getEffectivePermissions().stream().map(i -> {
+			Matcher matcher = spawnerBreakChancePerm.matcher(i.getPermission());
+			if (matcher.matches()) {
+				return Integer.parseInt(matcher.group(1));
+			}
+			return 0;
+		}).max(Integer::compareTo).orElse(0);
+
+		if (player.hasPermission("spawners.minechance.100") || player.isOp()) {
+			defaultBreakChance = 100D;
+		}
+
+		if (max > defaultBreakChance)
+			defaultBreakChance = max;
+
+		if (defaultBreakChance <= 0D) return false;
+
+		return new Random().nextDouble() < defaultBreakChance / 100;
 	}
 }
