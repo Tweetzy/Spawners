@@ -45,6 +45,18 @@ import java.util.regex.Pattern;
 public final class BlockListeners implements Listener {
 
 	@EventHandler(priority = EventPriority.LOW)
+	public void onNonSpawnersSpawnerPlace(final BlockPlaceEvent event) {
+		final ItemStack hand = event.getItemInHand();
+
+		if (hand.getType() != CompMaterial.SPAWNER.parseMaterial()) return;
+		if (NBTEditor.contains(hand, "Spawners:Spawner")) return;
+
+		final CreatureSpawner creatureSpawner = (CreatureSpawner) event.getBlock().getState();
+		creatureSpawner.setSpawnedType(EntityType.valueOf(Settings.DEFAULT_SPAWNER_ENTITY.getString()));
+		creatureSpawner.update(true);
+	}
+
+	@EventHandler(priority = EventPriority.LOW)
 	public void onSpawnerPlace(final BlockPlaceEvent event) {
 		final Player player = event.getPlayer();
 		final SpawnerUser spawnerUser = Spawners.getPlayerManager().findUser(player);
