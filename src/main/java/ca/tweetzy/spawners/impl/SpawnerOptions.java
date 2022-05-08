@@ -1,6 +1,7 @@
 package ca.tweetzy.spawners.impl;
 
 import ca.tweetzy.spawners.api.spawner.Options;
+import ca.tweetzy.spawners.settings.Settings;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import lombok.AllArgsConstructor;
@@ -18,6 +19,15 @@ public final class SpawnerOptions implements Options {
 	private int spawnCount;
 	private int maxNearbyEntities;
 	private int playerActivationRange;
+
+	public SpawnerOptions() {
+		this(
+				Settings.DEFAULT_SPAWNER_DELAY.getInt(),
+				Settings.DEFAULT_SPAWNER_SPAWN_COUNT.getInt(),
+				Settings.DEFAULT_SPAWNER_MAX_NEARBY_ENTITIES.getInt(),
+				Settings.DEFAULT_SPAWNER_ACTIVATION_RANGE.getInt()
+		);
+	}
 
 	@Override
 	public int getSpawnInterval() {

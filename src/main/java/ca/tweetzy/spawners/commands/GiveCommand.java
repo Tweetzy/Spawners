@@ -27,7 +27,7 @@ public final class GiveCommand extends Command {
 	protected ReturnType execute(CommandSender sender, String... args) {
 		final Player player = (Player) sender;
 
-		player.getInventory().addItem(SpawnerItem.make(player, EntityType.COW, -1, new SpawnerOptions(20, 4, 16, 16)));
+		player.getInventory().addItem(SpawnerItem.make(player, EntityType.COW, -1, new SpawnerOptions()));
 
 		return ReturnType.SUCCESS;
 	}
