@@ -2,6 +2,7 @@ package ca.tweetzy.spawners.impl;
 
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.spawner.Level;
+import ca.tweetzy.spawners.settings.Settings;
 import lombok.AllArgsConstructor;
 
 /**
@@ -20,7 +21,7 @@ public final class SpawnerLevel implements Level {
 	private int playerActivationRange;
 
 	public SpawnerLevel(final int level) {
-		this(level, 20, 4, 16, 16);
+		this(level, Settings.DEFAULT_SPAWNER_DELAY.getInt(), Settings.DEFAULT_SPAWNER_SPAWN_COUNT.getInt(), Settings.DEFAULT_SPAWNER_MAX_NEARBY_ENTITIES.getInt(), Settings.DEFAULT_SPAWNER_ACTIVATION_RANGE.getInt());
 	}
 
 	@Override

@@ -2,8 +2,10 @@ package ca.tweetzy.spawners.model.manager;
 
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.spawner.Spawner;
+import ca.tweetzy.spawners.settings.Settings;
 import lombok.NonNull;
 import org.bukkit.Location;
+import org.bukkit.block.CreatureSpawner;
 
 import java.util.List;
 import java.util.Map;
@@ -65,6 +67,16 @@ public final class SpawnerManager implements Manager {
 
 	public List<Spawner> getSpawners() {
 		return List.copyOf(this.spawners.values());
+	}
+
+	public void applySpawnerDefaults(@NonNull final CreatureSpawner spawner, final boolean update) {
+		spawner.setDelay(Settings.DEFAULT_SPAWNER_DELAY.getInt());
+		spawner.setSpawnCount(Settings.DEFAULT_SPAWNER_SPAWN_COUNT.getInt());
+		spawner.setRequiredPlayerRange(Settings.DEFAULT_SPAWNER_ACTIVATION_RANGE.getInt());
+		spawner.setMaxNearbyEntities(Settings.DEFAULT_SPAWNER_MAX_NEARBY_ENTITIES.getInt());
+
+		if (update)
+			spawner.update(true);
 	}
 
 	@Override
