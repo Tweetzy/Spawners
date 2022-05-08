@@ -53,7 +53,7 @@ public final class BlockListeners implements Listener {
 
 		final CreatureSpawner creatureSpawner = (CreatureSpawner) event.getBlock().getState();
 		creatureSpawner.setSpawnedType(EntityType.valueOf(Settings.DEFAULT_SPAWNER_ENTITY.getString()));
-		creatureSpawner.update(true);
+		Spawners.getSpawnerManager().applySpawnerDefaults(creatureSpawner, true);
 	}
 
 	@EventHandler(priority = EventPriority.LOW)
@@ -174,10 +174,12 @@ public final class BlockListeners implements Listener {
 			return;
 		}
 
-		if (breakChanceSucceeded(player))
+		if (breakChanceSucceeded(player)) {
+			Spawners.getSpawnerManager().applySpawnerDefaults(creatureSpawner, true);
+
 			block.getWorld().dropItemNaturally(block.getLocation(), SpawnerItem.make(
-					player.getUniqueId(),
-					player.getName(),
+					Settings.ASSIGN_OWNER_TO_NATURAL.getBoolean() ? player.getUniqueId() : SpawnerDefault.NULL_UUID,
+					Settings.ASSIGN_OWNER_TO_NATURAL.getBoolean() ? player.getName() : Translation.SPAWNER_NO_OWNER.getString(),
 					creatureSpawner.getSpawnedType(),
 					-1,
 					new SpawnerOptions(
@@ -187,6 +189,7 @@ public final class BlockListeners implements Listener {
 							creatureSpawner.getRequiredPlayerRange()
 					)
 			));
+		}
 	}
 
 	/*
