@@ -21,7 +21,7 @@ public final class _2_SpawnerPresetMigration extends DataMigration {
 	@Override
 	public void migrate(Connection connection, String tablePrefix) throws SQLException {
 		try (Statement statement = connection.createStatement()) {
-			statement.execute("CREATE TABLE " + tablePrefix + "spawner_presets (" +
+			statement.execute("CREATE TABLE " + tablePrefix + "spawner_preset (" +
 					"id VARCHAR(48) PRIMARY KEY, " +
 					"spawner TEXT NOT NULL " +
 					")");

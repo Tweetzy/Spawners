@@ -5,12 +5,10 @@ import ca.tweetzy.rose.database.DataManagerAbstract;
 import ca.tweetzy.rose.database.DatabaseConnector;
 import ca.tweetzy.rose.database.UpdateCallback;
 import ca.tweetzy.spawners.api.spawner.Level;
+import ca.tweetzy.spawners.api.spawner.Preset;
 import ca.tweetzy.spawners.api.spawner.Spawner;
 import ca.tweetzy.spawners.api.spawner.SpawnerUser;
-import ca.tweetzy.spawners.impl.PlacedSpawner;
-import ca.tweetzy.spawners.impl.SpawnerLevel;
-import ca.tweetzy.spawners.impl.SpawnerOptions;
-import ca.tweetzy.spawners.impl.SpawnerPlayer;
+import ca.tweetzy.spawners.impl.*;
 import ca.tweetzy.spawners.model.Serialize;
 import lombok.NonNull;
 import org.bukkit.entity.EntityType;
@@ -239,6 +237,70 @@ public final class DataManager extends DataManagerAbstract {
 		}));
 	}
 
+	public void insertSpawnerPreset(@NonNull final Preset preset, final Callback<Preset> callback) {
+		this.runAsync(() -> this.databaseConnector.connect(connection -> {
+			final String query = "INSERT INTO " + this.getTablePrefix() + "spawner_preset (id, spawner) VALUES (?, ?)";
+			final String fetchQuery = "SELECT * FROM " + this.getTablePrefix() + "spawner_preset WHERE id = ?";
+
+			try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+				final PreparedStatement fetch = connection.prepareStatement(fetchQuery);
+
+				fetch.setString(1, preset.getId().toLowerCase());
+
+				preparedStatement.setString(1, preset.getId().toLowerCase());
+				preparedStatement.setString(2, preset.getSpawner().getJsonString());
+
+				preparedStatement.executeUpdate();
+
+				if (callback != null) {
+					final ResultSet res = fetch.executeQuery();
+					res.next();
+					callback.accept(null, extractSpawnerPreset(res));
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				resolveCallback(callback, e);
+			}
+
+		}));
+	}
+
+	public void getSpawnerPresets(@NonNull final Callback<List<Preset>> callback) {
+		final List<Preset> presets = new ArrayList<>();
+		this.runAsync(() -> this.databaseConnector.connect(connection -> {
+			try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM " + this.getTablePrefix() + "spawner_preset")) {
+				final ResultSet resultSet = statement.executeQuery();
+				while (resultSet.next()) {
+					presets.add(extractSpawnerPreset(resultSet));
+				}
+
+				callback.accept(null, presets);
+			} catch (Exception e) {
+				resolveCallback(callback, e);
+			}
+		}));
+	}
+
+	public void updateSpawnerPreset(@NonNull final Preset preset, Callback<Boolean> callback) {
+		this.runAsync(() -> this.databaseConnector.connect(connection -> {
+			try (PreparedStatement statement = connection.prepareStatement("UPDATE " + this.getTablePrefix() + "spawner_preset SET spawner = ? WHERE id = ?")) {
+
+				statement.setString(1, preset.getSpawner().getJsonString());
+				statement.setString(2, preset.getId().toLowerCase());
+
+				int result = statement.executeUpdate();
+
+				if (callback != null)
+					callback.accept(null, result > 0);
+
+			} catch (Exception e) {
+				resolveCallback(callback, e);
+			}
+		}));
+	}
+
+
 	/**
 	 * "Get all levels from the database and return them in a list."
 	 *
@@ -337,6 +399,14 @@ public final class DataManager extends DataManagerAbstract {
 				Serialize.deserializeLocation(resultSet.getString("location"))
 		);
 	}
+
+	private Preset extractSpawnerPreset(final ResultSet resultSet) throws SQLException {
+		return new SpawnerPreset(
+				resultSet.getString("id"),
+				PlacedSpawner.decodeJson(resultSet.getString("spawner"))
+		);
+	}
+
 
 	private void resolveUpdateCallback(@Nullable UpdateCallback callback, @Nullable Exception ex) {
 		if (callback != null) {
