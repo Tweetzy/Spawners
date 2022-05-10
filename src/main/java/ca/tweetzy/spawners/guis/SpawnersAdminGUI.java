@@ -35,5 +35,11 @@ public final class SpawnersAdminGUI extends BaseGUI {
 				.name(Translation.GUI_ADMIN_MAIN_ITEMS_SPAWNERS_NAME.getString())
 				.lore(Translation.GUI_ADMIN_MAIN_ITEMS_SPAWNERS_LORE.getList())
 				.make(), click -> click.manager.showGUI(click.player, new SpawnerListAdminGUI()));
+
+		setButton(1, 7, QuickItem
+				.of(CompMaterial.CARTOGRAPHY_TABLE)
+				.name(Translation.GUI_ADMIN_MAIN_ITEMS_PRESETS_NAME.getString())
+				.lore(Translation.GUI_ADMIN_MAIN_ITEMS_PRESETS_LORE.getList())
+				.make(), click -> click.manager.showGUI(click.player, new SpawnerListAdminGUI()));
 	}
 }

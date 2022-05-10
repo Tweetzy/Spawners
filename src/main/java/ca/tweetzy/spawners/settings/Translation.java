@@ -178,6 +178,13 @@ public enum Translation {
 			"&e&lClick &8» &7To view player spawners"
 	)),
 
+	GUI_ADMIN_MAIN_ITEMS_PRESETS_NAME("gui.admin main.items.spawner presets.name", "<GRADIENT:fc67fa>&LSpawner Presets</GRADIENT:f4c4f3>"),
+	GUI_ADMIN_MAIN_ITEMS_PRESETS_LORE("gui.admin main.items.spawner presets.lore", Arrays.asList(
+			"&7View all created spawner presets",
+			"",
+			"&e&lClick &8» &7To view presets"
+	)),
+
 	GUI_SPAWNER_ADMIN_LIST_TITLE("gui.spawner admin list.title", "<GRADIENT:fc67fa>&LSpawners</GRADIENT:f4c4f3> &8> &7Known Spawners"),
 	GUI_SPAWNER_ADMIN_LIST_SPAWNER_NAME("gui.spawner admin list.items.spawner.name", "<GRADIENT:fc67fa>&l%owner_name%'s Spawner</GRADIENT:f4c4f3>"),
 	GUI_SPAWNER_ADMIN_LIST_SPAWNER_LORE("gui.spawner admin list.items.spawner.lore", Arrays.asList(
