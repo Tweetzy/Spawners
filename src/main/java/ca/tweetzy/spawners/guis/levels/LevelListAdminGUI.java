@@ -23,7 +23,7 @@ import java.util.List;
 public final class LevelListAdminGUI extends PagedGUI<Level> {
 
 	public LevelListAdminGUI() {
-		super(new SpawnersAdminGUI(), Translation.GUI_LEVEL_ADMIN_LIST_TITLE.getString(), 6, Spawners.getLevelManager().getLevels());
+		super(new SpawnersAdminGUI(), Translation.GUI_LEVEL_ADMIN_LIST_TITLE.getString(), 6, Spawners.getLevelManager().getContents());
 		draw();
 	}
 
@@ -48,7 +48,7 @@ public final class LevelListAdminGUI extends PagedGUI<Level> {
 				.make(), click -> Spawners.getDataManager().insertLevel(new SpawnerLevel(Spawners.getLevelManager().getHighestLevel() + 1), (error, createdLevel) -> {
 
 			if (error != null) return;
-			Spawners.getLevelManager().addLevel(createdLevel);
+			Spawners.getLevelManager().add(createdLevel);
 
 			click.manager.showGUI(click.player, new LevelListAdminGUI());
 		}));

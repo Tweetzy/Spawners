@@ -36,9 +36,9 @@ public final class SpawnerListAdminGUI extends PagedGUI<Spawner> {
 
 	public SpawnerListAdminGUI(final UUID spawnerOwner) {
 		super(new SpawnersAdminGUI(), Translation.GUI_SPAWNER_ADMIN_LIST_TITLE.getString(), 6, spawnerOwner != null ?
-				Spawners.getSpawnerManager().getSpawners().stream().filter(spawner -> spawner.getOwner().equals(spawnerOwner)).collect(Collectors.toList())
+				Spawners.getSpawnerManager().getContents().stream().filter(spawner -> spawner.getOwner().equals(spawnerOwner)).collect(Collectors.toList())
 				:
-				Spawners.getSpawnerManager().getSpawners()
+				Spawners.getSpawnerManager().getContents()
 		);
 		this.spawnerOwner = spawnerOwner;
 		draw();

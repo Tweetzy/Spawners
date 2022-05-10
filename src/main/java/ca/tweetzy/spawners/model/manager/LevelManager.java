@@ -4,59 +4,48 @@ import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.spawner.Level;
 import lombok.NonNull;
 
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 /**
  * Date Created: May 04 2022
  * Time Created: 11:13 a.m.
  *
  * @author Kiran Hart
  */
-public final class LevelManager implements Manager {
+public final class LevelManager extends Manager<Integer, Level> {
 
-	private final Map<Integer, Level> levels = new ConcurrentHashMap<>();
-
-	public void addLevel(@NonNull final Level level) {
-		if (this.levels.containsKey(level.getLevel())) return;
-		this.levels.put(level.getLevel(), level);
+	@Override
+	public void add(@NonNull Level level) {
+		if (this.contents.containsKey(level.getLevel())) return;
+		this.contents.put(level.getLevel(), level);
 	}
 
-	public void removeLevel(final int level) {
-		if (!this.levels.containsKey(level)) return;
-		this.levels.remove(level);
+	@Override
+	public void remove(@NonNull Integer level) {
+		if (!this.contents.containsKey(level)) return;
+		this.contents.remove(level);
 	}
 
-	public Level findLevel(final int level) {
-		return this.levels.getOrDefault(level, null);
-	}
+	@Override
+	public Level find(@NonNull Integer level) {
+		return this.contents.getOrDefault(level, null);
 
-	public Level findLevel(@NonNull final Level level) {
-		return findLevel(level.getLevel());
 	}
-
-	public List<Level> getLevels() {
-		return List.copyOf(this.levels.values());
-	}
-
+	
 	public int getHighestLevel() {
-		return this.levels.keySet().stream().max(Integer::compare).orElse(0);
+		return this.contents.keySet().stream().max(Integer::compare).orElse(0);
 	}
 
 	/*
 	=================== DATABASE CALLS ===================
 	 */
 
-
 	@Override
 	public void load() {
 		// clear player list
-		this.levels.clear();
+		this.contents.clear();
 
 		Spawners.getDataManager().getLevels((error, result) -> {
 			if (error == null)
-				result.forEach(this::addLevel);
+				result.forEach(this::add);
 		});
 	}
 }

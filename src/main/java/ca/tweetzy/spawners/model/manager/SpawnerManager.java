@@ -6,10 +6,8 @@ import ca.tweetzy.spawners.settings.Settings;
 import lombok.NonNull;
 import org.bukkit.Location;
 import org.bukkit.block.CreatureSpawner;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -19,26 +17,24 @@ import java.util.function.Consumer;
  *
  * @author Kiran Hart
  */
-public final class SpawnerManager implements Manager {
+public final class SpawnerManager extends Manager<Location, Spawner> {
 
-	private final Map<Location, Spawner> spawners = new ConcurrentHashMap<>();
-
-	public void addSpawner(@NonNull final Spawner spawner) {
-		if (this.spawners.containsKey(spawner.getLocation())) return;
-		this.spawners.put(spawner.getLocation(), spawner);
+	@Override
+	public void add(@NotNull Spawner spawner) {
+		if (this.contents.containsKey(spawner.getLocation())) return;
+		this.contents.put(spawner.getLocation(), spawner);
 	}
 
-	public void removeSpawner(@NonNull final Location location) {
-		if (!this.spawners.containsKey(location)) return;
-		this.spawners.remove(location);
+	@Override
+	public void remove(@NotNull Location location) {
+		if (!this.contents.containsKey(location)) return;
+		this.contents.remove(location);
 	}
 
-	public Spawner findSpawner(@NonNull final Location location) {
-		return this.spawners.getOrDefault(location, null);
-	}
+	@Override
+	public Spawner find(@NotNull Location location) {
+		return this.contents.getOrDefault(location, null);
 
-	public Spawner findSpawner(@NonNull final Spawner spawner) {
-		return findSpawner(spawner.getLocation());
 	}
 
 	/*
@@ -48,7 +44,7 @@ public final class SpawnerManager implements Manager {
 	public void createSpawner(@NonNull final Spawner spawner, final BiConsumer<Boolean, Spawner> consumer) {
 		Spawners.getDataManager().insertSpawner(spawner, (error, created) -> {
 			if (error == null)
-				this.addSpawner(created);
+				this.add(created);
 
 			if (consumer != null)
 				consumer.accept(error == null, created);
@@ -58,15 +54,11 @@ public final class SpawnerManager implements Manager {
 	public void deleteSpawner(@NonNull final Spawner spawner, final Consumer<Boolean> success) {
 		Spawners.getDataManager().deleteSpawner(spawner.getID(), (error, deleted) -> {
 			if (error == null && deleted)
-				this.removeSpawner(spawner.getLocation());
+				this.remove(spawner.getLocation());
 
 			if (success != null)
 				success.accept(error == null && deleted);
 		});
-	}
-
-	public List<Spawner> getSpawners() {
-		return List.copyOf(this.spawners.values());
 	}
 
 	public void applySpawnerDefaults(@NonNull final CreatureSpawner spawner, final boolean update) {
@@ -81,11 +73,11 @@ public final class SpawnerManager implements Manager {
 
 	@Override
 	public void load() {
-		this.spawners.clear();
+		this.contents.clear();
 
 		Spawners.getDataManager().getSpawners((error, result) -> {
 			if (error == null)
-				result.forEach(this::addSpawner);
+				result.forEach(this::add);
 		});
 	}
 }
