@@ -14,6 +14,7 @@ import ca.tweetzy.spawners.commands.SetCommand;
 import ca.tweetzy.spawners.commands.SpawnersCommand;
 import ca.tweetzy.spawners.database.DataManager;
 import ca.tweetzy.spawners.database.migrations._1_InitialMigration;
+import ca.tweetzy.spawners.database.migrations._2_SpawnerPresetMigration;
 import ca.tweetzy.spawners.listeners.BlockListeners;
 import ca.tweetzy.spawners.listeners.JoinListeners;
 import ca.tweetzy.spawners.model.manager.LevelManager;
@@ -51,7 +52,8 @@ public final class Spawners extends RosePlugin {
 		this.dataManager = new DataManager(this.databaseConnector, this);
 
 		final DataMigrationManager dataMigrationManager = new DataMigrationManager(this.databaseConnector, this.dataManager,
-				new _1_InitialMigration()
+				new _1_InitialMigration(),
+				new _2_SpawnerPresetMigration()
 		);
 
 		// run migrations for tables
