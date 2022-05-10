@@ -103,4 +103,18 @@ public final class PlacedSpawner implements Spawner {
 
 		return object.toString();
 	}
+
+	public static Spawner decodeJson(String json) {
+		final JsonObject object = JsonParser.parseString(json).getAsJsonObject();
+
+		return new PlacedSpawner(
+				UUID.fromString(object.get("uuid").getAsString()),
+				UUID.fromString(object.get("owner").getAsString()),
+				object.get("ownerName").getAsString(),
+				EntityType.valueOf(object.get("entityType").getAsString().toUpperCase()),
+				object.get("level").getAsInt(),
+				SpawnerOptions.decodeJson(object.get("options").getAsString()),
+				Serialize.deserializeLocation(object.get("location").getAsString())
+		);
+	}
 }
