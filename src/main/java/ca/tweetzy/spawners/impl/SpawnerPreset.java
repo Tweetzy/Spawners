@@ -25,4 +25,9 @@ public final class SpawnerPreset implements Preset {
 	public Spawner getSpawner() {
 		return this.spawner;
 	}
+
+	@Override
+	public void sync() {
+
+	}
 }
