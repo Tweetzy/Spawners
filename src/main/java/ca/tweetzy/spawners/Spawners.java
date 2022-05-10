@@ -122,7 +122,6 @@ public final class Spawners extends RosePlugin {
 		return getInstance().spawnerManager;
 	}
 
-
 	@Override
 	protected int getBStatsId() {
 		return 12416;

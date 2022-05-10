@@ -29,7 +29,7 @@ public final class LevelManager extends Manager<Integer, Level> {
 		return this.contents.getOrDefault(level, null);
 
 	}
-	
+
 	public int getHighestLevel() {
 		return this.contents.keySet().stream().max(Integer::compare).orElse(0);
 	}
