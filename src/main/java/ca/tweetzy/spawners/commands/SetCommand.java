@@ -38,7 +38,7 @@ public final class SetCommand extends Command {
 			return ReturnType.FAIL;
 		}
 
-		final Spawner spawner = Spawners.getSpawnerManager().findSpawner(targetBlock.getLocation());
+		final Spawner spawner = Spawners.getSpawnerManager().find(targetBlock.getLocation());
 		final CreatureSpawner creatureSpawner = (CreatureSpawner) targetBlock.getState();
 
 		Spawners.getGuiManager().showGUI(player, new EntitySelectorGUI(null, EntitySelectorGUI.EntityViewMode.ALL, selected -> {

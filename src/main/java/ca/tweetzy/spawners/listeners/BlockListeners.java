@@ -89,7 +89,7 @@ public final class BlockListeners implements Listener {
 		}
 
 		final Options options = SpawnerOptions.decodeJson(NBTEditor.getString(event.getItemInHand(), "Spawners:Spawner:Options"));
-		final Level level = Spawners.getLevelManager().findLevel(Integer.parseInt(NBTEditor.getString(event.getItemInHand(), "Spawners:Spawner:Level")));
+		final Level level = Spawners.getLevelManager().find(Integer.parseInt(NBTEditor.getString(event.getItemInHand(), "Spawners:Spawner:Level")));
 
 		// insert spawner here and check place event
 		final Spawner spawner = new PlacedSpawner(UUID.randomUUID(), noOwner ? player.getUniqueId() : owner, noOwner ? Translation.SPAWNER_NO_OWNER.getString() : player.getName(), entityType, level != null ? level.getLevel() : -1, options, placedBlock.getLocation());
@@ -123,7 +123,7 @@ public final class BlockListeners implements Listener {
 
 		final CreatureSpawner creatureSpawner = (CreatureSpawner) block.getState();
 		final NamespacedKey namespacedKey = new NamespacedKey(Spawners.getInstance(), "SpawnersOwner");
-		final Spawner spawner = Spawners.getSpawnerManager().findSpawner(event.getBlock().getLocation());
+		final Spawner spawner = Spawners.getSpawnerManager().find(event.getBlock().getLocation());
 
 		// spawner placed by user
 		if (spawner != null) {
@@ -203,7 +203,7 @@ public final class BlockListeners implements Listener {
 		for (final Block explodedBlock : event.blockList()) {
 			if (explodedBlock.getType() != CompMaterial.SPAWNER.parseMaterial()) continue;
 
-			final Spawner spawner = Spawners.getSpawnerManager().findSpawner(explodedBlock.getLocation());
+			final Spawner spawner = Spawners.getSpawnerManager().find(explodedBlock.getLocation());
 			final boolean success = new Random().nextDouble() < Settings.EXPLOSION_DROP_CHANCE.getDouble() / 100;
 
 			if (!success) {
@@ -251,7 +251,7 @@ public final class BlockListeners implements Listener {
 		final Block block = event.getBlock();
 		if (block.getType() != CompMaterial.SPAWNER.parseMaterial()) return;
 
-		final Spawner spawner = Spawners.getSpawnerManager().findSpawner(block.getLocation());
+		final Spawner spawner = Spawners.getSpawnerManager().find(block.getLocation());
 		if (spawner == null) return;
 
 		if (Settings.EXPLOSION_PREVENT_UNKNOWN_SOURCE.getBoolean())
