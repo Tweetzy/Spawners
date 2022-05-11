@@ -76,7 +76,7 @@ public final class SpawnerPresetListGUI extends PagedGUI<Preset> {
 
 	@Override
 	protected void onClick(Preset preset, GuiClickEvent event) {
-
+		event.manager.showGUI(event.player, new SpawnerPresetEditGUI(preset));
 	}
 
 	@Override
