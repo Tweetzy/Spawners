@@ -1,5 +1,6 @@
 package ca.tweetzy.spawners.model.manager;
 
+import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.spawner.Preset;
 import lombok.NonNull;
 
@@ -14,7 +15,7 @@ public final class PresetManager extends Manager<String, Preset> {
 	@Override
 	public void add(@NonNull Preset preset) {
 		if (this.contents.containsKey(preset.getId())) return;
-		this.contents.put(preset.getId(), preset);
+		this.contents.put(preset.getId().toLowerCase(), preset);
 	}
 
 	@Override
@@ -30,7 +31,12 @@ public final class PresetManager extends Manager<String, Preset> {
 
 	@Override
 	public void load() {
+		this.contents.clear();
 
+		Spawners.getDataManager().getSpawnerPresets((error, results) -> {
+			if (error == null)
+				results.forEach(this::add);
+		});
 	}
 
 }

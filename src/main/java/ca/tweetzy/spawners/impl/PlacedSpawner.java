@@ -4,6 +4,9 @@ import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.spawner.Options;
 import ca.tweetzy.spawners.api.spawner.Spawner;
 import ca.tweetzy.spawners.model.Serialize;
+import ca.tweetzy.spawners.model.SpawnerDefault;
+import ca.tweetzy.spawners.settings.Settings;
+import ca.tweetzy.spawners.settings.Translation;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import lombok.AllArgsConstructor;
@@ -28,6 +31,10 @@ public final class PlacedSpawner implements Spawner {
 	private int level;
 	private Options options;
 	private Location location;
+
+	public PlacedSpawner() {
+		this(UUID.randomUUID(), SpawnerDefault.NULL_UUID, Translation.SPAWNER_NO_OWNER.getString(), EntityType.valueOf(Settings.DEFAULT_SPAWNER_ENTITY.getString()), -1, new SpawnerOptions(), null);
+	}
 
 	@Override
 	public UUID getID() {

@@ -6,5 +6,5 @@ package ca.tweetzy.spawners.api;
  *
  * @author Kiran Hart
  */
-public final class SpawnersAPI {
+public interface SpawnersAPI {
 }

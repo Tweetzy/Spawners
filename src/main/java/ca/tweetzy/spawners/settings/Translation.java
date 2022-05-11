@@ -31,7 +31,8 @@ public enum Translation {
 	PLAYER_OFFLINE("misc.player not found", "&cThe player &4%player% &cis not online!"),
 
 	NOT_A_SPAWNER("misc.not a spawner", "&cThat block is not a spawner!"),
-	UPDATED_SPAWN_TYPE("misc.updated spawn tpye", "&aSuccessfully set spawner's entity type to&f: &e%entity_type%"),
+	UPDATED_SPAWN_TYPE("misc.updated spawn type", "&aSuccessfully set spawner's entity type to&f: &e%entity_type%"),
+	PRESET_ID_TAKEN("misc.preset id taken", "&cThe preset id&f: &4%preset_id% &cis already in use."),
 
 
 	MOB_NAME_ELDER_GUARDIAN("mob names.elder guardian", "Elder guardian"),
@@ -144,6 +145,10 @@ public enum Translation {
 	INPUT_LEVEL_EDIT_MAX_NEARBY_ENTITIES("input.level edit.max nearby entities", "&fEnter new max nearby entities for level"),
 	INPUT_LEVEL_EDIT_ACTIVATION_RANGE("input.level edit.player activation range", "&fEnter new activation range for level"),
 
+	INPUT_NEW_PRESET_TITLE("input.new preset.title", "<GRADIENT:fc67fa>&lNew Preset</GRADIENT:f4c4f3>"),
+	INPUT_NEW_PRESET_SUBTITLE("input.new preset.subtitle", "&fEnter the id for the new preset"),
+
+
 	/*
 	============= guis =============
 	 */
@@ -184,6 +189,28 @@ public enum Translation {
 			"",
 			"&e&lClick &8» &7To view presets"
 	)),
+
+	GUI_SPAWNER_PRESET_LIST_TITLE("gui.spawner preset list.title", "<GRADIENT:fc67fa>&LSpawners</GRADIENT:f4c4f3> &8> &7Presets"),
+	GUI_SPAWNER_PRESET_LIST_PRESET_NAME("gui.spawner preset list.items.preset.name", "<GRADIENT:fc67fa>&l%preset_id%</GRADIENT:f4c4f3>"),
+	GUI_SPAWNER_PRESET_LIST_PRESET_LORE("gui.spawner preset list.items.preset.lore", Arrays.asList(
+			"",
+			"&7Entity&f: &e%entity_type%",
+			"&7Level&f: &e%spawner_level%",
+			"",
+			"&7Spawn Delay &8» &e%spawner_spawn_delay%",
+			"&7Spawn Count &8» &e%spawner_spawn_count%",
+			"&7Max Nearby Entities &8» &e%spawner_max_nearby_entities%",
+			"&7Activation Range &8» &e%spawner_player_activation_range%",
+			"",
+			"&e&lLeft Click &8» &7To edit preset",
+			"&c&lPress 1 &8» &7To delete preset"
+	)),
+
+	GUI_SPAWNER_PRESET_LIST_NEW_NAME("gui.spawner preset list.items.create.name", "&a&lCreate Preset"),
+	GUI_SPAWNER_PRESET_LIST_NEW_LORE("gui.spawner preset list.items.create.lore", List.of(
+			"&e&lClick &8» &7To create new preset"
+	)),
+
 
 	GUI_SPAWNER_ADMIN_LIST_TITLE("gui.spawner admin list.title", "<GRADIENT:fc67fa>&LSpawners</GRADIENT:f4c4f3> &8> &7Known Spawners"),
 	GUI_SPAWNER_ADMIN_LIST_SPAWNER_NAME("gui.spawner admin list.items.spawner.name", "<GRADIENT:fc67fa>&l%owner_name%'s Spawner</GRADIENT:f4c4f3>"),

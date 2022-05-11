@@ -9,19 +9,21 @@ import ca.tweetzy.rose.database.DatabaseConnector;
 import ca.tweetzy.rose.database.SQLiteConnector;
 import ca.tweetzy.rose.gui.GuiManager;
 import ca.tweetzy.rose.utils.Common;
+import ca.tweetzy.spawners.api.SpawnersAPI;
 import ca.tweetzy.spawners.commands.GiveCommand;
 import ca.tweetzy.spawners.commands.SetCommand;
 import ca.tweetzy.spawners.commands.SpawnersCommand;
 import ca.tweetzy.spawners.database.DataManager;
 import ca.tweetzy.spawners.database.migrations._1_InitialMigration;
 import ca.tweetzy.spawners.database.migrations._2_SpawnerPresetMigration;
+import ca.tweetzy.spawners.impl.APIImplementation;
 import ca.tweetzy.spawners.listeners.BlockListeners;
 import ca.tweetzy.spawners.listeners.JoinListeners;
-import ca.tweetzy.spawners.model.manager.LevelManager;
-import ca.tweetzy.spawners.model.manager.PlayerManager;
-import ca.tweetzy.spawners.model.manager.SpawnerManager;
+import ca.tweetzy.spawners.model.manager.*;
 import ca.tweetzy.spawners.settings.Locale;
 import ca.tweetzy.spawners.settings.Settings;
+
+import java.util.Arrays;
 
 /**
  * Date Created: May 04 2022
@@ -37,6 +39,9 @@ public final class Spawners extends RosePlugin {
 	private final PlayerManager playerManager = new PlayerManager();
 	private final LevelManager levelManager = new LevelManager();
 	private final SpawnerManager spawnerManager = new SpawnerManager();
+	private final PresetManager presetManager = new PresetManager();
+
+	private final SpawnersAPI spawnersAPI = new APIImplementation();
 
 	// database
 	@SuppressWarnings("FieldCanBeLocal")
@@ -69,10 +74,12 @@ public final class Spawners extends RosePlugin {
 		Locale.setup();
 		Common.setPrefix(Settings.PREFIX.getString());
 
-		// players
-		this.playerManager.load();
-		this.levelManager.load();
-		this.spawnerManager.load();
+		Arrays.asList(
+				this.playerManager,
+				this.levelManager,
+				this.spawnerManager,
+				this.presetManager
+		).forEach(Manager::load);
 
 		// setup command manager
 		this.commandManager.registerCommandDynamically(new SpawnersCommand()).addSubCommands(
@@ -120,6 +127,15 @@ public final class Spawners extends RosePlugin {
 	// spawner manager
 	public static SpawnerManager getSpawnerManager() {
 		return getInstance().spawnerManager;
+	}
+
+	// spawner preset manager
+	public static PresetManager getPresetManager() {
+		return getInstance().presetManager;
+	}
+
+	public static SpawnersAPI getAPI() {
+		return getInstance().spawnersAPI;
 	}
 
 	@Override
