@@ -2,9 +2,11 @@ package ca.tweetzy.spawners.model.manager;
 
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.spawner.Preset;
+import ca.tweetzy.spawners.api.spawner.Spawner;
 import lombok.NonNull;
 
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 /**
  * Date Created: May 10 2022
@@ -38,6 +40,16 @@ public final class PresetManager extends Manager<String, Preset> {
 
 			if (consumer != null)
 				consumer.accept(error == null, created);
+		});
+	}
+
+	public void deletePreset(@NonNull final Preset preset, final Consumer<Boolean> success) {
+		Spawners.getDataManager().deleteSpawnerPreset(preset.getId(), (error, deleted) -> {
+			if (error == null && deleted)
+				this.remove(preset.getId());
+
+			if (success != null)
+				success.accept(error == null && deleted);
 		});
 	}
 

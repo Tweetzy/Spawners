@@ -16,6 +16,7 @@ import ca.tweetzy.spawners.settings.Translation;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
@@ -80,7 +81,11 @@ public final class SpawnerPresetListGUI extends PagedGUI<Preset> {
 
 	@Override
 	protected void onClick(Preset preset, GuiClickEvent event) {
-		event.manager.showGUI(event.player, new SpawnerPresetEditGUI(preset));
+		if (event.clickType == ClickType.LEFT)
+			event.manager.showGUI(event.player, new SpawnerPresetEditGUI(preset));
+
+		if (event.clickType == ClickType.NUMBER_KEY)
+			Spawners.getPresetManager().deletePreset(preset, success -> event.manager.showGUI(event.player, new SpawnerPresetListGUI()));
 	}
 
 	@Override
