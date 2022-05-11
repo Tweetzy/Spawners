@@ -1,6 +1,5 @@
 package ca.tweetzy.spawners.model;
 
-import lombok.NonNull;
 import lombok.experimental.UtilityClass;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -14,7 +13,10 @@ import org.bukkit.Location;
 @UtilityClass
 public final class Serialize {
 
-	public String serializeLocation(@NonNull final Location location) {
+	public String serializeLocation(final Location location) {
+		if (location == null)
+			return "";
+
 		return String.format(
 				"%s %f %f %f %f %f",
 				location.getWorld().getName(),
@@ -26,7 +28,9 @@ public final class Serialize {
 		);
 	}
 
-	public Location deserializeLocation(@NonNull final String raw) {
+	public Location deserializeLocation(final String raw) {
+
+
 		final String[] split = raw.split(" ");
 
 		return new Location(

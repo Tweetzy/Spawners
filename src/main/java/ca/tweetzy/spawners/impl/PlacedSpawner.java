@@ -106,13 +106,16 @@ public final class PlacedSpawner implements Spawner {
 		object.addProperty("entityType", this.entityType.name());
 		object.addProperty("level", this.level);
 		object.add("options", JsonParser.parseString(this.options.getJsonString()));
-		object.addProperty("location", Serialize.serializeLocation(this.location));
+
+		if (this.location != null)
+			object.addProperty("location", Serialize.serializeLocation(this.location));
 
 		return object.toString();
 	}
 
 	public static Spawner decodeJson(String json) {
 		final JsonObject object = JsonParser.parseString(json).getAsJsonObject();
+
 
 		return new PlacedSpawner(
 				UUID.fromString(object.get("uuid").getAsString()),
@@ -121,7 +124,7 @@ public final class PlacedSpawner implements Spawner {
 				EntityType.valueOf(object.get("entityType").getAsString().toUpperCase()),
 				object.get("level").getAsInt(),
 				SpawnerOptions.decodeJson(object.get("options").getAsString()),
-				Serialize.deserializeLocation(object.get("location").getAsString())
+				object.has("location") ? Serialize.deserializeLocation(object.get("location").getAsString()) : null
 		);
 	}
 }
