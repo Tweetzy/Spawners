@@ -1,5 +1,6 @@
 package ca.tweetzy.spawners.impl;
 
+import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.spawner.Preset;
 import ca.tweetzy.spawners.api.spawner.Spawner;
 import lombok.AllArgsConstructor;
@@ -28,6 +29,6 @@ public final class SpawnerPreset implements Preset {
 
 	@Override
 	public void sync() {
-
+		Spawners.getDataManager().updateSpawnerPreset(this, null);
 	}
 }

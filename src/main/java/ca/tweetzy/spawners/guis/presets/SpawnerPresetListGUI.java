@@ -1,4 +1,4 @@
-package ca.tweetzy.spawners.guis.spawners;
+package ca.tweetzy.spawners.guis.presets;
 
 
 import ca.tweetzy.rose.comp.enums.CompMaterial;
@@ -12,14 +12,12 @@ import ca.tweetzy.spawners.api.spawner.Preset;
 import ca.tweetzy.spawners.guis.SpawnersAdminGUI;
 import ca.tweetzy.spawners.impl.PlacedSpawner;
 import ca.tweetzy.spawners.impl.SpawnerPreset;
-import ca.tweetzy.spawners.model.UserInput;
 import ca.tweetzy.spawners.settings.Translation;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Date Created: May 10 2022
