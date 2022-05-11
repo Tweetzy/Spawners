@@ -18,7 +18,7 @@ public interface SpawnerUser {
 
 	String getName();
 
-	List<UUID> getPlacedSpawners();
+	List<Spawner> getPlacedSpawners();
 
 	boolean isAllowedToPlaceEntity(Player player, EntityType entityType);
 

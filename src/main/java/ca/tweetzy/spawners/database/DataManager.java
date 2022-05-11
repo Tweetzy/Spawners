@@ -43,7 +43,7 @@ public final class DataManager extends DataManagerAbstract {
 	 */
 	public void insertUser(@NonNull final SpawnerUser spawnerUser, final Callback<SpawnerUser> callback) {
 		this.runAsync(() -> this.databaseConnector.connect(connection -> {
-			final String query = "INSERT INTO " + this.getTablePrefix() + "player (uuid, username, placed_spawners) VALUES (?, ?, ?)";
+			final String query = "INSERT INTO " + this.getTablePrefix() + "player (uuid, username) VALUES (?, ?)";
 			final String fetchQuery = "SELECT * FROM " + this.getTablePrefix() + "player WHERE uuid = ?";
 
 			try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -53,7 +53,6 @@ public final class DataManager extends DataManagerAbstract {
 
 				preparedStatement.setString(1, spawnerUser.getUUID().toString());
 				preparedStatement.setString(2, spawnerUser.getName());
-				preparedStatement.setString(3, spawnerUser.getPlacedSpawners().stream().map(UUID::toString).collect(Collectors.joining(",")));
 
 				preparedStatement.executeUpdate();
 
@@ -374,13 +373,9 @@ public final class DataManager extends DataManagerAbstract {
 	 * @return A SpawnerUser object
 	 */
 	private SpawnerUser extractSpawnerUser(final ResultSet resultSet) throws SQLException {
-		final String placedSpawners = resultSet.getString("placed_spawners");
-		final String[] split = placedSpawners.split(",");
-
 		return new SpawnerPlayer(
 				UUID.fromString(resultSet.getString("uuid")),
-				resultSet.getString("username"),
-				placedSpawners.length() == 0 || split.length == 0 ? Collections.emptyList() : Arrays.stream(split).map(UUID::fromString).collect(Collectors.toList())
+				resultSet.getString("username")
 		);
 	}
 

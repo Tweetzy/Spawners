@@ -1,12 +1,13 @@
 package ca.tweetzy.spawners.impl;
 
+import ca.tweetzy.spawners.Spawners;
+import ca.tweetzy.spawners.api.spawner.Spawner;
 import ca.tweetzy.spawners.api.spawner.SpawnerUser;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,11 +22,6 @@ public final class SpawnerPlayer implements SpawnerUser {
 
 	private final UUID uuid;
 	private final String name;
-	private final List<UUID> placedSpawners;
-
-	public SpawnerPlayer(@NonNull final UUID uuid, @NonNull final String name) {
-		this(uuid, name, new ArrayList<>());
-	}
 
 	public SpawnerPlayer(@NonNull final Player player) {
 		this(player.getUniqueId(), player.getName());
@@ -42,8 +38,8 @@ public final class SpawnerPlayer implements SpawnerUser {
 	}
 
 	@Override
-	public List<UUID> getPlacedSpawners() {
-		return this.placedSpawners;
+	public List<Spawner> getPlacedSpawners() {
+		return Spawners.getSpawnerManager().getContents().stream().filter(spawner -> spawner.getOwner().equals(this.uuid)).toList();
 	}
 
 	@Override
