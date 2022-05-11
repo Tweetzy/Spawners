@@ -260,6 +260,18 @@ public enum Translation {
 
 	// preset edit
 	GUI_PRESET_EDIT_TITLE("gui.preset edit.title", "<GRADIENT:fc67fa>&LSpawners</GRADIENT:f4c4f3> &8> &7Preset &8> &7%preset_id%"),
+
+	GUI_PRESET_EDIT_ITEMS_ENTITY_NAME("gui.preset edit.items.entity.name", "<GRADIENT:fc67fa>&lEntity</GRADIENT:f4c4f3>"),
+	GUI_PRESET_EDIT_ITEMS_ENTITY_LORE("gui.preset edit.items.entity.lore", Arrays.asList(
+			"&8Spawner Entity",
+			"&7Adjust what mob should be",
+			"&7spawned with this preset",
+			"",
+			"&7Current&f: &e%entity_type%",
+			"",
+			"&e&lClick &8» &7To change entity"
+	)),
+
 	GUI_PRESET_EDIT_ITEMS_SPAWN_DELAY_NAME("gui.preset edit.items.spawn delay.name", "<GRADIENT:fc67fa>&lSpawn Delay</GRADIENT:f4c4f3>"),
 	GUI_PRESET_EDIT_ITEMS_SPAWN_DELAY_LORE("gui.preset edit.items.spawn delay.lore", Arrays.asList(
 			"&8Spawner delay",
