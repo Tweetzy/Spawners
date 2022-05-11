@@ -23,8 +23,7 @@ public final class _1_InitialMigration extends DataMigration {
 		try (Statement statement = connection.createStatement()) {
 			statement.execute("CREATE TABLE " + tablePrefix + "player (" +
 					"uuid VARCHAR(36) PRIMARY KEY, " +
-					"username VARCHAR(16) NOT NULL, " +
-					"placed_spawners TEXT NULL " +
+					"username VARCHAR(16) NOT NULL" +
 					")");
 
 			// level presets
