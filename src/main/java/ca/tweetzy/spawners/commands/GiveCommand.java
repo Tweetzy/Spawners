@@ -3,11 +3,17 @@ package ca.tweetzy.spawners.commands;
 import ca.tweetzy.rose.command.AllowedExecutor;
 import ca.tweetzy.rose.command.Command;
 import ca.tweetzy.rose.command.ReturnType;
+import ca.tweetzy.spawners.Spawners;
+import ca.tweetzy.spawners.api.spawner.Preset;
 import ca.tweetzy.spawners.impl.SpawnerOptions;
 import ca.tweetzy.spawners.model.SpawnerItem;
+import ca.tweetzy.spawners.settings.Translation;
+import org.apache.commons.lang.math.NumberUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
@@ -20,14 +26,56 @@ import java.util.List;
 public final class GiveCommand extends Command {
 
 	public GiveCommand() {
-		super(AllowedExecutor.PLAYER, "give");
+		super(AllowedExecutor.BOTH, "give");
 	}
 
 	@Override
 	protected ReturnType execute(CommandSender sender, String... args) {
-		final Player player = (Player) sender;
+		if (sender instanceof final Player player) {
+			if (args.length == 0) {
 
-		player.getInventory().addItem(SpawnerItem.make(player, EntityType.COW, -1, new SpawnerOptions()));
+				return ReturnType.SUCCESS;
+			}
+
+			final Player target = Bukkit.getPlayerExact(args[0]);
+			if (target == null) {
+				Translation.PLAYER_OFFLINE.send(player, "player", args[0]);
+				return ReturnType.FAIL;
+			}
+
+			int amount = 1;
+
+			if (args.length > 1) {
+				if (NumberUtils.isNumber(args[1]))
+					amount = Integer.parseInt(args[1]);
+			}
+
+			// check for flags
+			final EntityType entityType = CommandFlag.get(EntityType.class, "entity", EntityType.PIG, args);
+			final String preset = CommandFlag.get(String.class, "preset", null, args);
+
+			Preset presetFound = null;
+
+			if (preset != null) {
+				presetFound = Spawners.getPresetManager().find(preset);
+			}
+
+			ItemStack spawnerItem = SpawnerItem.make(
+					target.getUniqueId(),
+					target.getName(),
+					presetFound != null ? presetFound.getEntityType() : entityType,
+					presetFound != null ? presetFound.getLevel() : -1,
+					new SpawnerOptions(
+							presetFound.getOptions().getSpawnInterval(),
+							presetFound.getOptions().getSpawnCount(),
+							presetFound.getOptions().getMaxNearbyEntities(),
+							presetFound.getOptions().getPlayerActivationRange()
+					)
+			);
+
+			for (int i = 0; i < amount; i++)
+				target.getInventory().addItem(spawnerItem);
+		}
 
 		return ReturnType.SUCCESS;
 	}
