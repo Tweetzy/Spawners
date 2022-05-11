@@ -1,6 +1,7 @@
 package ca.tweetzy.spawners.listeners;
 
 import ca.tweetzy.rose.comp.enums.CompMaterial;
+import ca.tweetzy.rose.utils.Common;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.spawner.Spawner;
 import ca.tweetzy.spawners.api.spawner.SpawnerUser;
@@ -11,10 +12,12 @@ import org.bukkit.block.Block;
 import org.bukkit.block.CreatureSpawner;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SpawnEggMeta;
 
@@ -29,18 +32,18 @@ public final class EggListeners implements Listener {
 	@EventHandler(priority = EventPriority.LOW)
 	public void onSpawnerClickWithEgg(final PlayerInteractEvent event) {
 		if (!Settings.ALLOW_SPAWNER_CHANGE_WITH_EGG.getBoolean()) return;
-
 		if (event.getClickedBlock() == null || event.getClickedBlock().getType() != CompMaterial.SPAWNER.parseMaterial()) return;
-		if (event.getItem() == null) return;
-		if (!event.getItem().getType().name().endsWith("_SPAWN_EGG")) return;
+		if (event.getHand() == EquipmentSlot.OFF_HAND) return;
 
 		final Player player = event.getPlayer();
-
 		final SpawnerUser spawnerUser = Spawners.getPlayerManager().findUser(player);
-		final SpawnEggMeta spawnEggMeta = (SpawnEggMeta) event.getItem().getItemMeta();
-		final EntityType entityType = spawnEggMeta.getSpawnedType();
-
 		final ItemStack hand = event.getItem();
+
+		if (hand == null) return;
+
+		if (!hand.getType().name().endsWith("_SPAWN_EGG")) return;
+		final EntityType entityType = EntityType.valueOf(hand.getType().name().replace("_SPAWN_EGG", ""));
+
 		final Block block = event.getClickedBlock();
 		final CreatureSpawner creatureSpawner = (CreatureSpawner) block.getState();
 
@@ -49,6 +52,8 @@ public final class EggListeners implements Listener {
 
 		if (spawner != null && !spawner.getOwner().equals(player.getUniqueId())) {
 			Translation.SPAWNER_NOT_OWNER_CHANGE_WITH_EGG.send(player, "owner_name", spawner.getOwnerName());
+			event.setUseItemInHand(Event.Result.DENY);
+			event.setCancelled(true);
 			return;
 		}
 
@@ -59,6 +64,13 @@ public final class EggListeners implements Listener {
 
 		creatureSpawner.setSpawnedType(entityType);
 		creatureSpawner.update(true);
+
+		if (spawner != null) {
+			spawner.setEntityType(entityType);
+			spawner.sync();
+		}
+
+		event.setUseItemInHand(Event.Result.DENY);
 
 		if (Settings.REMOVE_EGG_ON_SPAWNER_CHANGE.getBoolean()) {
 			if (hand.getAmount() >= 2) {
