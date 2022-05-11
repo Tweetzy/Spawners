@@ -82,7 +82,7 @@ public final class EggListeners implements Listener {
 			hitLocation = event.getHitBlock().getLocation();
 
 		if (hitLocation == null) return;
-		if (hitLocation.getWorld() == null) return; // not sure this would ever happen, but added coz intellij is yelling at me
+		if (hitLocation.getWorld() == null) return; // not sure if this would ever happen, but added coz intellij is yelling at me
 
 		hitLocation.add(0, 1, 0);
 		hitLocation.getWorld().spawnEntity(hitLocation, entityType);
