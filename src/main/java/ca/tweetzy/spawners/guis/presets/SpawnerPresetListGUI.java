@@ -10,7 +10,6 @@ import ca.tweetzy.rose.utils.input.TitleInput;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.spawner.Preset;
 import ca.tweetzy.spawners.guis.SpawnersAdminGUI;
-import ca.tweetzy.spawners.impl.PlacedSpawner;
 import ca.tweetzy.spawners.impl.SpawnerOptions;
 import ca.tweetzy.spawners.impl.SpawnerPreset;
 import ca.tweetzy.spawners.settings.Translation;
@@ -70,8 +69,10 @@ public final class SpawnerPresetListGUI extends PagedGUI<Preset> {
 					return false;
 				}
 
-				Spawners.getPresetManager().createPreset(new SpawnerPreset(string, EntityType.COW, new SpawnerOptions(), -1), null);
-				click.manager.showGUI(click.player, new SpawnerPresetListGUI());
+				Spawners.getPresetManager().createPreset(new SpawnerPreset(string, EntityType.COW, new SpawnerOptions(), -1), (success, created) -> {
+					if (success)
+						click.manager.showGUI(click.player, new SpawnerPresetListGUI());
+				});
 				return true;
 			}
 		});
