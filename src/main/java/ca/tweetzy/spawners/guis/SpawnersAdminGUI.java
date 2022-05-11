@@ -2,6 +2,8 @@ package ca.tweetzy.spawners.guis;
 
 import ca.tweetzy.rose.comp.enums.CompMaterial;
 import ca.tweetzy.rose.gui.template.BaseGUI;
+import ca.tweetzy.rose.utils.ChatUtil;
+import ca.tweetzy.rose.utils.Common;
 import ca.tweetzy.rose.utils.QuickItem;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.guis.levels.LevelListAdminGUI;
@@ -42,5 +44,29 @@ public final class SpawnersAdminGUI extends BaseGUI {
 				.name(Translation.GUI_ADMIN_MAIN_ITEMS_PRESETS_NAME.getString())
 				.lore(Translation.GUI_ADMIN_MAIN_ITEMS_PRESETS_LORE.getList())
 				.make(), click -> click.manager.showGUI(click.player, new SpawnerPresetListGUI()));
+
+
+		setButton(5, 8, QuickItem.of(CompMaterial.DIAMOND)
+				.name("&e&lPatreon")
+				.lore(
+						"&8Support me on Patreon",
+						"&7By supporting me on Patreon you will",
+						"&7be helping me be able to continue updating",
+						"&7and creating free plugins.",
+						"",
+						"&e&lClick &8» &7To view Patreon"
+				)
+				.glow(true)
+				.make(), click -> {
+
+			click.gui.close();
+			Common.tellNoPrefix(click.player,
+					"&8&m-----------------------------------------------------",
+					"",
+					ChatUtil.centerMessage("&E&lKiran Hart Patreon"),
+					ChatUtil.centerMessage("&bhttps://www.patreon.com/kiranhart"),
+					"&8&m-----------------------------------------------------"
+			);
+		});
 	}
 }
