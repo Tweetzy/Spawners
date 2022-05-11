@@ -61,17 +61,17 @@ public final class SpawnerPresetListGUI extends PagedGUI<Preset> {
 			}
 
 			@Override
-					public boolean onResult(String string) {
-						if (Spawners.getPresetManager().find(string) != null) {
-							Translation.PRESET_ID_TAKEN.send(click.player, "preset_id", string);
-							return false;
-						}
+			public boolean onResult(String string) {
+				if (Spawners.getPresetManager().find(string) != null) {
+					Translation.PRESET_ID_TAKEN.send(click.player, "preset_id", string);
+					return false;
+				}
 
-						Spawners.getPresetManager().add(new SpawnerPreset(string, new PlacedSpawner()));
-						click.manager.showGUI(click.player, new SpawnerPresetListGUI());
-						return true;
-					}
-				});
+				Spawners.getPresetManager().add(new SpawnerPreset(string, new PlacedSpawner()));
+				click.manager.showGUI(click.player, new SpawnerPresetListGUI());
+				return true;
+			}
+		});
 	}
 
 	@Override
