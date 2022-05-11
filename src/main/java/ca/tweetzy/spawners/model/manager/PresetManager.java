@@ -2,10 +2,7 @@ package ca.tweetzy.spawners.model.manager;
 
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.spawner.Preset;
-import ca.tweetzy.spawners.api.spawner.SpawnerUser;
-import ca.tweetzy.spawners.impl.SpawnerPlayer;
 import lombok.NonNull;
-import org.bukkit.entity.Player;
 
 import java.util.function.BiConsumer;
 

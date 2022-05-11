@@ -1,25 +1,30 @@
 package ca.tweetzy.spawners.listeners;
 
 import ca.tweetzy.rose.comp.enums.CompMaterial;
-import ca.tweetzy.rose.utils.Common;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.spawner.Spawner;
 import ca.tweetzy.spawners.api.spawner.SpawnerUser;
 import ca.tweetzy.spawners.settings.Settings;
 import ca.tweetzy.spawners.settings.Translation;
 import org.apache.commons.lang.StringUtils;
+import org.bukkit.Location;
+import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.CreatureSpawner;
+import org.bukkit.entity.Egg;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.SpawnEggMeta;
+import org.bukkit.persistence.PersistentDataType;
 
 /**
  * Date Created: May 10 2022
@@ -28,6 +33,50 @@ import org.bukkit.inventory.meta.SpawnEggMeta;
  * @author Kiran Hart
  */
 public final class EggListeners implements Listener {
+
+	@EventHandler
+	public void onEggThrow(final PlayerInteractEvent event) {
+		if (event.getAction() != Action.LEFT_CLICK_AIR) return;
+		if (event.getHand() == EquipmentSlot.OFF_HAND) return;
+
+		final Player player = event.getPlayer();
+		final ItemStack hand = event.getItem();
+
+		if (hand == null) return;
+		if (!hand.getType().name().endsWith("_SPAWN_EGG")) return;
+
+		final EntityType entityType = EntityType.valueOf(hand.getType().name().replace("_SPAWN_EGG", ""));
+		final Location loc = player.getEyeLocation().toVector().add(player.getLocation().getDirection().multiply(1.35)).toLocation(player.getWorld(), player.getLocation().getYaw(), player.getLocation().getPitch());
+
+		final Egg egg = player.getWorld().spawn(loc, Egg.class);
+
+		egg.getPersistentDataContainer().set(new NamespacedKey(Spawners.getInstance(), "SpawnersThrownEgg"), PersistentDataType.STRING, entityType.name());
+		egg.setShooter(player);
+		egg.setVelocity(player.getEyeLocation().getDirection().multiply(1.35));
+	}
+
+	@EventHandler
+	public void onSpawnEggLand(final ProjectileHitEvent event) {
+		final Projectile projectile = event.getEntity();
+		final NamespacedKey key = new NamespacedKey(Spawners.getInstance(), "SpawnersThrownEgg");
+
+		if (!projectile.getPersistentDataContainer().has(key, PersistentDataType.STRING)) return;
+
+		final EntityType entityType = EntityType.valueOf(projectile.getPersistentDataContainer().get(key, PersistentDataType.STRING));
+
+		Location hitLocation = null;
+		if (event.getHitEntity() != null)
+			hitLocation = event.getHitEntity().getLocation();
+
+		if (event.getHitBlock() != null)
+			hitLocation = event.getHitBlock().getLocation();
+
+		if (hitLocation == null) return;
+		if (hitLocation.getWorld() == null) return; // not sure this would ever happen, but added coz intellij is yelling at me
+
+		hitLocation.add(0, 1, 0);
+		hitLocation.getWorld().spawnEntity(hitLocation, entityType);
+	}
 
 	@EventHandler(priority = EventPriority.LOW)
 	public void onSpawnerClickWithEgg(final PlayerInteractEvent event) {
