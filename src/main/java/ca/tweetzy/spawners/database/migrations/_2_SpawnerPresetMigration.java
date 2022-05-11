@@ -23,7 +23,9 @@ public final class _2_SpawnerPresetMigration extends DataMigration {
 		try (Statement statement = connection.createStatement()) {
 			statement.execute("CREATE TABLE " + tablePrefix + "spawner_preset (" +
 					"id VARCHAR(48) PRIMARY KEY, " +
-					"spawner TEXT NOT NULL " +
+					"entity_type VARCHAR(60) NOT NULL, " +
+					"level INTEGER NOT NULL, " +
+					"options TEXT NOT NULL " +
 					")");
 		}
 	}

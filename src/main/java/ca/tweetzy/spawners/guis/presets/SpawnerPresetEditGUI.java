@@ -28,40 +28,40 @@ public final class SpawnerPresetEditGUI extends BaseGUI {
 	protected void draw() {
 		setButton(1, 1, QuickItem.of(CompMaterial.REPEATER)
 				.name(Translation.GUI_PRESET_EDIT_ITEMS_SPAWN_DELAY_NAME.getString())
-				.lore(Translation.GUI_PRESET_EDIT_ITEMS_SPAWN_DELAY_LORE.getList("level_spawn_interval", this.preset.getSpawner().getOptions().getSpawnInterval()))
+				.lore(Translation.GUI_PRESET_EDIT_ITEMS_SPAWN_DELAY_LORE.getList("level_spawn_interval", this.preset.getOptions().getSpawnInterval()))
 				.make(), click -> UserInput.askInteger(click.player, Translation.INPUT_PRESET_EDIT_TITLE.getString("preset_id", this.preset.getId()), Translation.INPUT_PRESET_EDIT_SPAWN_DELAY.getString(), value -> {
 
-			this.preset.getSpawner().getOptions().setSpawnInterval(value);
+			this.preset.getOptions().setSpawnInterval(value);
 			this.preset.sync();
 			click.manager.showGUI(click.player, new SpawnerPresetEditGUI(this.preset));
 		}));
 
 		setButton(1, 3, QuickItem.of(CompMaterial.REDSTONE_TORCH)
 				.name(Translation.GUI_PRESET_EDIT_ITEMS_SPAWN_COUNT_NAME.getString())
-				.lore(Translation.GUI_PRESET_EDIT_ITEMS_SPAWN_COUNT_LORE.getList("level_spawn_count", this.preset.getSpawner().getOptions().getSpawnCount()))
+				.lore(Translation.GUI_PRESET_EDIT_ITEMS_SPAWN_COUNT_LORE.getList("level_spawn_count", this.preset.getOptions().getSpawnCount()))
 				.make(), click -> UserInput.askInteger(click.player, Translation.INPUT_PRESET_EDIT_TITLE.getString("preset_id", this.preset.getId()), Translation.INPUT_PRESET_EDIT_SPAWN_COUNT.getString(), value -> {
 
-			this.preset.getSpawner().getOptions().setSpawnCount(value);
+			this.preset.getOptions().setSpawnCount(value);
 			this.preset.sync();
 			click.manager.showGUI(click.player, new SpawnerPresetEditGUI(this.preset));
 		}));
 
 		setButton(1, 5, QuickItem.of(CompMaterial.OBSERVER)
 				.name(Translation.GUI_PRESET_EDIT_ITEMS_NEARBY_ENTITIES_NAME.getString())
-				.lore(Translation.GUI_PRESET_EDIT_ITEMS_NEARBY_ENTITIES_LORE.getList("level_max_nearby_entities", this.preset.getSpawner().getOptions().getMaxNearbyEntities()))
+				.lore(Translation.GUI_PRESET_EDIT_ITEMS_NEARBY_ENTITIES_LORE.getList("level_max_nearby_entities", this.preset.getOptions().getMaxNearbyEntities()))
 				.make(), click -> UserInput.askInteger(click.player, Translation.INPUT_PRESET_EDIT_TITLE.getString("preset_id", this.preset.getId()), Translation.INPUT_PRESET_EDIT_MAX_NEARBY_ENTITIES.getString(), value -> {
 
-			this.preset.getSpawner().getOptions().setMaxNearbyEntities(value);
+			this.preset.getOptions().setMaxNearbyEntities(value);
 			this.preset.sync();
 			click.manager.showGUI(click.player, new SpawnerPresetEditGUI(this.preset));
 		}));
 
 		setButton(1, 7, QuickItem.of(CompMaterial.COMPASS)
 				.name(Translation.GUI_PRESET_EDIT_ITEMS_ACTIVATION_RANGE_NAME.getString())
-				.lore(Translation.GUI_PRESET_EDIT_ITEMS_ACTIVATION_RANGE_LORE.getList("level_player_activation_range", this.preset.getSpawner().getOptions().getPlayerActivationRange()))
+				.lore(Translation.GUI_PRESET_EDIT_ITEMS_ACTIVATION_RANGE_LORE.getList("level_player_activation_range", this.preset.getOptions().getPlayerActivationRange()))
 				.make(), click -> UserInput.askInteger(click.player, Translation.INPUT_PRESET_EDIT_TITLE.getString("preset_id", this.preset.getId()), Translation.INPUT_PRESET_EDIT_ACTIVATION_RANGE.getString(), value -> {
 
-			this.preset.getSpawner().getOptions().setPlayerActivationRange(value);
+			this.preset.getOptions().setPlayerActivationRange(value);
 			this.preset.sync();
 			click.manager.showGUI(click.player, new SpawnerPresetEditGUI(this.preset));
 		}));

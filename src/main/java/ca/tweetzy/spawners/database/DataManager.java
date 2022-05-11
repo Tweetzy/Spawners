@@ -239,7 +239,7 @@ public final class DataManager extends DataManagerAbstract {
 
 	public void insertSpawnerPreset(@NonNull final Preset preset, final Callback<Preset> callback) {
 		this.runAsync(() -> this.databaseConnector.connect(connection -> {
-			final String query = "INSERT INTO " + this.getTablePrefix() + "spawner_preset (id, spawner) VALUES (?, ?)";
+			final String query = "INSERT INTO " + this.getTablePrefix() + "spawner_preset (id, entity_type, level, options) VALUES (?, ?, ?, ?)";
 			final String fetchQuery = "SELECT * FROM " + this.getTablePrefix() + "spawner_preset WHERE id = ?";
 
 			try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -248,7 +248,9 @@ public final class DataManager extends DataManagerAbstract {
 				fetch.setString(1, preset.getId().toLowerCase());
 
 				preparedStatement.setString(1, preset.getId().toLowerCase());
-				preparedStatement.setString(2, preset.getSpawner().getJsonString());
+				preparedStatement.setString(2, preset.getEntityType().name());
+				preparedStatement.setInt(3, preset.getLevel());
+				preparedStatement.setString(4, preset.getOptions().getJsonString());
 
 				preparedStatement.executeUpdate();
 
@@ -272,7 +274,8 @@ public final class DataManager extends DataManagerAbstract {
 			try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM " + this.getTablePrefix() + "spawner_preset")) {
 				final ResultSet resultSet = statement.executeQuery();
 				while (resultSet.next()) {
-					presets.add(extractSpawnerPreset(resultSet));
+					final Preset preset = extractSpawnerPreset(resultSet);
+					presets.add(preset);
 				}
 
 				callback.accept(null, presets);
@@ -284,10 +287,12 @@ public final class DataManager extends DataManagerAbstract {
 
 	public void updateSpawnerPreset(@NonNull final Preset preset, Callback<Boolean> callback) {
 		this.runAsync(() -> this.databaseConnector.connect(connection -> {
-			try (PreparedStatement statement = connection.prepareStatement("UPDATE " + this.getTablePrefix() + "spawner_preset SET spawner = ? WHERE id = ?")) {
+			try (PreparedStatement statement = connection.prepareStatement("UPDATE " + this.getTablePrefix() + "spawner_preset SET entity_type = ?, level = ?, options = ? WHERE id = ?")) {
 
-				statement.setString(1, preset.getSpawner().getJsonString());
-				statement.setString(2, preset.getId().toLowerCase());
+				statement.setString(1, preset.getEntityType().name());
+				statement.setInt(2, preset.getLevel());
+				statement.setString(3, preset.getOptions().getJsonString());
+				statement.setString(4, preset.getId().toLowerCase());
 
 				int result = statement.executeUpdate();
 
@@ -403,7 +408,9 @@ public final class DataManager extends DataManagerAbstract {
 	private Preset extractSpawnerPreset(final ResultSet resultSet) throws SQLException {
 		return new SpawnerPreset(
 				resultSet.getString("id"),
-				PlacedSpawner.decodeJson(resultSet.getString("spawner"))
+				EntityType.valueOf(resultSet.getString("entity_type").toUpperCase()),
+				SpawnerOptions.decodeJson(resultSet.getString("options")),
+				resultSet.getInt("level")
 		);
 	}
 

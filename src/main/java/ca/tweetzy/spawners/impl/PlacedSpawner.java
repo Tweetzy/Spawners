@@ -10,6 +10,7 @@ import ca.tweetzy.spawners.settings.Translation;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import lombok.AllArgsConstructor;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 
@@ -33,7 +34,7 @@ public final class PlacedSpawner implements Spawner {
 	private Location location;
 
 	public PlacedSpawner() {
-		this(UUID.randomUUID(), SpawnerDefault.NULL_UUID, Translation.SPAWNER_NO_OWNER.getString(), EntityType.valueOf(Settings.DEFAULT_SPAWNER_ENTITY.getString()), -1, new SpawnerOptions(), null);
+		this(UUID.randomUUID(), SpawnerDefault.NULL_UUID, Translation.SPAWNER_NO_OWNER.getString(), EntityType.valueOf(Settings.DEFAULT_SPAWNER_ENTITY.getString()), -1, new SpawnerOptions(), new Location(Bukkit.getWorlds().get(0), 0, 0, 0));
 	}
 
 	@Override
@@ -106,16 +107,13 @@ public final class PlacedSpawner implements Spawner {
 		object.addProperty("entityType", this.entityType.name());
 		object.addProperty("level", this.level);
 		object.add("options", JsonParser.parseString(this.options.getJsonString()));
-
-		if (this.location != null)
-			object.addProperty("location", Serialize.serializeLocation(this.location));
+		object.addProperty("location", Serialize.serializeLocation(this.location));
 
 		return object.toString();
 	}
 
 	public static Spawner decodeJson(String json) {
 		final JsonObject object = JsonParser.parseString(json).getAsJsonObject();
-
 
 		return new PlacedSpawner(
 				UUID.fromString(object.get("uuid").getAsString()),
@@ -124,7 +122,7 @@ public final class PlacedSpawner implements Spawner {
 				EntityType.valueOf(object.get("entityType").getAsString().toUpperCase()),
 				object.get("level").getAsInt(),
 				SpawnerOptions.decodeJson(object.get("options").getAsString()),
-				object.has("location") ? Serialize.deserializeLocation(object.get("location").getAsString()) : null
+				Serialize.deserializeLocation(object.get("location").getAsString())
 		);
 	}
 }

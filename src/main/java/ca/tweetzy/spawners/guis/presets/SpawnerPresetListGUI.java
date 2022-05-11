@@ -11,9 +11,11 @@ import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.spawner.Preset;
 import ca.tweetzy.spawners.guis.SpawnersAdminGUI;
 import ca.tweetzy.spawners.impl.PlacedSpawner;
+import ca.tweetzy.spawners.impl.SpawnerOptions;
 import ca.tweetzy.spawners.impl.SpawnerPreset;
 import ca.tweetzy.spawners.settings.Translation;
 import org.apache.commons.lang.StringUtils;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -38,13 +40,14 @@ public final class SpawnerPresetListGUI extends PagedGUI<Preset> {
 				.of(CompMaterial.CREEPER_BANNER_PATTERN)
 				.name(Translation.GUI_SPAWNER_PRESET_LIST_PRESET_NAME.getString("preset_id", preset.getId()))
 				.lore(Translation.GUI_SPAWNER_PRESET_LIST_PRESET_LORE.getList(
-						"entity_type", StringUtils.capitalize(preset.getSpawner().getEntityType().name().toLowerCase().replace("_", " ")),
-						"spawner_spawn_delay", preset.getSpawner().getOptions().getSpawnInterval(),
-						"spawner_spawn_count", preset.getSpawner().getOptions().getSpawnCount(),
-						"spawner_max_nearby_entities", preset.getSpawner().getOptions().getMaxNearbyEntities(),
-						"spawner_player_activation_range", preset.getSpawner().getOptions().getPlayerActivationRange(),
-						"spawner_level", preset.getSpawner().getLevel()
+						"entity_type", StringUtils.capitalize(preset.getEntityType().name().toLowerCase().replace("_", " ")),
+						"spawner_spawn_delay", preset.getOptions().getSpawnInterval(),
+						"spawner_spawn_count", preset.getOptions().getSpawnCount(),
+						"spawner_max_nearby_entities", preset.getOptions().getMaxNearbyEntities(),
+						"spawner_player_activation_range", preset.getOptions().getPlayerActivationRange(),
+						"spawner_level", preset.getLevel()
 				))
+				.hideTags(true)
 				.make();
 	}
 
@@ -67,7 +70,7 @@ public final class SpawnerPresetListGUI extends PagedGUI<Preset> {
 					return false;
 				}
 
-				Spawners.getPresetManager().add(new SpawnerPreset(string, new PlacedSpawner()));
+				Spawners.getPresetManager().createPreset(new SpawnerPreset(string, EntityType.COW, new SpawnerOptions(), -1), null);
 				click.manager.showGUI(click.player, new SpawnerPresetListGUI());
 				return true;
 			}
