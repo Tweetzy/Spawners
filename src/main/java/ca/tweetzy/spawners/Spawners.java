@@ -18,6 +18,7 @@ import ca.tweetzy.spawners.database.migrations._1_InitialMigration;
 import ca.tweetzy.spawners.database.migrations._2_SpawnerPresetMigration;
 import ca.tweetzy.spawners.impl.APIImplementation;
 import ca.tweetzy.spawners.listeners.BlockListeners;
+import ca.tweetzy.spawners.listeners.EggListeners;
 import ca.tweetzy.spawners.listeners.JoinListeners;
 import ca.tweetzy.spawners.model.manager.*;
 import ca.tweetzy.spawners.settings.Locale;
@@ -92,6 +93,7 @@ public final class Spawners extends RosePlugin {
 
 		getServer().getPluginManager().registerEvents(new JoinListeners(), this);
 		getServer().getPluginManager().registerEvents(new BlockListeners(), this);
+		getServer().getPluginManager().registerEvents(new EggListeners(), this);
 	}
 
 	@Override
