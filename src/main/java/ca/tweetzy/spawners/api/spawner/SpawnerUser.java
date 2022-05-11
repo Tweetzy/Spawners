@@ -25,4 +25,6 @@ public interface SpawnerUser {
 	boolean isAllowedToMineEntity(Player player, EntityType entityType);
 
 	boolean isAllowedToChangeWithEgg(Player player, EntityType entityType);
+
+	boolean isAllowedToThrowSpawnEgg(Player player, EntityType entityType);
 }

@@ -122,6 +122,8 @@ public enum Translation {
 	SPAWNER_CANNOT_BREAK_ENTITY("spawner.entity permission.break", "&cYou are not allowed to break &4%entity_type%&c spawners!"),
 	SPAWNER_CANNOT_CHANGE_WITH_EGG("spawner.entity permission.egg change", "&cYou cannot change spawners with &4%entity_type%&c eggs!"),
 
+	NOT_ALLOWED_TO_THROW_EGG("no egg throw permission", "&cYou are not allowed to throw &4%entity_type%&c eggs!"),
+
 	/*
 	============= spawner =============
 	 */

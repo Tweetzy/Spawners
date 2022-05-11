@@ -32,6 +32,7 @@ public final class Settings {
 
 	public static final ConfigSetting ALLOW_SPAWNER_CHANGE_WITH_EGG = new ConfigSetting(config, "eggs.allow spawner change", true, "If a player right clicks a spawner with a spawn egg, should it update the entity?", "Normal ownership rules will apply");
 	public static final ConfigSetting REMOVE_EGG_ON_SPAWNER_CHANGE = new ConfigSetting(config, "eggs.remove egg on spawner change", true, "Should the egg be used when they apply it to the spawner?");
+	public static final ConfigSetting ALLOW_SPAWN_EGG_THROW = new ConfigSetting(config, "eggs.allow spawn egg throw", true, "Should players be able to throw spawn eggs?");
 
 
 	public static final ConfigSetting ASSIGN_OWNER_TO_NATURAL = new ConfigSetting(config, "assign owner to natural", true, "When a natural spawner is broken, should the miner become the owner?");

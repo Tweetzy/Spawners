@@ -60,4 +60,9 @@ public final class SpawnerPlayer implements SpawnerUser {
 	public boolean isAllowedToChangeWithEgg(Player player, EntityType entityType) {
 		return player.hasPermission("spawners.eggchange." + entityType.name().toLowerCase().replace("_", "")) || player.isOp();
 	}
+
+	@Override
+	public boolean isAllowedToThrowSpawnEgg(Player player, EntityType entityType) {
+		return player.hasPermission("spawners.throwegg." + entityType.name().toLowerCase().replace("_", "")) || player.isOp();
+	}
 }

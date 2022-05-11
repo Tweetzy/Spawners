@@ -36,16 +36,26 @@ public final class EggListeners implements Listener {
 
 	@EventHandler
 	public void onEggThrow(final PlayerInteractEvent event) {
+		if (!Settings.ALLOW_SPAWN_EGG_THROW.getBoolean()) return;
+
 		if (event.getAction() != Action.LEFT_CLICK_AIR) return;
 		if (event.getHand() == EquipmentSlot.OFF_HAND) return;
 
 		final Player player = event.getPlayer();
+		final SpawnerUser spawnerUser = Spawners.getPlayerManager().findUser(player);
 		final ItemStack hand = event.getItem();
 
+		if (spawnerUser == null) return;
 		if (hand == null) return;
 		if (!hand.getType().name().endsWith("_SPAWN_EGG")) return;
 
 		final EntityType entityType = EntityType.valueOf(hand.getType().name().replace("_SPAWN_EGG", ""));
+
+		if (!spawnerUser.isAllowedToThrowSpawnEgg(player, entityType)) {
+			Translation.NOT_ALLOWED_TO_THROW_EGG.send(player, "entity_type", StringUtils.capitalize(entityType.name().toLowerCase().replace("_", " ")));
+			return;
+		}
+
 		final Location loc = player.getEyeLocation().toVector().add(player.getLocation().getDirection().multiply(1.35)).toLocation(player.getWorld(), player.getLocation().getYaw(), player.getLocation().getPitch());
 
 		final Egg egg = player.getWorld().spawn(loc, Egg.class);
