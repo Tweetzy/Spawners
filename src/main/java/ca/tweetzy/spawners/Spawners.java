@@ -96,6 +96,7 @@ public final class Spawners extends RosePlugin {
 		getServer().getPluginManager().registerEvents(new BlockListeners(), this);
 		getServer().getPluginManager().registerEvents(new SpawnerListeners(), this);
 		getServer().getPluginManager().registerEvents(new EggListeners(), this);
+
 	}
 
 	@Override

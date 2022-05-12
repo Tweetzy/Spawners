@@ -99,7 +99,10 @@ public final class BlockListeners implements Listener {
 		creatureSpawner.setSpawnedType(entityType);
 
 		// apply options
-		creatureSpawner.setDelay(level != null ? Math.max(level.getSpawnInterval(), options.getSpawnInterval()) : options.getSpawnInterval());
+		creatureSpawner.setDelay(level != null ? Math.min(level.getSpawnInterval(), options.getSpawnInterval()) : options.getSpawnInterval());
+		creatureSpawner.setMinSpawnDelay(level != null ? Math.min(level.getSpawnInterval(), options.getSpawnInterval()) : options.getSpawnInterval());
+
+		creatureSpawner.setMaxSpawnDelay(level != null ? Math.min(level.getSpawnInterval(), options.getSpawnInterval()) : options.getSpawnInterval());
 		creatureSpawner.setSpawnCount(level != null ? Math.max(level.getSpawnCount(), options.getSpawnCount()) : options.getSpawnCount());
 		creatureSpawner.setMaxNearbyEntities(level != null ? Math.max(level.getMaxNearbyEntities(), options.getMaxNearbyEntities()) : options.getMaxNearbyEntities());
 		creatureSpawner.setRequiredPlayerRange(level != null ? Math.max(level.getPlayerActivationRange(), options.getPlayerActivationRange()) : options.getPlayerActivationRange());

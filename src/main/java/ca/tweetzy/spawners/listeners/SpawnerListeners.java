@@ -1,5 +1,6 @@
 package ca.tweetzy.spawners.listeners;
 
+import ca.tweetzy.spawners.Spawners;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.SpawnerSpawnEvent;
@@ -14,6 +15,6 @@ public final class SpawnerListeners implements Listener {
 
 	@EventHandler
 	public void onSpawnerSpawn(SpawnerSpawnEvent event) {
-//		event.getSpawner().
+
 	}
 }
