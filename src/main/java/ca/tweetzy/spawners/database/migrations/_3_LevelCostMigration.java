@@ -15,13 +15,13 @@ import java.sql.Statement;
 public final class _3_LevelCostMigration extends DataMigration {
 
 	public _3_LevelCostMigration() {
-		super(2);
+		super(3);
 	}
 
 	@Override
 	public void migrate(Connection connection, String tablePrefix) throws SQLException {
 		try (Statement statement = connection.createStatement()) {
-			statement.execute("ALTER TABLE " + tablePrefix + "spawner_preset ADD cost DOUBLE");
+			statement.execute("ALTER TABLE " + tablePrefix + "level ADD cost DOUBLE");
 
 		}
 	}
