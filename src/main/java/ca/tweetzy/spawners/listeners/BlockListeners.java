@@ -2,16 +2,10 @@ package ca.tweetzy.spawners.listeners;
 
 import ca.tweetzy.rose.comp.NBTEditor;
 import ca.tweetzy.rose.comp.enums.CompMaterial;
-import ca.tweetzy.rose.utils.Common;
 import ca.tweetzy.spawners.Spawners;
-import ca.tweetzy.spawners.api.spawner.Level;
-import ca.tweetzy.spawners.api.spawner.Options;
 import ca.tweetzy.spawners.api.spawner.Spawner;
 import ca.tweetzy.spawners.api.spawner.SpawnerUser;
-import ca.tweetzy.spawners.impl.PlacedSpawner;
-import ca.tweetzy.spawners.impl.SpawnerOptions;
 import ca.tweetzy.spawners.model.SpawnerDefault;
-import ca.tweetzy.spawners.model.SpawnerItem;
 import ca.tweetzy.spawners.settings.Settings;
 import ca.tweetzy.spawners.settings.Translation;
 import com.jeff_media.morepersistentdatatypes.DataType;
@@ -88,32 +82,32 @@ public final class BlockListeners implements Listener {
 			placedBlock.setType(CompMaterial.SPAWNER.parseMaterial());
 		}
 
-		final Options options = SpawnerOptions.decodeJson(NBTEditor.getString(event.getItemInHand(), "Spawners:Spawner:Options"));
-		final Level level = Spawners.getLevelManager().find(Integer.parseInt(NBTEditor.getString(event.getItemInHand(), "Spawners:Spawner:Level")));
-
-		// insert spawner here and check place event
-		final Spawner spawner = new PlacedSpawner(UUID.randomUUID(), noOwner ? player.getUniqueId() : owner, noOwner ? Translation.SPAWNER_NO_OWNER.getString() : player.getName(), entityType, level != null ? level.getLevel() : -1, options, placedBlock.getLocation());
-		Spawners.getSpawnerManager().createSpawner(spawner, null);
-
-		final CreatureSpawner creatureSpawner = (CreatureSpawner) placedBlock.getState();
-		creatureSpawner.setSpawnedType(entityType);
-
-		// apply options
-		creatureSpawner.setDelay(level != null ? Math.min(level.getSpawnInterval(), options.getSpawnInterval()) : options.getSpawnInterval());
-		creatureSpawner.setMinSpawnDelay(level != null ? Math.min(level.getSpawnInterval(), options.getSpawnInterval()) : options.getSpawnInterval());
-
-		creatureSpawner.setMaxSpawnDelay(level != null ? Math.min(level.getSpawnInterval(), options.getSpawnInterval()) : options.getSpawnInterval());
-		creatureSpawner.setSpawnCount(level != null ? Math.max(level.getSpawnCount(), options.getSpawnCount()) : options.getSpawnCount());
-		creatureSpawner.setMaxNearbyEntities(level != null ? Math.max(level.getMaxNearbyEntities(), options.getMaxNearbyEntities()) : options.getMaxNearbyEntities());
-		creatureSpawner.setRequiredPlayerRange(level != null ? Math.max(level.getPlayerActivationRange(), options.getPlayerActivationRange()) : options.getPlayerActivationRange());
+//		final Options options = SpawnerOptions.decodeJson(NBTEditor.getString(event.getItemInHand(), "Spawners:Spawner:Options"));
+//		final Level level = Spawners.getLevelManager().find(Integer.parseInt(NBTEditor.getString(event.getItemInHand(), "Spawners:Spawner:Level")));
+//
+//		// insert spawner here and check place event
+//		final Spawner spawner = new PlacedSpawner(UUID.randomUUID(), noOwner ? player.getUniqueId() : owner, noOwner ? Translation.SPAWNER_NO_OWNER.getString() : player.getName(), entityType, level != null ? level.getLevel() : -1, options, placedBlock.getLocation());
+//		Spawners.getSpawnerManager().createSpawner(spawner, null);
+//
+//		final CreatureSpawner creatureSpawner = (CreatureSpawner) placedBlock.getState();
+//		creatureSpawner.setSpawnedType(entityType);
+//
+//		// apply options
+//		creatureSpawner.setDelay(level != null ? Math.min(level.getSpawnInterval(), options.getSpawnInterval()) : options.getSpawnInterval());
+//		creatureSpawner.setMinSpawnDelay(level != null ? Math.min(level.getSpawnInterval(), options.getSpawnInterval()) : options.getSpawnInterval());
+//
+//		creatureSpawner.setMaxSpawnDelay(level != null ? Math.min(level.getSpawnInterval(), options.getSpawnInterval()) : options.getSpawnInterval());
+//		creatureSpawner.setSpawnCount(level != null ? Math.max(level.getSpawnCount(), options.getSpawnCount()) : options.getSpawnCount());
+//		creatureSpawner.setMaxNearbyEntities(level != null ? Math.max(level.getMaxNearbyEntities(), options.getMaxNearbyEntities()) : options.getMaxNearbyEntities());
+//		creatureSpawner.setRequiredPlayerRange(level != null ? Math.max(level.getPlayerActivationRange(), options.getPlayerActivationRange()) : options.getPlayerActivationRange());
 
 		// apply persistent container stuff
-		final NamespacedKey namespacedKey = new NamespacedKey(Spawners.getInstance(), "SpawnersOwner");
-		creatureSpawner.getPersistentDataContainer().set(namespacedKey, DataType.UUID, noOwner ? player.getUniqueId() : owner);
-		creatureSpawner.getPersistentDataContainer().set(namespacedKey, DataType.STRING, noOwner ? player.getName() : ownerName);
-
-		// update
-		creatureSpawner.update(true);
+//		final NamespacedKey namespacedKey = new NamespacedKey(Spawners.getInstance(), "SpawnersOwner");
+//		creatureSpawner.getPersistentDataContainer().set(namespacedKey, DataType.UUID, noOwner ? player.getUniqueId() : owner);
+//		creatureSpawner.getPersistentDataContainer().set(namespacedKey, DataType.STRING, noOwner ? player.getName() : ownerName);
+//
+//		// update
+//		creatureSpawner.update(true);
 	}
 
 	@EventHandler(priority = EventPriority.LOW)
@@ -157,8 +151,8 @@ public final class BlockListeners implements Listener {
 			Spawners.getSpawnerManager().deleteSpawner(spawner, success -> {
 				// drop spawner
 				if (breakChanceSucceeded(player)) {
-					ItemStack built = SpawnerItem.make(spawner.getOwner(), ownerName, spawner.getEntityType(), spawner.getLevel(), spawner.getOptions());
-					Common.runLater(() -> block.getWorld().dropItemNaturally(block.getLocation(), built));
+//					ItemStack built = SpawnerItem.make(spawner.getOwner(), ownerName, spawner.getEntityType(), spawner.getLevel(), spawner.getOptions());
+//					Common.runLater(() -> block.getWorld().dropItemNaturally(block.getLocation(), built));
 				}
 			});
 
@@ -180,18 +174,18 @@ public final class BlockListeners implements Listener {
 		if (breakChanceSucceeded(player)) {
 			Spawners.getSpawnerManager().applySpawnerDefaults(creatureSpawner, true);
 
-			block.getWorld().dropItemNaturally(block.getLocation(), SpawnerItem.make(
-					Settings.ASSIGN_OWNER_TO_NATURAL.getBoolean() ? player.getUniqueId() : SpawnerDefault.NULL_UUID,
-					Settings.ASSIGN_OWNER_TO_NATURAL.getBoolean() ? player.getName() : Translation.SPAWNER_NO_OWNER.getString(),
-					creatureSpawner.getSpawnedType(),
-					-1,
-					new SpawnerOptions(
-							creatureSpawner.getDelay(),
-							creatureSpawner.getSpawnCount(),
-							creatureSpawner.getMaxNearbyEntities(),
-							creatureSpawner.getRequiredPlayerRange()
-					)
-			));
+//			block.getWorld().dropItemNaturally(block.getLocation(), SpawnerItem.make(
+//					Settings.ASSIGN_OWNER_TO_NATURAL.getBoolean() ? player.getUniqueId() : SpawnerDefault.NULL_UUID,
+//					Settings.ASSIGN_OWNER_TO_NATURAL.getBoolean() ? player.getName() : Translation.SPAWNER_NO_OWNER.getString(),
+//					creatureSpawner.getSpawnedType(),
+//					-1,
+//					new SpawnerOptions(
+//							creatureSpawner.getDelay(),
+//							creatureSpawner.getSpawnCount(),
+//							creatureSpawner.getMaxNearbyEntities(),
+//							creatureSpawner.getRequiredPlayerRange()
+//					)
+//			));
 		}
 	}
 
@@ -217,35 +211,35 @@ public final class BlockListeners implements Listener {
 			final CreatureSpawner creatureSpawner = (CreatureSpawner) explodedBlock.getState();
 			final String ownerName = creatureSpawner.getPersistentDataContainer().get(namespacedKey, DataType.STRING);
 
-			ItemStack spawnerStack;
-			if (spawner != null) {
-				// is a player spawner
-				spawnerStack = SpawnerItem.make(
-						Settings.EXPLOSION_RESETS_OWNER.getBoolean() ? SpawnerDefault.NULL_UUID : spawner.getOwner(),
-						Settings.EXPLOSION_RESETS_OWNER.getBoolean() ? Translation.SPAWNER_NO_OWNER.getString() : ownerName,
-						spawner.getEntityType(),
-						spawner.getLevel(),
-						spawner.getOptions()
-				);
+//			ItemStack spawnerStack;
+//			if (spawner != null) {
+//				// is a player spawner
+//				spawnerStack = SpawnerItem.make(
+//						Settings.EXPLOSION_RESETS_OWNER.getBoolean() ? SpawnerDefault.NULL_UUID : spawner.getOwner(),
+//						Settings.EXPLOSION_RESETS_OWNER.getBoolean() ? Translation.SPAWNER_NO_OWNER.getString() : ownerName,
+//						spawner.getEntityType(),
+//						spawner.getLevel(),
+//						spawner.getOptions()
+//				);
+//
+//				Spawners.getSpawnerManager().deleteSpawner(spawner, null);
+//			} else {
+//				// natural
+//				spawnerStack = SpawnerItem.make(
+//						SpawnerDefault.NULL_UUID,
+//						Translation.SPAWNER_NO_OWNER.getString(),
+//						creatureSpawner.getSpawnedType(),
+//						-1,
+//						new SpawnerOptions(
+//								creatureSpawner.getDelay(),
+//								creatureSpawner.getSpawnCount(),
+//								creatureSpawner.getMaxNearbyEntities(),
+//								creatureSpawner.getRequiredPlayerRange()
+//						)
+//				);
+//			}
 
-				Spawners.getSpawnerManager().deleteSpawner(spawner, null);
-			} else {
-				// natural
-				spawnerStack = SpawnerItem.make(
-						SpawnerDefault.NULL_UUID,
-						Translation.SPAWNER_NO_OWNER.getString(),
-						creatureSpawner.getSpawnedType(),
-						-1,
-						new SpawnerOptions(
-								creatureSpawner.getDelay(),
-								creatureSpawner.getSpawnCount(),
-								creatureSpawner.getMaxNearbyEntities(),
-								creatureSpawner.getRequiredPlayerRange()
-						)
-				);
-			}
-
-			explodedBlock.getWorld().dropItemNaturally(explodedBlock.getLocation(), spawnerStack);
+//			explodedBlock.getWorld().dropItemNaturally(explodedBlock.getLocation(), spawnerStack);
 		}
 	}
 

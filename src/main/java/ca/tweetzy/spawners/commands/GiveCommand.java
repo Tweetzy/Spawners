@@ -5,9 +5,6 @@ import ca.tweetzy.rose.command.Command;
 import ca.tweetzy.rose.command.ReturnType;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.spawner.Preset;
-import ca.tweetzy.spawners.impl.SpawnerOptions;
-import ca.tweetzy.spawners.model.SpawnerItem;
-import ca.tweetzy.spawners.settings.Settings;
 import ca.tweetzy.spawners.settings.Translation;
 import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.Bukkit;
@@ -60,21 +57,16 @@ public final class GiveCommand extends Command {
 			presetFound = Spawners.getPresetManager().find(preset);
 		}
 
-		ItemStack spawnerItem = SpawnerItem.make(
-				target.getUniqueId(),
-				target.getName(),
-				presetFound != null ? presetFound.getEntityType() : entityType,
-				presetFound != null ? presetFound.getLevel() : -1,
-				new SpawnerOptions(
-						presetFound != null ? presetFound.getOptions().getSpawnInterval() : Settings.DEFAULT_SPAWNER_DELAY.getInt(),
-						presetFound != null ? presetFound.getOptions().getSpawnCount() : Settings.DEFAULT_SPAWNER_SPAWN_COUNT.getInt(),
-						presetFound != null ? presetFound.getOptions().getMaxNearbyEntities() : Settings.DEFAULT_SPAWNER_MAX_NEARBY_ENTITIES.getInt(),
-						presetFound != null ? presetFound.getOptions().getPlayerActivationRange() : Settings.DEFAULT_SPAWNER_ACTIVATION_RANGE.getInt()
-				)
-		);
-
-		for (int i = 0; i < amount; i++)
-			target.getInventory().addItem(spawnerItem);
+//		ItemStack spawnerItem = SpawnerItem.make(
+//				target.getUniqueId(),
+//				target.getName(),
+//				presetFound != null ? presetFound.getEntityType() : entityType,
+//				-1,
+//				null
+//		);
+//
+//		for (int i = 0; i < amount; i++)
+//			target.getInventory().addItem(spawnerItem);
 
 		return ReturnType.SUCCESS;
 	}

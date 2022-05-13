@@ -4,11 +4,15 @@ import ca.tweetzy.rose.database.Callback;
 import ca.tweetzy.rose.database.DataManagerAbstract;
 import ca.tweetzy.rose.database.DatabaseConnector;
 import ca.tweetzy.rose.database.UpdateCallback;
+import ca.tweetzy.spawners.api.LevelOption;
 import ca.tweetzy.spawners.api.spawner.Level;
 import ca.tweetzy.spawners.api.spawner.Preset;
 import ca.tweetzy.spawners.api.spawner.Spawner;
 import ca.tweetzy.spawners.api.spawner.SpawnerUser;
-import ca.tweetzy.spawners.impl.*;
+import ca.tweetzy.spawners.impl.PlacedSpawner;
+import ca.tweetzy.spawners.impl.SpawnerPlayer;
+import ca.tweetzy.spawners.impl.SpawnerPreset;
+import ca.tweetzy.spawners.model.LevelFactory;
 import ca.tweetzy.spawners.model.Serialize;
 import lombok.NonNull;
 import org.bukkit.entity.EntityType;
@@ -100,20 +104,19 @@ public final class DataManager extends DataManagerAbstract {
 	 */
 	public void insertLevel(@NonNull final Level level, final Callback<Level> callback) {
 		this.runAsync(() -> this.databaseConnector.connect(connection -> {
-			final String query = "INSERT INTO " + this.getTablePrefix() + "level (id, spawn_interval, spawn_count, max_nearby_entities, player_activation_range, cost) VALUES (?, ?, ?, ?, ?, ?)";
-			final String fetchQuery = "SELECT * FROM " + this.getTablePrefix() + "level WHERE id = ?";
+			final String query = "INSERT INTO " + this.getTablePrefix() + "level (type, number, value, cost) VALUES (?, ?, ?, ?)";
+			final String fetchQuery = "SELECT * FROM " + this.getTablePrefix() + "level WHERE type = ? AND number = ?";
 
 			try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 				final PreparedStatement fetch = connection.prepareStatement(fetchQuery);
 
-				fetch.setInt(1, level.getLevel());
+				fetch.setString(1, level.getLevelOption().name());
+				fetch.setInt(2, level.getLevelNumber());
 
-				preparedStatement.setInt(1, level.getLevel());
-				preparedStatement.setInt(2, level.getSpawnInterval());
-				preparedStatement.setInt(3, level.getSpawnCount());
-				preparedStatement.setInt(4, level.getMaxNearbyEntities());
-				preparedStatement.setInt(5, level.getPlayerActivationRange());
-				preparedStatement.setDouble(6, level.getCost());
+				preparedStatement.setString(1, level.getLevelOption().name());
+				preparedStatement.setInt(2, level.getLevelNumber());
+				preparedStatement.setInt(3, level.getValue());
+				preparedStatement.setDouble(4, level.getCost());
 
 				preparedStatement.executeUpdate();
 
@@ -138,7 +141,7 @@ public final class DataManager extends DataManagerAbstract {
 	 */
 	public void insertSpawner(@NonNull final Spawner spawner, final Callback<Spawner> callback) {
 		this.runAsync(() -> this.databaseConnector.connect(connection -> {
-			final String query = "INSERT INTO " + this.getTablePrefix() + "spawner (id, owner, owner_name, entity_type, level, options, location) VALUES (?, ?, ?, ?, ?, ?, ?)";
+			final String query = "INSERT INTO " + this.getTablePrefix() + "spawner (id, owner, owner_name, entity_type, levels, location) VALUES (?, ?, ?, ?, ?, ?)";
 			final String fetchQuery = "SELECT * FROM " + this.getTablePrefix() + "spawner WHERE id = ?";
 
 			try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -150,9 +153,8 @@ public final class DataManager extends DataManagerAbstract {
 				preparedStatement.setString(2, spawner.getOwner().toString());
 				preparedStatement.setString(3, spawner.getOwnerName());
 				preparedStatement.setString(4, spawner.getEntityType().name());
-				preparedStatement.setInt(5, spawner.getLevel());
-				preparedStatement.setString(6, spawner.getOptions().getJsonString());
-				preparedStatement.setString(7, Serialize.serializeLocation(spawner.getLocation()));
+				preparedStatement.setString(5, spawner.getJsonString());
+				preparedStatement.setString(6, Serialize.serializeLocation(spawner.getLocation()));
 
 				preparedStatement.executeUpdate();
 
@@ -198,14 +200,13 @@ public final class DataManager extends DataManagerAbstract {
 	 */
 	public void updateSpawner(@NonNull final Spawner spawner, Callback<Boolean> callback) {
 		this.runAsync(() -> this.databaseConnector.connect(connection -> {
-			try (PreparedStatement statement = connection.prepareStatement("UPDATE " + this.getTablePrefix() + "spawner SET owner = ?, owner_name = ?, entity_type = ?, level = ?, options = ? WHERE id = ?")) {
+			try (PreparedStatement statement = connection.prepareStatement("UPDATE " + this.getTablePrefix() + "spawner SET owner = ?, owner_name = ?, entity_type = ?, levels = ? WHERE id = ?")) {
 
 				statement.setString(1, spawner.getOwner().toString());
 				statement.setString(2, spawner.getOwnerName());
 				statement.setString(3, spawner.getEntityType().name());
-				statement.setInt(4, spawner.getLevel());
-				statement.setString(5, spawner.getOptions().getJsonString());
-				statement.setString(6, spawner.getID().toString());
+				statement.setString(4, spawner.getJsonString());
+				statement.setString(5, spawner.getID().toString());
 
 				int result = statement.executeUpdate();
 
@@ -238,36 +239,36 @@ public final class DataManager extends DataManagerAbstract {
 		}));
 	}
 
-	public void insertSpawnerPreset(@NonNull final Preset preset, final Callback<Preset> callback) {
-		this.runAsync(() -> this.databaseConnector.connect(connection -> {
-			final String query = "INSERT INTO " + this.getTablePrefix() + "spawner_preset (id, entity_type, level, options) VALUES (?, ?, ?, ?)";
-			final String fetchQuery = "SELECT * FROM " + this.getTablePrefix() + "spawner_preset WHERE id = ?";
-
-			try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-				final PreparedStatement fetch = connection.prepareStatement(fetchQuery);
-
-				fetch.setString(1, preset.getId().toLowerCase());
-
-				preparedStatement.setString(1, preset.getId().toLowerCase());
-				preparedStatement.setString(2, preset.getEntityType().name());
-				preparedStatement.setInt(3, preset.getLevel());
-				preparedStatement.setString(4, preset.getOptions().getJsonString());
-
-				preparedStatement.executeUpdate();
-
-				if (callback != null) {
-					final ResultSet res = fetch.executeQuery();
-					res.next();
-					callback.accept(null, extractSpawnerPreset(res));
-				}
-
-			} catch (Exception e) {
-				e.printStackTrace();
-				resolveCallback(callback, e);
-			}
-
-		}));
-	}
+//	public void insertSpawnerPreset(@NonNull final Preset preset, final Callback<Preset> callback) {
+//		this.runAsync(() -> this.databaseConnector.connect(connection -> {
+//			final String query = "INSERT INTO " + this.getTablePrefix() + "spawner_preset (id, entity_type, level, options) VALUES (?, ?, ?, ?)";
+//			final String fetchQuery = "SELECT * FROM " + this.getTablePrefix() + "spawner_preset WHERE id = ?";
+//
+//			try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+//				final PreparedStatement fetch = connection.prepareStatement(fetchQuery);
+//
+//				fetch.setString(1, preset.getId().toLowerCase());
+//
+//				preparedStatement.setString(1, preset.getId().toLowerCase());
+//				preparedStatement.setString(2, preset.getEntityType().name());
+//				preparedStatement.setInt(3, preset.getLevel());
+//				preparedStatement.setString(4, preset.getOptions().getJsonString());
+//
+//				preparedStatement.executeUpdate();
+//
+//				if (callback != null) {
+//					final ResultSet res = fetch.executeQuery();
+//					res.next();
+//					callback.accept(null, extractSpawnerPreset(res));
+//				}
+//
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//				resolveCallback(callback, e);
+//			}
+//
+//		}));
+//	}
 
 	public void getSpawnerPresets(@NonNull final Callback<List<Preset>> callback) {
 		final List<Preset> presets = new ArrayList<>();
@@ -286,25 +287,25 @@ public final class DataManager extends DataManagerAbstract {
 		}));
 	}
 
-	public void updateSpawnerPreset(@NonNull final Preset preset, Callback<Boolean> callback) {
-		this.runAsync(() -> this.databaseConnector.connect(connection -> {
-			try (PreparedStatement statement = connection.prepareStatement("UPDATE " + this.getTablePrefix() + "spawner_preset SET entity_type = ?, level = ?, options = ? WHERE id = ?")) {
-
-				statement.setString(1, preset.getEntityType().name());
-				statement.setInt(2, preset.getLevel());
-				statement.setString(3, preset.getOptions().getJsonString());
-				statement.setString(4, preset.getId().toLowerCase());
-
-				int result = statement.executeUpdate();
-
-				if (callback != null)
-					callback.accept(null, result > 0);
-
-			} catch (Exception e) {
-				resolveCallback(callback, e);
-			}
-		}));
-	}
+//	public void updateSpawnerPreset(@NonNull final Preset preset, Callback<Boolean> callback) {
+//		this.runAsync(() -> this.databaseConnector.connect(connection -> {
+//			try (PreparedStatement statement = connection.prepareStatement("UPDATE " + this.getTablePrefix() + "spawner_preset SET entity_type = ?, level = ?, options = ? WHERE id = ?")) {
+//
+//				statement.setString(1, preset.getEntityType().name());
+//				statement.setInt(2, preset.getLevel());
+//				statement.setString(3, preset.getOptions().getJsonString());
+//				statement.setString(4, preset.getId().toLowerCase());
+//
+//				int result = statement.executeUpdate();
+//
+//				if (callback != null)
+//					callback.accept(null, result > 0);
+//
+//			} catch (Exception e) {
+//				resolveCallback(callback, e);
+//			}
+//		}));
+//	}
 
 	public void deleteSpawnerPreset(@NonNull final String id, Callback<Boolean> callback) {
 		this.runAsync(() -> this.databaseConnector.connect(connection -> {
@@ -349,14 +350,12 @@ public final class DataManager extends DataManagerAbstract {
 	 */
 	public void updateLevel(@NonNull final Level level, Callback<Boolean> callback) {
 		this.runAsync(() -> this.databaseConnector.connect(connection -> {
-			try (PreparedStatement statement = connection.prepareStatement("UPDATE " + this.getTablePrefix() + "level SET spawn_interval = ?, spawn_count = ?, max_nearby_entities = ?, player_activation_range = ?, cost = ? WHERE id = ?")) {
+			try (PreparedStatement statement = connection.prepareStatement("UPDATE " + this.getTablePrefix() + "level SET value = ?, cost = ? WHERE type = ? AND number = ?")) {
 
-				statement.setInt(1, level.getSpawnInterval());
-				statement.setInt(2, level.getSpawnCount());
-				statement.setInt(3, level.getMaxNearbyEntities());
-				statement.setInt(4, level.getPlayerActivationRange());
-				statement.setDouble(5, level.getCost());
-				statement.setInt(6, level.getLevel());
+				statement.setInt(1, level.getValue());
+				statement.setDouble(2, level.getCost());
+				statement.setString(3, level.getLevelOption().name());
+				statement.setInt(4, level.getLevelNumber());
 
 				int result = statement.executeUpdate();
 
@@ -389,12 +388,10 @@ public final class DataManager extends DataManagerAbstract {
 	 * @return A SpawnerLevel object.
 	 */
 	private Level extractLevel(final ResultSet resultSet) throws SQLException {
-		return new SpawnerLevel(
-				resultSet.getInt("id"),
-				resultSet.getInt("spawn_interval"),
-				resultSet.getInt("spawn_count"),
-				resultSet.getInt("max_nearby_entities"),
-				resultSet.getInt("player_activation_range"),
+		return LevelFactory.build(
+				LevelOption.valueOf(resultSet.getString("type")),
+				resultSet.getInt("number"),
+				resultSet.getInt("value"),
 				resultSet.getDouble("cost")
 		);
 	}
@@ -411,8 +408,7 @@ public final class DataManager extends DataManagerAbstract {
 				UUID.fromString(resultSet.getString("owner")),
 				resultSet.getString("owner_name"),
 				EntityType.valueOf(resultSet.getString("entity_type")),
-				resultSet.getInt("level"),
-				SpawnerOptions.decodeJson(resultSet.getString("options")),
+				PlacedSpawner.decodeLevelsJson(resultSet.getString("levels")),
 				Serialize.deserializeLocation(resultSet.getString("location"))
 		);
 	}
@@ -420,9 +416,7 @@ public final class DataManager extends DataManagerAbstract {
 	private Preset extractSpawnerPreset(final ResultSet resultSet) throws SQLException {
 		return new SpawnerPreset(
 				resultSet.getString("id"),
-				EntityType.valueOf(resultSet.getString("entity_type").toUpperCase()),
-				SpawnerOptions.decodeJson(resultSet.getString("options")),
-				resultSet.getInt("level")
+				EntityType.valueOf(resultSet.getString("entity_type").toUpperCase())
 		);
 	}
 

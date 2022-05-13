@@ -15,13 +15,5 @@ public interface Preset extends DataSync {
 
 	EntityType getEntityType();
 
-	Options getOptions();
-
-	int getLevel();
-
 	void setEntityType(EntityType entityType);
-
-	void setLevel(int level);
-
-	void setOptions(Options options);
 }
