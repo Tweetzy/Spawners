@@ -62,7 +62,7 @@ public final class Spawners extends RosePlugin {
 		final DataMigrationManager dataMigrationManager = new DataMigrationManager(this.databaseConnector, this.dataManager,
 				new _1_InitialMigration(),
 				new _2_SpawnerPresetMigration(),
-				new _3_LevelCostMigration(),
+				new _3_LevelCostMigration()
 		);
 
 		// run migrations for tables

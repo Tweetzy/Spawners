@@ -21,12 +21,8 @@ public final class _3_LevelCostMigration extends DataMigration {
 	@Override
 	public void migrate(Connection connection, String tablePrefix) throws SQLException {
 		try (Statement statement = connection.createStatement()) {
-			statement.execute("ALTER TABLE " + tablePrefix + "level (" +
-					"id VARCHAR(48) PRIMARY KEY, " +
-					"entity_type VARCHAR(60) NOT NULL, " +
-					"level INTEGER NOT NULL, " +
-					"options TEXT NOT NULL " +
-					")");
+			statement.execute("ALTER TABLE " + tablePrefix + "spawner_preset ADD cost DOUBLE");
+
 		}
 	}
 }
