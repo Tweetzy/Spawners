@@ -248,6 +248,7 @@ public enum Translation {
 			"&7Max Nearby Entities&F: &e%level_max_nearby_entities%",
 			"&7Player Activation Range&F: &e%level_player_activation_range%",
 			"",
+			"&7Cost&f: &a$%level_cost%",
 			"",
 			"&e&lLeft Click &8» &7To edit level",
 			"&c&lPress 1 &8» &7To delete level"

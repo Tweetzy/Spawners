@@ -35,7 +35,8 @@ public final class LevelListAdminGUI extends PagedGUI<Level> {
 						"level_spawn_interval", level.getSpawnInterval(),
 						"level_spawn_count", level.getSpawnCount(),
 						"level_max_nearby_entities", level.getMaxNearbyEntities(),
-						"level_player_activation_range", level.getPlayerActivationRange()
+						"level_player_activation_range", level.getPlayerActivationRange(),
+						"level_cost", String.format("%,.2f", level.getCost())
 				))
 				.make();
 	}
