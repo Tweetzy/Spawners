@@ -1,4 +1,4 @@
-package ca.tweetzy.spawners.guis.presets;
+package ca.tweetzy.spawners.guis.admin.presets;
 
 import ca.tweetzy.rose.comp.NBTEditor;
 import ca.tweetzy.rose.comp.enums.CompMaterial;

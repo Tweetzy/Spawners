@@ -1,4 +1,4 @@
-package ca.tweetzy.spawners.guis.levels;
+package ca.tweetzy.spawners.guis.admin.levels;
 
 import ca.tweetzy.rose.comp.enums.CompMaterial;
 import ca.tweetzy.rose.gui.events.GuiClickEvent;
@@ -57,7 +57,7 @@ public final class LevelListAdminGUI extends PagedGUI<Level> {
 
 	@Override
 	protected void onClick(Level level, GuiClickEvent event) {
-		event.manager.showGUI(event.player, new LevelEditGUI(level));
+		event.manager.showGUI(event.player, new ca.tweetzy.spawners.guis.admin.levels.LevelEditGUI(level));
 	}
 
 	@Override

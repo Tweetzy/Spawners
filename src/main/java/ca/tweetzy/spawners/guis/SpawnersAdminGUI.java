@@ -6,9 +6,11 @@ import ca.tweetzy.rose.utils.ChatUtil;
 import ca.tweetzy.rose.utils.Common;
 import ca.tweetzy.rose.utils.QuickItem;
 import ca.tweetzy.spawners.Spawners;
-import ca.tweetzy.spawners.guis.levels.LevelListAdminGUI;
-import ca.tweetzy.spawners.guis.presets.SpawnerPresetListGUI;
-import ca.tweetzy.spawners.guis.spawners.SpawnerListAdminGUI;
+import ca.tweetzy.spawners.guis.admin.LevelListAdminGUI;
+import ca.tweetzy.spawners.guis.admin.SpawnerPresetListGUI;
+import ca.tweetzy.spawners.guis.admin.levels.LevelListAdminGUI;
+import ca.tweetzy.spawners.guis.admin.presets.SpawnerPresetListGUI;
+import ca.tweetzy.spawners.guis.admin.spawners.SpawnerListAdminGUI;
 import ca.tweetzy.spawners.settings.Translation;
 
 /**

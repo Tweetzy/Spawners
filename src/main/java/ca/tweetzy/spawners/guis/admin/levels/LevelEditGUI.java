@@ -1,4 +1,4 @@
-package ca.tweetzy.spawners.guis.levels;
+package ca.tweetzy.spawners.guis.admin.levels;
 
 import ca.tweetzy.rose.comp.enums.CompMaterial;
 import ca.tweetzy.rose.gui.template.BaseGUI;

@@ -1,4 +1,4 @@
-package ca.tweetzy.spawners.guis.spawners;
+package ca.tweetzy.spawners.guis.admin.spawners;
 
 import ca.tweetzy.rose.comp.enums.CompMaterial;
 import ca.tweetzy.rose.gui.events.GuiClickEvent;

@@ -1,4 +1,4 @@
-package ca.tweetzy.spawners.guis.presets;
+package ca.tweetzy.spawners.guis.admin.presets;
 
 
 import ca.tweetzy.rose.comp.enums.CompMaterial;
@@ -82,7 +82,7 @@ public final class SpawnerPresetListGUI extends PagedGUI<Preset> {
 	@Override
 	protected void onClick(Preset preset, GuiClickEvent event) {
 		if (event.clickType == ClickType.LEFT)
-			event.manager.showGUI(event.player, new SpawnerPresetEditGUI(preset));
+			event.manager.showGUI(event.player, new ca.tweetzy.spawners.guis.admin.presets.SpawnerPresetEditGUI(preset));
 
 		if (event.clickType == ClickType.NUMBER_KEY)
 			Spawners.getPresetManager().deletePreset(preset, success -> event.manager.showGUI(event.player, new SpawnerPresetListGUI()));
