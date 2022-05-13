@@ -1,18 +1,39 @@
 package ca.tweetzy.spawners.api.spawner;
 
-import ca.tweetzy.spawners.api.DataSync;
+import ca.tweetzy.spawners.api.LevelOption;
+import lombok.AllArgsConstructor;
 
 /**
- * Date Created: May 04 2022
- * Time Created: 10:54 a.m.
+ * Date Created: May 13 2022
+ * Time Created: 11:07 a.m.
  *
  * @author Kiran Hart
  */
-public interface Level extends Options, DataSync {
+@AllArgsConstructor
+public abstract class Level {
 
-	int getLevel();
+	protected final LevelOption levelOption;
+	protected final int level;
+	protected int value;
+	protected double cost;
 
-	double getCost();
+	public LevelOption getLevelOption() {
+		return this.levelOption;
+	}
 
-	void setCost(double cost);
+	public int getLevelNumber() {
+		return this.level;
+	}
+
+	public int getValue() {
+		return this.value;
+	}
+
+	public double getCost() {
+		return this.cost;
+	}
+
+	public abstract void setValue(final int value);
+
+	public abstract void setCost(final double cost);
 }
