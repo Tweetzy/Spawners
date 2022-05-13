@@ -28,11 +28,10 @@ public final class _1_InitialMigration extends DataMigration {
 
 			// level presets
 			statement.execute("CREATE TABLE " + tablePrefix + "level (" +
-					"id INTEGER PRIMARY KEY, " +
-					"spawn_interval INTEGER NOT NULL, " +
-					"spawn_count INTEGER NOT NULL, " +
-					"max_nearby_entities INTEGER NOT NULL, " +
-					"player_activation_range INTEGER NOT NULL " +
+					"type VARCHAR (24) NOT NULL, " +
+					"number INTEGER NOT NULL, " +
+					"value INTEGER NOT NULL, " +
+					"cost DOUBLE NOT NULL " +
 					")");
 
 			// spawner
