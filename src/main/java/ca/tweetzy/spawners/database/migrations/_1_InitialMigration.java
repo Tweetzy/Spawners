@@ -40,8 +40,7 @@ public final class _1_InitialMigration extends DataMigration {
 					"owner VARCHAR(36) NOT NULL, " +
 					"owner_name VARCHAR(16) NOT NULL, " +
 					"entity_type VARCHAR(60) NOT NULL, " +
-					"level INTEGER NOT NULL, " +
-					"options TEXT NOT NULL, " +
+					"levels TEXT NOT NULL, " +
 					"location TEXT NOT NULL " +
 					")");
 		}
