@@ -24,4 +24,9 @@ public final class ActivationRangeLevel extends Level {
 	public void setCost(double cost) {
 		this.cost = cost;
 	}
+
+	@Override
+	public void sync() {
+
+	}
 }

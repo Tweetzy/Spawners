@@ -1,5 +1,6 @@
 package ca.tweetzy.spawners.api.spawner;
 
+import ca.tweetzy.spawners.api.DataSync;
 import ca.tweetzy.spawners.api.LevelOption;
 import lombok.AllArgsConstructor;
 
@@ -10,7 +11,7 @@ import lombok.AllArgsConstructor;
  * @author Kiran Hart
  */
 @AllArgsConstructor
-public abstract class Level {
+public abstract class Level implements DataSync {
 
 	protected final LevelOption levelOption;
 	protected final int level;

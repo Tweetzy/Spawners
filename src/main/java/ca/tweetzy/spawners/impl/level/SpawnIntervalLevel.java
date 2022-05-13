@@ -24,4 +24,9 @@ public final class SpawnIntervalLevel extends Level {
 	public void setCost(double cost) {
 		this.cost = cost;
 	}
+
+	@Override
+	public void sync() {
+
+	}
 }
