@@ -2,7 +2,10 @@ package ca.tweetzy.spawners.model.manager;
 
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.spawner.Level;
-import lombok.NonNull;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Date Created: May 04 2022
@@ -10,29 +13,11 @@ import lombok.NonNull;
  *
  * @author Kiran Hart
  */
-public final class LevelManager extends Manager<Integer, Level> {
+public final class LevelManager implements Manager {
 
-	@Override
-	public void add(@NonNull Level level) {
-		if (this.contents.containsKey(level.getLevel())) return;
-		this.contents.put(level.getLevel(), level);
-	}
+	private final List<Level> levels = Collections.synchronizedList(new ArrayList<>());
 
-	@Override
-	public void remove(@NonNull Integer level) {
-		if (!this.contents.containsKey(level)) return;
-		this.contents.remove(level);
-	}
 
-	@Override
-	public Level find(@NonNull Integer level) {
-		return this.contents.getOrDefault(level, null);
-
-	}
-
-	public int getHighestLevel() {
-		return this.contents.keySet().stream().max(Integer::compare).orElse(0);
-	}
 
 	/*
 	=================== DATABASE CALLS ===================
@@ -40,12 +25,9 @@ public final class LevelManager extends Manager<Integer, Level> {
 
 	@Override
 	public void load() {
-		// clear player list
-		this.contents.clear();
 
 		Spawners.getDataManager().getLevels((error, result) -> {
-			if (error == null)
-				result.forEach(this::add);
+			if (error == null) return;
 		});
 	}
 }

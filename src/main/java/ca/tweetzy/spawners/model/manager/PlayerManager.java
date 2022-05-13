@@ -6,7 +6,9 @@ import ca.tweetzy.spawners.impl.SpawnerPlayer;
 import lombok.NonNull;
 import org.bukkit.entity.Player;
 
+import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
 
 /**
@@ -15,21 +17,20 @@ import java.util.function.BiConsumer;
  *
  * @author Kiran Hart
  */
-public final class PlayerManager extends Manager<UUID, SpawnerUser> {
+public final class PlayerManager implements Manager {
 
-	@Override
+	private final Map<UUID, SpawnerUser> contents = new ConcurrentHashMap<>();
+
 	public void add(@NonNull SpawnerUser spawnerUser) {
 		if (this.contents.containsKey(spawnerUser.getUUID())) return;
 		this.contents.put(spawnerUser.getUUID(), spawnerUser);
 	}
 
-	@Override
 	public void remove(@NonNull UUID userUUID) {
 		if (!this.contents.containsKey(userUUID)) return;
 		this.contents.remove(userUUID);
 	}
 
-	@Override
 	public SpawnerUser find(@NonNull UUID userUUID) {
 		return this.contents.getOrDefault(userUUID, null);
 	}

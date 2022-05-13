@@ -8,6 +8,8 @@ import org.bukkit.Location;
 import org.bukkit.block.CreatureSpawner;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -17,21 +19,20 @@ import java.util.function.Consumer;
  *
  * @author Kiran Hart
  */
-public final class SpawnerManager extends Manager<Location, Spawner> {
+public final class SpawnerManager implements Manager {
 
-	@Override
+	public Map<Location, Spawner> contents = new ConcurrentHashMap<>();
+
 	public void add(@NotNull Spawner spawner) {
 		if (this.contents.containsKey(spawner.getLocation())) return;
 		this.contents.put(spawner.getLocation(), spawner);
 	}
 
-	@Override
 	public void remove(@NotNull Location location) {
 		if (!this.contents.containsKey(location)) return;
 		this.contents.remove(location);
 	}
 
-	@Override
 	public Spawner find(@NotNull Location location) {
 		return this.contents.getOrDefault(location, null);
 
