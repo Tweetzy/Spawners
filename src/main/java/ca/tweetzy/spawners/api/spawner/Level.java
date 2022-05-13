@@ -11,4 +11,8 @@ import ca.tweetzy.spawners.api.DataSync;
 public interface Level extends Options, DataSync {
 
 	int getLevel();
+
+	double getCost();
+
+	void setCost(double cost);
 }

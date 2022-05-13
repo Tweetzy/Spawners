@@ -19,14 +19,25 @@ public final class SpawnerLevel implements Level {
 	private int spawnCount;
 	private int maxNearbyEntities;
 	private int playerActivationRange;
+	private double cost;
 
 	public SpawnerLevel(final int level) {
-		this(level, Settings.DEFAULT_SPAWNER_DELAY.getInt(), Settings.DEFAULT_SPAWNER_SPAWN_COUNT.getInt(), Settings.DEFAULT_SPAWNER_MAX_NEARBY_ENTITIES.getInt(), Settings.DEFAULT_SPAWNER_ACTIVATION_RANGE.getInt());
+		this(level, Settings.DEFAULT_SPAWNER_DELAY.getInt(), Settings.DEFAULT_SPAWNER_SPAWN_COUNT.getInt(), Settings.DEFAULT_SPAWNER_MAX_NEARBY_ENTITIES.getInt(), Settings.DEFAULT_SPAWNER_ACTIVATION_RANGE.getInt(), Settings.DEFAULT_LEVEL_COST.getDouble());
 	}
 
 	@Override
 	public int getLevel() {
 		return this.level;
+	}
+
+	@Override
+	public double getCost() {
+		return this.cost;
+	}
+
+	@Override
+	public void setCost(double cost) {
+		this.cost = cost;
 	}
 
 	@Override
