@@ -16,11 +16,12 @@ import ca.tweetzy.spawners.commands.SpawnersCommand;
 import ca.tweetzy.spawners.database.DataManager;
 import ca.tweetzy.spawners.database.migrations._1_InitialMigration;
 import ca.tweetzy.spawners.database.migrations._2_SpawnerPresetMigration;
+import ca.tweetzy.spawners.database.migrations._3_LevelCostMigration;
 import ca.tweetzy.spawners.impl.APIImplementation;
 import ca.tweetzy.spawners.listeners.BlockListeners;
 import ca.tweetzy.spawners.listeners.EggListeners;
 import ca.tweetzy.spawners.listeners.JoinListeners;
-import ca.tweetzy.spawners.listeners.SpawnerListeners;
+import ca.tweetzy.spawners.listeners.EntityListeners;
 import ca.tweetzy.spawners.model.manager.*;
 import ca.tweetzy.spawners.settings.Locale;
 import ca.tweetzy.spawners.settings.Settings;
@@ -60,7 +61,8 @@ public final class Spawners extends RosePlugin {
 
 		final DataMigrationManager dataMigrationManager = new DataMigrationManager(this.databaseConnector, this.dataManager,
 				new _1_InitialMigration(),
-				new _2_SpawnerPresetMigration()
+				new _2_SpawnerPresetMigration(),
+				new _3_LevelCostMigration(),
 		);
 
 		// run migrations for tables
@@ -94,7 +96,7 @@ public final class Spawners extends RosePlugin {
 
 		getServer().getPluginManager().registerEvents(new JoinListeners(), this);
 		getServer().getPluginManager().registerEvents(new BlockListeners(), this);
-		getServer().getPluginManager().registerEvents(new SpawnerListeners(), this);
+		getServer().getPluginManager().registerEvents(new EntityListeners(), this);
 		getServer().getPluginManager().registerEvents(new EggListeners(), this);
 
 	}

@@ -32,51 +32,49 @@ public final class GiveCommand extends Command {
 
 	@Override
 	protected ReturnType execute(CommandSender sender, String... args) {
-		if (sender instanceof final Player player) {
-			if (args.length == 0) {
+		if (args.length == 0) {
 
-				return ReturnType.SUCCESS;
-			}
-
-			final Player target = Bukkit.getPlayerExact(args[0]);
-			if (target == null) {
-				Translation.PLAYER_OFFLINE.send(player, "player", args[0]);
-				return ReturnType.FAIL;
-			}
-
-			int amount = 1;
-
-			if (args.length > 1) {
-				if (NumberUtils.isNumber(args[1]))
-					amount = Integer.parseInt(args[1]);
-			}
-
-			// check for flags
-			final EntityType entityType = CommandFlag.get(EntityType.class, "entity", EntityType.PIG, args);
-			final String preset = CommandFlag.get(String.class, "preset", null, args);
-
-			Preset presetFound = null;
-
-			if (preset != null) {
-				presetFound = Spawners.getPresetManager().find(preset);
-			}
-
-			ItemStack spawnerItem = SpawnerItem.make(
-					target.getUniqueId(),
-					target.getName(),
-					presetFound != null ? presetFound.getEntityType() : entityType,
-					presetFound != null ? presetFound.getLevel() : -1,
-					new SpawnerOptions(
-							presetFound != null ? presetFound.getOptions().getSpawnInterval() : Settings.DEFAULT_SPAWNER_DELAY.getInt(),
-							presetFound != null ? presetFound.getOptions().getSpawnCount() : Settings.DEFAULT_SPAWNER_SPAWN_COUNT.getInt(),
-							presetFound != null ? presetFound.getOptions().getMaxNearbyEntities() : Settings.DEFAULT_SPAWNER_MAX_NEARBY_ENTITIES.getInt(),
-							presetFound != null ? presetFound.getOptions().getPlayerActivationRange() : Settings.DEFAULT_SPAWNER_ACTIVATION_RANGE.getInt()
-					)
-			);
-
-			for (int i = 0; i < amount; i++)
-				target.getInventory().addItem(spawnerItem);
+			return ReturnType.SUCCESS;
 		}
+
+		final Player target = Bukkit.getPlayerExact(args[0]);
+		if (target == null) {
+			Translation.PLAYER_OFFLINE.send(sender, "player", args[0]);
+			return ReturnType.FAIL;
+		}
+
+		int amount = 1;
+
+		if (args.length > 1) {
+			if (NumberUtils.isNumber(args[1]))
+				amount = Integer.parseInt(args[1]);
+		}
+
+		// check for flags
+		final EntityType entityType = CommandFlag.get(EntityType.class, "entity", EntityType.PIG, args);
+		final String preset = CommandFlag.get(String.class, "preset", null, args);
+
+		Preset presetFound = null;
+
+		if (preset != null) {
+			presetFound = Spawners.getPresetManager().find(preset);
+		}
+
+		ItemStack spawnerItem = SpawnerItem.make(
+				target.getUniqueId(),
+				target.getName(),
+				presetFound != null ? presetFound.getEntityType() : entityType,
+				presetFound != null ? presetFound.getLevel() : -1,
+				new SpawnerOptions(
+						presetFound != null ? presetFound.getOptions().getSpawnInterval() : Settings.DEFAULT_SPAWNER_DELAY.getInt(),
+						presetFound != null ? presetFound.getOptions().getSpawnCount() : Settings.DEFAULT_SPAWNER_SPAWN_COUNT.getInt(),
+						presetFound != null ? presetFound.getOptions().getMaxNearbyEntities() : Settings.DEFAULT_SPAWNER_MAX_NEARBY_ENTITIES.getInt(),
+						presetFound != null ? presetFound.getOptions().getPlayerActivationRange() : Settings.DEFAULT_SPAWNER_ACTIVATION_RANGE.getInt()
+				)
+		);
+
+		for (int i = 0; i < amount; i++)
+			target.getInventory().addItem(spawnerItem);
 
 		return ReturnType.SUCCESS;
 	}
