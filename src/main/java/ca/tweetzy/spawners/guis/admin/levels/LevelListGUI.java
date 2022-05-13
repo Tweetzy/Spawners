@@ -9,7 +9,9 @@ import ca.tweetzy.rose.utils.Replacer;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.LevelOption;
 import ca.tweetzy.spawners.api.spawner.Level;
+import ca.tweetzy.spawners.model.LevelFactory;
 import lombok.NonNull;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
@@ -38,14 +40,42 @@ public final class LevelListGUI extends PagedGUI<Level> {
 				.lore(
 						"&7Level #&f: &e" + level.getLevelNumber(),
 						"&7Value&f: &e" + level.getValue(),
-						"&7Cost: &a$" + String.format("%,.2f", level.getCost())
+						"&7Cost: &a$" + String.format("%,.2f", level.getCost()),
+						"",
+						"&e&lLeft Click &8» &7To edit level",
+						"&c&lPress 1 &8» &7To delete level"
 				)
 				.make();
 	}
 
 	@Override
-	protected void onClick(Level level, GuiClickEvent clickEvent) {
+	protected void drawAdditional() {
+		setButton(5, 4, QuickItem
+				.of(CompMaterial.SLIME_BALL)
+				.name("&a&lCreate Level")
+				.lore(
+						"&7Used to create a new level for",
+						"&7the " + levelOption.name() + " option",
+						"",
+						"&e&lClick &8» &7Create new level"
+				)
+				.make(), click -> Spawners.getLevelManager().createLevel(
+				LevelFactory.build(this.levelOption, Spawners.getLevelManager().getHighestLevel(this.levelOption) + 1, LevelFactory.getDefaultValue(this.levelOption), 1000D), (created, createdLevel) -> {
+					if (created)
+						click.manager.showGUI(click.player, new LevelListGUI(this.levelOption));
+				}));
+	}
 
+	@Override
+	protected void onClick(Level level, GuiClickEvent clickEvent) {
+		if (clickEvent.clickType == ClickType.LEFT)
+			clickEvent.manager.showGUI(clickEvent.player, new LevelEditGUI(level));
+
+		if (clickEvent.clickType == ClickType.NUMBER_KEY)
+			Spawners.getLevelManager().deleteLevel(level, (success) -> {
+				if (success)
+					clickEvent.manager.showGUI(clickEvent.player, new LevelListGUI(this.levelOption));
+			});
 	}
 
 	@Override
