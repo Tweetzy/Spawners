@@ -100,7 +100,7 @@ public final class DataManager extends DataManagerAbstract {
 	 */
 	public void insertLevel(@NonNull final Level level, final Callback<Level> callback) {
 		this.runAsync(() -> this.databaseConnector.connect(connection -> {
-			final String query = "INSERT INTO " + this.getTablePrefix() + "level (id, spawn_interval, spawn_count, max_nearby_entities, player_activation_range) VALUES (?, ?, ?, ?, ?)";
+			final String query = "INSERT INTO " + this.getTablePrefix() + "level (id, spawn_interval, spawn_count, max_nearby_entities, player_activation_range, cost) VALUES (?, ?, ?, ?, ?, ?)";
 			final String fetchQuery = "SELECT * FROM " + this.getTablePrefix() + "level WHERE id = ?";
 
 			try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -113,6 +113,7 @@ public final class DataManager extends DataManagerAbstract {
 				preparedStatement.setInt(3, level.getSpawnCount());
 				preparedStatement.setInt(4, level.getMaxNearbyEntities());
 				preparedStatement.setInt(5, level.getPlayerActivationRange());
+				preparedStatement.setDouble(6, level.getCost());
 
 				preparedStatement.executeUpdate();
 
@@ -348,13 +349,14 @@ public final class DataManager extends DataManagerAbstract {
 	 */
 	public void updateLevel(@NonNull final Level level, Callback<Boolean> callback) {
 		this.runAsync(() -> this.databaseConnector.connect(connection -> {
-			try (PreparedStatement statement = connection.prepareStatement("UPDATE " + this.getTablePrefix() + "level SET spawn_interval = ?, spawn_count = ?, max_nearby_entities = ?, player_activation_range = ? WHERE id = ?")) {
+			try (PreparedStatement statement = connection.prepareStatement("UPDATE " + this.getTablePrefix() + "level SET spawn_interval = ?, spawn_count = ?, max_nearby_entities = ?, player_activation_range = ?, cost = ? WHERE id = ?")) {
 
 				statement.setInt(1, level.getSpawnInterval());
 				statement.setInt(2, level.getSpawnCount());
 				statement.setInt(3, level.getMaxNearbyEntities());
 				statement.setInt(4, level.getPlayerActivationRange());
-				statement.setInt(5, level.getLevel());
+				statement.setDouble(5, level.getCost());
+				statement.setInt(6, level.getLevel());
 
 				int result = statement.executeUpdate();
 
@@ -392,7 +394,8 @@ public final class DataManager extends DataManagerAbstract {
 				resultSet.getInt("spawn_interval"),
 				resultSet.getInt("spawn_count"),
 				resultSet.getInt("max_nearby_entities"),
-				resultSet.getInt("player_activation_range")
+				resultSet.getInt("player_activation_range"),
+				resultSet.getDouble("cost")
 		);
 	}
 
