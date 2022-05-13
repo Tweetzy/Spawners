@@ -12,16 +12,21 @@ import java.sql.Statement;
  *
  * @author Kiran Hart
  */
-public final class _2_SpawnerPresetMigration extends DataMigration {
+public final class _3_LevelCostMigration extends DataMigration {
 
-	public _2_SpawnerPresetMigration() {
+	public _3_LevelCostMigration() {
 		super(2);
 	}
 
 	@Override
 	public void migrate(Connection connection, String tablePrefix) throws SQLException {
 		try (Statement statement = connection.createStatement()) {
-			statement.execute("CREATE TABLE " + tablePrefix + "spawner_preset ADD cost DOUBLE");
+			statement.execute("ALTER TABLE " + tablePrefix + "level (" +
+					"id VARCHAR(48) PRIMARY KEY, " +
+					"entity_type VARCHAR(60) NOT NULL, " +
+					"level INTEGER NOT NULL, " +
+					"options TEXT NOT NULL " +
+					")");
 		}
 	}
 }
