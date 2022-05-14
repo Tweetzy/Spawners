@@ -1,5 +1,6 @@
 package ca.tweetzy.spawners.impl.level;
 
+import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.LevelOption;
 import ca.tweetzy.spawners.api.spawner.Level;
 
@@ -27,6 +28,6 @@ public final class ActivationRangeLevel extends Level {
 
 	@Override
 	public void sync() {
-
+		Spawners.getDataManager().updateLevel(this, null);
 	}
 }
