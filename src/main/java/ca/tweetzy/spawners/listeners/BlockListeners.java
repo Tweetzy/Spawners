@@ -2,6 +2,7 @@ package ca.tweetzy.spawners.listeners;
 
 import ca.tweetzy.rose.comp.NBTEditor;
 import ca.tweetzy.rose.comp.enums.CompMaterial;
+import ca.tweetzy.rose.utils.ChatUtil;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.spawner.Spawner;
 import ca.tweetzy.spawners.api.spawner.SpawnerUser;
@@ -9,7 +10,6 @@ import ca.tweetzy.spawners.model.SpawnerDefault;
 import ca.tweetzy.spawners.settings.Settings;
 import ca.tweetzy.spawners.settings.Translation;
 import com.jeff_media.morepersistentdatatypes.DataType;
-import org.apache.commons.lang.StringUtils;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.CreatureSpawner;
@@ -257,7 +257,7 @@ public final class BlockListeners implements Listener {
 
 	private boolean handleEntityBreakPerm(SpawnerUser spawnerUser, Player player, EntityType entityType) {
 		if (!spawnerUser.isAllowedToPlaceEntity(player, entityType)) {
-			Translation.SPAWNER_CANNOT_BREAK_ENTITY.send(player, "entity_type", StringUtils.capitalize(entityType.name().toLowerCase().replace("_", " ")));
+			Translation.SPAWNER_CANNOT_BREAK_ENTITY.send(player, "entity_type", ChatUtil.capitalizeFully(entityType));
 			return false;
 		}
 		return true;
@@ -265,7 +265,7 @@ public final class BlockListeners implements Listener {
 
 	private boolean handleEntityPlacePerm(SpawnerUser spawnerUser, Player player, EntityType entityType) {
 		if (!spawnerUser.isAllowedToPlaceEntity(player, entityType)) {
-			Translation.SPAWNER_CANNOT_PLACE_ENTITY.send(player, "entity_type", StringUtils.capitalize(entityType.name().toLowerCase().replace("_", " ")));
+			Translation.SPAWNER_CANNOT_PLACE_ENTITY.send(player, "entity_type", ChatUtil.capitalizeFully(entityType));
 			return false;
 		}
 		return true;

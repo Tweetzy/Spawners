@@ -1,12 +1,12 @@
 package ca.tweetzy.spawners.listeners;
 
 import ca.tweetzy.rose.comp.enums.CompMaterial;
+import ca.tweetzy.rose.utils.ChatUtil;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.spawner.Spawner;
 import ca.tweetzy.spawners.api.spawner.SpawnerUser;
 import ca.tweetzy.spawners.settings.Settings;
 import ca.tweetzy.spawners.settings.Translation;
-import org.apache.commons.lang.StringUtils;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -52,7 +52,7 @@ public final class EggListeners implements Listener {
 		final EntityType entityType = EntityType.valueOf(hand.getType().name().replace("_SPAWN_EGG", ""));
 
 		if (!spawnerUser.isAllowedToThrowSpawnEgg(player, entityType)) {
-			Translation.NOT_ALLOWED_TO_THROW_EGG.send(player, "entity_type", StringUtils.capitalize(entityType.name().toLowerCase().replace("_", " ")));
+			Translation.NOT_ALLOWED_TO_THROW_EGG.send(player, "entity_type", ChatUtil.capitalizeFully(entityType));
 			return;
 		}
 
@@ -117,7 +117,7 @@ public final class EggListeners implements Listener {
 		}
 
 		if (!spawnerUser.isAllowedToChangeWithEgg(player, entityType)) {
-			Translation.SPAWNER_CANNOT_CHANGE_WITH_EGG.send(player, "entity_type", StringUtils.capitalize(entityType.name().toLowerCase().replace("_", " ")));
+			Translation.SPAWNER_CANNOT_CHANGE_WITH_EGG.send(player, "entity_type", ChatUtil.capitalizeFully(entityType));
 			return;
 		}
 

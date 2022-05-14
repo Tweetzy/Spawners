@@ -6,6 +6,7 @@ import ca.tweetzy.rose.gui.Gui;
 import ca.tweetzy.rose.gui.events.GuiClickEvent;
 import ca.tweetzy.rose.gui.helper.InventoryBorder;
 import ca.tweetzy.rose.gui.template.PagedGUI;
+import ca.tweetzy.rose.utils.ChatUtil;
 import ca.tweetzy.rose.utils.QuickItem;
 import ca.tweetzy.spawners.api.MobBehaviour;
 import ca.tweetzy.spawners.api.SpawnerMob;
@@ -65,7 +66,7 @@ public final class EntitySelectorGUI extends PagedGUI<SpawnerMob> {
 	protected void drawAdditional() {
 		setButton(5, 4, QuickItem.of(CompMaterial.REPEATER)
 				.name(Translation.GUI_ENTITY_SELECTOR_ITEMS_MODE_NAME.getString())
-				.lore(Translation.GUI_ENTITY_SELECTOR_ITEMS_MODE_LORE.getList("entity_behaviour", StringUtils.capitalize(this.entityViewMode.name().toLowerCase())))
+				.lore(Translation.GUI_ENTITY_SELECTOR_ITEMS_MODE_LORE.getList("entity_behaviour", ChatUtil.capitalizeFully(this.entityViewMode)))
 				.make(), click -> click.manager.showGUI(click.player, new EntitySelectorGUI(this.parent, this.entityViewMode.next(), this.selected)));
 	}
 

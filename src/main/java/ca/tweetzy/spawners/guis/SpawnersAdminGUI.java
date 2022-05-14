@@ -6,10 +6,7 @@ import ca.tweetzy.rose.utils.ChatUtil;
 import ca.tweetzy.rose.utils.Common;
 import ca.tweetzy.rose.utils.QuickItem;
 import ca.tweetzy.spawners.Spawners;
-import ca.tweetzy.spawners.guis.admin.LevelListAdminGUI;
-import ca.tweetzy.spawners.guis.admin.SpawnerPresetListGUI;
-import ca.tweetzy.spawners.guis.admin.levels.LevelListAdminGUI;
-import ca.tweetzy.spawners.guis.admin.presets.SpawnerPresetListGUI;
+import ca.tweetzy.spawners.guis.admin.levels.LevelOptionSelectGUI;
 import ca.tweetzy.spawners.guis.admin.spawners.SpawnerListAdminGUI;
 import ca.tweetzy.spawners.settings.Translation;
 
@@ -33,7 +30,7 @@ public final class SpawnersAdminGUI extends BaseGUI {
 				.of(CompMaterial.TRIPWIRE_HOOK)
 				.name(Translation.GUI_ADMIN_MAIN_ITEMS_LEVELS_NAME.getString())
 				.lore(Translation.GUI_ADMIN_MAIN_ITEMS_LEVELS_LORE.getList())
-				.make(), click -> click.manager.showGUI(click.player, new LevelListAdminGUI()));
+				.make(), click -> click.manager.showGUI(click.player, new LevelOptionSelectGUI()));
 
 		setButton(1, 4, QuickItem
 				.of(CompMaterial.SPAWNER)
@@ -45,7 +42,7 @@ public final class SpawnersAdminGUI extends BaseGUI {
 				.of(CompMaterial.CARTOGRAPHY_TABLE)
 				.name(Translation.GUI_ADMIN_MAIN_ITEMS_PRESETS_NAME.getString())
 				.lore(Translation.GUI_ADMIN_MAIN_ITEMS_PRESETS_LORE.getList())
-				.make(), click -> click.manager.showGUI(click.player, new SpawnerPresetListGUI()));
+				.make(), click -> click.manager.showGUI(click.player, new LevelOptionSelectGUI()));
 
 
 		setButton(5, 8, QuickItem.of(CompMaterial.DIAMOND)

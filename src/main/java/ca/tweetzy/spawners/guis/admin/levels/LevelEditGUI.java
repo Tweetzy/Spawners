@@ -2,6 +2,7 @@ package ca.tweetzy.spawners.guis.admin.levels;
 
 import ca.tweetzy.rose.comp.enums.CompMaterial;
 import ca.tweetzy.rose.gui.template.BaseGUI;
+import ca.tweetzy.rose.utils.ChatUtil;
 import ca.tweetzy.rose.utils.QuickItem;
 import ca.tweetzy.rose.utils.Replacer;
 import ca.tweetzy.spawners.api.spawner.Level;
@@ -57,7 +58,7 @@ public final class LevelEditGUI extends BaseGUI {
 
 			if (event.clickType == ClickType.LEFT)
 				UserInput.askInteger(event.player, this,
-						Replacer.replaceVariables("<GRADIENT:fc67fa>&l%level_option%</GRADIENT:f4c4f3>", "level_option", level.getLevelOption().name()),
+						Replacer.replaceVariables("<GRADIENT:fc67fa>&l%level_option%</GRADIENT:f4c4f3>", "level_option", ChatUtil.capitalizeFully(level.getLevelOption())),
 						"&fEnter new value in chat",
 						input -> {
 							this.level.setValue(input);
@@ -67,7 +68,7 @@ public final class LevelEditGUI extends BaseGUI {
 
 			if (event.clickType == ClickType.RIGHT)
 				UserInput.askDouble(event.player, this,
-						Replacer.replaceVariables("<GRADIENT:fc67fa>&l%level_option%</GRADIENT:f4c4f3>", "level_option", level.getLevelOption().name()),
+						Replacer.replaceVariables("<GRADIENT:fc67fa>&l%level_option%</GRADIENT:f4c4f3>", "level_option", ChatUtil.capitalizeFully(level.getLevelOption())),
 						"&fEnter new cost in chat",
 						input -> {
 							this.level.setCost(input);

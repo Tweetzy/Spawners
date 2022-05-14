@@ -35,7 +35,7 @@ public final class SpawnerListAdminGUI extends PagedGUI<Spawner> {
 	}
 
 	public SpawnerListAdminGUI(final UUID spawnerOwner) {
-		super(new SpawnersAdminGUI(), Translation.GUI_SPAWNER_ADMIN_LIST_TITLE.getString(), 6, spawnerOwner != null ?
+		super(new SpawnersAdminGUI(), "b", 6, spawnerOwner != null ?
 				Spawners.getSpawnerManager().getContents().stream().filter(spawner -> spawner.getOwner().equals(spawnerOwner)).collect(Collectors.toList())
 				:
 				Spawners.getSpawnerManager().getContents()
@@ -46,21 +46,22 @@ public final class SpawnerListAdminGUI extends PagedGUI<Spawner> {
 
 	@Override
 	protected ItemStack makeDisplayItem(Spawner spawner) {
-		return QuickItem
-				.of(CompMaterial.SPAWNER)
-				.name(Translation.GUI_SPAWNER_ADMIN_LIST_SPAWNER_NAME.getString("owner_name", spawner.getOwnerName()))
-				.lore(Translation.GUI_SPAWNER_ADMIN_LIST_SPAWNER_LORE.getList(
-						"world_name", spawner.getLocation().getWorld().getName(),
-						"world_x", spawner.getLocation().getBlockX(),
-						"world_y", spawner.getLocation().getBlockY(),
-						"world_z", spawner.getLocation().getBlockZ(),
-						"entity_type", StringUtils.capitalize(spawner.getEntityType().name().toLowerCase().replace("_", " ")),
-						"spawner_spawn_delay", spawner.getOptions().getSpawnInterval(),
-						"spawner_spawn_count", spawner.getOptions().getSpawnCount(),
-						"spawner_max_nearby_entities", spawner.getOptions().getMaxNearbyEntities(),
-						"spawner_player_activation_range", spawner.getOptions().getPlayerActivationRange()
-				))
-				.make();
+		return null;
+//		return QuickItem
+//				.of(CompMaterial.SPAWNER)
+//				.name(Translation.GUI_SPAWNER_ADMIN_LIST_SPAWNER_NAME.getString("owner_name", spawner.getOwnerName()))
+//				.lore(Translation.GUI_SPAWNER_ADMIN_LIST_SPAWNER_LORE.getList(
+//						"world_name", spawner.getLocation().getWorld().getName(),
+//						"world_x", spawner.getLocation().getBlockX(),
+//						"world_y", spawner.getLocation().getBlockY(),
+//						"world_z", spawner.getLocation().getBlockZ(),
+//						"entity_type", StringUtils.capitalize(spawner.getEntityType().name().toLowerCase().replace("_", " ")),
+//						"spawner_spawn_delay", spawner.getOptions().getSpawnInterval(),
+//						"spawner_spawn_count", spawner.getOptions().getSpawnCount(),
+//						"spawner_max_nearby_entities", spawner.getOptions().getMaxNearbyEntities(),
+//						"spawner_player_activation_range", spawner.getOptions().getPlayerActivationRange()
+//				))
+//				.make();
 	}
 
 	@Override
