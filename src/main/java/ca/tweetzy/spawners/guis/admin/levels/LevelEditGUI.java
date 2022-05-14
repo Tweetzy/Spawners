@@ -3,10 +3,11 @@ package ca.tweetzy.spawners.guis.admin.levels;
 import ca.tweetzy.rose.comp.enums.CompMaterial;
 import ca.tweetzy.rose.gui.template.BaseGUI;
 import ca.tweetzy.rose.utils.QuickItem;
+import ca.tweetzy.rose.utils.Replacer;
 import ca.tweetzy.spawners.api.spawner.Level;
 import ca.tweetzy.spawners.model.UserInput;
-import ca.tweetzy.spawners.settings.Translation;
 import lombok.NonNull;
+import org.bukkit.event.inventory.ClickType;
 
 /**
  * Date Created: May 04 2022
@@ -19,52 +20,59 @@ public final class LevelEditGUI extends BaseGUI {
 	private final Level level;
 
 	public LevelEditGUI(@NonNull final Level level) {
-		super(new LevelListAdminGUI(), Translation.GUI_LEVEL_EDIT_TITLE.getString("level_number", level.getLevel()), 4);
+		super(new LevelOptionSelectGUI(), "<GRADIENT:fc67fa>&LSpawners</GRADIENT:f4c4f3> &8> &7" + level.getLevelOption().name(), 6);
 		this.level = level;
 		draw();
 	}
 
 	@Override
 	protected void draw() {
-		setButton(1, 1, QuickItem.of(CompMaterial.REPEATER)
-				.name(Translation.GUI_LEVEL_EDIT_ITEMS_SPAWN_DELAY_NAME.getString())
-				.lore(Translation.GUI_LEVEL_EDIT_ITEMS_SPAWN_DELAY_LORE.getList("level_spawn_interval", this.level.getSpawnInterval()))
-				.make(), click -> UserInput.askInteger(click.player, Translation.INPUT_LEVEL_EDIT_TITLE.getString("level_number", this.level.getLevel()), Translation.INPUT_LEVEL_EDIT_SPAWN_DELAY.getString(), value -> {
 
-			this.level.setSpawnInterval(value);
-			this.level.sync();
-			click.manager.showGUI(click.player, new LevelEditGUI(this.level));
-		}));
+		final CompMaterial material = switch (this.level.getLevelOption()) {
+			case SPAWN_INTERVAL -> CompMaterial.REPEATER;
+			case SPAWN_COUNT -> CompMaterial.TRIPWIRE_HOOK;
+			case MAX_NEARBY_ENTITIES -> CompMaterial.OBSERVER;
+			case ACTIVATION_RANGE -> CompMaterial.COMPARATOR;
+		};
 
-		setButton(1, 3, QuickItem.of(CompMaterial.REDSTONE_TORCH)
-				.name(Translation.GUI_LEVEL_EDIT_ITEMS_SPAWN_COUNT_NAME.getString())
-				.lore(Translation.GUI_LEVEL_EDIT_ITEMS_SPAWN_COUNT_LORE.getList("level_spawn_count", this.level.getSpawnCount()))
-				.make(), click -> UserInput.askInteger(click.player, Translation.INPUT_LEVEL_EDIT_TITLE.getString("level_number", this.level.getLevel()), Translation.INPUT_LEVEL_EDIT_SPAWN_COUNT.getString(), value -> {
+		final String name = switch (this.level.getLevelOption()) {
+			case SPAWN_INTERVAL -> "<GRADIENT:fc67fa>&LSpawn Interval</GRADIENT:f4c4f3>";
+			case SPAWN_COUNT -> "<GRADIENT:fc67fa>&LSpawn Count</GRADIENT:f4c4f3>";
+			case MAX_NEARBY_ENTITIES -> "<GRADIENT:fc67fa>&LMax Nearby Entities</GRADIENT:f4c4f3>";
+			case ACTIVATION_RANGE -> "<GRADIENT:fc67fa>&LActivation Range</GRADIENT:f4c4f3>";
+		};
 
-			this.level.setSpawnCount(value);
-			this.level.sync();
-			click.manager.showGUI(click.player, new LevelEditGUI(this.level));
-		}));
+		setItem(1, 4, QuickItem.of(material).name(name).lore("&7Editing level &e" + this.level.getLevelNumber()).make());
+		setButton(3, 4, QuickItem.of(CompMaterial.PAPER)
+				.name("&A&lValues")
+				.lore(
+						"",
+						"&7Current&f: " + this.level.getValue(),
+						"&7Cost&f: &a$" + this.level.getCost(),
+						"",
+						"&e&lLeft Click &8» &7To edit value",
+						"&e&lRight Click &8» &7To edit cost"
+				)
+				.make(), event -> {
 
-		setButton(1, 5, QuickItem.of(CompMaterial.OBSERVER)
-				.name(Translation.GUI_LEVEL_EDIT_ITEMS_NEARBY_ENTITIES_NAME.getString())
-				.lore(Translation.GUI_LEVEL_EDIT_ITEMS_NEARBY_ENTITIES_LORE.getList("level_max_nearby_entities", this.level.getMaxNearbyEntities()))
-				.make(), click -> UserInput.askInteger(click.player, Translation.INPUT_LEVEL_EDIT_TITLE.getString("level_number", this.level.getLevel()), Translation.INPUT_LEVEL_EDIT_MAX_NEARBY_ENTITIES.getString(), value -> {
+			if (event.clickType == ClickType.LEFT)
+				UserInput.askInteger(event.player, this,
+						Replacer.replaceVariables("<GRADIENT:fc67fa>&l%level_option%</GRADIENT:f4c4f3>", "level_option", level.getLevelOption().name()),
+						"&fEnter new value in chat",
+						input -> {
+							this.level.setValue(input);
+							event.manager.showGUI(event.player, new LevelEditGUI(this.level));
+						});
 
-			this.level.setMaxNearbyEntities(value);
-			this.level.sync();
-			click.manager.showGUI(click.player, new LevelEditGUI(this.level));
-		}));
-
-		setButton(1, 7, QuickItem.of(CompMaterial.COMPASS)
-				.name(Translation.GUI_LEVEL_EDIT_ITEMS_ACTIVATION_RANGE_NAME.getString())
-				.lore(Translation.GUI_LEVEL_EDIT_ITEMS_ACTIVATION_RANGE_LORE.getList("level_player_activation_range", this.level.getPlayerActivationRange()))
-				.make(), click -> UserInput.askInteger(click.player, Translation.INPUT_LEVEL_EDIT_TITLE.getString("level_number", this.level.getLevel()), Translation.INPUT_LEVEL_EDIT_ACTIVATION_RANGE.getString(), value -> {
-
-			this.level.setPlayerActivationRange(value);
-			this.level.sync();
-			click.manager.showGUI(click.player, new LevelEditGUI(this.level));
-		}));
+			if (event.clickType == ClickType.RIGHT)
+				UserInput.askDouble(event.player, this,
+					Replacer.replaceVariables("<GRADIENT:fc67fa>&l%level_option%</GRADIENT:f4c4f3>", "level_option", level.getLevelOption().name()),
+					"&fEnter new cost in chat",
+					input -> {
+						this.level.setCost(input);
+						event.manager.showGUI(event.player, new LevelEditGUI(this.level));
+					});
+		});
 
 		applyBackExit();
 	}
