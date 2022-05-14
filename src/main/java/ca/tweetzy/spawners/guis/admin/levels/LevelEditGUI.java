@@ -62,16 +62,18 @@ public final class LevelEditGUI extends BaseGUI {
 						input -> {
 							this.level.setValue(input);
 							event.manager.showGUI(event.player, new LevelEditGUI(this.level));
+							this.level.sync();
 						});
 
 			if (event.clickType == ClickType.RIGHT)
 				UserInput.askDouble(event.player, this,
-					Replacer.replaceVariables("<GRADIENT:fc67fa>&l%level_option%</GRADIENT:f4c4f3>", "level_option", level.getLevelOption().name()),
-					"&fEnter new cost in chat",
-					input -> {
-						this.level.setCost(input);
-						event.manager.showGUI(event.player, new LevelEditGUI(this.level));
-					});
+						Replacer.replaceVariables("<GRADIENT:fc67fa>&l%level_option%</GRADIENT:f4c4f3>", "level_option", level.getLevelOption().name()),
+						"&fEnter new cost in chat",
+						input -> {
+							this.level.setCost(input);
+							event.manager.showGUI(event.player, new LevelEditGUI(this.level));
+							this.level.sync();
+						});
 		});
 
 		applyBackExit();
