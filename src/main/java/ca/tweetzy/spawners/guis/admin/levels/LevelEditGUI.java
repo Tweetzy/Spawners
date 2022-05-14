@@ -21,7 +21,7 @@ public final class LevelEditGUI extends BaseGUI {
 	private final Level level;
 
 	public LevelEditGUI(@NonNull final Level level) {
-		super(new LevelOptionSelectGUI(), "<GRADIENT:fc67fa>&LSpawners</GRADIENT:f4c4f3> &8> &7" + level.getLevelOption().name(), 6);
+		super(new LevelOptionSelectGUI(), "<GRADIENT:fc67fa>&LSpawners</GRADIENT:f4c4f3> &8> &7" + ChatUtil.capitalizeFully(level.getLevelOption()), 6);
 		this.level = level;
 		draw();
 	}
