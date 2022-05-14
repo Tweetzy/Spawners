@@ -5,6 +5,7 @@ import ca.tweetzy.spawners.api.Jsonable;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -23,9 +24,7 @@ public interface Spawner extends DataSync, Jsonable {
 
 	EntityType getEntityType();
 
-	int getLevel();
-
-	Options getOptions();
+	List<Level> getLevels();
 
 	Location getLocation();
 
@@ -33,8 +32,5 @@ public interface Spawner extends DataSync, Jsonable {
 
 	void setEntityType(EntityType entityType);
 
-	void setLevel(int level);
-
-	void setOptions(Options options);
-
+	void setLevels(List<Level> levels);
 }
