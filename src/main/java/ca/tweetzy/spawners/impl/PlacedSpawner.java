@@ -1,21 +1,19 @@
 package ca.tweetzy.spawners.impl;
 
 import ca.tweetzy.spawners.Spawners;
-import ca.tweetzy.spawners.api.spawner.Options;
+import ca.tweetzy.spawners.api.LevelOption;
+import ca.tweetzy.spawners.api.spawner.Level;
 import ca.tweetzy.spawners.api.spawner.Spawner;
-import ca.tweetzy.spawners.model.Serialize;
-import ca.tweetzy.spawners.model.SpawnerDefault;
-import ca.tweetzy.spawners.settings.Settings;
-import ca.tweetzy.spawners.settings.Translation;
+import ca.tweetzy.spawners.model.LevelFactory;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import lombok.AllArgsConstructor;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
 
-import java.util.Random;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -27,16 +25,14 @@ import java.util.UUID;
 @AllArgsConstructor
 public final class PlacedSpawner implements Spawner {
 
-	private final UUID uuid;
+	private UUID uuid;
 	private UUID owner;
 	private String ownerName;
 	private EntityType entityType;
-	private int level;
-	private Options options;
+	private List<Level> levels;
 	private Location location;
 
 	public PlacedSpawner() {
-		this(UUID.randomUUID(), SpawnerDefault.NULL_UUID, Translation.SPAWNER_NO_OWNER.getString(), EntityType.valueOf(Settings.DEFAULT_SPAWNER_ENTITY.getString()), -1, new SpawnerOptions(), new Location(Bukkit.getWorlds().get(0), 0, 0, 0));
 	}
 
 	@Override
@@ -60,13 +56,8 @@ public final class PlacedSpawner implements Spawner {
 	}
 
 	@Override
-	public int getLevel() {
-		return this.level;
-	}
-
-	@Override
-	public Options getOptions() {
-		return this.options;
+	public List<Level> getLevels() {
+		return this.levels;
 	}
 
 	@Override
@@ -85,13 +76,8 @@ public final class PlacedSpawner implements Spawner {
 	}
 
 	@Override
-	public void setLevel(int level) {
-		this.level = level;
-	}
-
-	@Override
-	public void setOptions(Options options) {
-		this.options = options;
+	public void setLevels(List<Level> levels) {
+		this.levels = levels;
 	}
 
 	@Override
@@ -101,30 +87,37 @@ public final class PlacedSpawner implements Spawner {
 
 	@Override
 	public String getJsonString() {
-		final JsonObject object = new JsonObject();
+		final JsonArray jsonArray = new JsonArray();
 
-		object.addProperty("uuid", this.uuid.toString());
-		object.addProperty("owner", this.owner.toString());
-		object.addProperty("ownerName", this.ownerName);
-		object.addProperty("entityType", this.entityType.name());
-		object.addProperty("level", this.level);
-		object.add("options", JsonParser.parseString(this.options.getJsonString()));
-		object.addProperty("location", Serialize.serializeLocation(this.location));
+		this.levels.forEach(level -> {
+			final JsonObject object = new JsonObject();
 
-		return object.toString();
+			object.addProperty("option", level.getLevelOption().name());
+			object.addProperty("level", level.getLevelNumber());
+			object.addProperty("value", level.getValue());
+			object.addProperty("cost", level.getCost());
+
+			jsonArray.add(object);
+		});
+
+
+		return jsonArray.toString();
 	}
 
-	public static Spawner decodeJson(String json) {
-		final JsonObject object = JsonParser.parseString(json).getAsJsonObject();
+	public static List<Level> decodeLevelsJson(String json) {
+		final JsonArray array = JsonParser.parseString(json).getAsJsonArray();
+		final List<Level> parsedLevels = new ArrayList<>();
 
-		return new PlacedSpawner(
-				UUID.fromString(object.get("uuid").getAsString()),
-				UUID.fromString(object.get("owner").getAsString()),
-				object.get("ownerName").getAsString(),
-				EntityType.valueOf(object.get("entityType").getAsString().toUpperCase()),
-				object.get("level").getAsInt(),
-				SpawnerOptions.decodeJson(object.get("options").getAsString()),
-				Serialize.deserializeLocation(object.get("location").getAsString())
-		);
+		array.forEach(jsonElement -> {
+			final JsonObject object = jsonElement.getAsJsonObject();
+			parsedLevels.add(LevelFactory.build(
+					LevelOption.valueOf(object.get("option").getAsString()),
+					object.get("level").getAsInt(),
+					object.get("value").getAsInt(),
+					object.get("cost").getAsDouble()
+			));
+		});
+
+		return parsedLevels;
 	}
 }
