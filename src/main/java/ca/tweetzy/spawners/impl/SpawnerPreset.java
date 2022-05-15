@@ -88,6 +88,7 @@ public final class SpawnerPreset implements Preset {
 
 		return parsedLevels;
 	}
+
 	@Override
 	public void sync() {
 		Spawners.getDataManager().updateSpawnerPreset(this, null);

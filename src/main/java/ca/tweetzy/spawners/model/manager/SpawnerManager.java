@@ -8,6 +8,7 @@ import org.bukkit.Location;
 import org.bukkit.block.CreatureSpawner;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
@@ -36,6 +37,10 @@ public final class SpawnerManager implements Manager {
 	public Spawner find(@NotNull Location location) {
 		return this.contents.getOrDefault(location, null);
 
+	}
+
+	public List<Spawner> getContents() {
+		return List.copyOf(this.contents.values());
 	}
 
 	/*

@@ -6,6 +6,7 @@ import ca.tweetzy.spawners.impl.SpawnerPlayer;
 import lombok.NonNull;
 import org.bukkit.entity.Player;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -37,6 +38,10 @@ public final class PlayerManager implements Manager {
 
 	public SpawnerUser findUser(@NonNull final Player player) {
 		return this.find(player.getUniqueId());
+	}
+
+	public List<SpawnerUser> getContents() {
+		return List.copyOf(this.contents.values());
 	}
 
 	/*

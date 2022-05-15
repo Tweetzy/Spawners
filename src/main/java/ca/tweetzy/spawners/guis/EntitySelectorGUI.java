@@ -12,7 +12,6 @@ import ca.tweetzy.spawners.api.MobBehaviour;
 import ca.tweetzy.spawners.api.SpawnerMob;
 import ca.tweetzy.spawners.settings.Translation;
 import lombok.NonNull;
-import org.apache.commons.lang.StringUtils;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 

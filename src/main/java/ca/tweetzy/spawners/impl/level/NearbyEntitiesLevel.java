@@ -10,7 +10,7 @@ import ca.tweetzy.spawners.api.spawner.Level;
  *
  * @author Kiran Hart
  */
-public final class NearbyEntitiesLevel extends Level{
+public final class NearbyEntitiesLevel extends Level {
 
 	public NearbyEntitiesLevel(int level, double cost, int maxNearbyEntities) {
 		super(LevelOption.MAX_NEARBY_ENTITIES, level, maxNearbyEntities, cost);

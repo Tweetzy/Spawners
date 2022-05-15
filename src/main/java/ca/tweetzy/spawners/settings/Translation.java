@@ -140,24 +140,6 @@ public enum Translation {
 			"&e&lPlace &8» &7To activate spawner"
 	)),
 
-	/*
-	============= inputs =============
-	 */
-	INPUT_LEVEL_EDIT_TITLE("input.level edit.title", "<GRADIENT:fc67fa>&lLevel %level_number%</GRADIENT:f4c4f3>"),
-	INPUT_LEVEL_EDIT_SPAWN_DELAY("input.level edit.spawn delay", "&fEnter new spawn delay for level"),
-	INPUT_LEVEL_EDIT_SPAWN_COUNT("input.level edit.spawn count", "&fEnter new spawn count for level"),
-	INPUT_LEVEL_EDIT_MAX_NEARBY_ENTITIES("input.level edit.max nearby entities", "&fEnter new max nearby entities for level"),
-	INPUT_LEVEL_EDIT_ACTIVATION_RANGE("input.level edit.player activation range", "&fEnter new activation range for level"),
-
-	INPUT_NEW_PRESET_TITLE("input.new preset.title", "<GRADIENT:fc67fa>&lNew Preset</GRADIENT:f4c4f3>"),
-	INPUT_NEW_PRESET_SUBTITLE("input.new preset.subtitle", "&fEnter the id for the new preset"),
-
-	INPUT_PRESET_EDIT_TITLE("input.preset edit.title", "<GRADIENT:fc67fa>&lPreset %preset_id%</GRADIENT:f4c4f3>"),
-	INPUT_PRESET_EDIT_SPAWN_DELAY("input.preset edit.spawn delay", "&fEnter new spawn delay for preset"),
-	INPUT_PRESET_EDIT_SPAWN_COUNT("input.preset edit.spawn count", "&fEnter new spawn count for preset"),
-	INPUT_PRESET_EDIT_MAX_NEARBY_ENTITIES("input.preset edit.max nearby entities", "&fEnter new max nearby entities for preset"),
-	INPUT_PRESET_EDIT_ACTIVATION_RANGE("input.preset edit.player activation range", "&fEnter new activation range for preset"),
-
 
 	/*
 	============= guis =============

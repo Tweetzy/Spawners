@@ -24,7 +24,7 @@ public final class LevelOptionSelectGUI extends BaseGUI {
 	protected void draw() {
 
 		// spawn interval levels
-		setButton(1,1, QuickItem
+		setButton(1, 1, QuickItem
 				.of(CompMaterial.REPEATER)
 				.name("<GRADIENT:fc67fa>&LSpawn Interval Levels</GRADIENT:f4c4f3>")
 				.lore(
@@ -36,7 +36,7 @@ public final class LevelOptionSelectGUI extends BaseGUI {
 				)
 				.make(), click -> click.manager.showGUI(click.player, new LevelListGUI(LevelOption.SPAWN_INTERVAL)));
 
-		setButton(1,3, QuickItem
+		setButton(1, 3, QuickItem
 				.of(CompMaterial.TRIPWIRE_HOOK)
 				.name("<GRADIENT:fc67fa>&LSpawn Count Levels</GRADIENT:f4c4f3>")
 				.lore(
@@ -48,7 +48,7 @@ public final class LevelOptionSelectGUI extends BaseGUI {
 				)
 				.make(), click -> click.manager.showGUI(click.player, new LevelListGUI(LevelOption.SPAWN_COUNT)));
 
-		setButton(1,5, QuickItem
+		setButton(1, 5, QuickItem
 				.of(CompMaterial.OBSERVER)
 				.name("<GRADIENT:fc67fa>&LMax Nearby Levels</GRADIENT:f4c4f3>")
 				.lore(
@@ -60,7 +60,7 @@ public final class LevelOptionSelectGUI extends BaseGUI {
 				)
 				.make(), click -> click.manager.showGUI(click.player, new LevelListGUI(LevelOption.MAX_NEARBY_ENTITIES)));
 
-		setButton(1,7, QuickItem
+		setButton(1, 7, QuickItem
 				.of(CompMaterial.COMPARATOR)
 				.name("<GRADIENT:fc67fa>&LActivation Range Levels</GRADIENT:f4c4f3>")
 				.lore(

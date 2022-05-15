@@ -13,7 +13,7 @@ import ca.tweetzy.spawners.api.spawner.Level;
 public final class SpawnCountLevel extends Level {
 
 	public SpawnCountLevel(int level, double cost, final int spawnCount) {
-		super(LevelOption.SPAWN_COUNT, level, spawnCount,cost);
+		super(LevelOption.SPAWN_COUNT, level, spawnCount, cost);
 	}
 
 	@Override

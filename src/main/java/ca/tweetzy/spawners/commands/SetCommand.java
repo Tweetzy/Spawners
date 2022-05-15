@@ -4,11 +4,11 @@ import ca.tweetzy.rose.command.AllowedExecutor;
 import ca.tweetzy.rose.command.Command;
 import ca.tweetzy.rose.command.ReturnType;
 import ca.tweetzy.rose.comp.enums.CompMaterial;
+import ca.tweetzy.rose.utils.ChatUtil;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.spawner.Spawner;
 import ca.tweetzy.spawners.guis.EntitySelectorGUI;
 import ca.tweetzy.spawners.settings.Translation;
-import org.apache.commons.lang.StringUtils;
 import org.bukkit.block.Block;
 import org.bukkit.block.CreatureSpawner;
 import org.bukkit.command.CommandSender;
@@ -46,7 +46,7 @@ public final class SetCommand extends Command {
 			creatureSpawner.setSpawnedType(selected);
 			creatureSpawner.update(true);
 
-			Translation.UPDATED_SPAWN_TYPE.send(player, "entity_type", StringUtils.capitalize(selected.name().toLowerCase().replace("_", " ")));
+			Translation.UPDATED_SPAWN_TYPE.send(player, "entity_type", ChatUtil.capitalizeFully(selected));
 			player.closeInventory();
 
 			if (spawner != null) {
