@@ -5,7 +5,11 @@ import ca.tweetzy.rose.gui.events.GuiClickEvent;
 import ca.tweetzy.rose.gui.helper.InventoryBorder;
 import ca.tweetzy.rose.gui.template.PagedGUI;
 import ca.tweetzy.rose.utils.Common;
+import ca.tweetzy.rose.utils.QuickItem;
+import ca.tweetzy.rose.utils.Replacer;
 import ca.tweetzy.spawners.Spawners;
+import ca.tweetzy.spawners.api.LevelOption;
+import ca.tweetzy.spawners.api.spawner.Level;
 import ca.tweetzy.spawners.api.spawner.Spawner;
 import ca.tweetzy.spawners.guis.SpawnersAdminGUI;
 import org.bukkit.Location;
@@ -13,6 +17,7 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -32,7 +37,7 @@ public final class SpawnerListAdminGUI extends PagedGUI<Spawner> {
 	}
 
 	public SpawnerListAdminGUI(final UUID spawnerOwner) {
-		super(new SpawnersAdminGUI(), "b", 6, spawnerOwner != null ?
+		super(new SpawnersAdminGUI(), "<GRADIENT:fc67fa>&LSpawners</GRADIENT:f4c4f3> &8> &7Known Spawners", 6, spawnerOwner != null ?
 				Spawners.getSpawnerManager().getContents().stream().filter(spawner -> spawner.getOwner().equals(spawnerOwner)).collect(Collectors.toList())
 				:
 				Spawners.getSpawnerManager().getContents()
@@ -43,22 +48,33 @@ public final class SpawnerListAdminGUI extends PagedGUI<Spawner> {
 
 	@Override
 	protected ItemStack makeDisplayItem(Spawner spawner) {
-		return null;
-//		return QuickItem
-//				.of(CompMaterial.SPAWNER)
-//				.name(Translation.GUI_SPAWNER_ADMIN_LIST_SPAWNER_NAME.getString("owner_name", spawner.getOwnerName()))
-//				.lore(Translation.GUI_SPAWNER_ADMIN_LIST_SPAWNER_LORE.getList(
-//						"world_name", spawner.getLocation().getWorld().getName(),
-//						"world_x", spawner.getLocation().getBlockX(),
-//						"world_y", spawner.getLocation().getBlockY(),
-//						"world_z", spawner.getLocation().getBlockZ(),
-//						"entity_type", StringUtils.capitalize(spawner.getEntityType().name().toLowerCase().replace("_", " ")),
-//						"spawner_spawn_delay", spawner.getOptions().getSpawnInterval(),
-//						"spawner_spawn_count", spawner.getOptions().getSpawnCount(),
-//						"spawner_max_nearby_entities", spawner.getOptions().getMaxNearbyEntities(),
-//						"spawner_player_activation_range", spawner.getOptions().getPlayerActivationRange()
-//				))
-//				.make();
+		return QuickItem
+				.of(CompMaterial.SPAWNER)
+				.name(String.format("<GRADIENT:fc67fa>&l%s Spawner</GRADIENT:f4c4f3>&f", spawner.getOwnerName()))
+				.lore(Replacer.replaceVariables(Arrays.asList(
+								"",
+								"&e&lLocation",
+								"    &7%world_name% &F/ &7%world_x% &f/ &7%world_y% &f/ &7%world_z%",
+								"",
+								"&e&lLevels",
+								"    &7Spawn Delay&f: &a%spawn_delay%",
+								"    &7Spawn Count&f: &a%spawn_count%",
+								"    &7Max Nearby Mobs&f: &a%max_nearby_entities%",
+								"    &7Activation Range&f: &a%activation_range%",
+								"",
+								"&e&LLeft Click &8» &7To teleport to spawner",
+								"&c&lPress 1 &8» &7To delete spawner"
+						),
+						"world_name", spawner.getLocation().getWorld().getName(),
+						"world_x", spawner.getLocation().getBlockX(),
+						"world_y", spawner.getLocation().getBlockY(),
+						"world_z", spawner.getLocation().getBlockZ(),
+						"spawn_delay", spawner.getLevels().stream().filter(level -> level.getLevelOption() == LevelOption.SPAWN_INTERVAL).findFirst().map(Level::getLevelNumber).orElse(0),
+						"spawn_count", spawner.getLevels().stream().filter(level -> level.getLevelOption() == LevelOption.SPAWN_COUNT).findFirst().map(Level::getLevelNumber).orElse(0),
+						"max_nearby_entities", spawner.getLevels().stream().filter(level -> level.getLevelOption() == LevelOption.MAX_NEARBY_ENTITIES).findFirst().map(Level::getLevelNumber).orElse(0),
+						"activation_range", spawner.getLevels().stream().filter(level -> level.getLevelOption() == LevelOption.ACTIVATION_RANGE).findFirst().map(Level::getLevelNumber).orElse(0)
+				))
+				.make();
 	}
 
 	@Override

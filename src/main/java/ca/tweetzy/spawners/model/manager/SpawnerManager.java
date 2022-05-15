@@ -6,6 +6,7 @@ import ca.tweetzy.spawners.settings.Settings;
 import lombok.NonNull;
 import org.bukkit.Location;
 import org.bukkit.block.CreatureSpawner;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -44,6 +45,20 @@ public final class SpawnerManager implements Manager {
 	}
 
 	/*
+	=================== Spawner Helper ===================
+	 */
+
+	public void applySpawnerDefaults(@NonNull final CreatureSpawner spawner, final boolean update) {
+		spawner.setDelay(Settings.DEFAULT_SPAWNER_DELAY.getInt());
+		spawner.setSpawnCount(Settings.DEFAULT_SPAWNER_SPAWN_COUNT.getInt());
+		spawner.setRequiredPlayerRange(Settings.DEFAULT_SPAWNER_ACTIVATION_RANGE.getInt());
+		spawner.setMaxNearbyEntities(Settings.DEFAULT_SPAWNER_MAX_NEARBY_ENTITIES.getInt());
+
+		if (update)
+			spawner.update(true);
+	}
+
+	/*
 	=================== DATABASE CALLS ===================
 	 */
 
@@ -65,16 +80,6 @@ public final class SpawnerManager implements Manager {
 			if (success != null)
 				success.accept(error == null && deleted);
 		});
-	}
-
-	public void applySpawnerDefaults(@NonNull final CreatureSpawner spawner, final boolean update) {
-		spawner.setDelay(Settings.DEFAULT_SPAWNER_DELAY.getInt());
-		spawner.setSpawnCount(Settings.DEFAULT_SPAWNER_SPAWN_COUNT.getInt());
-		spawner.setRequiredPlayerRange(Settings.DEFAULT_SPAWNER_ACTIVATION_RANGE.getInt());
-		spawner.setMaxNearbyEntities(Settings.DEFAULT_SPAWNER_MAX_NEARBY_ENTITIES.getInt());
-
-		if (update)
-			spawner.update(true);
 	}
 
 	@Override
