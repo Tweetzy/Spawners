@@ -1,6 +1,7 @@
 package ca.tweetzy.spawners.api.spawner;
 
 import ca.tweetzy.spawners.api.DataSync;
+import ca.tweetzy.spawners.api.Jsonable;
 import org.bukkit.entity.EntityType;
 
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.List;
  *
  * @author Kiran Hart
  */
-public interface Preset extends DataSync {
+public interface Preset extends DataSync, Jsonable {
 
 	String getId();
 

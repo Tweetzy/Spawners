@@ -255,36 +255,35 @@ public final class DataManager extends DataManagerAbstract {
 		}));
 	}
 
-//	public void insertSpawnerPreset(@NonNull final Preset preset, final Callback<Preset> callback) {
-//		this.runAsync(() -> this.databaseConnector.connect(connection -> {
-//			final String query = "INSERT INTO " + this.getTablePrefix() + "spawner_preset (id, entity_type, level, options) VALUES (?, ?, ?, ?)";
-//			final String fetchQuery = "SELECT * FROM " + this.getTablePrefix() + "spawner_preset WHERE id = ?";
-//
-//			try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-//				final PreparedStatement fetch = connection.prepareStatement(fetchQuery);
-//
-//				fetch.setString(1, preset.getId().toLowerCase());
-//
-//				preparedStatement.setString(1, preset.getId().toLowerCase());
-//				preparedStatement.setString(2, preset.getEntityType().name());
-//				preparedStatement.setInt(3, preset.getLevel());
-//				preparedStatement.setString(4, preset.getOptions().getJsonString());
-//
-//				preparedStatement.executeUpdate();
-//
-//				if (callback != null) {
-//					final ResultSet res = fetch.executeQuery();
-//					res.next();
-//					callback.accept(null, extractSpawnerPreset(res));
-//				}
-//
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//				resolveCallback(callback, e);
-//			}
-//
-//		}));
-//	}
+	public void insertSpawnerPreset(@NonNull final Preset preset, final Callback<Preset> callback) {
+		this.runAsync(() -> this.databaseConnector.connect(connection -> {
+			final String query = "INSERT INTO " + this.getTablePrefix() + "spawner_preset (id, entity_type, levels) VALUES (?, ?, ?)";
+			final String fetchQuery = "SELECT * FROM " + this.getTablePrefix() + "spawner_preset WHERE id = ?";
+
+			try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+				final PreparedStatement fetch = connection.prepareStatement(fetchQuery);
+
+				fetch.setString(1, preset.getId().toLowerCase());
+
+				preparedStatement.setString(1, preset.getId().toLowerCase());
+				preparedStatement.setString(2, preset.getEntityType().name());
+				preparedStatement.setString(3, preset.getJsonString());
+
+				preparedStatement.executeUpdate();
+
+				if (callback != null) {
+					final ResultSet res = fetch.executeQuery();
+					res.next();
+					callback.accept(null, extractSpawnerPreset(res));
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				resolveCallback(callback, e);
+			}
+
+		}));
+	}
 
 	public void getSpawnerPresets(@NonNull final Callback<List<Preset>> callback) {
 		final List<Preset> presets = new ArrayList<>();
@@ -303,25 +302,24 @@ public final class DataManager extends DataManagerAbstract {
 		}));
 	}
 
-//	public void updateSpawnerPreset(@NonNull final Preset preset, Callback<Boolean> callback) {
-//		this.runAsync(() -> this.databaseConnector.connect(connection -> {
-//			try (PreparedStatement statement = connection.prepareStatement("UPDATE " + this.getTablePrefix() + "spawner_preset SET entity_type = ?, level = ?, options = ? WHERE id = ?")) {
-//
-//				statement.setString(1, preset.getEntityType().name());
-//				statement.setInt(2, preset.getLevel());
-//				statement.setString(3, preset.getOptions().getJsonString());
-//				statement.setString(4, preset.getId().toLowerCase());
-//
-//				int result = statement.executeUpdate();
-//
-//				if (callback != null)
-//					callback.accept(null, result > 0);
-//
-//			} catch (Exception e) {
-//				resolveCallback(callback, e);
-//			}
-//		}));
-//	}
+	public void updateSpawnerPreset(@NonNull final Preset preset, Callback<Boolean> callback) {
+		this.runAsync(() -> this.databaseConnector.connect(connection -> {
+			try (PreparedStatement statement = connection.prepareStatement("UPDATE " + this.getTablePrefix() + "spawner_preset SET entity_type = ?, levels = ? WHERE id = ?")) {
+
+				statement.setString(1, preset.getEntityType().name());
+				statement.setString(2, preset.getJsonString());
+				statement.setString(3, preset.getId().toLowerCase());
+
+				int result = statement.executeUpdate();
+
+				if (callback != null)
+					callback.accept(null, result > 0);
+
+			} catch (Exception e) {
+				resolveCallback(callback, e);
+			}
+		}));
+	}
 
 	public void deleteSpawnerPreset(@NonNull final String id, Callback<Boolean> callback) {
 		this.runAsync(() -> this.databaseConnector.connect(connection -> {
@@ -432,7 +430,8 @@ public final class DataManager extends DataManagerAbstract {
 	private Preset extractSpawnerPreset(final ResultSet resultSet) throws SQLException {
 		return new SpawnerPreset(
 				resultSet.getString("id"),
-				EntityType.valueOf(resultSet.getString("entity_type").toUpperCase())
+				EntityType.valueOf(resultSet.getString("entity_type").toUpperCase()),
+				SpawnerPreset.decodeLevelsJson(resultSet.getString("levels"))
 		);
 	}
 
