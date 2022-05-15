@@ -4,9 +4,12 @@ import ca.tweetzy.rose.comp.NBTEditor;
 import ca.tweetzy.rose.comp.enums.CompMaterial;
 import ca.tweetzy.rose.utils.ChatUtil;
 import ca.tweetzy.spawners.Spawners;
+import ca.tweetzy.spawners.api.LevelOption;
+import ca.tweetzy.spawners.api.spawner.Level;
 import ca.tweetzy.spawners.api.spawner.Spawner;
 import ca.tweetzy.spawners.api.spawner.SpawnerUser;
-import ca.tweetzy.spawners.model.SpawnerDefault;
+import ca.tweetzy.spawners.impl.PlacedSpawner;
+import ca.tweetzy.spawners.model.SpawnerBuilder;
 import ca.tweetzy.spawners.settings.Settings;
 import ca.tweetzy.spawners.settings.Translation;
 import com.jeff_media.morepersistentdatatypes.DataType;
@@ -25,6 +28,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Arrays;
 import java.util.Random;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -55,12 +59,12 @@ public final class BlockListeners implements Listener {
 		final Player player = event.getPlayer();
 		final SpawnerUser spawnerUser = Spawners.getPlayerManager().findUser(player);
 
-		if (!NBTEditor.contains(event.getItemInHand(), "Spawners:Spawner")) return;
+		if (!NBTEditor.contains(event.getItemInHand(), "Spawners:ownerUUID")) return;
 
-		final UUID owner = UUID.fromString(NBTEditor.getString(event.getItemInHand(), "Spawners:Spawner:Owner"));
-		final String ownerName = NBTEditor.getString(event.getItemInHand(), "Spawners:Spawner:OwnerName");
+		final UUID owner = UUID.fromString(NBTEditor.getString(event.getItemInHand(), "Spawners:ownerUUID"));
+		final String ownerName = NBTEditor.getString(event.getItemInHand(), "Spawners:ownerName");
 
-		final boolean noOwner = owner.equals(SpawnerDefault.NULL_UUID);
+		final boolean noOwner = owner.equals(SpawnerBuilder.NULL_UUID);
 
 		if (!noOwner && !Settings.ALLOW_NON_OWNER_PLACE.getBoolean() && !owner.equals(player.getUniqueId())) {
 			Translation.SPAWNER_NOT_OWNER_PLACE.send(player, "owner_name", ownerName);
@@ -68,7 +72,8 @@ public final class BlockListeners implements Listener {
 			return;
 		}
 
-		final EntityType entityType = EntityType.valueOf(NBTEditor.getString(event.getItemInHand(), "Spawners:Spawner:EntityType").toUpperCase());
+		final EntityType entityType = EntityType.valueOf(NBTEditor.getString(event.getItemInHand(), "Spawners:entity").toUpperCase());
+
 		if (!handleEntityPlacePerm(spawnerUser, player, entityType)) {
 			event.setCancelled(true);
 			return;
@@ -82,32 +87,36 @@ public final class BlockListeners implements Listener {
 			placedBlock.setType(CompMaterial.SPAWNER.parseMaterial());
 		}
 
-//		final Options options = SpawnerOptions.decodeJson(NBTEditor.getString(event.getItemInHand(), "Spawners:Spawner:Options"));
-//		final Level level = Spawners.getLevelManager().find(Integer.parseInt(NBTEditor.getString(event.getItemInHand(), "Spawners:Spawner:Level")));
-//
-//		// insert spawner here and check place event
-//		final Spawner spawner = new PlacedSpawner(UUID.randomUUID(), noOwner ? player.getUniqueId() : owner, noOwner ? Translation.SPAWNER_NO_OWNER.getString() : player.getName(), entityType, level != null ? level.getLevel() : -1, options, placedBlock.getLocation());
-//		Spawners.getSpawnerManager().createSpawner(spawner, null);
-//
-//		final CreatureSpawner creatureSpawner = (CreatureSpawner) placedBlock.getState();
-//		creatureSpawner.setSpawnedType(entityType);
-//
-//		// apply options
-//		creatureSpawner.setDelay(level != null ? Math.min(level.getSpawnInterval(), options.getSpawnInterval()) : options.getSpawnInterval());
-//		creatureSpawner.setMinSpawnDelay(level != null ? Math.min(level.getSpawnInterval(), options.getSpawnInterval()) : options.getSpawnInterval());
-//
-//		creatureSpawner.setMaxSpawnDelay(level != null ? Math.min(level.getSpawnInterval(), options.getSpawnInterval()) : options.getSpawnInterval());
-//		creatureSpawner.setSpawnCount(level != null ? Math.max(level.getSpawnCount(), options.getSpawnCount()) : options.getSpawnCount());
-//		creatureSpawner.setMaxNearbyEntities(level != null ? Math.max(level.getMaxNearbyEntities(), options.getMaxNearbyEntities()) : options.getMaxNearbyEntities());
-//		creatureSpawner.setRequiredPlayerRange(level != null ? Math.max(level.getPlayerActivationRange(), options.getPlayerActivationRange()) : options.getPlayerActivationRange());
+		// insert spawner here and check place event
+		final Spawner spawner = new PlacedSpawner(player, entityType, placedBlock.getLocation());
 
-		// apply persistent container stuff
-//		final NamespacedKey namespacedKey = new NamespacedKey(Spawners.getInstance(), "SpawnersOwner");
-//		creatureSpawner.getPersistentDataContainer().set(namespacedKey, DataType.UUID, noOwner ? player.getUniqueId() : owner);
-//		creatureSpawner.getPersistentDataContainer().set(namespacedKey, DataType.STRING, noOwner ? player.getName() : ownerName);
-//
-//		// update
-//		creatureSpawner.update(true);
+		// spawner levels
+		final Level delayLevel = Spawners.getLevelManager().find(LevelOption.SPAWN_INTERVAL, Integer.parseInt(NBTEditor.getString(event.getItemInHand(), "Spawners:delay")));
+		final Level spawnCountLevel = Spawners.getLevelManager().find(LevelOption.SPAWN_COUNT, Integer.parseInt(NBTEditor.getString(event.getItemInHand(), "Spawners:spawnCount")));
+		final Level maxNearbyLevel = Spawners.getLevelManager().find(LevelOption.MAX_NEARBY_ENTITIES, Integer.parseInt(NBTEditor.getString(event.getItemInHand(), "Spawners:maxNearby")));
+		final Level activationRangeLevel = Spawners.getLevelManager().find(LevelOption.ACTIVATION_RANGE, Integer.parseInt(NBTEditor.getString(event.getItemInHand(), "Spawners:activationRange")));
+
+		spawner.setLevels(Arrays.asList(delayLevel, spawnCountLevel, maxNearbyLevel, activationRangeLevel));
+		Spawners.getSpawnerManager().createSpawner(spawner, null);
+
+		final CreatureSpawner creatureSpawner = (CreatureSpawner) placedBlock.getState();
+		creatureSpawner.setSpawnedType(entityType);
+
+		final int delay = delayLevel == null ? Settings.DEFAULT_SPAWNER_DELAY.getInt() : delayLevel.getValue();
+		final int spawnCount = spawnCountLevel == null ? Settings.DEFAULT_SPAWNER_SPAWN_COUNT.getInt() : spawnCountLevel.getValue();
+		final int maxNearby = maxNearbyLevel == null ? Settings.DEFAULT_SPAWNER_MAX_NEARBY_ENTITIES.getInt() : maxNearbyLevel.getValue();
+		final int activationRange = activationRangeLevel == null ? Settings.DEFAULT_SPAWNER_ACTIVATION_RANGE.getInt() : activationRangeLevel.getValue();
+
+		// apply options
+		creatureSpawner.setDelay(delay);
+		creatureSpawner.setMinSpawnDelay(delay);
+		creatureSpawner.setMaxSpawnDelay(delay);
+		creatureSpawner.setSpawnCount(spawnCount);
+		creatureSpawner.setMaxNearbyEntities(maxNearby);
+		creatureSpawner.setRequiredPlayerRange(activationRange);
+
+		// update
+		creatureSpawner.update(true);
 	}
 
 	@EventHandler(priority = EventPriority.LOW)

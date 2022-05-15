@@ -5,12 +5,14 @@ import ca.tweetzy.rose.command.Command;
 import ca.tweetzy.rose.command.ReturnType;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.spawner.Preset;
+import ca.tweetzy.spawners.model.SpawnerBuilder;
 import ca.tweetzy.spawners.settings.Translation;
 import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
@@ -56,16 +58,12 @@ public final class GiveCommand extends Command {
 			presetFound = Spawners.getPresetManager().find(preset);
 		}
 
-//		ItemStack spawnerItem = SpawnerItem.make(
-//				target.getUniqueId(),
-//				target.getName(),
-//				presetFound != null ? presetFound.getEntityType() : entityType,
-//				-1,
-//				null
-//		);
-//
-//		for (int i = 0; i < amount; i++)
-//			target.getInventory().addItem(spawnerItem);
+		ItemStack spawnerItem = SpawnerBuilder
+				.of(target, entityType)
+				.make();
+
+		for (int i = 0; i < amount; i++)
+			target.getInventory().addItem(spawnerItem);
 
 		return ReturnType.SUCCESS;
 	}

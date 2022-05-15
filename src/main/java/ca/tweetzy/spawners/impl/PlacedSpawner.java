@@ -9,10 +9,13 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,7 +35,8 @@ public final class PlacedSpawner implements Spawner {
 	private List<Level> levels;
 	private Location location;
 
-	public PlacedSpawner() {
+	public PlacedSpawner(@NonNull final Player player, @NonNull final EntityType entityType, @NonNull final Location location) {
+		this(UUID.randomUUID(), player.getUniqueId(), player.getName(), entityType, new ArrayList<>(), location);
 	}
 
 	@Override
