@@ -1,8 +1,11 @@
 package ca.tweetzy.spawners.impl;
 
+import ca.tweetzy.spawners.api.spawner.Level;
 import ca.tweetzy.spawners.api.spawner.Preset;
 import lombok.AllArgsConstructor;
 import org.bukkit.entity.EntityType;
+
+import java.util.List;
 
 /**
  * Date Created: May 10 2022
@@ -15,6 +18,7 @@ public final class SpawnerPreset implements Preset {
 
 	private final String id;
 	private EntityType entityType;
+	private List<Level> levels;
 
 	@Override
 	public String getId() {
@@ -26,12 +30,21 @@ public final class SpawnerPreset implements Preset {
 		return this.entityType;
 	}
 
+	@Override
+	public List<Level> getLevels() {
+		return this.levels;
+	}
+
 
 	@Override
 	public void setEntityType(EntityType entityType) {
 		this.entityType = entityType;
 	}
 
+	@Override
+	public void setLevels(List<Level> levels) {
+		this.levels = levels;
+	}
 
 	@Override
 	public void sync() {
