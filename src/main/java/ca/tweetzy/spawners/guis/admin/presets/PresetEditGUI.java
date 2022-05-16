@@ -1,0 +1,115 @@
+package ca.tweetzy.spawners.guis.admin.presets;
+
+import ca.tweetzy.rose.comp.NBTEditor;
+import ca.tweetzy.rose.comp.enums.CompMaterial;
+import ca.tweetzy.rose.gui.template.BaseGUI;
+import ca.tweetzy.rose.utils.ChatUtil;
+import ca.tweetzy.rose.utils.QuickItem;
+import ca.tweetzy.rose.utils.Replacer;
+import ca.tweetzy.spawners.api.LevelOption;
+import ca.tweetzy.spawners.api.SpawnerMob;
+import ca.tweetzy.spawners.api.spawner.Preset;
+import ca.tweetzy.spawners.guis.EntitySelectorGUI;
+import lombok.NonNull;
+
+import java.util.Arrays;
+
+/**
+ * Date Created: May 16 2022
+ * Time Created: 1:28 p.m.
+ *
+ * @author Kiran Hart
+ */
+public final class PresetEditGUI extends BaseGUI {
+
+	private final Preset preset;
+
+	public PresetEditGUI(@NonNull final Preset preset) {
+		super(new PresetListGUI(), "<GRADIENT:fc67fa>&lPresets</GRADIENT:f4c4f3> &8> &7" + preset.getId());
+		this.preset = preset;
+		draw();
+	}
+
+	@Override
+	protected void draw() {
+
+		setButton(1, 4, QuickItem
+				.of(NBTEditor.getHead(SpawnerMob.valueOf(this.preset.getEntityType().name()).getHeadTexture()))
+				.name("<GRADIENT:fc67fa>&lEntity Type</GRADIENT:f4c4f3>")
+				.lore(Replacer.replaceVariables(Arrays.asList(
+								"",
+								"&7Current&f: &e%entity_type%",
+								"",
+								"&e&lClick &8» &7To change entity"
+						),
+						"entity_type", ChatUtil.capitalizeFully(this.preset.getEntityType())
+				)).make(), click -> click.manager.showGUI(click.player, new EntitySelectorGUI(this, EntitySelectorGUI.EntityViewMode.ALL, selected -> {
+
+			this.preset.setEntityType(selected);
+			this.preset.sync();
+			click.manager.showGUI(click.player, new PresetEditGUI(this.preset));
+		})));
+
+		// spawn interval
+		setButton(3, 1, QuickItem
+				.of(CompMaterial.REPEATER)
+				.name("<GRADIENT:fc67fa>&lSpawn Interval Level</GRADIENT:f4c4f3>")
+				.lore(Replacer.replaceVariables(Arrays.asList(
+								"",
+								"&7Current&f: &a%spawn_delay_level% &f(&e%spawn_delay%&as&f)",
+								"",
+								"&e&lClick &8» &7To change level"
+						),
+						"spawn_delay_level", this.preset.getLevels().get(LevelOption.SPAWN_INTERVAL).getLevelNumber(),
+						"spawn_delay", String.format(String.valueOf(this.preset.getLevels().get(LevelOption.SPAWN_INTERVAL).getValue() / 20), "%,.2f")
+				)).make(), click -> {
+		});
+
+		// spawn count
+		setButton(3, 3, QuickItem
+				.of(CompMaterial.TRIPWIRE_HOOK)
+				.name("<GRADIENT:fc67fa>&lSpawn Count Level</GRADIENT:f4c4f3>")
+				.lore(Replacer.replaceVariables(Arrays.asList(
+								"",
+								"&7Current&f: &a%spawn_count_level% &f(&e%spawn_count%&f)",
+								"",
+								"&e&lClick &8» &7To change level"
+						),
+						"spawn_count_level", this.preset.getLevels().get(LevelOption.SPAWN_COUNT).getLevelNumber(),
+						"spawn_count", this.preset.getLevels().get(LevelOption.SPAWN_COUNT).getValue()
+				)).make(), click -> {
+		});
+
+		// max nearby
+		setButton(3, 5, QuickItem
+				.of(CompMaterial.OBSERVER)
+				.name("<GRADIENT:fc67fa>&lMax Nearby Mobs Level</GRADIENT:f4c4f3>")
+				.lore(Replacer.replaceVariables(Arrays.asList(
+								"",
+								"&7Current&f: &a%max_nearby_entities_level% &f(&e%max_nearby_entities%&f)",
+								"",
+								"&e&lClick &8» &7To change level"
+						),
+						"max_nearby_entities_level", this.preset.getLevels().get(LevelOption.MAX_NEARBY_ENTITIES).getLevelNumber(),
+						"max_nearby_entities", this.preset.getLevels().get(LevelOption.MAX_NEARBY_ENTITIES).getValue()
+				)).make(), click -> {
+		});
+
+		// Activation range
+		setButton(3, 7, QuickItem
+				.of(CompMaterial.COMPARATOR)
+				.name("<GRADIENT:fc67fa>&lActivation Range Level</GRADIENT:f4c4f3>")
+				.lore(Replacer.replaceVariables(Arrays.asList(
+								"",
+								"&7Current&f: &a%activation_range_level% &f(&e%activation_range%&f)",
+								"",
+								"&e&lClick &8» &7To change level"
+						),
+						"activation_range_level", this.preset.getLevels().get(LevelOption.ACTIVATION_RANGE).getLevelNumber(),
+						"activation_range", this.preset.getLevels().get(LevelOption.ACTIVATION_RANGE).getValue()
+				)).make(), click -> {
+		});
+
+		applyBackExit();
+	}
+}
