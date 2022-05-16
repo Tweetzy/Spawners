@@ -48,6 +48,11 @@ public final class SpawnerListAdminGUI extends PagedGUI<Spawner> {
 
 	@Override
 	protected ItemStack makeDisplayItem(Spawner spawner) {
+		final Level delayLevel = spawner.getLevels().get(LevelOption.SPAWN_INTERVAL);
+		final Level spawnCountLevel = spawner.getLevels().get(LevelOption.SPAWN_COUNT);
+		final Level maxNearbyLevel = spawner.getLevels().get(LevelOption.MAX_NEARBY_ENTITIES);
+		final Level activationRangeLevel = spawner.getLevels().get(LevelOption.ACTIVATION_RANGE);
+
 		return QuickItem
 				.of(CompMaterial.SPAWNER)
 				.name(String.format("<GRADIENT:fc67fa>&l%s Spawner</GRADIENT:f4c4f3>&f", spawner.getOwnerName()))
@@ -69,10 +74,10 @@ public final class SpawnerListAdminGUI extends PagedGUI<Spawner> {
 						"world_x", spawner.getLocation().getBlockX(),
 						"world_y", spawner.getLocation().getBlockY(),
 						"world_z", spawner.getLocation().getBlockZ(),
-						"spawn_delay", spawner.getLevels().stream().filter(level -> level.getLevelOption() == LevelOption.SPAWN_INTERVAL).findFirst().map(Level::getLevelNumber).orElse(0),
-						"spawn_count", spawner.getLevels().stream().filter(level -> level.getLevelOption() == LevelOption.SPAWN_COUNT).findFirst().map(Level::getLevelNumber).orElse(0),
-						"max_nearby_entities", spawner.getLevels().stream().filter(level -> level.getLevelOption() == LevelOption.MAX_NEARBY_ENTITIES).findFirst().map(Level::getLevelNumber).orElse(0),
-						"activation_range", spawner.getLevels().stream().filter(level -> level.getLevelOption() == LevelOption.ACTIVATION_RANGE).findFirst().map(Level::getLevelNumber).orElse(0)
+						"spawn_delay", delayLevel.getLevelNumber(),
+						"spawn_count", spawnCountLevel.getLevelNumber(),
+						"max_nearby_entities", maxNearbyLevel.getLevelNumber(),
+						"activation_range", activationRangeLevel.getLevelNumber()
 				))
 				.make();
 	}

@@ -14,9 +14,8 @@ import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -32,11 +31,11 @@ public final class PlacedSpawner implements Spawner {
 	private UUID owner;
 	private String ownerName;
 	private EntityType entityType;
-	private List<Level> levels;
+	private Map<LevelOption, Level> levels;
 	private Location location;
 
 	public PlacedSpawner(@NonNull final Player player, @NonNull final EntityType entityType, @NonNull final Location location) {
-		this(UUID.randomUUID(), player.getUniqueId(), player.getName(), entityType, new ArrayList<>(), location);
+		this(UUID.randomUUID(), player.getUniqueId(), player.getName(), entityType, new HashMap<>(), location);
 	}
 
 	@Override
@@ -60,7 +59,7 @@ public final class PlacedSpawner implements Spawner {
 	}
 
 	@Override
-	public List<Level> getLevels() {
+	public Map<LevelOption, Level> getLevels() {
 		return this.levels;
 	}
 
@@ -80,7 +79,7 @@ public final class PlacedSpawner implements Spawner {
 	}
 
 	@Override
-	public void setLevels(List<Level> levels) {
+	public void setLevels(Map<LevelOption, Level> levels) {
 		this.levels = levels;
 	}
 
@@ -93,7 +92,7 @@ public final class PlacedSpawner implements Spawner {
 	public String getJsonString() {
 		final JsonArray jsonArray = new JsonArray();
 
-		this.levels.forEach(level -> {
+		this.levels.forEach((option, level) -> {
 			final JsonObject object = new JsonObject();
 
 			object.addProperty("option", level.getLevelOption().name());
@@ -104,18 +103,19 @@ public final class PlacedSpawner implements Spawner {
 			jsonArray.add(object);
 		});
 
-
 		return jsonArray.toString();
 	}
 
-	public static List<Level> decodeLevelsJson(String json) {
+	public static Map<LevelOption, Level> decodeLevelsJson(String json) {
 		final JsonArray array = JsonParser.parseString(json).getAsJsonArray();
-		final List<Level> parsedLevels = new ArrayList<>();
+		final Map<LevelOption, Level> parsedLevels = new HashMap<>();
 
 		array.forEach(jsonElement -> {
 			final JsonObject object = jsonElement.getAsJsonObject();
-			parsedLevels.add(LevelFactory.build(
-					LevelOption.valueOf(object.get("option").getAsString()),
+			final LevelOption levelOption = LevelOption.valueOf(object.get("option").getAsString());
+
+			parsedLevels.put(levelOption, LevelFactory.build(
+					levelOption,
 					object.get("level").getAsInt(),
 					object.get("value").getAsInt(),
 					object.get("cost").getAsDouble()

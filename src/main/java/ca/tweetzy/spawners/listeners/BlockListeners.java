@@ -29,6 +29,7 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Random;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -96,7 +97,13 @@ public final class BlockListeners implements Listener {
 		final Level maxNearbyLevel = Spawners.getLevelManager().find(LevelOption.MAX_NEARBY_ENTITIES, Integer.parseInt(NBTEditor.getString(event.getItemInHand(), "Spawners:maxNearby")));
 		final Level activationRangeLevel = Spawners.getLevelManager().find(LevelOption.ACTIVATION_RANGE, Integer.parseInt(NBTEditor.getString(event.getItemInHand(), "Spawners:activationRange")));
 
-		spawner.setLevels(Arrays.asList(delayLevel, spawnCountLevel, maxNearbyLevel, activationRangeLevel));
+		spawner.setLevels(new HashMap<>(){{
+			put(LevelOption.SPAWN_INTERVAL, delayLevel);
+			put(LevelOption.SPAWN_COUNT, spawnCountLevel);
+			put(LevelOption.MAX_NEARBY_ENTITIES, maxNearbyLevel);
+			put(LevelOption.ACTIVATION_RANGE, activationRangeLevel);
+		}});
+
 		Spawners.getSpawnerManager().createSpawner(spawner, null);
 
 		final CreatureSpawner creatureSpawner = (CreatureSpawner) placedBlock.getState();
