@@ -48,6 +48,13 @@ public final class LevelManager implements Manager {
 		}
 	}
 
+	public boolean optionsHasAtLeastOneOption() {
+		return !getLevels(LevelOption.SPAWN_INTERVAL).isEmpty()
+				&& !getLevels(LevelOption.SPAWN_COUNT).isEmpty()
+				&& !getLevels(LevelOption.MAX_NEARBY_ENTITIES).isEmpty()
+				&& !getLevels(LevelOption.ACTIVATION_RANGE).isEmpty();
+	}
+
 	public List<Level> getLevels(@NonNull final LevelOption levelOption) {
 		synchronized (this.levels) {
 			return List.copyOf(this.levels.stream().filter(level -> level.getLevelOption() == levelOption).collect(Collectors.toList()));
