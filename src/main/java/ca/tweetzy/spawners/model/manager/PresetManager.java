@@ -2,8 +2,10 @@ package ca.tweetzy.spawners.model.manager;
 
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.spawner.Preset;
+import ca.tweetzy.spawners.api.spawner.Spawner;
 import lombok.NonNull;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
@@ -31,6 +33,10 @@ public final class PresetManager implements Manager {
 
 	public Preset find(@NonNull String key) {
 		return this.contents.getOrDefault(key.toLowerCase(), null);
+	}
+
+	public List<Preset> getContents() {
+		return List.copyOf(this.contents.values());
 	}
 
 	public void createPreset(@NonNull final Preset preset, final BiConsumer<Boolean, Preset> consumer) {

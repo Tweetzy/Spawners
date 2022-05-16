@@ -11,8 +11,8 @@ import com.google.gson.JsonParser;
 import lombok.AllArgsConstructor;
 import org.bukkit.entity.EntityType;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Date Created: May 10 2022
@@ -25,7 +25,7 @@ public final class SpawnerPreset implements Preset {
 
 	private final String id;
 	private EntityType entityType;
-	private List<Level> levels;
+	private Map<LevelOption, Level> levels;
 
 	@Override
 	public String getId() {
@@ -38,7 +38,7 @@ public final class SpawnerPreset implements Preset {
 	}
 
 	@Override
-	public List<Level> getLevels() {
+	public Map<LevelOption, Level> getLevels() {
 		return this.levels;
 	}
 
@@ -49,7 +49,7 @@ public final class SpawnerPreset implements Preset {
 	}
 
 	@Override
-	public void setLevels(List<Level> levels) {
+	public void setLevels(Map<LevelOption, Level> levels) {
 		this.levels = levels;
 	}
 
@@ -57,7 +57,7 @@ public final class SpawnerPreset implements Preset {
 	public String getJsonString() {
 		final JsonArray jsonArray = new JsonArray();
 
-		this.levels.forEach(level -> {
+		this.levels.forEach((option, level) -> {
 			final JsonObject object = new JsonObject();
 
 			object.addProperty("option", level.getLevelOption().name());
@@ -72,14 +72,16 @@ public final class SpawnerPreset implements Preset {
 		return jsonArray.toString();
 	}
 
-	public static List<Level> decodeLevelsJson(String json) {
+	public static Map<LevelOption, Level> decodeLevelsJson(String json) {
 		final JsonArray array = JsonParser.parseString(json).getAsJsonArray();
-		final List<Level> parsedLevels = new ArrayList<>();
+		final Map<LevelOption, Level> parsedLevels = new HashMap<>();
 
 		array.forEach(jsonElement -> {
 			final JsonObject object = jsonElement.getAsJsonObject();
-			parsedLevels.add(LevelFactory.build(
-					LevelOption.valueOf(object.get("option").getAsString()),
+			final LevelOption levelOption = LevelOption.valueOf(object.get("option").getAsString());
+
+			parsedLevels.put(levelOption, LevelFactory.build(
+					levelOption,
 					object.get("level").getAsInt(),
 					object.get("value").getAsInt(),
 					object.get("cost").getAsDouble()
