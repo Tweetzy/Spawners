@@ -62,10 +62,10 @@ public final class SpawnerListAdminGUI extends PagedGUI<Spawner> {
 								"    &7%world_name% &F/ &7%world_x% &f/ &7%world_y% &f/ &7%world_z%",
 								"",
 								"&e&lLevels",
-								"    &7Spawn Delay&f: &a%spawn_delay%",
-								"    &7Spawn Count&f: &a%spawn_count%",
-								"    &7Max Nearby Mobs&f: &a%max_nearby_entities%",
-								"    &7Activation Range&f: &a%activation_range%",
+								"    &7Spawn Delay&f: &a%spawn_delay_level% &f(&e%spawn_delay&as%&f)",
+								"    &7Spawn Count&f: &a%spawn_count_level% &f(&e%spawn_count%&f)",
+								"    &7Max Nearby Mobs&f: &a%max_nearby_entities_level% &f(&e%max_nearby_entities%&f)",
+								"    &7Activation Range&f: &a%activation_range_level% &f(&e%activation_range%&f)",
 								"",
 								"&e&LLeft Click &8» &7To teleport to spawner",
 								"&c&lPress 1 &8» &7To delete spawner"
@@ -74,10 +74,14 @@ public final class SpawnerListAdminGUI extends PagedGUI<Spawner> {
 						"world_x", spawner.getLocation().getBlockX(),
 						"world_y", spawner.getLocation().getBlockY(),
 						"world_z", spawner.getLocation().getBlockZ(),
-						"spawn_delay", delayLevel.getLevelNumber(),
-						"spawn_count", spawnCountLevel.getLevelNumber(),
-						"max_nearby_entities", maxNearbyLevel.getLevelNumber(),
-						"activation_range", activationRangeLevel.getLevelNumber()
+						"spawn_delay_level", delayLevel.getLevelNumber(),
+						"spawn_count_level", spawnCountLevel.getLevelNumber(),
+						"max_nearby_entities_level", maxNearbyLevel.getLevelNumber(),
+						"activation_range_level", activationRangeLevel.getLevelNumber(),
+						"spawn_delay", String.format(String.valueOf(delayLevel.getValue() / 20), "%,.2f"),
+						"spawn_count", spawnCountLevel.getValue(),
+						"max_nearby_entities", maxNearbyLevel.getValue(),
+						"activation_range", activationRangeLevel.getValue()
 				))
 				.make();
 	}
