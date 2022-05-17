@@ -5,6 +5,7 @@ import ca.tweetzy.rose.utils.QuickItem;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.LevelOption;
 import ca.tweetzy.spawners.api.spawner.Level;
+import ca.tweetzy.spawners.api.spawner.Preset;
 import ca.tweetzy.spawners.settings.Settings;
 import ca.tweetzy.spawners.settings.Translation;
 import lombok.AllArgsConstructor;
@@ -44,6 +45,12 @@ public final class SpawnerBuilder {
 
 	public static SpawnerBuilder of(@NonNull final Player player, final EntityType entityType) {
 		return new SpawnerBuilder(player.getUniqueId(), player.getName(), entityType, true);
+	}
+
+	public static SpawnerBuilder of(@NonNull final Player player, final Preset preset) {
+		final SpawnerBuilder builder = new SpawnerBuilder(player.getUniqueId(), player.getName(), preset.getEntityType(), false);
+		preset.getLevels().forEach((option, level) -> builder.addLevel(level));
+		return builder;
 	}
 
 	public SpawnerBuilder setNoOwner() {
@@ -105,7 +112,7 @@ public final class SpawnerBuilder {
 		itemStack.tag("Spawners:ownerName", this.ownerName);
 		itemStack.tag("Spawners:ownerUUID", this.ownerUUID.toString());
 		itemStack.tag("Spawners:entity", this.entityType.name());
-		itemStack.tag("Spawners:upgradeable",  String.valueOf(this.levelCanBeChanged));
+		itemStack.tag("Spawners:upgradeable", String.valueOf(this.levelCanBeChanged));
 
 		itemStack.tag("Spawners:delay", String.valueOf(delay));
 		itemStack.tag("Spawners:spawnCount", String.valueOf(spawnCount));
