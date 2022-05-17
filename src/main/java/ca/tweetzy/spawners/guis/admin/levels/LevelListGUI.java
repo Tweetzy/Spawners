@@ -28,7 +28,7 @@ public final class LevelListGUI extends PagedGUI<Level> {
 	private final LevelOption levelOption;
 
 	public LevelListGUI(@NonNull final LevelOption levelOption) {
-		super(new LevelOptionSelectGUI(), "<GRADIENT:fc67fa>&LLevels</GRADIENT:f4c4f3> &8> " + ChatUtil.capitalizeFully(levelOption.name()), 6, Spawners.getLevelManager().getLevels(levelOption));
+		super(new LevelOptionSelectGUI(), "<GRADIENT:fc67fa>&LLevels</GRADIENT:f4c4f3> &8> &7" + ChatUtil.capitalizeFully(levelOption.name()), 6, Spawners.getLevelManager().getLevels(levelOption));
 		this.levelOption = levelOption;
 		draw();
 	}
