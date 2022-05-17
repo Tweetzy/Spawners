@@ -43,7 +43,6 @@ public final class SpawnerManager implements Manager {
 	public List<Spawner> getContents() {
 		return List.copyOf(this.contents.values());
 	}
-
 	/*
 	=================== Spawner Helper ===================
 	 */

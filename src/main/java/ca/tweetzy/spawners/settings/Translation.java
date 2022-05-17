@@ -33,6 +33,7 @@ public enum Translation {
 	NOT_A_SPAWNER("misc.not a spawner", "&cThat block is not a spawner!"),
 	UPDATED_SPAWN_TYPE("misc.updated spawn type", "&aSuccessfully set spawner's entity type to&f: &e%entity_type%"),
 	PRESET_ID_TAKEN("misc.preset id taken", "&cThe preset id&f: &4%preset_id% &cis already in use."),
+	NEED_TO_MAKE_LEVELS("misc.need to create levels", "&cYou need to create 1 level for each upgrade first."),
 
 
 	MOB_NAME_ELDER_GUARDIAN("mob names.elder guardian", "Elder guardian"),

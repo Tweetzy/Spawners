@@ -7,6 +7,7 @@ import ca.tweetzy.rose.utils.Common;
 import ca.tweetzy.rose.utils.QuickItem;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.guis.admin.levels.LevelOptionSelectGUI;
+import ca.tweetzy.spawners.guis.admin.presets.PresetListGUI;
 import ca.tweetzy.spawners.guis.admin.spawners.SpawnerListAdminGUI;
 import ca.tweetzy.spawners.settings.Translation;
 
@@ -42,7 +43,7 @@ public final class SpawnersAdminGUI extends BaseGUI {
 				.of(CompMaterial.CARTOGRAPHY_TABLE)
 				.name(Translation.GUI_ADMIN_MAIN_ITEMS_PRESETS_NAME.getString())
 				.lore(Translation.GUI_ADMIN_MAIN_ITEMS_PRESETS_LORE.getList())
-				.make(), click -> click.manager.showGUI(click.player, new LevelOptionSelectGUI()));
+				.make(), click -> click.manager.showGUI(click.player, new PresetListGUI()));
 
 
 		setButton(5, 8, QuickItem.of(CompMaterial.DIAMOND)

@@ -55,14 +55,14 @@ public final class SpawnerListAdminGUI extends PagedGUI<Spawner> {
 
 		return QuickItem
 				.of(CompMaterial.SPAWNER)
-				.name(String.format("<GRADIENT:fc67fa>&l%s Spawner</GRADIENT:f4c4f3>&f", spawner.getOwnerName()))
+				.name(String.format("<GRADIENT:fc67fa>&l%s's Spawner</GRADIENT:f4c4f3>&f", spawner.getOwnerName()))
 				.lore(Replacer.replaceVariables(Arrays.asList(
 								"",
 								"&e&lLocation",
 								"    &7%world_name% &F/ &7%world_x% &f/ &7%world_y% &f/ &7%world_z%",
 								"",
 								"&e&lLevels",
-								"    &7Spawn Delay&f: &a%spawn_delay_level% &f(&e%spawn_delay&as%&f)",
+								"    &7Spawn Delay&f: &a%spawn_delay_level% &f(&e%spawn_delay%&as&f)",
 								"    &7Spawn Count&f: &a%spawn_count_level% &f(&e%spawn_count%&f)",
 								"    &7Max Nearby Mobs&f: &a%max_nearby_entities_level% &f(&e%max_nearby_entities%&f)",
 								"    &7Activation Range&f: &a%activation_range_level% &f(&e%activation_range%&f)",
