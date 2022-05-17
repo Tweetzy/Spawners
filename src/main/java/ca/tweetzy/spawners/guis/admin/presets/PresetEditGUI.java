@@ -10,6 +10,7 @@ import ca.tweetzy.spawners.api.LevelOption;
 import ca.tweetzy.spawners.api.SpawnerMob;
 import ca.tweetzy.spawners.api.spawner.Preset;
 import ca.tweetzy.spawners.guis.EntitySelectorGUI;
+import ca.tweetzy.spawners.guis.LevelSelectorGUI;
 import lombok.NonNull;
 
 import java.util.Arrays;
@@ -62,8 +63,12 @@ public final class PresetEditGUI extends BaseGUI {
 						),
 						"spawn_delay_level", this.preset.getLevels().get(LevelOption.SPAWN_INTERVAL).getLevelNumber(),
 						"spawn_delay", String.format(String.valueOf(this.preset.getLevels().get(LevelOption.SPAWN_INTERVAL).getValue() / 20), "%,.2f")
-				)).make(), click -> {
-		});
+				)).make(), click -> click.manager.showGUI(click.player, new LevelSelectorGUI(this, LevelOption.SPAWN_INTERVAL, selected -> {
+
+			this.preset.getLevels().put(LevelOption.SPAWN_INTERVAL, selected);
+			this.preset.sync();
+			click.manager.showGUI(click.player, new PresetEditGUI(this.preset));
+		})));
 
 		// spawn count
 		setButton(3, 3, QuickItem
@@ -77,8 +82,12 @@ public final class PresetEditGUI extends BaseGUI {
 						),
 						"spawn_count_level", this.preset.getLevels().get(LevelOption.SPAWN_COUNT).getLevelNumber(),
 						"spawn_count", this.preset.getLevels().get(LevelOption.SPAWN_COUNT).getValue()
-				)).make(), click -> {
-		});
+				)).make(), click -> click.manager.showGUI(click.player, new LevelSelectorGUI(this, LevelOption.SPAWN_COUNT, selected -> {
+
+			this.preset.getLevels().put(LevelOption.SPAWN_COUNT, selected);
+			this.preset.sync();
+			click.manager.showGUI(click.player, new PresetEditGUI(this.preset));
+		})));
 
 		// max nearby
 		setButton(3, 5, QuickItem
@@ -92,8 +101,12 @@ public final class PresetEditGUI extends BaseGUI {
 						),
 						"max_nearby_entities_level", this.preset.getLevels().get(LevelOption.MAX_NEARBY_ENTITIES).getLevelNumber(),
 						"max_nearby_entities", this.preset.getLevels().get(LevelOption.MAX_NEARBY_ENTITIES).getValue()
-				)).make(), click -> {
-		});
+				)).make(), click -> click.manager.showGUI(click.player, new LevelSelectorGUI(this, LevelOption.MAX_NEARBY_ENTITIES, selected -> {
+
+			this.preset.getLevels().put(LevelOption.MAX_NEARBY_ENTITIES, selected);
+			this.preset.sync();
+			click.manager.showGUI(click.player, new PresetEditGUI(this.preset));
+		})));
 
 		// Activation range
 		setButton(3, 7, QuickItem
@@ -107,8 +120,12 @@ public final class PresetEditGUI extends BaseGUI {
 						),
 						"activation_range_level", this.preset.getLevels().get(LevelOption.ACTIVATION_RANGE).getLevelNumber(),
 						"activation_range", this.preset.getLevels().get(LevelOption.ACTIVATION_RANGE).getValue()
-				)).make(), click -> {
-		});
+				)).make(), click -> click.manager.showGUI(click.player, new LevelSelectorGUI(this, LevelOption.ACTIVATION_RANGE, selected -> {
+
+			this.preset.getLevels().put(LevelOption.ACTIVATION_RANGE, selected);
+			this.preset.sync();
+			click.manager.showGUI(click.player, new PresetEditGUI(this.preset));
+		})));
 
 		applyBackExit();
 	}

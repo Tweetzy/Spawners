@@ -128,9 +128,8 @@ public final class PresetListGUI extends PagedGUI<Preset> {
 
 	@Override
 	protected void onClick(Preset preset, GuiClickEvent clickEvent) {
-		if (clickEvent.clickType == ClickType.LEFT) {
-
-		}
+		if (clickEvent.clickType == ClickType.LEFT)
+			clickEvent.manager.showGUI(clickEvent.player, new PresetEditGUI(preset));
 
 		if (clickEvent.clickType == ClickType.NUMBER_KEY)
 			Spawners.getPresetManager().deletePreset(preset, success -> clickEvent.manager.showGUI(clickEvent.player, new PresetListGUI()));

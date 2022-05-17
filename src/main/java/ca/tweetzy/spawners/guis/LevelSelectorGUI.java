@@ -41,7 +41,7 @@ public final class LevelSelectorGUI extends PagedGUI<Level> {
 						"&7Level #&f: &e" + level.getLevelNumber(),
 						"&7Value&f: &e" + level.getValue(),
 						"",
-						"&c&lPress 1 &8» &7To select level"
+						"&E&lClick &8» &7To select level"
 				)
 				.make();
 	}
