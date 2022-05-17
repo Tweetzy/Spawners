@@ -29,6 +29,7 @@ public enum Translation {
 	NOT_ENOUGH_MONEY("misc.not enough money", "&cYou do not have enough money!"),
 	NOT_A_NUMBER("misc.not a number", "&cThat is not a valid number"),
 	PLAYER_OFFLINE("misc.player not found", "&cThe player &4%player% &cis not online!"),
+	MONEY_REMOVE("misc.money remove", "&c&l- $%amount%"),
 
 	NOT_A_SPAWNER("misc.not a spawner", "&cThat block is not a spawner!"),
 	UPDATED_SPAWN_TYPE("misc.updated spawn type", "&aSuccessfully set spawner's entity type to&f: &e%entity_type%"),
@@ -110,10 +111,10 @@ public enum Translation {
 	MOB_NAME_GLOW_SQUID("mob names.glow squid", "Glow squid"),
 	MOB_NAME_GOAT("mob names.goat", "Goat"),
 
-
 	SPAWNER_NO_OWNER("spawner.no owner", "No Owner"),
 	SPAWNER_REQUIRE_SILK("spawner.requires silk touch", "&cYou need silk touch to mine spawners!"),
 	SPAWNER_REQUIRE_PICKAXE("spawner.requires pickaxe", "&cYou need a pickaxe to mine spawners!"),
+	SPAWNER_NOT_OWNER("spawner.not owner", "&cYou are not the owner of this spawner!"),
 
 	// spawner error
 	SPAWNER_NOT_OWNER_PLACE("spawner.not owner.place", "&cYou are not allowed to place &4%owner_name%&c's spawner!"),
@@ -122,6 +123,16 @@ public enum Translation {
 	SPAWNER_CANNOT_PLACE_ENTITY("spawner.entity permission.place", "&cYou are not allowed to place &4%entity_type%&c spawners!"),
 	SPAWNER_CANNOT_BREAK_ENTITY("spawner.entity permission.break", "&cYou are not allowed to break &4%entity_type%&c spawners!"),
 	SPAWNER_CANNOT_CHANGE_WITH_EGG("spawner.entity permission.egg change", "&cYou cannot change spawners with &4%entity_type%&c eggs!"),
+
+	SPAWNER_MAX_DELAY("spawner.upgrade.max.delay", "&cThe spawner is already at the max spawn delay"),
+	SPAWNER_MAX_SPAWN_COUNT("spawner.upgrade.max.spawn count", "&cThe spawner is already at the max spawn count"),
+	SPAWNER_MAX_NEARBY_MOBS("spawner.upgrade.max.nearby mobs", "&cThe spawner is already at the max nearby mobs"),
+	SPAWNER_MAX_ACTIVATION_RANGE("spawner.upgrade.max.activation range", "&cThe spawner is already at the max activation range"),
+
+	SPAWNER_UPGRADED_DELAY("spawner.upgrade.upgraded.delay", "&aUpgraded delay from level &F%previous_level% &ato &f%current_level%"),
+	SPAWNER_UPGRADED_SPAWN_COUNT("spawner.upgrade.upgraded.spawn count", "&aUpgraded spawn count from level &F%previous_level% &ato &f%current_level%"),
+	SPAWNER_UPGRADED_NEARBY_MOBS("spawner.upgrade.upgraded.nearby mobs", "&aUpgraded max nearby mobs from level &F%previous_level% &ato &f%current_level%"),
+	SPAWNER_UPGRADED_ACTIVATION_RANGE("spawner.upgrade.upgraded.activation range", "&aUpgraded activation range from level &F%previous_level% &ato &f%current_level%"),
 
 	NOT_ALLOWED_TO_THROW_EGG("no egg throw permission", "&cYou are not allowed to throw &4%entity_type%&c eggs!"),
 
@@ -145,6 +156,97 @@ public enum Translation {
 	/*
 	============= guis =============
 	 */
+
+
+	// PLAYER GUIS
+	GUI_SPAWNER_OVERVIEW_TITLE("gui.spawner overview.title", "<GRADIENT:fc67fa>&lSpawner</GRADIENT:f4c4f3> &8> &7Overview"),
+	GUI_SPAWNER_OVERVIEW_ITEMS_ENTITY_NAME("gui.spawner overview.items.entity.name", "<GRADIENT:fc67fa>&lEntity Type</GRADIENT:f4c4f3>"),
+	GUI_SPAWNER_OVERVIEW_ITEMS_ENTITY_LORE("gui.spawner overview.items.entity.lore", Arrays.asList(
+			"",
+			"&7Current&f: &e%entity_type%",
+			"",
+			"&e&lClick &8» &7To change entity"
+	)),
+
+	GUI_SPAWNER_OVERVIEW_ITEMS_OWNER_NAME("gui.spawner overview.items.owner.name", "<GRADIENT:fc67fa>&lOwner</GRADIENT:f4c4f3>"),
+	GUI_SPAWNER_OVERVIEW_ITEMS_OWNER_LORE("gui.spawner overview.items.owner.lore", Arrays.asList(
+			"",
+			"&7Current&f: &e%owner_name%",
+			"",
+			"&e&lClick &8» &7To transfer ownership"
+	)),
+
+	GUI_SPAWNER_OVERVIEW_ITEMS_DELAY_LEVEL_NAME("gui.spawner overview.items.delay.name", "<GRADIENT:fc67fa>&lSpawn Delay</GRADIENT:f4c4f3>"),
+	GUI_SPAWNER_OVERVIEW_ITEMS_DELAY_LEVEL_LORE("gui.spawner overview.items.delay.lore", Arrays.asList(
+			"",
+			"&7Current&f: &a%level_number% &f(&e%level_value%&as&f)",
+			"",
+			"&e&lNext Level",
+			"    &7Level&f: &a%next_level_number% &f(&e%next_level_value%&as&f)",
+			"    &7Cost&f: &a$%level_upgrade_cost%",
+			"",
+			"&e&lClick &8» &7To upgrade"
+	)),
+	GUI_SPAWNER_OVERVIEW_ITEMS_DELAY_LEVEL_LORE_MAX("gui.spawner overview.items.delay.lore max", Arrays.asList(
+			"",
+			"&aSpawner delay is at max level!",
+			""
+	)),
+
+	GUI_SPAWNER_OVERVIEW_ITEMS_SPAWN_COUNT_LEVEL_NAME("gui.spawner overview.items.spawn count.name", "<GRADIENT:fc67fa>&lSpawn Count</GRADIENT:f4c4f3>"),
+	GUI_SPAWNER_OVERVIEW_ITEMS_SPAWN_COUNT_LEVEL_LORE("gui.spawner overview.items.spawn count.lore", Arrays.asList(
+			"",
+			"&7Current&f: &a%level_number% &f(&e%level_value%&f)",
+			"",
+			"&e&lNext Level",
+			"    &7Level&f: &a%next_level_number% &f(&e%next_level_value%&f)",
+			"    &7Cost&f: &a$%level_upgrade_cost%",
+			"",
+			"&e&lClick &8» &7To upgrade"
+	)),
+	GUI_SPAWNER_OVERVIEW_ITEMS_SPAWN_COUNT_LEVEL_LORE_MAX("gui.spawner overview.items.spawn count.lore max", Arrays.asList(
+			"",
+			"&aSpawn count is at max level!",
+			""
+	)),
+
+	GUI_SPAWNER_OVERVIEW_ITEMS_MAX_NEARBY_LEVEL_NAME("gui.spawner overview.items.max nearby mobs.name", "<GRADIENT:fc67fa>&lMax Nearby Mobs</GRADIENT:f4c4f3>"),
+	GUI_SPAWNER_OVERVIEW_ITEMS_MAX_NEARBY_LEVEL_LORE("gui.spawner overview.items.max nearby mobs.lore", Arrays.asList(
+			"",
+			"&7Current&f: &a%level_number% &f(&e%level_value%&f)",
+			"",
+			"&e&lNext Level",
+			"    &7Level&f: &a%next_level_number% &f(&e%next_level_value%&f)",
+			"    &7Cost&f: &a$%level_upgrade_cost%",
+			"",
+			"&e&lClick &8» &7To upgrade"
+	)),
+	GUI_SPAWNER_OVERVIEW_ITEMS_MAX_NEARBY_LEVEL_LORE_MAX("gui.spawner overview.items.max nearby mobs.lore max", Arrays.asList(
+			"",
+			"&aMax nearby mobs is at max level!",
+			""
+	)),
+
+	GUI_SPAWNER_OVERVIEW_ITEMS_ACTIVATION_RANGE_LEVEL_NAME("gui.spawner overview.items.activation range.name", "<GRADIENT:fc67fa>&lActivation Range</GRADIENT:f4c4f3>"),
+	GUI_SPAWNER_OVERVIEW_ITEMS_ACTIVATION_RANGE_LEVEL_LORE("gui.spawner overview.items.activation range.lore", Arrays.asList(
+			"",
+			"&7Current&f: &a%level_number% &f(&e%level_value%&f)",
+			"",
+			"&e&lNext Level",
+			"    &7Level&f: &a%next_level_number% &f(&e%next_level_value%&f)",
+			"    &7Cost&f: &a$%level_upgrade_cost%",
+			"",
+			"&e&lClick &8» &7To upgrade"
+	)),
+	GUI_SPAWNER_OVERVIEW_ITEMS_ACTIVATION_RANGE_LEVEL_LORE_MAX("gui.spawner overview.items.activation range.lore max", Arrays.asList(
+			"",
+			"&aActivation range is at max level!",
+			""
+	)),
+
+
+	// ADMIN GUIS
+
 	GUI_ENTITY_SELECTOR_TITLE("gui.entity selector.title", "<GRADIENT:fc67fa>&lSpawners</GRADIENT:f4c4f3> &8> &7Select Entity"),
 	GUI_ENTITY_SELECTOR_ITEMS_ENTITY_NAME("gui.entity selector.items.entity.name", "<GRADIENT:fc67fa>&l%entity_name%</GRADIENT:f4c4f3>"),
 	GUI_ENTITY_SELECTOR_ITEMS_ENTITY_LORE("gui.entity selector.items.entity.lore", Arrays.asList(

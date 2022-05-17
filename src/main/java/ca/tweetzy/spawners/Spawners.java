@@ -17,13 +17,12 @@ import ca.tweetzy.spawners.database.DataManager;
 import ca.tweetzy.spawners.database.migrations._1_InitialMigration;
 import ca.tweetzy.spawners.database.migrations._2_SpawnerPresetMigration;
 import ca.tweetzy.spawners.impl.APIImplementation;
-import ca.tweetzy.spawners.listeners.BlockListeners;
-import ca.tweetzy.spawners.listeners.EggListeners;
-import ca.tweetzy.spawners.listeners.EntityListeners;
-import ca.tweetzy.spawners.listeners.JoinListeners;
+import ca.tweetzy.spawners.listeners.*;
 import ca.tweetzy.spawners.model.manager.*;
 import ca.tweetzy.spawners.settings.Locale;
 import ca.tweetzy.spawners.settings.Settings;
+import net.milkbowl.vault.economy.Economy;
+import org.bukkit.plugin.RegisteredServiceProvider;
 
 import java.util.Arrays;
 
@@ -44,6 +43,8 @@ public final class Spawners extends RosePlugin {
 	private final PresetManager presetManager = new PresetManager();
 
 	private final SpawnersAPI spawnersAPI = new APIImplementation();
+
+	private Economy economy = null;
 
 	// database
 	@SuppressWarnings("FieldCanBeLocal")
@@ -76,6 +77,9 @@ public final class Spawners extends RosePlugin {
 		Locale.setup();
 		Common.setPrefix(Settings.PREFIX.getString());
 
+		// check vault
+		setupEconomy();
+
 		Arrays.asList(
 				this.playerManager,
 				this.levelManager,
@@ -96,6 +100,7 @@ public final class Spawners extends RosePlugin {
 		getServer().getPluginManager().registerEvents(new BlockListeners(), this);
 		getServer().getPluginManager().registerEvents(new EntityListeners(), this);
 		getServer().getPluginManager().registerEvents(new EggListeners(), this);
+		getServer().getPluginManager().registerEvents(new PlayerListeners(), this);
 
 	}
 
@@ -139,6 +144,11 @@ public final class Spawners extends RosePlugin {
 		return getInstance().presetManager;
 	}
 
+	// economy
+	public static Economy getEconomy() {
+		return getInstance().economy;
+	}
+
 	public static SpawnersAPI getAPI() {
 		return getInstance().spawnersAPI;
 	}
@@ -146,5 +156,20 @@ public final class Spawners extends RosePlugin {
 	@Override
 	protected int getBStatsId() {
 		return 12416;
+	}
+
+	// helpers
+	private void setupEconomy() {
+		if (getServer().getPluginManager().getPlugin("Vault") == null) {
+			return;
+		}
+
+		final RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+
+		if (rsp == null) {
+			return;
+		}
+
+		this.economy = rsp.getProvider();
 	}
 }

@@ -5,12 +5,15 @@ import ca.tweetzy.spawners.api.LevelOption;
 import ca.tweetzy.spawners.api.spawner.Level;
 import ca.tweetzy.spawners.api.spawner.Spawner;
 import ca.tweetzy.spawners.model.LevelFactory;
+import ca.tweetzy.spawners.settings.Translation;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.bukkit.Location;
+import org.bukkit.block.Block;
+import org.bukkit.block.CreatureSpawner;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
@@ -81,6 +84,54 @@ public final class PlacedSpawner implements Spawner {
 	@Override
 	public void setLevels(Map<LevelOption, Level> levels) {
 		this.levels = levels;
+	}
+
+	@Override
+	public Level getNextLevel(LevelOption levelOption) {
+		final Level level = this.levels.get(levelOption);
+		return Spawners.getLevelManager().find(levelOption, level.getLevelNumber() + 1);
+	}
+
+	@Override
+	public void tryUpgrade(Player player, LevelOption levelOption) {
+		final Level level = this.levels.get(levelOption);
+		final Level nextLevel = this.getNextLevel(levelOption);
+
+		if (nextLevel == null) {
+			switch (levelOption) {
+				case SPAWN_INTERVAL -> Translation.SPAWNER_MAX_DELAY.send(player);
+				case SPAWN_COUNT -> Translation.SPAWNER_MAX_SPAWN_COUNT.send(player);
+				case MAX_NEARBY_ENTITIES -> Translation.SPAWNER_MAX_NEARBY_MOBS.send(player);
+				case ACTIVATION_RANGE -> Translation.SPAWNER_MAX_ACTIVATION_RANGE.send(player);
+			}
+			return;
+		}
+
+		// cost
+		if (!Spawners.getEconomy().has(player, nextLevel.getCost())) {
+			Translation.NOT_ENOUGH_MONEY.send(player);
+			return;
+		}
+
+		// withdraw and upgrade
+		Spawners.getEconomy().withdrawPlayer(player, nextLevel.getCost());
+		Translation.MONEY_REMOVE.send(player, "amount", String.format("%,.2f", nextLevel.getCost()));
+
+		this.levels.put(nextLevel.getLevelOption(), nextLevel);
+
+		// apply changes to block
+		final Block block = this.location.getBlock();
+		final CreatureSpawner creatureSpawner = (CreatureSpawner) block.getState();
+
+		Spawners.getSpawnerManager().applySpawnerLevel(creatureSpawner, nextLevel);
+		switch (levelOption) {
+			case SPAWN_INTERVAL -> Translation.SPAWNER_UPGRADED_DELAY.send(player, "previous_level", level.getLevelNumber(), "current_level", nextLevel.getLevelNumber());
+			case SPAWN_COUNT -> Translation.SPAWNER_UPGRADED_SPAWN_COUNT.send(player, "previous_level", level.getLevelNumber(), "current_level", nextLevel.getLevelNumber());
+			case MAX_NEARBY_ENTITIES -> Translation.SPAWNER_UPGRADED_NEARBY_MOBS.send(player, "previous_level", level.getLevelNumber(), "current_level", nextLevel.getLevelNumber());
+			case ACTIVATION_RANGE -> Translation.SPAWNER_UPGRADED_ACTIVATION_RANGE.send(player, "previous_level", level.getLevelNumber(), "current_level", nextLevel.getLevelNumber());
+		}
+
+		this.sync();
 	}
 
 	@Override

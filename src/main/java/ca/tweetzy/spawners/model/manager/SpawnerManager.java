@@ -1,12 +1,12 @@
 package ca.tweetzy.spawners.model.manager;
 
 import ca.tweetzy.spawners.Spawners;
+import ca.tweetzy.spawners.api.spawner.Level;
 import ca.tweetzy.spawners.api.spawner.Spawner;
 import ca.tweetzy.spawners.settings.Settings;
 import lombok.NonNull;
 import org.bukkit.Location;
 import org.bukkit.block.CreatureSpawner;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -55,6 +55,22 @@ public final class SpawnerManager implements Manager {
 
 		if (update)
 			spawner.update(true);
+	}
+
+	public void applySpawnerLevel(@NonNull final CreatureSpawner spawner, @NonNull final Level level) {
+
+		switch (level.getLevelOption()) {
+			case SPAWN_INTERVAL -> {
+				spawner.setDelay(level.getValue());
+				spawner.setMinSpawnDelay(level.getValue());
+				spawner.setMaxSpawnDelay(level.getValue());
+			}
+			case SPAWN_COUNT -> spawner.setSpawnCount(level.getValue());
+			case MAX_NEARBY_ENTITIES -> spawner.setMaxNearbyEntities(level.getValue());
+			case ACTIVATION_RANGE -> spawner.setRequiredPlayerRange(level.getValue());
+		}
+
+		spawner.update(true);
 	}
 
 	/*
