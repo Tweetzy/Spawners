@@ -3,6 +3,8 @@ package ca.tweetzy.spawners.listeners;
 import ca.tweetzy.rose.comp.NBTEditor;
 import ca.tweetzy.rose.comp.enums.CompMaterial;
 import ca.tweetzy.rose.utils.ChatUtil;
+import ca.tweetzy.rose.utils.Common;
+import ca.tweetzy.rose.utils.PlayerUtil;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.LevelOption;
 import ca.tweetzy.spawners.api.spawner.Level;
@@ -28,7 +30,6 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.UUID;
@@ -97,7 +98,7 @@ public final class BlockListeners implements Listener {
 		final Level maxNearbyLevel = Spawners.getLevelManager().find(LevelOption.MAX_NEARBY_ENTITIES, Integer.parseInt(NBTEditor.getString(event.getItemInHand(), "Spawners:maxNearby")));
 		final Level activationRangeLevel = Spawners.getLevelManager().find(LevelOption.ACTIVATION_RANGE, Integer.parseInt(NBTEditor.getString(event.getItemInHand(), "Spawners:activationRange")));
 
-		spawner.setLevels(new HashMap<>(){{
+		spawner.setLevels(new HashMap<>() {{
 			put(LevelOption.SPAWN_INTERVAL, delayLevel);
 			put(LevelOption.SPAWN_COUNT, spawnCountLevel);
 			put(LevelOption.MAX_NEARBY_ENTITIES, maxNearbyLevel);
@@ -167,8 +168,10 @@ public final class BlockListeners implements Listener {
 			Spawners.getSpawnerManager().deleteSpawner(spawner, success -> {
 				// drop spawner
 				if (breakChanceSucceeded(player)) {
-//					ItemStack built = SpawnerItem.make(spawner.getOwner(), ownerName, spawner.getEntityType(), spawner.getLevel(), spawner.getOptions());
-//					Common.runLater(() -> block.getWorld().dropItemNaturally(block.getLocation(), built));
+					final SpawnerBuilder builder = SpawnerBuilder.of(player, spawner.getEntityType());
+					spawner.getLevels().forEach((option, level) -> builder.addLevel(level));
+
+					Common.runLater(() -> block.getWorld().dropItemNaturally(block.getLocation(), builder.make()));
 				}
 			});
 
@@ -190,18 +193,17 @@ public final class BlockListeners implements Listener {
 		if (breakChanceSucceeded(player)) {
 			Spawners.getSpawnerManager().applySpawnerDefaults(creatureSpawner, true);
 
-//			block.getWorld().dropItemNaturally(block.getLocation(), SpawnerItem.make(
-//					Settings.ASSIGN_OWNER_TO_NATURAL.getBoolean() ? player.getUniqueId() : SpawnerDefault.NULL_UUID,
-//					Settings.ASSIGN_OWNER_TO_NATURAL.getBoolean() ? player.getName() : Translation.SPAWNER_NO_OWNER.getString(),
-//					creatureSpawner.getSpawnedType(),
-//					-1,
-//					new SpawnerOptions(
-//							creatureSpawner.getDelay(),
-//							creatureSpawner.getSpawnCount(),
-//							creatureSpawner.getMaxNearbyEntities(),
-//							creatureSpawner.getRequiredPlayerRange()
-//					)
-//			));
+			final SpawnerBuilder builder = SpawnerBuilder.of(creatureSpawner.getSpawnedType());
+
+			if (Settings.ASSIGN_OWNER_TO_NATURAL.getBoolean()) {
+				builder.setOwner(player);
+			} else {
+				builder.setNoOwner();
+			}
+
+			builder.addDefaultLevels();
+
+			block.getWorld().dropItemNaturally(block.getLocation(), builder.make());
 		}
 	}
 
@@ -211,7 +213,6 @@ public final class BlockListeners implements Listener {
 	@EventHandler(priority = EventPriority.LOW)
 	public void onBlockExplodeEntity(final EntityExplodeEvent event) {
 		if (!Settings.EXPLOSION_DROP_ENABLED.getBoolean()) return;
-		final NamespacedKey namespacedKey = new NamespacedKey(Spawners.getInstance(), "SpawnersOwner");
 
 		for (final Block explodedBlock : event.blockList()) {
 			if (explodedBlock.getType() != CompMaterial.SPAWNER.parseMaterial()) continue;
@@ -225,37 +226,32 @@ public final class BlockListeners implements Listener {
 			}
 
 			final CreatureSpawner creatureSpawner = (CreatureSpawner) explodedBlock.getState();
-			final String ownerName = creatureSpawner.getPersistentDataContainer().get(namespacedKey, DataType.STRING);
 
-//			ItemStack spawnerStack;
-//			if (spawner != null) {
-//				// is a player spawner
-//				spawnerStack = SpawnerItem.make(
-//						Settings.EXPLOSION_RESETS_OWNER.getBoolean() ? SpawnerDefault.NULL_UUID : spawner.getOwner(),
-//						Settings.EXPLOSION_RESETS_OWNER.getBoolean() ? Translation.SPAWNER_NO_OWNER.getString() : ownerName,
-//						spawner.getEntityType(),
-//						spawner.getLevel(),
-//						spawner.getOptions()
-//				);
-//
-//				Spawners.getSpawnerManager().deleteSpawner(spawner, null);
-//			} else {
-//				// natural
-//				spawnerStack = SpawnerItem.make(
-//						SpawnerDefault.NULL_UUID,
-//						Translation.SPAWNER_NO_OWNER.getString(),
-//						creatureSpawner.getSpawnedType(),
-//						-1,
-//						new SpawnerOptions(
-//								creatureSpawner.getDelay(),
-//								creatureSpawner.getSpawnCount(),
-//								creatureSpawner.getMaxNearbyEntities(),
-//								creatureSpawner.getRequiredPlayerRange()
-//						)
-//				);
-//			}
+			ItemStack spawnerStack;
+			if (spawner != null) {
+				// is a player spawner
+				final SpawnerBuilder builder = SpawnerBuilder.of(spawner.getEntityType());
 
-//			explodedBlock.getWorld().dropItemNaturally(explodedBlock.getLocation(), spawnerStack);
+				if (Settings.EXPLOSION_RESETS_OWNER.getBoolean())
+					builder.setNoOwner();
+				else {
+					builder.setOwner(spawner.getOwner());
+					builder.setOwnerName(spawner.getOwnerName());
+				}
+
+				spawner.getLevels().forEach((option, level) -> builder.addLevel(level));
+
+				spawnerStack = builder.make();
+				Spawners.getSpawnerManager().deleteSpawner(spawner, null);
+			} else {
+				// natural
+				final SpawnerBuilder builder = SpawnerBuilder.of(creatureSpawner.getSpawnedType()).setNoOwner();
+				builder.addDefaultLevels();
+
+				spawnerStack = builder.make();
+			}
+
+			explodedBlock.getWorld().dropItemNaturally(explodedBlock.getLocation(), spawnerStack);
 		}
 	}
 

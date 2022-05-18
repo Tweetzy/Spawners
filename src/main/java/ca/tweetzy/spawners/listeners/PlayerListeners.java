@@ -7,6 +7,7 @@ import ca.tweetzy.spawners.guis.user.SpawnerOverviewGUI;
 import ca.tweetzy.spawners.settings.Translation;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -41,5 +42,6 @@ public final class PlayerListeners implements Listener {
 		}
 
 		Spawners.getGuiManager().showGUI(player, new SpawnerOverviewGUI(spawner));
+		event.setUseItemInHand(Event.Result.DENY);
 	}
 }

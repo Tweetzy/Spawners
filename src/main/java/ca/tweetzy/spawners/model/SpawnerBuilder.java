@@ -6,6 +6,7 @@ import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.LevelOption;
 import ca.tweetzy.spawners.api.spawner.Level;
 import ca.tweetzy.spawners.api.spawner.Preset;
+import ca.tweetzy.spawners.api.spawner.Spawner;
 import ca.tweetzy.spawners.settings.Settings;
 import ca.tweetzy.spawners.settings.Translation;
 import lombok.AllArgsConstructor;
@@ -39,17 +40,26 @@ public final class SpawnerBuilder {
 
 	private final List<Level> levels = new ArrayList<>();
 
-	public static SpawnerBuilder of(@NonNull final Player player) {
+	public static SpawnerBuilder of(final Player player) {
 		return SpawnerBuilder.of(player, EntityType.PIG);
 	}
 
-	public static SpawnerBuilder of(@NonNull final Player player, final EntityType entityType) {
+	public static SpawnerBuilder of(@NonNull final EntityType entityType) {
+		return new SpawnerBuilder(NULL_UUID, Translation.SPAWNER_NO_OWNER.getString(), entityType, true);
+	}
+
+	public static SpawnerBuilder of(final Player player, final EntityType entityType) {
 		return new SpawnerBuilder(player.getUniqueId(), player.getName(), entityType, true);
 	}
 
-	public static SpawnerBuilder of(@NonNull final Player player, final Preset preset) {
+	public static SpawnerBuilder of(final Player player, final Preset preset) {
 		final SpawnerBuilder builder = new SpawnerBuilder(player.getUniqueId(), player.getName(), preset.getEntityType(), false);
 		preset.getLevels().forEach((option, level) -> builder.addLevel(level));
+		return builder;
+	}
+
+	public static SpawnerBuilder of(@NonNull final Spawner spawner) {
+		final SpawnerBuilder builder = new SpawnerBuilder(spawner.getOwner(), spawner.getOwnerName(), spawner.getEntityType(), true);
 		return builder;
 	}
 
@@ -62,6 +72,16 @@ public final class SpawnerBuilder {
 	public SpawnerBuilder setOwner(@NonNull final Player player) {
 		this.ownerUUID = player.getUniqueId();
 		this.ownerName = player.getName();
+		return this;
+	}
+
+	public SpawnerBuilder setOwner(@NonNull final UUID uuid) {
+		this.ownerUUID = uuid;
+		return this;
+	}
+
+	public SpawnerBuilder setOwnerName(@NonNull final String ownerName) {
+		this.ownerName = ownerName;
 		return this;
 	}
 
@@ -89,6 +109,14 @@ public final class SpawnerBuilder {
 			this.levels.add(foundLevel);
 		}
 
+		return this;
+	}
+
+	public SpawnerBuilder addDefaultLevels() {
+		this.addLevel(LevelOption.SPAWN_INTERVAL, 1);
+		this.addLevel(LevelOption.SPAWN_COUNT, 1);
+		this.addLevel(LevelOption.MAX_NEARBY_ENTITIES, 1);
+		this.addLevel(LevelOption.ACTIVATION_RANGE, 1);
 		return this;
 	}
 
