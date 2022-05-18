@@ -17,10 +17,13 @@
  */
 package ca.tweetzy.spawners.guis.user;
 
+import ca.tweetzy.rose.comp.NBTEditor;
 import ca.tweetzy.rose.comp.enums.CompMaterial;
 import ca.tweetzy.rose.gui.template.BaseGUI;
+import ca.tweetzy.rose.utils.ChatUtil;
 import ca.tweetzy.rose.utils.QuickItem;
 import ca.tweetzy.spawners.api.LevelOption;
+import ca.tweetzy.spawners.api.SpawnerMob;
 import ca.tweetzy.spawners.api.spawner.Spawner;
 import ca.tweetzy.spawners.settings.Translation;
 import lombok.NonNull;
@@ -62,6 +65,22 @@ public final class SpawnerOverviewGUI extends BaseGUI {
 			});
 
 		if (this.canUpgrade) {
+			// entity type
+			setButton(3, 2, QuickItem
+					.of(NBTEditor.getHead(SpawnerMob.valueOf(this.spawner.getEntityType().name()).getHeadTexture()))
+					.name(Translation.GUI_SPAWNER_OVERVIEW_ITEMS_ENTITY_NAME.getString())
+					.lore(Translation.GUI_SPAWNER_OVERVIEW_ITEMS_ENTITY_LORE.getList(
+							"entity_type", ChatUtil.capitalizeFully(this.spawner.getEntityType())
+					))
+					.make(), click -> {
+
+
+			});
+
+			// additional settings
+
+			// owner
+
 			// spawn delay
 			setButton(1, 1, QuickItem
 					.of(CompMaterial.REPEATER)
@@ -126,11 +145,5 @@ public final class SpawnerOverviewGUI extends BaseGUI {
 				click.manager.showGUI(click.player, new SpawnerOverviewGUI(this.spawner));
 			});
 		}
-
-		// entity type
-
-		// additional settings
-
-		// owner
 	}
 }
