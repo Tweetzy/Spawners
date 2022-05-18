@@ -11,6 +11,7 @@ import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.LevelOption;
 import ca.tweetzy.spawners.api.spawner.Level;
 import ca.tweetzy.spawners.model.LevelFactory;
+import ca.tweetzy.spawners.settings.Settings;
 import lombok.NonNull;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
@@ -61,7 +62,7 @@ public final class LevelListGUI extends PagedGUI<Level> {
 						"&e&lClick &8» &7Create new level"
 				)
 				.make(), click -> Spawners.getLevelManager().createLevel(
-				LevelFactory.build(this.levelOption, Spawners.getLevelManager().getHighestLevel(this.levelOption) + 1, LevelFactory.getDefaultValue(this.levelOption), 1000D), (created, createdLevel) -> {
+				LevelFactory.build(this.levelOption, Spawners.getLevelManager().getHighestLevel(this.levelOption) + 1, LevelFactory.getDefaultValue(this.levelOption), Settings.DEFAULT_LEVEL_COST.getDouble()), (created, createdLevel) -> {
 					if (created)
 						click.manager.showGUI(click.player, new LevelListGUI(this.levelOption));
 				}));

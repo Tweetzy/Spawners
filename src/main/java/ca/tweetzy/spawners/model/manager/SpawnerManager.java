@@ -5,10 +5,12 @@ import ca.tweetzy.spawners.api.spawner.Level;
 import ca.tweetzy.spawners.api.spawner.Spawner;
 import ca.tweetzy.spawners.settings.Settings;
 import lombok.NonNull;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.block.CreatureSpawner;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -43,9 +45,29 @@ public final class SpawnerManager implements Manager {
 	public List<Spawner> getContents() {
 		return List.copyOf(this.contents.values());
 	}
+
 	/*
 	=================== Spawner Helper ===================
 	 */
+
+	public int getSpawnerCountWithinChunk(@NonNull final Chunk chunk) {
+		int count = 0;
+		if (!chunk.isLoaded()) return count;
+
+		for (int x = 0; x < 16; x++) {
+			for (int z = 0; z < 16; z++) {
+				for (int y = chunk.getWorld().getMinHeight(); y < chunk.getWorld().getMaxHeight(); y++)
+					if (find(chunk.getBlock(x,y,z).getLocation()) != null)
+						count++;
+			}
+		}
+
+		return count;
+	}
+
+	public boolean canPlaceSpawnerInChunk(@NonNull final Chunk chunk) {
+		return getSpawnerCountWithinChunk(chunk) < Settings.MAX_SPAWNER_PER_CHUNK.getInt();
+	}
 
 	public void applySpawnerDefaults(@NonNull final CreatureSpawner spawner, final boolean update) {
 		spawner.setDelay(Settings.DEFAULT_SPAWNER_DELAY.getInt());

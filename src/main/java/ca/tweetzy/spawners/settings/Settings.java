@@ -24,6 +24,9 @@ public final class Settings {
 	public static final ConfigSetting ALLOW_NON_OWNER_PLACE = new ConfigSetting(config, "allow non owner place", false, "If true, player's who don't own the spawner item/block can still place it");
 	public static final ConfigSetting ALLOW_NON_OWNER_BREAK = new ConfigSetting(config, "allow non owner break", false, "If true, player's who don't own the spawner item/block can still break it");
 
+	public static final ConfigSetting MAX_SPAWNER_PER_CHUNK_ENABLED = new ConfigSetting(config, "max spawners per chunk.enabled", true, "If true, spawners will limit the amount of spawners within a chunk");
+	public static final ConfigSetting MAX_SPAWNER_PER_CHUNK = new ConfigSetting(config, "max spawners per chunk.max", 16, "If max spawners per chunk.enabled is enabled, it will use this limit");
+
 	public static final ConfigSetting DEFAULT_SPAWNER_ENTITY = new ConfigSetting(config, "spawner defaults.entity", EntityType.PIG.name(), "For non Spawners spawners, what should the default mob be when placed");
 	public static final ConfigSetting DEFAULT_SPAWNER_DELAY = new ConfigSetting(config, "spawner defaults.delay", 20 * 12);
 	public static final ConfigSetting DEFAULT_SPAWNER_SPAWN_COUNT = new ConfigSetting(config, "spawner defaults.spawn count", 4);

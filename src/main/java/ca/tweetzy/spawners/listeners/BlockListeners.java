@@ -13,6 +13,7 @@ import ca.tweetzy.spawners.impl.PlacedSpawner;
 import ca.tweetzy.spawners.model.SpawnerBuilder;
 import ca.tweetzy.spawners.settings.Settings;
 import ca.tweetzy.spawners.settings.Translation;
+import lombok.NonNull;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.CreatureSpawner;
@@ -26,6 +27,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 
@@ -45,18 +47,29 @@ public final class BlockListeners implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onNonSpawnersSpawnerPlace(final BlockPlaceEvent event) {
+		if (event.getHand() != EquipmentSlot.HAND) return;
 		final ItemStack hand = event.getItemInHand();
 
 		if (hand.getType() != CompMaterial.SPAWNER.parseMaterial()) return;
-		if (NBTEditor.contains(hand, "Spawners:Spawner")) return;
+		if (!NBTEditor.contains(hand, "Spawners:ownerUUID")) return;
 
-		final CreatureSpawner creatureSpawner = (CreatureSpawner) event.getBlock().getState();
-		creatureSpawner.setSpawnedType(EntityType.valueOf(Settings.DEFAULT_SPAWNER_ENTITY.getString()));
-		Spawners.getSpawnerManager().applySpawnerDefaults(creatureSpawner, true);
+		final UUID uuid = UUID.fromString(NBTEditor.getString(hand, "Spawners:ownerUUID"));
+		if (uuid.equals(SpawnerBuilder.NULL_UUID)) {
+
+			// check spawner count
+			if (!(handleChunkLimit(event))) {
+				return;
+			}
+
+			final CreatureSpawner creatureSpawner = (CreatureSpawner) event.getBlock().getState();
+			creatureSpawner.setSpawnedType(EntityType.valueOf(Settings.DEFAULT_SPAWNER_ENTITY.getString()));
+			Spawners.getSpawnerManager().applySpawnerDefaults(creatureSpawner, true);
+		}
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onSpawnerPlace(final BlockPlaceEvent event) {
+		if (event.getHand() != EquipmentSlot.HAND) return;
 		final Player player = event.getPlayer();
 		final SpawnerUser spawnerUser = Spawners.getPlayerManager().findUser(player);
 
@@ -70,6 +83,10 @@ public final class BlockListeners implements Listener {
 		if (!noOwner && !Settings.ALLOW_NON_OWNER_PLACE.getBoolean() && !owner.equals(player.getUniqueId())) {
 			Translation.SPAWNER_NOT_OWNER_PLACE.send(player, "owner_name", ownerName);
 			event.setCancelled(true);
+			return;
+		}
+
+		if (!(handleChunkLimit(event))) {
 			return;
 		}
 
@@ -280,7 +297,16 @@ public final class BlockListeners implements Listener {
 			event.setCancelled(true);
 	}
 
-	private boolean handleEntityBreakPerm(SpawnerUser spawnerUser, Player player, EntityType entityType) {
+	private boolean handleChunkLimit(@NonNull final BlockPlaceEvent event) {
+		if (Settings.MAX_SPAWNER_PER_CHUNK_ENABLED.getBoolean() && !Spawners.getSpawnerManager().canPlaceSpawnerInChunk(event.getBlock().getChunk())) {
+			Translation.SPAWNER_CHUNK_LIMIT_REACHED.send(event.getPlayer());
+			event.setCancelled(true);
+			return false;
+		}
+		return true;
+	}
+
+	private boolean handleEntityBreakPerm(@NonNull final SpawnerUser spawnerUser, @NonNull final Player player, @NonNull final EntityType entityType) {
 		if (!spawnerUser.isAllowedToMineEntity(player, entityType)) {
 			Translation.SPAWNER_CANNOT_BREAK_ENTITY.send(player, "entity_type", ChatUtil.capitalizeFully(entityType));
 			return false;
@@ -288,7 +314,7 @@ public final class BlockListeners implements Listener {
 		return true;
 	}
 
-	private boolean handleEntityPlacePerm(SpawnerUser spawnerUser, Player player, EntityType entityType) {
+	private boolean handleEntityPlacePerm(@NonNull final SpawnerUser spawnerUser, @NonNull final Player player, @NonNull final EntityType entityType) {
 		if (!spawnerUser.isAllowedToPlaceEntity(player, entityType)) {
 			Translation.SPAWNER_CANNOT_PLACE_ENTITY.send(player, "entity_type", ChatUtil.capitalizeFully(entityType));
 			return false;
@@ -296,7 +322,7 @@ public final class BlockListeners implements Listener {
 		return true;
 	}
 
-	private boolean handleTool(Player player) {
+	private boolean handleTool(@NonNull final Player player) {
 		final ItemStack stack = player.getInventory().getItemInMainHand();
 
 		if (stack.getType() == CompMaterial.AIR.parseMaterial()) {
@@ -317,7 +343,7 @@ public final class BlockListeners implements Listener {
 		return true;
 	}
 
-	private boolean breakChanceSucceeded(Player player) {
+	private boolean breakChanceSucceeded(@NonNull final Player player) {
 		final Pattern spawnerBreakChancePerm = Pattern.compile("spawners\\.minechance\\.(\\d+)");
 		double defaultBreakChance = Settings.MINE_DROP_CHANCE.getDouble();
 
