@@ -86,12 +86,12 @@ public final class Locale {
 		return (String) getPhrase(key, defaultLanguage);
 	}
 
-	public static List<String> getList(String key) {
-		return (List<String>) getPhrase(key, defaultLanguage);
-	}
-
 	public static String getString(String key, String language) {
 		return (String) getPhrase(key, language);
+	}
+
+	public static List<String> getList(String key) {
+		return (List<String>) getPhrase(key, defaultLanguage);
 	}
 
 	public static List<String> getList(String key, String language) {
