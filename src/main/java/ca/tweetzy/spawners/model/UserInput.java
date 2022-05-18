@@ -26,14 +26,6 @@ public final class UserInput {
 		askString(player, null, title, subtitle, input);
 	}
 
-	public void askDouble(@NonNull final Player player, @NonNull final String title, @NonNull final String subtitle, @NonNull final Consumer<Double> input) {
-		askDouble(player, null, title, subtitle, input);
-	}
-
-	public void askInteger(@NonNull final Player player, @NonNull final String title, @NonNull final String subtitle, @NonNull final Consumer<Integer> input) {
-		askInteger(player, null, title, subtitle, input);
-	}
-
 	public void askString(@NonNull final Player player, final Gui exitGui, @NonNull final String title, @NonNull final String subtitle, @NonNull final Consumer<String> input) {
 		player.closeInventory();
 
@@ -51,6 +43,10 @@ public final class UserInput {
 				return true;
 			}
 		};
+	}
+
+	public void askInteger(@NonNull final Player player, @NonNull final String title, @NonNull final String subtitle, @NonNull final Consumer<Integer> input) {
+		askInteger(player, null, title, subtitle, input);
 	}
 
 	public void askInteger(@NonNull final Player player, final Gui exitGui, @NonNull final String title, @NonNull final String subtitle, @NonNull final Consumer<Integer> input) {
@@ -75,6 +71,10 @@ public final class UserInput {
 				return true;
 			}
 		};
+	}
+
+	public void askDouble(@NonNull final Player player, @NonNull final String title, @NonNull final String subtitle, @NonNull final Consumer<Double> input) {
+		askDouble(player, null, title, subtitle, input);
 	}
 
 	public void askDouble(@NonNull final Player player, final Gui exitGui, @NonNull final String title, @NonNull final String subtitle, @NonNull final Consumer<Double> input) {
