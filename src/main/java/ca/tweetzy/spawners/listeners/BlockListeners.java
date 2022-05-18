@@ -4,7 +4,6 @@ import ca.tweetzy.rose.comp.NBTEditor;
 import ca.tweetzy.rose.comp.enums.CompMaterial;
 import ca.tweetzy.rose.utils.ChatUtil;
 import ca.tweetzy.rose.utils.Common;
-import ca.tweetzy.rose.utils.PlayerUtil;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.LevelOption;
 import ca.tweetzy.spawners.api.spawner.Level;
@@ -14,7 +13,6 @@ import ca.tweetzy.spawners.impl.PlacedSpawner;
 import ca.tweetzy.spawners.model.SpawnerBuilder;
 import ca.tweetzy.spawners.settings.Settings;
 import ca.tweetzy.spawners.settings.Translation;
-import com.jeff_media.morepersistentdatatypes.DataType;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.CreatureSpawner;
@@ -29,6 +27,7 @@ import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.HashMap;
 import java.util.Random;
@@ -44,7 +43,7 @@ import java.util.regex.Pattern;
  */
 public final class BlockListeners implements Listener {
 
-	@EventHandler(priority = EventPriority.LOW)
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onNonSpawnersSpawnerPlace(final BlockPlaceEvent event) {
 		final ItemStack hand = event.getItemInHand();
 
@@ -56,7 +55,7 @@ public final class BlockListeners implements Listener {
 		Spawners.getSpawnerManager().applySpawnerDefaults(creatureSpawner, true);
 	}
 
-	@EventHandler(priority = EventPriority.LOW)
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onSpawnerPlace(final BlockPlaceEvent event) {
 		final Player player = event.getPlayer();
 		final SpawnerUser spawnerUser = Spawners.getPlayerManager().findUser(player);
@@ -108,6 +107,7 @@ public final class BlockListeners implements Listener {
 		Spawners.getSpawnerManager().createSpawner(spawner, null);
 
 		final CreatureSpawner creatureSpawner = (CreatureSpawner) placedBlock.getState();
+
 		creatureSpawner.setSpawnedType(entityType);
 
 		final int delay = delayLevel == null ? Settings.DEFAULT_SPAWNER_DELAY.getInt() : delayLevel.getValue();
@@ -116,18 +116,21 @@ public final class BlockListeners implements Listener {
 		final int activationRange = activationRangeLevel == null ? Settings.DEFAULT_SPAWNER_ACTIVATION_RANGE.getInt() : activationRangeLevel.getValue();
 
 		// apply options
-		creatureSpawner.setDelay(delay);
-		creatureSpawner.setMinSpawnDelay(delay);
-		creatureSpawner.setMaxSpawnDelay(delay);
-		creatureSpawner.setSpawnCount(spawnCount);
-		creatureSpawner.setMaxNearbyEntities(maxNearby);
-		creatureSpawner.setRequiredPlayerRange(activationRange);
+		Common.runLater(5, () -> {
+			creatureSpawner.setDelay(delay);
+			creatureSpawner.setMinSpawnDelay(delay);
+			creatureSpawner.setMaxSpawnDelay(delay);
+			creatureSpawner.setSpawnCount(spawnCount);
+			creatureSpawner.setMaxNearbyEntities(maxNearby);
+			creatureSpawner.setRequiredPlayerRange(activationRange);
+			creatureSpawner.getPersistentDataContainer().set(new NamespacedKey(Spawners.getInstance(), "SpawnersUpgradeable"), PersistentDataType.STRING, NBTEditor.getString(event.getItemInHand(), "Spawners:upgradeable"));
 
-		// update
-		creatureSpawner.update(true);
+			// update
+			creatureSpawner.update(true);
+		});
 	}
 
-	@EventHandler(priority = EventPriority.LOW)
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onSpawnerBreak(final BlockBreakEvent event) {
 		final Player player = event.getPlayer();
 		final SpawnerUser spawnerUser = Spawners.getPlayerManager().findUser(player);
@@ -136,19 +139,16 @@ public final class BlockListeners implements Listener {
 		if (block.getType() != CompMaterial.SPAWNER.parseMaterial()) return;
 
 		final CreatureSpawner creatureSpawner = (CreatureSpawner) block.getState();
-		final NamespacedKey namespacedKey = new NamespacedKey(Spawners.getInstance(), "SpawnersOwner");
 		final Spawner spawner = Spawners.getSpawnerManager().find(event.getBlock().getLocation());
 
 		// spawner placed by user
 		if (spawner != null) {
-			final String ownerName = creatureSpawner.getPersistentDataContainer().get(namespacedKey, DataType.STRING);
-
 			// stop exp dropping, since they could repeatedly break/place
 			event.setExpToDrop(0);
 
 			// check owner
 			if (!player.getUniqueId().equals(spawner.getOwner()) && !Settings.ALLOW_NON_OWNER_BREAK.getBoolean()) {
-				Translation.SPAWNER_NOT_OWNER_BREAK.send(player, "owner_name", ownerName);
+				Translation.SPAWNER_NOT_OWNER_BREAK.send(player, "owner_name", spawner.getOwnerName());
 				event.setCancelled(true);
 				return;
 			}
@@ -169,6 +169,13 @@ public final class BlockListeners implements Listener {
 				// drop spawner
 				if (breakChanceSucceeded(player)) {
 					final SpawnerBuilder builder = SpawnerBuilder.of(player, spawner.getEntityType());
+					final NamespacedKey key = new NamespacedKey(Spawners.getInstance(), "SpawnersUpgradeable");
+
+					if (creatureSpawner.getPersistentDataContainer().has(key, PersistentDataType.STRING))
+						builder.setLevelCanBeChanged(
+								Boolean.parseBoolean(creatureSpawner.getPersistentDataContainer().get(key, PersistentDataType.STRING))
+						);
+
 					spawner.getLevels().forEach((option, level) -> builder.addLevel(level));
 
 					Common.runLater(() -> block.getWorld().dropItemNaturally(block.getLocation(), builder.make()));
@@ -210,7 +217,7 @@ public final class BlockListeners implements Listener {
 	/*
 	======================= KABOOM =======================
 	 */
-	@EventHandler(priority = EventPriority.LOW)
+	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onBlockExplodeEntity(final EntityExplodeEvent event) {
 		if (!Settings.EXPLOSION_DROP_ENABLED.getBoolean()) return;
 
@@ -231,6 +238,12 @@ public final class BlockListeners implements Listener {
 			if (spawner != null) {
 				// is a player spawner
 				final SpawnerBuilder builder = SpawnerBuilder.of(spawner.getEntityType());
+				final NamespacedKey key = new NamespacedKey(Spawners.getInstance(), "SpawnersUpgradeable");
+
+				if (creatureSpawner.getPersistentDataContainer().has(key, PersistentDataType.STRING))
+					builder.setLevelCanBeChanged(
+							Boolean.parseBoolean(creatureSpawner.getPersistentDataContainer().get(key, PersistentDataType.STRING))
+					);
 
 				if (Settings.EXPLOSION_RESETS_OWNER.getBoolean())
 					builder.setNoOwner();
@@ -268,7 +281,7 @@ public final class BlockListeners implements Listener {
 	}
 
 	private boolean handleEntityBreakPerm(SpawnerUser spawnerUser, Player player, EntityType entityType) {
-		if (!spawnerUser.isAllowedToPlaceEntity(player, entityType)) {
+		if (!spawnerUser.isAllowedToMineEntity(player, entityType)) {
 			Translation.SPAWNER_CANNOT_BREAK_ENTITY.send(player, "entity_type", ChatUtil.capitalizeFully(entityType));
 			return false;
 		}

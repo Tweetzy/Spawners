@@ -58,11 +58,6 @@ public final class SpawnerBuilder {
 		return builder;
 	}
 
-	public static SpawnerBuilder of(@NonNull final Spawner spawner) {
-		final SpawnerBuilder builder = new SpawnerBuilder(spawner.getOwner(), spawner.getOwnerName(), spawner.getEntityType(), true);
-		return builder;
-	}
-
 	public SpawnerBuilder setNoOwner() {
 		this.ownerName = Translation.SPAWNER_NO_OWNER.getString();
 		this.ownerUUID = NULL_UUID;

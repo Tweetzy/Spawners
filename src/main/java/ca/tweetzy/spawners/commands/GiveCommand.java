@@ -35,11 +35,15 @@ public final class GiveCommand extends Command {
 			return ReturnType.SUCCESS;
 		}
 
+		final boolean isGivingAll = args[0].equals("*");
+
 		final Player target = Bukkit.getPlayerExact(args[0]);
-		if (target == null) {
-			Translation.PLAYER_OFFLINE.send(sender, "player", args[0]);
-			return ReturnType.FAIL;
-		}
+
+		if (!isGivingAll)
+			if (target == null) {
+				Translation.PLAYER_OFFLINE.send(sender, "player", args[0]);
+				return ReturnType.FAIL;
+			}
 
 		int amount = 1;
 
@@ -58,12 +62,19 @@ public final class GiveCommand extends Command {
 			presetFound = Spawners.getPresetManager().find(preset);
 		}
 
-		ItemStack spawnerItem = SpawnerBuilder
-				.of(target, entityType)
-				.make();
+		if (isGivingAll)
+			for (Player player : Bukkit.getOnlinePlayers()) {
+				final ItemStack spawnerItem = presetFound != null ? SpawnerBuilder.of(player, presetFound).make() : SpawnerBuilder.of(player, entityType).make();
 
-		for (int i = 0; i < amount; i++)
-			target.getInventory().addItem(spawnerItem);
+				for (int i = 0; i < amount; i++)
+					player.getInventory().addItem(spawnerItem);
+			}
+		else {
+			final ItemStack spawnerItem = presetFound != null ? SpawnerBuilder.of(target, presetFound).make() :SpawnerBuilder.of(target, entityType).make();
+
+			for (int i = 0; i < amount; i++)
+				target.getInventory().addItem(spawnerItem);
+		}
 
 		return ReturnType.SUCCESS;
 	}

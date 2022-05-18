@@ -168,6 +168,13 @@ public enum Translation {
 			"&e&lClick &8» &7To change entity"
 	)),
 
+	GUI_SPAWNER_OVERVIEW_ITEMS_UPGRADE_DISABLED_NAME("gui.spawner overview.items.upgrade disabled.name", "&C&LUpgrade Disabled"),
+	GUI_SPAWNER_OVERVIEW_ITEMS_UPGRADE_DISABLED_LORE("gui.spawner overview.items.upgrade disabled.lore", Arrays.asList(
+			"&cYou are not allowed to upgrade",
+			"&cthis particular spawner!"
+	)),
+
+
 	GUI_SPAWNER_OVERVIEW_ITEMS_OWNER_NAME("gui.spawner overview.items.owner.name", "<GRADIENT:fc67fa>&lOwner</GRADIENT:f4c4f3>"),
 	GUI_SPAWNER_OVERVIEW_ITEMS_OWNER_LORE("gui.spawner overview.items.owner.lore", Arrays.asList(
 			"",
