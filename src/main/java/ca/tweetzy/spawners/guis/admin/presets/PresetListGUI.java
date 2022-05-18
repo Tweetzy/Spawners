@@ -42,7 +42,6 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Date Created: May 16 2022
@@ -124,7 +123,7 @@ public final class PresetListGUI extends PagedGUI<Preset> {
 					final Preset preset = new SpawnerPreset(
 							string,
 							EntityType.valueOf(Settings.DEFAULT_SPAWNER_ENTITY.getString().toUpperCase()),
-							new HashMap<>(){{
+							new HashMap<>() {{
 								put(LevelOption.SPAWN_INTERVAL, Spawners.getLevelManager().find(LevelOption.SPAWN_INTERVAL, 1));
 								put(LevelOption.SPAWN_COUNT, Spawners.getLevelManager().find(LevelOption.SPAWN_COUNT, 1));
 								put(LevelOption.MAX_NEARBY_ENTITIES, Spawners.getLevelManager().find(LevelOption.MAX_NEARBY_ENTITIES, 1));

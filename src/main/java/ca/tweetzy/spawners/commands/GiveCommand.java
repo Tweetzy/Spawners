@@ -87,7 +87,7 @@ public final class GiveCommand extends Command {
 					player.getInventory().addItem(spawnerItem);
 			}
 		else {
-			final ItemStack spawnerItem = presetFound != null ? SpawnerBuilder.of(target, presetFound).make() :SpawnerBuilder.of(target, entityType).make();
+			final ItemStack spawnerItem = presetFound != null ? SpawnerBuilder.of(target, presetFound).make() : SpawnerBuilder.of(target, entityType).make();
 
 			for (int i = 0; i < amount; i++)
 				target.getInventory().addItem(spawnerItem);

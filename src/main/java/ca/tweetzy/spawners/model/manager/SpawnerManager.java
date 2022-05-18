@@ -27,7 +27,6 @@ import org.bukkit.Location;
 import org.bukkit.block.CreatureSpawner;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -74,7 +73,7 @@ public final class SpawnerManager implements Manager {
 		for (int x = 0; x < 16; x++) {
 			for (int z = 0; z < 16; z++) {
 				for (int y = chunk.getWorld().getMinHeight(); y < chunk.getWorld().getMaxHeight(); y++)
-					if (find(chunk.getBlock(x,y,z).getLocation()) != null)
+					if (find(chunk.getBlock(x, y, z).getLocation()) != null)
 						count++;
 			}
 		}

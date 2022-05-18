@@ -121,7 +121,8 @@ public final class PlacedSpawner implements Spawner {
 				case MAX_NEARBY_ENTITIES -> Translation.SPAWNER_MAX_NEARBY_MOBS.send(player);
 				case ACTIVATION_RANGE -> Translation.SPAWNER_MAX_ACTIVATION_RANGE.send(player);
 				default -> {
-				}}
+				}
+			}
 			return;
 		}
 

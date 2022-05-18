@@ -22,7 +22,6 @@ import ca.tweetzy.spawners.api.Jsonable;
 import ca.tweetzy.spawners.api.LevelOption;
 import org.bukkit.entity.EntityType;
 
-import java.util.List;
 import java.util.Map;
 
 /**
