@@ -90,6 +90,8 @@ public final class SpawnerManager implements Manager {
 			case SPAWN_COUNT -> spawner.setSpawnCount(level.getValue());
 			case MAX_NEARBY_ENTITIES -> spawner.setMaxNearbyEntities(level.getValue());
 			case ACTIVATION_RANGE -> spawner.setRequiredPlayerRange(level.getValue());
+			default -> {
+			}
 		}
 
 		spawner.update(true);

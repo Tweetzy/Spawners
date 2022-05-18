@@ -103,7 +103,8 @@ public final class PlacedSpawner implements Spawner {
 				case SPAWN_COUNT -> Translation.SPAWNER_MAX_SPAWN_COUNT.send(player);
 				case MAX_NEARBY_ENTITIES -> Translation.SPAWNER_MAX_NEARBY_MOBS.send(player);
 				case ACTIVATION_RANGE -> Translation.SPAWNER_MAX_ACTIVATION_RANGE.send(player);
-			}
+				default -> {
+				}}
 			return;
 		}
 
@@ -129,6 +130,8 @@ public final class PlacedSpawner implements Spawner {
 			case SPAWN_COUNT -> Translation.SPAWNER_UPGRADED_SPAWN_COUNT.send(player, "previous_level", level.getLevelNumber(), "current_level", nextLevel.getLevelNumber());
 			case MAX_NEARBY_ENTITIES -> Translation.SPAWNER_UPGRADED_NEARBY_MOBS.send(player, "previous_level", level.getLevelNumber(), "current_level", nextLevel.getLevelNumber());
 			case ACTIVATION_RANGE -> Translation.SPAWNER_UPGRADED_ACTIVATION_RANGE.send(player, "previous_level", level.getLevelNumber(), "current_level", nextLevel.getLevelNumber());
+			default -> {
+			}
 		}
 
 		this.sync();
