@@ -37,6 +37,10 @@ public interface SpawnerUser {
 
 	List<Spawner> getPlacedSpawners();
 
+	int getMaxPlaceableSpawners(Player player);
+
+	boolean isAllowedToPlaceSpawners(Player player);
+
 	boolean isAllowedToPlaceEntity(Player player, EntityType entityType);
 
 	boolean isAllowedToMineEntity(Player player, EntityType entityType);

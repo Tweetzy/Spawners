@@ -89,6 +89,11 @@ public final class PlacedSpawner implements Spawner {
 	}
 
 	@Override
+	public void setOwner(UUID owner) {
+		this.owner = owner;
+	}
+
+	@Override
 	public void setOwnerName(String ownerName) {
 		this.ownerName = ownerName;
 	}

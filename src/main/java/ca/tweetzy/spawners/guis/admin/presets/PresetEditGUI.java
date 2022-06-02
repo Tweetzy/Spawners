@@ -26,8 +26,8 @@ import ca.tweetzy.rose.utils.Replacer;
 import ca.tweetzy.spawners.api.LevelOption;
 import ca.tweetzy.spawners.api.SpawnerMob;
 import ca.tweetzy.spawners.api.spawner.Preset;
-import ca.tweetzy.spawners.guis.EntitySelectorGUI;
-import ca.tweetzy.spawners.guis.LevelSelectorGUI;
+import ca.tweetzy.spawners.guis.selector.EntitySelectorGUI;
+import ca.tweetzy.spawners.guis.selector.LevelSelectorGUI;
 import lombok.NonNull;
 
 import java.util.Arrays;

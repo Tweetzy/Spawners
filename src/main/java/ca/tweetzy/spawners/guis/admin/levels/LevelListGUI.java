@@ -29,11 +29,14 @@ import ca.tweetzy.spawners.api.LevelOption;
 import ca.tweetzy.spawners.api.spawner.Level;
 import ca.tweetzy.spawners.model.LevelFactory;
 import ca.tweetzy.spawners.settings.Settings;
+import ca.tweetzy.spawners.settings.Translation;
 import lombok.NonNull;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Date Created: May 13 2022
@@ -46,7 +49,7 @@ public final class LevelListGUI extends PagedGUI<Level> {
 	private final LevelOption levelOption;
 
 	public LevelListGUI(@NonNull final LevelOption levelOption) {
-		super(new LevelOptionSelectGUI(), "<GRADIENT:fc67fa>&LLevels</GRADIENT:f4c4f3> &8> &7" + ChatUtil.capitalizeFully(levelOption.name()), 6, Spawners.getLevelManager().getLevels(levelOption));
+		super(new LevelOptionSelectGUI(), "<GRADIENT:fc67fa>&LLevels</GRADIENT:f4c4f3> &8> &7" + ChatUtil.capitalizeFully(levelOption.name()), 6, Spawners.getLevelManager().getLevels(levelOption).stream().sorted(Comparator.comparing(Level::getLevelNumber)).collect(Collectors.toList()));
 		this.levelOption = levelOption;
 		draw();
 	}
@@ -100,5 +103,15 @@ public final class LevelListGUI extends PagedGUI<Level> {
 	@Override
 	protected List<Integer> fillSlots() {
 		return InventoryBorder.getInsideBorders(5);
+	}
+
+	@Override
+	protected ItemStack getPreviousButton() {
+		return QuickItem.of(CompMaterial.ARROW, Translation.MISC_PREV_PAGE.getString()).make();
+	}
+
+	@Override
+	protected ItemStack getNextButton() {
+		return QuickItem.of(CompMaterial.ARROW, Translation.MISC_NEXT_PAGE.getString()).make();
 	}
 }

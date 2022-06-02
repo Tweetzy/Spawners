@@ -22,11 +22,14 @@ import ca.tweetzy.rose.comp.enums.CompMaterial;
 import ca.tweetzy.rose.gui.template.BaseGUI;
 import ca.tweetzy.rose.utils.ChatUtil;
 import ca.tweetzy.rose.utils.QuickItem;
+import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.LevelOption;
 import ca.tweetzy.spawners.api.SpawnerMob;
 import ca.tweetzy.spawners.api.spawner.Spawner;
+import ca.tweetzy.spawners.guis.selector.PlayerSelectorGUI;
 import ca.tweetzy.spawners.settings.Translation;
 import lombok.NonNull;
+import org.bukkit.block.CreatureSpawner;
 
 import java.util.Arrays;
 
@@ -42,7 +45,7 @@ public final class SpawnerOverviewGUI extends BaseGUI {
 	private final boolean canUpgrade;
 
 	public SpawnerOverviewGUI(@NonNull final Spawner spawner, final boolean canUpgrade) {
-		super(null, Translation.GUI_SPAWNER_OVERVIEW_TITLE.getString(), 6);
+		super(null, Translation.GUI_SPAWNER_OVERVIEW_TITLE.getString(), 5);
 		this.spawner = spawner;
 		this.canUpgrade = canUpgrade;
 		draw();
@@ -56,13 +59,11 @@ public final class SpawnerOverviewGUI extends BaseGUI {
 	protected void draw() {
 
 		if (!this.canUpgrade)
-			Arrays.asList(10, 12, 14, 16).forEach(slot -> {
-				setItem(slot, QuickItem.of(CompMaterial.RED_STAINED_GLASS_PANE)
-						.name(Translation.GUI_SPAWNER_OVERVIEW_ITEMS_UPGRADE_DISABLED_NAME.getString())
-						.lore(Translation.GUI_SPAWNER_OVERVIEW_ITEMS_UPGRADE_DISABLED_LORE.getList())
-						.make()
-				);
-			});
+			Arrays.asList(10, 12, 14, 16, 29, 33).forEach(slot -> setItem(slot, QuickItem.of(CompMaterial.RED_STAINED_GLASS_PANE)
+					.name(Translation.GUI_SPAWNER_OVERVIEW_ITEMS_UPGRADE_DISABLED_NAME.getString())
+					.lore(Translation.GUI_SPAWNER_OVERVIEW_ITEMS_UPGRADE_DISABLED_LORE.getList())
+					.make()
+			));
 
 		if (this.canUpgrade) {
 			// entity type
@@ -72,14 +73,46 @@ public final class SpawnerOverviewGUI extends BaseGUI {
 					.lore(Translation.GUI_SPAWNER_OVERVIEW_ITEMS_ENTITY_LORE.getList(
 							"entity_type", ChatUtil.capitalizeFully(this.spawner.getEntityType())
 					))
-					.make(), click -> {
+					.make(), click -> click.manager.showGUI(click.player, new EntityChangeGUI(this, selected -> {
+
+				Spawners.getEconomy().withdrawPlayer(click.player, selected.getCost());
+				Translation.MONEY_REMOVE.send(click.player, "amount", String.format("%,.2f", selected.getCost()));
+				Translation.SPAWNER_UPGRADED_ENTITY_TYPE.send(click.player, "entity_type", ChatUtil.capitalizeFully(selected.getSpawnerMob().getEntityType()));
+
+				final CreatureSpawner creatureSpawner = (CreatureSpawner) spawner.getLocation().getBlock().getState();
+				Spawners.getSpawnerManager().changeSpawnerEntity(creatureSpawner, selected.getSpawnerMob().getEntityType());
+
+				this.spawner.setEntityType(selected.getSpawnerMob().getEntityType());
+				this.spawner.sync();
+			})));
+
+			// ownership
+			setButton(3, 6, QuickItem
+					.of(CompMaterial.LECTERN)
+					.name(Translation.GUI_SPAWNER_OVERVIEW_ITEMS_OWNER_NAME.getString())
+					.lore(Translation.GUI_SPAWNER_OVERVIEW_ITEMS_OWNER_LORE.getList(
+							"owner_name", spawner.getOwnerName()
+					))
+					.make(), click -> click.manager.showGUI(click.player, new PlayerSelectorGUI(this, click.player, (selectedUser, confirmed) -> {
+
+				if (!confirmed) {
+					click.manager.showGUI(click.player, this);
+					return;
+				}
+
+				this.spawner.setOwner(selectedUser.getUniqueId());
+				this.spawner.setOwnerName(selectedUser.getName());
+				click.player.closeInventory();
+
+				Translation.SPAWNER_RECEIVED_OWNERSHIP.send(selectedUser, "player_name", click.player.getName());
+				Translation.SPAWNER_GAVE_OWNERSHIP.send(click.player, "player_name", selectedUser.getName());
+
+				this.spawner.sync();
+			})));
 
 
-			});
-
+			// todo future update
 			// additional settings
-
-			// owner
 
 			// spawn delay
 			setButton(1, 1, QuickItem

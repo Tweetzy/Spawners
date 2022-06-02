@@ -17,9 +17,11 @@
  */
 package ca.tweetzy.spawners.impl;
 
+import ca.tweetzy.rose.utils.PlayerUtil;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.spawner.Spawner;
 import ca.tweetzy.spawners.api.spawner.SpawnerUser;
+import ca.tweetzy.spawners.settings.Settings;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.bukkit.entity.EntityType;
@@ -57,6 +59,16 @@ public final class SpawnerPlayer implements SpawnerUser {
 	@Override
 	public List<Spawner> getPlacedSpawners() {
 		return Spawners.getSpawnerManager().getContents().stream().filter(spawner -> spawner.getOwner().equals(this.uuid)).toList();
+	}
+
+	@Override
+	public int getMaxPlaceableSpawners(Player player) {
+		return PlayerUtil.getNumberPermission(player, "spawners.maxplace", Settings.MAX_SPAWNER_PER_PLAYER.getInt());
+	}
+
+	@Override
+	public boolean isAllowedToPlaceSpawners(Player player) {
+		return getPlacedSpawners().size() < getMaxPlaceableSpawners(player);
 	}
 
 	@Override

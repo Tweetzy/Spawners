@@ -37,7 +37,7 @@ import ca.tweetzy.spawners.settings.Translation;
 public final class SpawnersAdminGUI extends BaseGUI {
 
 	public SpawnersAdminGUI() {
-		super(null, Translation.GUI_ADMIN_MAIN_TITLE.getString("plugin_version", Spawners.getInstance().getVersion()), 6);
+		super(null, Translation.GUI_ADMIN_MAIN_TITLE.getString("plugin_version", Spawners.getInstance().getVersion()), 4);
 		draw();
 	}
 
@@ -63,13 +63,13 @@ public final class SpawnersAdminGUI extends BaseGUI {
 				.make(), click -> click.manager.showGUI(click.player, new PresetListGUI()));
 
 
-		setButton(5, 8, QuickItem.of(CompMaterial.DIAMOND)
+		setButton(3, 8, QuickItem.of(CompMaterial.DIAMOND)
 				.name("&e&lPatreon")
 				.lore(
 						"&8Support me on Patreon",
 						"&7By supporting me on Patreon you will",
 						"&7be helping me be able to continue updating",
-						"&7and creating free plugins.",
+						"&7and creating free & paid plugins.",
 						"",
 						"&e&lClick &8» &7To view Patreon"
 				)

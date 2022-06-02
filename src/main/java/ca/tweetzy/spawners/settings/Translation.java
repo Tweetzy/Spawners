@@ -43,17 +43,21 @@ public enum Translation {
 	MISC_IS_FALSE("misc.is false", "&cFalse"),
 	MISC_IS_ALLOWED("misc.is allowed", "&aAllowed"),
 	MISC_IS_DISALLOWED("misc.is disallowed", "&cDisallowed"),
+	MISC_NEXT_PAGE("misc.next page", "&eNext Page"),
+	MISC_PREV_PAGE("misc.prev page", "&ePrevious Page"),
 	NOT_ENOUGH_MONEY("misc.not enough money", "&cYou do not have enough money!"),
 	NOT_A_NUMBER("misc.not a number", "&cThat is not a valid number"),
 	PLAYER_OFFLINE("misc.player not found", "&cThe player &4%player% &cis not online!"),
 	MONEY_REMOVE("misc.money remove", "&c&l- $%amount%"),
+	REMOVED_ENTITIES_ALL("misc.entity remove.all", "&cRemoved a total of &4%total% &cspawner mobs."),
+	REMOVED_ENTITIES_ENTITY("misc.entity remove.entity", "&cRemoved a total of &4%total% %entity_type% &cspawner mobs."),
 
 	NOT_A_SPAWNER("misc.not a spawner", "&cThat block is not a spawner!"),
 	UPDATED_SPAWN_TYPE("misc.updated spawn type", "&aSuccessfully set spawner's entity type to&f: &e%entity_type%"),
 	PRESET_ID_TAKEN("misc.preset id taken", "&cThe preset id&f: &4%preset_id% &cis already in use."),
 	NEED_TO_MAKE_LEVELS("misc.need to create levels", "&cYou need to create 1 level for each upgrade first."),
 	SPAWNER_CHUNK_LIMIT_REACHED("misc.spawner per chunk limit reached", "&cYou cannot place anymore spawners within this chunk!"),
-
+	SPAWNER_PLACE_LIMIT_REACHED("misc.spawner place limit reached", "&cYou cannot place anymore spawners!"),
 
 	MOB_NAME_ELDER_GUARDIAN("mob names.elder guardian", "Elder guardian"),
 	MOB_NAME_WITHER_SKELETON("mob names.wither skeleton", "Wither skeleton"),
@@ -132,7 +136,7 @@ public enum Translation {
 	SPAWNER_NO_OWNER("spawner.no owner", "No Owner"),
 	SPAWNER_REQUIRE_SILK("spawner.requires silk touch", "&cYou need silk touch to mine spawners!"),
 	SPAWNER_REQUIRE_PICKAXE("spawner.requires pickaxe", "&cYou need a pickaxe to mine spawners!"),
-	SPAWNER_NOT_OWNER("spawner.not owner", "&cYou are not the owner of this spawner!"),
+	SPAWNER_NOT_OWNER("spawner.not owner.overview", "&cYou are not the owner of this spawner!"),
 
 	// spawner error
 	SPAWNER_NOT_OWNER_PLACE("spawner.not owner.place", "&cYou are not allowed to place &4%owner_name%&c's spawner!"),
@@ -141,6 +145,8 @@ public enum Translation {
 	SPAWNER_CANNOT_PLACE_ENTITY("spawner.entity permission.place", "&cYou are not allowed to place &4%entity_type%&c spawners!"),
 	SPAWNER_CANNOT_BREAK_ENTITY("spawner.entity permission.break", "&cYou are not allowed to break &4%entity_type%&c spawners!"),
 	SPAWNER_CANNOT_CHANGE_WITH_EGG("spawner.entity permission.egg change", "&cYou cannot change spawners with &4%entity_type%&c eggs!"),
+	SPAWNER_RECEIVED_OWNERSHIP("spawner.received ownership", "&2%player_name% &Agave you ownership of their spawner"),
+	SPAWNER_GAVE_OWNERSHIP("spawner.gave ownership", "&aYou transferred ownership to &2%player_name%"),
 
 	SPAWNER_MAX_DELAY("spawner.upgrade.max.delay", "&cThe spawner is already at the max spawn delay"),
 	SPAWNER_MAX_SPAWN_COUNT("spawner.upgrade.max.spawn count", "&cThe spawner is already at the max spawn count"),
@@ -151,6 +157,7 @@ public enum Translation {
 	SPAWNER_UPGRADED_SPAWN_COUNT("spawner.upgrade.upgraded.spawn count", "&aUpgraded spawn count from level &F%previous_level% &ato &f%current_level%"),
 	SPAWNER_UPGRADED_NEARBY_MOBS("spawner.upgrade.upgraded.nearby mobs", "&aUpgraded max nearby mobs from level &F%previous_level% &ato &f%current_level%"),
 	SPAWNER_UPGRADED_ACTIVATION_RANGE("spawner.upgrade.upgraded.activation range", "&aUpgraded activation range from level &F%previous_level% &ato &f%current_level%"),
+	SPAWNER_UPGRADED_ENTITY_TYPE("spawner.upgrade.upgraded.entity type", "&aSuccessfully converted spawner mob to&f: &f%entity_type%"),
 
 	NOT_ALLOWED_TO_THROW_EGG("no egg throw permission", "&cYou are not allowed to throw &4%entity_type%&c eggs!"),
 
@@ -269,6 +276,34 @@ public enum Translation {
 			""
 	)),
 
+	GUI_ENTITY_CHANGE_TITLE("gui.entity change.title", "<GRADIENT:fc67fa>&lSpawners</GRADIENT:f4c4f3> &8> &7Change Mob"),
+	GUI_ENTITY_CHANGE_ITEMS_ENTITY_NAME("gui.entity change.items.entity.name", "<GRADIENT:fc67fa>&l%entity_name%</GRADIENT:f4c4f3>"),
+	GUI_ENTITY_CHANGE_ITEMS_ENTITY_LORE("gui.entity change.items.entity.lore", Arrays.asList(
+			"",
+			"&7Cost&f: &a$%entity_cost%",
+			"",
+			"&e&lClick &8» &7To select entity"
+	)),
+
+	GUI_PLAYER_SELECT_TITLE("gui.player select.title", "<GRADIENT:fc67fa>&lSpawners</GRADIENT:f4c4f3> &8> &7Select Player"),
+	GUI_PLAYER_SELECT_ITEMS_PLAYER_NAME("gui.player select.items.player.name", "<GRADIENT:fc67fa>&l%player_name%</GRADIENT:f4c4f3>"),
+	GUI_PLAYER_SELECT_ITEMS_PLAYER_LORE("gui.player select.items.player.lore", Arrays.asList(
+			"",
+			"&e&lClick &8» &7To select player"
+	)),
+
+	GUI_CONFIRM_TITLE("gui.confirm.title", "<GRADIENT:fc67fa>&lSpawners</GRADIENT:f4c4f3> &8> &7Confirm"),
+	GUI_CONFIRM_ITEMS_CANCEL_NAME("gui.confirm.items.cancel.name", "&c&lCancel"),
+	GUI_CONFIRM_ITEMS_CANCEL_LORE("gui.confirm.items.cancel.lore", Arrays.asList(
+			"",
+			"&c&lClick &8» &7To cancel action"
+	)),
+	GUI_CONFIRM_ITEMS_CONFIRM_NAME("gui.confirm.items.confirm.name", "&A&LConfirm"),
+	GUI_CONFIRM_ITEMS_CONFIRM_LORE("gui.confirm.items.confirm.lore", Arrays.asList(
+			"",
+			"&e&lClick &8» &7To confirm action",
+			"&c(This cannot be undone)"
+	)),
 
 	// ADMIN GUIS
 

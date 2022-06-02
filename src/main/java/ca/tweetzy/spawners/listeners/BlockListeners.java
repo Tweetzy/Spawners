@@ -66,6 +66,8 @@ public final class BlockListeners implements Listener {
 	public void onNonSpawnersSpawnerPlace(final BlockPlaceEvent event) {
 		if (event.getHand() != EquipmentSlot.HAND) return;
 		final ItemStack hand = event.getItemInHand();
+		final Player player = event.getPlayer();
+		final SpawnerUser spawnerUser = Spawners.getPlayerManager().findUser(player);
 
 		if (hand.getType() != CompMaterial.SPAWNER.parseMaterial()) return;
 		if (!NBTEditor.contains(hand, "Spawners:ownerUUID")) return;
@@ -73,14 +75,39 @@ public final class BlockListeners implements Listener {
 		final UUID uuid = UUID.fromString(NBTEditor.getString(hand, "Spawners:ownerUUID"));
 		if (uuid.equals(SpawnerBuilder.NULL_UUID)) {
 
+			if (!spawnerUser.isAllowedToPlaceSpawners(player)) {
+				Translation.SPAWNER_PLACE_LIMIT_REACHED.send(player);
+				event.setCancelled(true);
+				return;
+			}
+
 			// check spawner count
 			if (!(handleChunkLimit(event))) {
 				return;
 			}
 
+			final EntityType entityType = EntityType.valueOf(Settings.DEFAULT_SPAWNER_ENTITY.getString());
+
 			final CreatureSpawner creatureSpawner = (CreatureSpawner) event.getBlock().getState();
-			creatureSpawner.setSpawnedType(EntityType.valueOf(Settings.DEFAULT_SPAWNER_ENTITY.getString()));
+			creatureSpawner.setSpawnedType(entityType);
 			Spawners.getSpawnerManager().applySpawnerDefaults(creatureSpawner, true);
+
+			final Spawner spawner = new PlacedSpawner(player, entityType, event.getBlockPlaced().getLocation());
+
+			// spawner levels
+			final Level delayLevel = Spawners.getLevelManager().find(LevelOption.SPAWN_INTERVAL, 1);
+			final Level spawnCountLevel = Spawners.getLevelManager().find(LevelOption.SPAWN_COUNT, 1);
+			final Level maxNearbyLevel = Spawners.getLevelManager().find(LevelOption.MAX_NEARBY_ENTITIES, 1);
+			final Level activationRangeLevel = Spawners.getLevelManager().find(LevelOption.ACTIVATION_RANGE, 1);
+
+			spawner.setLevels(new HashMap<>() {{
+				put(LevelOption.SPAWN_INTERVAL, delayLevel);
+				put(LevelOption.SPAWN_COUNT, spawnCountLevel);
+				put(LevelOption.MAX_NEARBY_ENTITIES, maxNearbyLevel);
+				put(LevelOption.ACTIVATION_RANGE, activationRangeLevel);
+			}});
+
+			Spawners.getSpawnerManager().createSpawner(spawner, null);
 		}
 	}
 
@@ -99,6 +126,12 @@ public final class BlockListeners implements Listener {
 
 		if (!noOwner && !Settings.ALLOW_NON_OWNER_PLACE.getBoolean() && !owner.equals(player.getUniqueId())) {
 			Translation.SPAWNER_NOT_OWNER_PLACE.send(player, "owner_name", ownerName);
+			event.setCancelled(true);
+			return;
+		}
+
+		if (!spawnerUser.isAllowedToPlaceSpawners(player)) {
+			Translation.SPAWNER_PLACE_LIMIT_REACHED.send(player);
 			event.setCancelled(true);
 			return;
 		}

@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package ca.tweetzy.spawners.guis;
+package ca.tweetzy.spawners.guis.selector;
 
 import ca.tweetzy.rose.comp.enums.CompMaterial;
 import ca.tweetzy.rose.gui.Gui;
@@ -27,6 +27,7 @@ import ca.tweetzy.rose.utils.Replacer;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.LevelOption;
 import ca.tweetzy.spawners.api.spawner.Level;
+import ca.tweetzy.spawners.settings.Translation;
 import lombok.NonNull;
 import org.bukkit.inventory.ItemStack;
 
@@ -70,5 +71,15 @@ public final class LevelSelectorGUI extends PagedGUI<Level> {
 
 	protected List<Integer> fillSlots() {
 		return InventoryBorder.getInsideBorders(5);
+	}
+
+	@Override
+	protected ItemStack getPreviousButton() {
+		return QuickItem.of(CompMaterial.ARROW, Translation.MISC_PREV_PAGE.getString()).make();
+	}
+
+	@Override
+	protected ItemStack getNextButton() {
+		return QuickItem.of(CompMaterial.ARROW, Translation.MISC_NEXT_PAGE.getString()).make();
 	}
 }

@@ -29,6 +29,7 @@ import ca.tweetzy.spawners.api.LevelOption;
 import ca.tweetzy.spawners.api.spawner.Level;
 import ca.tweetzy.spawners.api.spawner.Spawner;
 import ca.tweetzy.spawners.guis.SpawnersAdminGUI;
+import ca.tweetzy.spawners.settings.Translation;
 import org.bukkit.Location;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.player.PlayerTeleportEvent;
@@ -126,5 +127,15 @@ public final class SpawnerListAdminGUI extends PagedGUI<Spawner> {
 	@Override
 	protected List<Integer> fillSlots() {
 		return InventoryBorder.getInsideBorders(5);
+	}
+
+	@Override
+	protected ItemStack getPreviousButton() {
+		return QuickItem.of(CompMaterial.ARROW, Translation.MISC_PREV_PAGE.getString()).make();
+	}
+
+	@Override
+	protected ItemStack getNextButton() {
+		return QuickItem.of(CompMaterial.ARROW, Translation.MISC_NEXT_PAGE.getString()).make();
 	}
 }

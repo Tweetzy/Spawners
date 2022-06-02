@@ -103,7 +103,7 @@ public final class GiveCommand extends Command {
 
 	@Override
 	public String getPermissionNode() {
-		return null;
+		return "spawners.command.give";
 	}
 
 	@Override
@@ -113,6 +113,6 @@ public final class GiveCommand extends Command {
 
 	@Override
 	public String getDescription() {
-		return null;
+		return "Give users a spawner";
 	}
 }

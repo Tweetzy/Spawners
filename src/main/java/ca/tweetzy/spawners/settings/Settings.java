@@ -20,9 +20,12 @@ package ca.tweetzy.spawners.settings;
 import ca.tweetzy.rose.comp.enums.CompMaterial;
 import ca.tweetzy.rose.files.ConfigSetting;
 import ca.tweetzy.rose.files.file.YamlFile;
+import ca.tweetzy.rose.gui.helper.InventoryBorder;
 import ca.tweetzy.spawners.Spawners;
 import lombok.SneakyThrows;
 import org.bukkit.entity.EntityType;
+
+import java.util.List;
 
 /**
  * Date Created: May 03 2022
@@ -43,6 +46,7 @@ public final class Settings {
 
 	public static final ConfigSetting MAX_SPAWNER_PER_CHUNK_ENABLED = new ConfigSetting(config, "max spawners per chunk.enabled", true, "If true, spawners will limit the amount of spawners within a chunk");
 	public static final ConfigSetting MAX_SPAWNER_PER_CHUNK = new ConfigSetting(config, "max spawners per chunk.max", 16, "If max spawners per chunk.enabled is enabled, it will use this limit");
+	public static final ConfigSetting MAX_SPAWNER_PER_PLAYER = new ConfigSetting(config, "max spawners per player", 16, "Can be overridden using the perm: spawners.maxplace.#, # being the new total");
 
 	public static final ConfigSetting DEFAULT_SPAWNER_ENTITY = new ConfigSetting(config, "spawner defaults.entity", EntityType.PIG.name(), "For non Spawners spawners, what should the default mob be when placed");
 	public static final ConfigSetting DEFAULT_SPAWNER_DELAY = new ConfigSetting(config, "spawner defaults.delay", 20 * 12);
@@ -64,6 +68,17 @@ public final class Settings {
 	public static final ConfigSetting EXPLOSION_DROP_CHANCE = new ConfigSetting(config, "explosion.drop chance", 25D, "The chance for the spawner to drop if exploded by tnt");
 	public static final ConfigSetting EXPLOSION_RESETS_OWNER = new ConfigSetting(config, "explosion.reset owner", true, "If the spawner is dropped by explosion, should the owner be reset?");
 	public static final ConfigSetting EXPLOSION_PREVENT_UNKNOWN_SOURCE = new ConfigSetting(config, "explosion.prevent unknown source", true, "If the spawner is broken due to an unknown explosion source, should it cancel?");
+
+	public static final ConfigSetting GUI_ENTITY_CHANGE_ROWS = new ConfigSetting(config, "gui.entity change.rows", 6, "The size (rows, min = 2, max = 6) of the spawner mob change gui");
+	public static final ConfigSetting GUI_ENTITY_CHANGE_BG = new ConfigSetting(config, "gui.entity change.background", CompMaterial.BLACK_STAINED_GLASS_PANE.name(), "The default background material");
+	public static final ConfigSetting GUI_ENTITY_CHANGE_FILL_SLOTS = new ConfigSetting(config, "gui.entity change.fill slots", InventoryBorder.getInsideBorders(4), "The slots in which mob heads will be placed into");
+	public static final ConfigSetting GUI_ENTITY_CHANGE_FILL_DECORATION = new ConfigSetting(config, "gui.entity change.decoration", List.of("0:BLACK_STAINED_GLASS_PANE"), "Option Decoration items (slot:material_name)");
+
+	public static final ConfigSetting GUI_PLAYER_SELECT_ROWS = new ConfigSetting(config, "gui.player select.rows", 6, "The size (rows, min = 2, max = 6) of the player select change gui");
+	public static final ConfigSetting GUI_PLAYER_SELECT_BG = new ConfigSetting(config, "gui.player select.background", CompMaterial.BLACK_STAINED_GLASS_PANE.name(), "The default background material");
+	public static final ConfigSetting GUI_PLAYER_SELECT_FILL_SLOTS = new ConfigSetting(config, "gui.player select.fill slots", InventoryBorder.getInsideBorders(4), "The slots in which player heads will be placed into");
+	public static final ConfigSetting GUI_PLAYER_SELECT_FILL_DECORATION = new ConfigSetting(config, "gui.player select.decoration", List.of("0:BLACK_STAINED_GLASS_PANE"), "Option Decoration items (slot:material_name)");
+
 
 	public static final ConfigSetting MOB_CHANGE_ELDER_GUARDIAN_ENABLED = new ConfigSetting(config, "mob change.elder guardian.enabled", true, "Should players be able to set their spawner to a Elder Guardian");
 	public static final ConfigSetting MOB_CHANGE_ELDER_GUARDIAN_COST = new ConfigSetting(config, "mob change.elder guardian.cost", 5000D, "The cost to switch the spawner to a Elder Guardian");

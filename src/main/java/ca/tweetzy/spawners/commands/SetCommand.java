@@ -24,7 +24,7 @@ import ca.tweetzy.rose.comp.enums.CompMaterial;
 import ca.tweetzy.rose.utils.ChatUtil;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.spawner.Spawner;
-import ca.tweetzy.spawners.guis.EntitySelectorGUI;
+import ca.tweetzy.spawners.guis.selector.EntitySelectorGUI;
 import ca.tweetzy.spawners.settings.Translation;
 import org.bukkit.block.Block;
 import org.bukkit.block.CreatureSpawner;
@@ -82,7 +82,7 @@ public final class SetCommand extends Command {
 
 	@Override
 	public String getPermissionNode() {
-		return null;
+		return "spawners.command.set";
 	}
 
 	@Override
@@ -92,6 +92,6 @@ public final class SetCommand extends Command {
 
 	@Override
 	public String getDescription() {
-		return null;
+		return "Set a spawner type";
 	}
 }

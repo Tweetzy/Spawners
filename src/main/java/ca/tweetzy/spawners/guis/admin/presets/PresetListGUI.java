@@ -155,4 +155,14 @@ public final class PresetListGUI extends PagedGUI<Preset> {
 	protected List<Integer> fillSlots() {
 		return InventoryBorder.getInsideBorders(5);
 	}
+
+	@Override
+	protected ItemStack getPreviousButton() {
+		return QuickItem.of(CompMaterial.ARROW, Translation.MISC_PREV_PAGE.getString()).make();
+	}
+
+	@Override
+	protected ItemStack getNextButton() {
+		return QuickItem.of(CompMaterial.ARROW, Translation.MISC_NEXT_PAGE.getString()).make();
+	}
 }

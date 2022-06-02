@@ -25,6 +25,7 @@ import lombok.NonNull;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.block.CreatureSpawner;
+import org.bukkit.entity.EntityType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -83,6 +84,11 @@ public final class SpawnerManager implements Manager {
 
 	public boolean canPlaceSpawnerInChunk(@NonNull final Chunk chunk) {
 		return getSpawnerCountWithinChunk(chunk) < Settings.MAX_SPAWNER_PER_CHUNK.getInt();
+	}
+
+	public void changeSpawnerEntity(@NonNull final CreatureSpawner spawner, @NonNull final EntityType entityType) {
+		spawner.setSpawnedType(entityType);
+		spawner.update(true);
 	}
 
 	public void applySpawnerDefaults(@NonNull final CreatureSpawner spawner, final boolean update) {

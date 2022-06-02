@@ -23,6 +23,7 @@ import ca.tweetzy.spawners.api.spawner.Level;
 import lombok.NonNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.BiConsumer;
@@ -80,8 +81,32 @@ public final class LevelManager implements Manager {
 
 	public int getHighestLevel(@NonNull final LevelOption levelOption) {
 		final List<Level> found = getLevels(levelOption);
+
+		// check if missing number in sequence first
+		if (!found.isEmpty()) {
+			final int[] levelNumbers = new int[found.size()];
+			Arrays.sort(levelNumbers);
+
+			for (int i = 0; i < found.size(); i++) levelNumbers[i] = found.get(i).getLevelNumber();
+
+			final int missingNumber = calculateMissingNumber(levelNumbers);
+			if (missingNumber != 0)
+				// minus one since it gets re-added during the creation
+				return missingNumber - 1;
+		}
+
 		return found.isEmpty() ? 0 : Collections.max(found.stream().map(Level::getLevelNumber).collect(Collectors.toList()));
 	}
+
+
+	private int calculateMissingNumber(final int[] numbers) {
+		final int max = numbers[numbers.length - 1];
+		final int min = numbers[0];
+		final int sum = Arrays.stream(numbers).sum();
+		final int actual = (((max * (max + 1)) / 2) - min + 1);
+		return actual - sum;
+	}
+
 
 	/*
 	=================== DATABASE CALLS ===================
