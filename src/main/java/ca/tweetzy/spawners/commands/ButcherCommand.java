@@ -112,7 +112,7 @@ public final class ButcherCommand extends Command {
 
 	@Override
 	public String getSyntax() {
-		return "[entity/*] [world]";
+		return "[entity] [world]";
 	}
 
 	@Override
