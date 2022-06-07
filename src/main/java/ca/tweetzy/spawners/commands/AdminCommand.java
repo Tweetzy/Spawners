@@ -21,38 +21,28 @@ import ca.tweetzy.rose.command.AllowedExecutor;
 import ca.tweetzy.rose.command.Command;
 import ca.tweetzy.rose.command.ReturnType;
 import ca.tweetzy.spawners.Spawners;
-import ca.tweetzy.spawners.api.spawner.SpawnerUser;
-import ca.tweetzy.spawners.guis.user.SpawnersMainGUI;
+import ca.tweetzy.spawners.guis.SpawnersAdminGUI;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.List;
 
 /**
- * Date Created: May 04 2022
- * Time Created: 10:42 a.m.
+ * Date Created: June 02 2022
+ * Time Created: 3:51 p.m.
  *
  * @author Kiran Hart
  */
-public final class SpawnersCommand extends Command {
+public final class AdminCommand extends Command {
 
-	public SpawnersCommand() {
-		super(AllowedExecutor.BOTH, "spawners");
+	public AdminCommand() {
+		super(AllowedExecutor.PLAYER, "admin");
 	}
 
 	@Override
 	protected ReturnType execute(CommandSender sender, String... args) {
-		if (sender instanceof final Player player) {
-			final SpawnerUser user = Spawners.getPlayerManager().findUser(player);
-
-			if (user != null)
-				Spawners.getGuiManager().showGUI(player, new SpawnersMainGUI(user));
-			else
-				Spawners.getPlayerManager().createPlayer(player, (created, createdUser) -> {
-					Spawners.getGuiManager().showGUI(player, new SpawnersMainGUI(createdUser));
-				});
-		}
-
+		if (!(sender instanceof final Player player)) return ReturnType.FAIL;
+		Spawners.getGuiManager().showGUI(player, new SpawnersAdminGUI());
 		return ReturnType.SUCCESS;
 	}
 
@@ -63,7 +53,7 @@ public final class SpawnersCommand extends Command {
 
 	@Override
 	public String getPermissionNode() {
-		return "spawners.command";
+		return "spawners.command.admin";
 	}
 
 	@Override
@@ -73,6 +63,6 @@ public final class SpawnersCommand extends Command {
 
 	@Override
 	public String getDescription() {
-		return "The main command for the plugin";
+		return "Opens the administration menu";
 	}
 }

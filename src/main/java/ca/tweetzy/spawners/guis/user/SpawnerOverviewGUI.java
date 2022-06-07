@@ -58,14 +58,14 @@ public final class SpawnerOverviewGUI extends BaseGUI {
 	@Override
 	protected void draw() {
 
-		if (!this.canUpgrade)
+		if (!this.canUpgrade || Spawners.getEconomy() == null)
 			Arrays.asList(10, 12, 14, 16, 29, 33).forEach(slot -> setItem(slot, QuickItem.of(CompMaterial.RED_STAINED_GLASS_PANE)
 					.name(Translation.GUI_SPAWNER_OVERVIEW_ITEMS_UPGRADE_DISABLED_NAME.getString())
 					.lore(Translation.GUI_SPAWNER_OVERVIEW_ITEMS_UPGRADE_DISABLED_LORE.getList())
 					.make()
 			));
 
-		if (this.canUpgrade) {
+		if (this.canUpgrade && Spawners.getEconomy() != null) {
 			// entity type
 			setButton(3, 2, QuickItem
 					.of(NBTEditor.getHead(SpawnerMob.valueOf(this.spawner.getEntityType().name()).getHeadTexture()))

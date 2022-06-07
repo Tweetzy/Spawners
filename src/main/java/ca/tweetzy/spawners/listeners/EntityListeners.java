@@ -45,18 +45,4 @@ public final class EntityListeners implements Listener {
 		event.getEntity().getPersistentDataContainer().set(key, DataType.STRING, spawner.getOwnerName() + ":" + spawner.getOwner().toString());
 	}
 
-	@EventHandler()
-	public void onEntityAttack(final EntityDamageByEntityEvent event) {
-		if (!(event.getDamager() instanceof final Player attacker)) return;
-
-		final NamespacedKey key = new NamespacedKey(Spawners.getInstance(), "SpawnersEntityOwner");
-
-		if (!event.getEntity().getPersistentDataContainer().has(key, DataType.STRING)) {
-			return;
-		}
-
-		String[] ownerParts = event.getEntity().getPersistentDataContainer().get(key, DataType.STRING).split(":");
-
-
-	}
 }

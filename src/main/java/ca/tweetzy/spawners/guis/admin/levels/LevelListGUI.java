@@ -77,7 +77,7 @@ public final class LevelListGUI extends PagedGUI<Level> {
 				.name("&a&lCreate Level")
 				.lore(
 						"&7Used to create a new level for",
-						"&7the " + levelOption.name() + " option",
+						"&7the " + ChatUtil.capitalizeFully(levelOption.name()) + " option",
 						"",
 						"&e&lClick &8» &7Create new level"
 				)

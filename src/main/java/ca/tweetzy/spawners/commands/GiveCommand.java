@@ -108,7 +108,7 @@ public final class GiveCommand extends Command {
 
 	@Override
 	public String getSyntax() {
-		return null;
+		return "<player/*> [[-preset <presetId>]/[-entity <entityType>]]";
 	}
 
 	@Override
