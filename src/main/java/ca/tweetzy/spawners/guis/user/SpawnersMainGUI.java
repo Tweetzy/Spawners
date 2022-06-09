@@ -19,7 +19,9 @@ package ca.tweetzy.spawners.guis.user;
 
 import ca.tweetzy.rose.comp.enums.CompMaterial;
 import ca.tweetzy.rose.gui.template.BaseGUI;
+import ca.tweetzy.rose.utils.Common;
 import ca.tweetzy.rose.utils.QuickItem;
+import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.spawner.SpawnerUser;
 import ca.tweetzy.spawners.settings.Settings;
 import ca.tweetzy.spawners.settings.Translation;
@@ -60,15 +62,23 @@ public final class SpawnersMainGUI extends BaseGUI {
 
 		// 0 1 2 3 4 5 6 7 8
 
-		setButton(1, 2, QuickItem.of(CompMaterial.SPAWNER)
+		setButton(1, Settings.ENABLE_SHOP.getBoolean() ? 2 : 4, QuickItem.of(CompMaterial.SPAWNER)
 				.name(Translation.GUI_MAIN_ITEMS_YOUR_SPAWNERS_NAME.getString())
 				.lore(Translation.GUI_MAIN_ITEMS_YOUR_SPAWNERS_LORE.getList("total_placed_spawners", this.spawnerUser.getPlacedSpawners().size()))
 				.make(), click -> click.manager.showGUI(click.player, new SpawnerListGUI(this.spawnerUser)));
 
-		setButton(1, 6, QuickItem.of(CompMaterial.EMERALD)
-				.name(Translation.GUI_MAIN_ITEMS_SHOP_NAME.getString())
-				.lore(Translation.GUI_MAIN_ITEMS_SHOP_LORE.getList())
-				.make(), click -> {
-		});
+		if (Settings.ENABLE_SHOP.getBoolean())
+			setButton(1, 6, QuickItem.of(CompMaterial.EMERALD)
+					.name(Translation.GUI_MAIN_ITEMS_SHOP_NAME.getString())
+					.lore(Translation.GUI_MAIN_ITEMS_SHOP_LORE.getList())
+					.make(), click -> {
+
+				if (Spawners.getEconomy() == null) {
+					Common.tell(click.player, "&cNo economy provider found, contact a server admin about this.");
+					return;
+				}
+
+				click.manager.showGUI(click.player, new SpawnerShopGUI(this.spawnerUser));
+			});
 	}
 }

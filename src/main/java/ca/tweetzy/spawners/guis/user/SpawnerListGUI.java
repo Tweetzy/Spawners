@@ -43,7 +43,7 @@ import java.util.List;
 public final class SpawnerListGUI extends PagedGUI<Spawner> {
 
 	public SpawnerListGUI(@NonNull final SpawnerUser spawnerUser) {
-		super(new SpawnersMainGUI(spawnerUser), Translation.GUI_YOUR_SPAWNERS_TITLE.getString(), 6, spawnerUser.getPlacedSpawners());
+		super(new SpawnersMainGUI(spawnerUser), Translation.GUI_YOUR_SPAWNERS_TITLE.getString(), Settings.GUI_YOUR_SPAWNERS_ROWS.getInt(), spawnerUser.getPlacedSpawners());
 		setDefaultItem(QuickItem.of(Settings.GUI_YOUR_SPAWNERS_BG.getMaterial()).name(" ").make());
 		draw();
 	}
@@ -98,7 +98,7 @@ public final class SpawnerListGUI extends PagedGUI<Spawner> {
 
 	@Override
 	protected List<Integer> fillSlots() {
-		return InventoryBorder.getInsideBorders(5);
+		return Settings.GUI_YOUR_SPAWNERS_FILL_SLOTS.getIntegerList();
 	}
 
 	@Override

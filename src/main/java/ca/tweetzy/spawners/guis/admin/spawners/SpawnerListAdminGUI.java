@@ -28,7 +28,7 @@ import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.LevelOption;
 import ca.tweetzy.spawners.api.spawner.Level;
 import ca.tweetzy.spawners.api.spawner.Spawner;
-import ca.tweetzy.spawners.guis.SpawnersAdminGUI;
+import ca.tweetzy.spawners.guis.admin.SpawnersAdminGUI;
 import ca.tweetzy.spawners.settings.Translation;
 import org.bukkit.Location;
 import org.bukkit.event.inventory.ClickType;

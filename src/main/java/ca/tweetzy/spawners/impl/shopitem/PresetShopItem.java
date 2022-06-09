@@ -21,6 +21,7 @@ import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.spawner.Preset;
 import ca.tweetzy.spawners.api.spawner.ShopItem;
 import ca.tweetzy.spawners.model.SpawnerBuilder;
+import ca.tweetzy.spawners.settings.Translation;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import lombok.Getter;
@@ -65,8 +66,20 @@ public final class PresetShopItem extends ShopItem {
 		final Preset preset = Spawners.getPresetManager().find(this.presetId);
 
 		if (preset == null) return;
-		if (Spawners.getEconomy() == null || !Spawners.getEconomy().has(player, this.price)) return;
-		if (player.getInventory().firstEmpty() == -1) return;
+		if (Spawners.getEconomy() == null) return;
+
+		if (!Spawners.getEconomy().has(player, this.price)) {
+			Translation.NOT_ENOUGH_MONEY.send(player);
+			return;
+		}
+
+		if (player.getInventory().firstEmpty() == -1) {
+			Translation.NO_INVENTORY_SPACE.send(player);
+			return;
+		}
+
+		Spawners.getEconomy().withdrawPlayer(player, this.price);
+		Translation.MONEY_REMOVE.send(player, "amount", String.format("%,.2f", this.price));
 
 		final ItemStack item = SpawnerBuilder.of(player, preset).make();
 

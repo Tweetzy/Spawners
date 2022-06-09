@@ -21,7 +21,7 @@ import ca.tweetzy.rose.command.AllowedExecutor;
 import ca.tweetzy.rose.command.Command;
 import ca.tweetzy.rose.command.ReturnType;
 import ca.tweetzy.spawners.Spawners;
-import ca.tweetzy.spawners.guis.SpawnersAdminGUI;
+import ca.tweetzy.spawners.guis.admin.SpawnersAdminGUI;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 

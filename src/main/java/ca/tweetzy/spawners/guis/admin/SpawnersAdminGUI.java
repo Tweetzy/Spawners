@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package ca.tweetzy.spawners.guis;
+package ca.tweetzy.spawners.guis.admin;
 
 import ca.tweetzy.rose.comp.enums.CompMaterial;
 import ca.tweetzy.rose.gui.template.BaseGUI;
@@ -25,6 +25,7 @@ import ca.tweetzy.rose.utils.QuickItem;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.guis.admin.levels.LevelOptionSelectGUI;
 import ca.tweetzy.spawners.guis.admin.presets.PresetListGUI;
+import ca.tweetzy.spawners.guis.admin.shop.SpawnerShopAdminGUI;
 import ca.tweetzy.spawners.guis.admin.spawners.SpawnerListAdminGUI;
 import ca.tweetzy.spawners.settings.Translation;
 
@@ -37,13 +38,12 @@ import ca.tweetzy.spawners.settings.Translation;
 public final class SpawnersAdminGUI extends BaseGUI {
 
 	public SpawnersAdminGUI() {
-		super(null, Translation.GUI_ADMIN_MAIN_TITLE.getString("plugin_version", Spawners.getInstance().getVersion()), 4);
+		super(null, Translation.GUI_ADMIN_MAIN_TITLE.getString("plugin_version", Spawners.getInstance().getVersion()), 5);
 		draw();
 	}
 
 	@Override
 	protected void draw() {
-		// level presets
 		setButton(1, 1, QuickItem
 				.of(CompMaterial.TRIPWIRE_HOOK)
 				.name(Translation.GUI_ADMIN_MAIN_ITEMS_LEVELS_NAME.getString())
@@ -62,8 +62,13 @@ public final class SpawnersAdminGUI extends BaseGUI {
 				.lore(Translation.GUI_ADMIN_MAIN_ITEMS_PRESETS_LORE.getList())
 				.make(), click -> click.manager.showGUI(click.player, new PresetListGUI()));
 
+		setButton(3, 2, QuickItem
+				.of(CompMaterial.GOLD_INGOT)
+				.name(Translation.GUI_ADMIN_MAIN_ITEMS_SHOP_NAME.getString())
+				.lore(Translation.GUI_ADMIN_MAIN_ITEMS_SHOP_LORE.getList())
+				.make(), click -> click.manager.showGUI(click.player, new SpawnerShopAdminGUI()));
 
-		setButton(3, 8, QuickItem.of(CompMaterial.DIAMOND)
+		setButton(3, 6, QuickItem.of(CompMaterial.DIAMOND)
 				.name("&e&lPatreon")
 				.lore(
 						"&8Support me on Patreon",

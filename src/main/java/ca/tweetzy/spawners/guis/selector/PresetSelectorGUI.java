@@ -15,44 +15,41 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package ca.tweetzy.spawners.guis.admin.presets;
+package ca.tweetzy.spawners.guis.selector;
 
 import ca.tweetzy.rose.comp.enums.CompMaterial;
+import ca.tweetzy.rose.gui.Gui;
 import ca.tweetzy.rose.gui.events.GuiClickEvent;
 import ca.tweetzy.rose.gui.helper.InventoryBorder;
 import ca.tweetzy.rose.gui.template.PagedGUI;
 import ca.tweetzy.rose.utils.ChatUtil;
 import ca.tweetzy.rose.utils.QuickItem;
 import ca.tweetzy.rose.utils.Replacer;
-import ca.tweetzy.rose.utils.input.TitleInput;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.LevelOption;
 import ca.tweetzy.spawners.api.spawner.Level;
 import ca.tweetzy.spawners.api.spawner.Preset;
-import ca.tweetzy.spawners.guis.admin.SpawnersAdminGUI;
-import ca.tweetzy.spawners.impl.SpawnerPreset;
-import ca.tweetzy.spawners.settings.Settings;
 import ca.tweetzy.spawners.settings.Translation;
-import org.bukkit.ChatColor;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.ClickType;
+import lombok.NonNull;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * Date Created: May 16 2022
- * Time Created: 1:10 p.m.
+ * Time Created: 2:14 p.m.
  *
  * @author Kiran Hart
  */
-public final class PresetListGUI extends PagedGUI<Preset> {
+public final class PresetSelectorGUI extends PagedGUI<Preset> {
 
-	public PresetListGUI() {
-		super(new SpawnersAdminGUI(), "<GRADIENT:fc67fa>&LLevels</GRADIENT:f4c4f3> &8> &7Presets", 6, Spawners.getPresetManager().getContents());
+	private final Consumer<Preset> selected;
+
+	public PresetSelectorGUI(Gui parent, @NonNull final Consumer<Preset> selected) {
+		super(parent, "<GRADIENT:fc67fa>&lPresets</GRADIENT:f4c4f3> &8> &7Select Preset", 6, Spawners.getPresetManager().getContents());
+		this.selected = selected;
 		draw();
 	}
 
@@ -92,66 +89,10 @@ public final class PresetListGUI extends PagedGUI<Preset> {
 	}
 
 	@Override
-	protected void drawAdditional() {
-		setButton(5, 4, QuickItem
-				.of(CompMaterial.SLIME_BALL)
-				.name("&a&lNew Preset")
-				.lore("&e&lClick &8» &7To make new preset")
-				.make(), clickEvent -> {
-
-			if (!Spawners.getLevelManager().optionsHasAtLeastOneOption()) {
-				Translation.NEED_TO_MAKE_LEVELS.send(clickEvent.player);
-				return;
-			}
-
-			new TitleInput(clickEvent.player, "<GRADIENT:fc67fa>&lNew Preset</GRADIENT:f4c4f3>", "&fEnter an ID for the preset") {
-
-				@Override
-				public void onExit(Player player) {
-					clickEvent.manager.showGUI(clickEvent.player, PresetListGUI.this);
-				}
-
-				@Override
-				public boolean onResult(String string) {
-					string = ChatColor.stripColor(string.trim().toLowerCase());
-
-					if (Spawners.getPresetManager().find(string) != null) {
-						Translation.PRESET_ID_TAKEN.send(clickEvent.player, "preset_id", string);
-						return false;
-					}
-
-					final Preset preset = new SpawnerPreset(
-							string,
-							EntityType.valueOf(Settings.DEFAULT_SPAWNER_ENTITY.getString().toUpperCase()),
-							new HashMap<>() {{
-								put(LevelOption.SPAWN_INTERVAL, Spawners.getLevelManager().find(LevelOption.SPAWN_INTERVAL, 1));
-								put(LevelOption.SPAWN_COUNT, Spawners.getLevelManager().find(LevelOption.SPAWN_COUNT, 1));
-								put(LevelOption.MAX_NEARBY_ENTITIES, Spawners.getLevelManager().find(LevelOption.MAX_NEARBY_ENTITIES, 1));
-								put(LevelOption.ACTIVATION_RANGE, Spawners.getLevelManager().find(LevelOption.ACTIVATION_RANGE, 1));
-							}}
-					);
-
-					Spawners.getPresetManager().createPreset(preset, (created, createdPreset) -> {
-						if (created)
-							clickEvent.manager.showGUI(clickEvent.player, new PresetListGUI());
-					});
-
-					return true;
-				}
-			};
-		});
-	}
-
-	@Override
 	protected void onClick(Preset preset, GuiClickEvent clickEvent) {
-		if (clickEvent.clickType == ClickType.LEFT)
-			clickEvent.manager.showGUI(clickEvent.player, new PresetEditGUI(preset));
-
-		if (clickEvent.clickType == ClickType.NUMBER_KEY)
-			Spawners.getPresetManager().deletePreset(preset, success -> clickEvent.manager.showGUI(clickEvent.player, new PresetListGUI()));
+		this.selected.accept(preset);
 	}
 
-	@Override
 	protected List<Integer> fillSlots() {
 		return InventoryBorder.getInsideBorders(5);
 	}

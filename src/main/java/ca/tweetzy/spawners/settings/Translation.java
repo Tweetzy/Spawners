@@ -51,6 +51,8 @@ public enum Translation {
 	MONEY_REMOVE("misc.money remove", "&c&l- $%amount%"),
 	REMOVED_ENTITIES_ALL("misc.entity remove.all", "&cRemoved a total of &4%total% &cspawner mobs."),
 	REMOVED_ENTITIES_ENTITY("misc.entity remove.entity", "&cRemoved a total of &4%total% %entity_type% &cspawner mobs."),
+	NO_PRESETS_MADE("misc.no presets made", "&cThere are no presets currently made."),
+	NO_INVENTORY_SPACE("misc.no inventory space", "&cYou do not have enough inventory space."),
 
 	NOT_A_SPAWNER("misc.not a spawner", "&cThat block is not a spawner!"),
 	UPDATED_SPAWN_TYPE("misc.updated spawn type", "&aSuccessfully set spawner's entity type to&f: &e%entity_type%"),
@@ -197,6 +199,22 @@ public enum Translation {
 	GUI_MAIN_ITEMS_SHOP_LORE("gui.main.items.shop.lore", Arrays.asList(
 			"",
 			"&e&lClick &8» &7To view shop"
+	)),
+
+	GUI_SPAWNER_SHOP_TITLE("gui.spawner shop.title", "<GRADIENT:fc67fa>&lSpawner Shop</GRADIENT:f4c4f3>"),
+	GUI_SPAWNER_SHOP_ITEMS_SPAWNER_NAME("gui.spawner shop.items.spawner.name", "<GRADIENT:fc67fa>&l%entity_type% Spawner</GRADIENT:f4c4f3>"),
+	GUI_SPAWNER_SHOP_ITEMS_SPAWNER_LORE("gui.spawner shop.items.spawner.lore", Arrays.asList(
+			"",
+			"&7Price&f: &a%shop_item_price%",
+			"&7Quantity&f: &a%shop_item_qty%",
+			"",
+			"&e&lLevels",
+			"    &7Spawn Delay&f: &a%spawn_delay_level% &f(&e%spawn_delay%&as&f)",
+			"    &7Spawn Count&f: &a%spawn_count_level% &f(&e%spawn_count%&f)",
+			"    &7Max Nearby Mobs&f: &a%max_nearby_entities_level% &f(&e%max_nearby_entities%&f)",
+			"    &7Activation Range&f: &a%activation_range_level% &f(&e%activation_range%&f)",
+			"",
+			"&e&lClick &8» &7To purchase item"
 	)),
 
 	GUI_YOUR_SPAWNERS_TITLE("gui.your spawners.title", "<GRADIENT:fc67fa>&lSpawners</GRADIENT:f4c4f3> &8> &7Your Spawners"),
@@ -373,6 +391,13 @@ public enum Translation {
 			"&7View all created spawner presets",
 			"",
 			"&e&lClick &8» &7To view presets"
+	)),
+
+	GUI_ADMIN_MAIN_ITEMS_SHOP_NAME("gui.admin main.items.spawner shop.name", "<GRADIENT:fc67fa>&LSpawner Shop</GRADIENT:f4c4f3>"),
+	GUI_ADMIN_MAIN_ITEMS_SHOP_LORE("gui.admin main.items.spawner shop.lore", Arrays.asList(
+			"&7View all spawner shop items",
+			"",
+			"&e&lClick &8» &7To edit shop"
 	)),
 	;
 

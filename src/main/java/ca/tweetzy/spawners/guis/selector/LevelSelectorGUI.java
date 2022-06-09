@@ -45,7 +45,7 @@ public final class LevelSelectorGUI extends PagedGUI<Level> {
 	private final Consumer<Level> selected;
 
 	public LevelSelectorGUI(Gui parent, @NonNull final LevelOption option, @NonNull final Consumer<Level> selected) {
-		super(parent, "<GRADIENT:fc67fa>&lPresets</GRADIENT:f4c4f3> &8> &7Select Level", 6, Spawners.getLevelManager().getLevels(option));
+		super(parent, "<GRADIENT:fc67fa>&lLevels</GRADIENT:f4c4f3> &8> &7Select Level", 6, Spawners.getLevelManager().getLevels(option));
 		this.selected = selected;
 		draw();
 	}

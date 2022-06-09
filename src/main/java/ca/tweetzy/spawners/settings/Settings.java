@@ -43,6 +43,7 @@ public final class Settings {
 	public static final ConfigSetting SPAWNER_ITEM = new ConfigSetting(config, "spawner item", CompMaterial.SPAWNER.name(), "This should probably be a block if you decide to change it..");
 	public static final ConfigSetting ALLOW_NON_OWNER_PLACE = new ConfigSetting(config, "allow non owner place", false, "If true, player's who don't own the spawner item/block can still place it");
 	public static final ConfigSetting ALLOW_NON_OWNER_BREAK = new ConfigSetting(config, "allow non owner break", false, "If true, player's who don't own the spawner item/block can still break it");
+	public static final ConfigSetting ENABLE_SHOP = new ConfigSetting(config, "enable shop", true, "If true, the shop icon will appear in /spawners for users to buy spawners (items need to be added first)");
 
 	public static final ConfigSetting MAX_SPAWNER_PER_CHUNK_ENABLED = new ConfigSetting(config, "max spawners per chunk.enabled", true, "If true, spawners will limit the amount of spawners within a chunk");
 	public static final ConfigSetting MAX_SPAWNER_PER_CHUNK = new ConfigSetting(config, "max spawners per chunk.max", 16, "If max spawners per chunk.enabled is enabled, it will use this limit");
@@ -71,20 +72,27 @@ public final class Settings {
 
 	public static final ConfigSetting GUI_ENTITY_CHANGE_ROWS = new ConfigSetting(config, "gui.entity change.rows", 6, "The size (rows, min = 2, max = 6) of the spawner mob change gui");
 	public static final ConfigSetting GUI_ENTITY_CHANGE_BG = new ConfigSetting(config, "gui.entity change.background", CompMaterial.BLACK_STAINED_GLASS_PANE.name(), "The default background material");
-	public static final ConfigSetting GUI_ENTITY_CHANGE_FILL_SLOTS = new ConfigSetting(config, "gui.entity change.fill slots", InventoryBorder.getInsideBorders(4), "The slots in which mob heads will be placed into");
+	public static final ConfigSetting GUI_ENTITY_CHANGE_FILL_SLOTS = new ConfigSetting(config, "gui.entity change.fill slots", InventoryBorder.getInsideBorders(5), "The slots in which mob heads will be placed into");
 	public static final ConfigSetting GUI_ENTITY_CHANGE_FILL_DECORATION = new ConfigSetting(config, "gui.entity change.decoration", List.of("0:BLACK_STAINED_GLASS_PANE"), "Option Decoration items (slot:material_name)");
 
 	public static final ConfigSetting GUI_PLAYER_SELECT_ROWS = new ConfigSetting(config, "gui.player select.rows", 6, "The size (rows, min = 2, max = 6) of the player select change gui");
 	public static final ConfigSetting GUI_PLAYER_SELECT_BG = new ConfigSetting(config, "gui.player select.background", CompMaterial.BLACK_STAINED_GLASS_PANE.name(), "The default background material");
-	public static final ConfigSetting GUI_PLAYER_SELECT_FILL_SLOTS = new ConfigSetting(config, "gui.player select.fill slots", InventoryBorder.getInsideBorders(4), "The slots in which player heads will be placed into");
+	public static final ConfigSetting GUI_PLAYER_SELECT_FILL_SLOTS = new ConfigSetting(config, "gui.player select.fill slots", InventoryBorder.getInsideBorders(5), "The slots in which player heads will be placed into");
 	public static final ConfigSetting GUI_PLAYER_SELECT_FILL_DECORATION = new ConfigSetting(config, "gui.player select.decoration", List.of("0:BLACK_STAINED_GLASS_PANE"), "Option Decoration items (slot:material_name)");
 
 	public static final ConfigSetting GUI_MAIN_ROWS = new ConfigSetting(config, "gui.main.rows", 6, "The size (rows, min = 2, max = 6) of the main player gui");
 	public static final ConfigSetting GUI_MAIN_BG = new ConfigSetting(config, "gui.main.background", CompMaterial.BLACK_STAINED_GLASS_PANE.name(), "The default background material");
 	public static final ConfigSetting GUI_MAIN_FILL_DECORATION = new ConfigSetting(config, "gui.main.decoration", List.of("0:BLACK_STAINED_GLASS_PANE"), "Option Decoration items (slot:material_name)");
 
+	public static final ConfigSetting GUI_YOUR_SPAWNERS_ROWS = new ConfigSetting(config, "gui.your spawners.rows", 6, "The size (rows, min = 2, max = 6)");
 	public static final ConfigSetting GUI_YOUR_SPAWNERS_BG = new ConfigSetting(config, "gui.your spawners.background", CompMaterial.BLACK_STAINED_GLASS_PANE.name(), "The default background material");
+	public static final ConfigSetting GUI_YOUR_SPAWNERS_FILL_SLOTS = new ConfigSetting(config, "gui.your spawners.fill slots", InventoryBorder.getInsideBorders(5), "The slots in which items will be placed into");
 	public static final ConfigSetting GUI_YOUR_SPAWNERS_FILL_DECORATION = new ConfigSetting(config, "gui.your spawners.decoration", List.of("0:BLACK_STAINED_GLASS_PANE"), "Option Decoration items (slot:material_name)");
+
+	public static final ConfigSetting GUI_SHOP_ROWS = new ConfigSetting(config, "gui.spawner shop.rows", 6, "The size (rows, min = 2, max = 6)");
+	public static final ConfigSetting GUI_SHOP_BG = new ConfigSetting(config, "gui.spawner shop.background", CompMaterial.BLACK_STAINED_GLASS_PANE.name(), "The default background material");
+	public static final ConfigSetting GUI_SHOP_FILL_SLOTS = new ConfigSetting(config, "gui.spawner shop.fill slots", InventoryBorder.getInsideBorders(5), "The slots in which items will be placed into");
+	public static final ConfigSetting GUI_SHOP_FILL_DECORATION = new ConfigSetting(config, "gui.spawner shop.decoration", List.of("0:BLACK_STAINED_GLASS_PANE"), "Option Decoration items (slot:material_name)");
 
 
 	public static final ConfigSetting MOB_CHANGE_ELDER_GUARDIAN_ENABLED = new ConfigSetting(config, "mob change.elder guardian.enabled", true, "Should players be able to set their spawner to a Elder Guardian");
