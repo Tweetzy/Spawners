@@ -65,7 +65,7 @@ public final class SpawnerShopAdminGUI extends PagedGUI<ShopItem> {
 		if (shopItem instanceof final EntityShopItem eShopItem)
 			spawnerMob = SpawnerMob.valueOf(eShopItem.getEntityType().name());
 		else {
-			spawnerMob = SpawnerMob.valueOf(Spawners.getPresetManager().find(((PresetShopItem)shopItem).getPresetId()).getEntityType().name());
+			spawnerMob = SpawnerMob.valueOf(Spawners.getPresetManager().find(((PresetShopItem) shopItem).getPresetId()).getEntityType().name());
 		}
 
 		QuickItem quickItem = QuickItem.of(NBTEditor.getHead(spawnerMob.getHeadTexture()));

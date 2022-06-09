@@ -23,7 +23,6 @@ import ca.tweetzy.rose.gui.events.GuiClickEvent;
 import ca.tweetzy.rose.gui.template.PagedGUI;
 import ca.tweetzy.rose.utils.ChatUtil;
 import ca.tweetzy.rose.utils.QuickItem;
-import ca.tweetzy.rose.utils.Replacer;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.LevelOption;
 import ca.tweetzy.spawners.api.SpawnerMob;
@@ -39,7 +38,6 @@ import lombok.NonNull;
 import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
