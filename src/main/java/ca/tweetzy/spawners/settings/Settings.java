@@ -79,6 +79,13 @@ public final class Settings {
 	public static final ConfigSetting GUI_PLAYER_SELECT_FILL_SLOTS = new ConfigSetting(config, "gui.player select.fill slots", InventoryBorder.getInsideBorders(4), "The slots in which player heads will be placed into");
 	public static final ConfigSetting GUI_PLAYER_SELECT_FILL_DECORATION = new ConfigSetting(config, "gui.player select.decoration", List.of("0:BLACK_STAINED_GLASS_PANE"), "Option Decoration items (slot:material_name)");
 
+	public static final ConfigSetting GUI_MAIN_ROWS = new ConfigSetting(config, "gui.main.rows", 6, "The size (rows, min = 2, max = 6) of the main player gui");
+	public static final ConfigSetting GUI_MAIN_BG = new ConfigSetting(config, "gui.main.background", CompMaterial.BLACK_STAINED_GLASS_PANE.name(), "The default background material");
+	public static final ConfigSetting GUI_MAIN_FILL_DECORATION = new ConfigSetting(config, "gui.main.decoration", List.of("0:BLACK_STAINED_GLASS_PANE"), "Option Decoration items (slot:material_name)");
+
+	public static final ConfigSetting GUI_YOUR_SPAWNERS_BG = new ConfigSetting(config, "gui.your spawners.background", CompMaterial.BLACK_STAINED_GLASS_PANE.name(), "The default background material");
+	public static final ConfigSetting GUI_YOUR_SPAWNERS_FILL_DECORATION = new ConfigSetting(config, "gui.your spawners.decoration", List.of("0:BLACK_STAINED_GLASS_PANE"), "Option Decoration items (slot:material_name)");
+
 
 	public static final ConfigSetting MOB_CHANGE_ELDER_GUARDIAN_ENABLED = new ConfigSetting(config, "mob change.elder guardian.enabled", true, "Should players be able to set their spawner to a Elder Guardian");
 	public static final ConfigSetting MOB_CHANGE_ELDER_GUARDIAN_COST = new ConfigSetting(config, "mob change.elder guardian.cost", 5000D, "The cost to switch the spawner to a Elder Guardian");

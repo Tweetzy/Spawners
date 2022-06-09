@@ -31,6 +31,7 @@ import ca.tweetzy.spawners.commands.*;
 import ca.tweetzy.spawners.database.DataManager;
 import ca.tweetzy.spawners.database.migrations._1_InitialMigration;
 import ca.tweetzy.spawners.database.migrations._2_SpawnerPresetMigration;
+import ca.tweetzy.spawners.database.migrations._3_SpawnerShopItemMigration;
 import ca.tweetzy.spawners.impl.APIImplementation;
 import ca.tweetzy.spawners.listeners.*;
 import ca.tweetzy.spawners.model.manager.*;
@@ -56,6 +57,7 @@ public final class Spawners extends RosePlugin {
 	private final LevelManager levelManager = new LevelManager();
 	private final SpawnerManager spawnerManager = new SpawnerManager();
 	private final PresetManager presetManager = new PresetManager();
+	private final ShopItemManager shopItemManager = new ShopItemManager();
 
 	private final SpawnersAPI spawnersAPI = new APIImplementation();
 
@@ -76,7 +78,8 @@ public final class Spawners extends RosePlugin {
 
 		final DataMigrationManager dataMigrationManager = new DataMigrationManager(this.databaseConnector, this.dataManager,
 				new _1_InitialMigration(),
-				new _2_SpawnerPresetMigration()
+				new _2_SpawnerPresetMigration(),
+				new _3_SpawnerShopItemMigration()
 		);
 
 		// run migrations for tables
@@ -99,7 +102,8 @@ public final class Spawners extends RosePlugin {
 				this.playerManager,
 				this.levelManager,
 				this.spawnerManager,
-				this.presetManager
+				this.presetManager,
+				this.shopItemManager
 		).forEach(Manager::load);
 
 		// setup command manager
@@ -159,6 +163,11 @@ public final class Spawners extends RosePlugin {
 	// spawner preset manager
 	public static PresetManager getPresetManager() {
 		return getInstance().presetManager;
+	}
+
+	// shop item manager
+	public static ShopItemManager getShopItemManager() {
+		return getInstance().shopItemManager;
 	}
 
 	// economy

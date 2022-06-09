@@ -184,6 +184,36 @@ public enum Translation {
 
 
 	// PLAYER GUIS
+	GUI_MAIN_TITLE("gui.main.title", "<GRADIENT:fc67fa>&lSpawners</GRADIENT:f4c4f3>"),
+	GUI_MAIN_ITEMS_YOUR_SPAWNERS_NAME("gui.main.items.your spawners.name", "<GRADIENT:fc67fa>&lYour Spawners</GRADIENT:f4c4f3>"),
+	GUI_MAIN_ITEMS_YOUR_SPAWNERS_LORE("gui.main.items.your spawners.lore", Arrays.asList(
+			"",
+			"&7Total&f: &e%total_placed_spawners%",
+			"",
+			"&e&lClick &8» &7To view placed spawners"
+	)),
+
+	GUI_MAIN_ITEMS_SHOP_NAME("gui.main.items.shop.name", "<GRADIENT:fc67fa>&lSpawner Shop</GRADIENT:f4c4f3>"),
+	GUI_MAIN_ITEMS_SHOP_LORE("gui.main.items.shop.lore", Arrays.asList(
+			"",
+			"&e&lClick &8» &7To view shop"
+	)),
+
+	GUI_YOUR_SPAWNERS_TITLE("gui.your spawners.title", "<GRADIENT:fc67fa>&lSpawners</GRADIENT:f4c4f3> &8> &7Your Spawners"),
+	GUI_YOUR_SPAWNERS_ITEMS_SPAWNER_NAME("gui.your spawners.items.spawner.name", "<GRADIENT:fc67fa>&lSpawner</GRADIENT:f4c4f3>"),
+	GUI_YOUR_SPAWNERS_ITEMS_SPAWNER_LORE("gui.your spawners.items.spawner.lore", Arrays.asList(
+			"",
+			"&e&lLocation",
+			"    &7%world_name% &F/ &7%world_x% &f/ &7%world_y% &f/ &7%world_z%",
+			"",
+			"&e&lLevels",
+			"    &7Spawn Delay&f: &a%spawn_delay_level% &f(&e%spawn_delay%&as&f)",
+			"    &7Spawn Count&f: &a%spawn_count_level% &f(&e%spawn_count%&f)",
+			"    &7Max Nearby Mobs&f: &a%max_nearby_entities_level% &f(&e%max_nearby_entities%&f)",
+			"    &7Activation Range&f: &a%activation_range_level% &f(&e%activation_range%&f)",
+			""
+	)),
+
 	GUI_SPAWNER_OVERVIEW_TITLE("gui.spawner overview.title", "<GRADIENT:fc67fa>&lSpawner</GRADIENT:f4c4f3> &8> &7Overview"),
 	GUI_SPAWNER_OVERVIEW_ITEMS_ENTITY_NAME("gui.spawner overview.items.entity.name", "<GRADIENT:fc67fa>&lEntity Type</GRADIENT:f4c4f3>"),
 	GUI_SPAWNER_OVERVIEW_ITEMS_ENTITY_LORE("gui.spawner overview.items.entity.lore", Arrays.asList(

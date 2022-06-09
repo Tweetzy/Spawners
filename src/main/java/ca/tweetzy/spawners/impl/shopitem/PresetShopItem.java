@@ -1,0 +1,107 @@
+/*
+ * Spawners
+ * Copyright 2022 Kiran Hart
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+package ca.tweetzy.spawners.impl.shopitem;
+
+import ca.tweetzy.spawners.Spawners;
+import ca.tweetzy.spawners.api.spawner.Preset;
+import ca.tweetzy.spawners.api.spawner.ShopItem;
+import ca.tweetzy.spawners.model.SpawnerBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import lombok.Getter;
+import lombok.NonNull;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.UUID;
+
+/**
+ * Date Created: June 08 2022
+ * Time Created: 9:26 p.m.
+ *
+ * @author Kiran Hart
+ */
+public final class PresetShopItem extends ShopItem {
+
+	@Getter
+	private final String presetId;
+
+	public PresetShopItem(@NonNull final UUID uuid, @NonNull final String presetId, int quantity, double price) {
+		super(uuid, quantity, price);
+		this.presetId = presetId;
+	}
+
+	public PresetShopItem(@NonNull final String presetId, int quantity, double price) {
+		this(UUID.randomUUID(), presetId, quantity, price);
+	}
+
+	@Override
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
+	@Override
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
+	@Override
+	public void tryPurchase(Player player) {
+		final Preset preset = Spawners.getPresetManager().find(this.presetId);
+
+		if (preset == null) return;
+		if (Spawners.getEconomy() == null || !Spawners.getEconomy().has(player, this.price)) return;
+		if (player.getInventory().firstEmpty() == -1) return;
+
+		final ItemStack item = SpawnerBuilder.of(player, preset).make();
+
+		// give them the item
+		for (int i = 0; i < this.quantity; i++)
+			player.getInventory().addItem(item);
+	}
+
+	@Override
+	public String getJsonString() {
+		final JsonObject object = new JsonObject();
+
+		object.addProperty("id", this.uuid.toString());
+		object.addProperty("type", "preset");
+		object.addProperty("presetId", this.presetId);
+		object.addProperty("quantity", this.quantity);
+		object.addProperty("price", this.price);
+
+		return object.toString();
+	}
+
+	public static ShopItem decodeShopItem(String json) {
+		final JsonObject object = JsonParser.parseString(json).getAsJsonObject();
+
+		return new PresetShopItem(
+				UUID.fromString(object.get("id").getAsString()),
+				object.get("presetId").getAsString(),
+				object.get("quantity").getAsInt(),
+				object.get("price").getAsDouble()
+
+		);
+	}
+
+	@Override
+	public void sync() {
+		Spawners.getDataManager().updateShopItem(this, null);
+	}
+}

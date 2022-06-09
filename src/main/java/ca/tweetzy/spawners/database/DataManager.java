@@ -22,15 +22,16 @@ import ca.tweetzy.rose.database.DataManagerAbstract;
 import ca.tweetzy.rose.database.DatabaseConnector;
 import ca.tweetzy.rose.database.UpdateCallback;
 import ca.tweetzy.spawners.api.LevelOption;
-import ca.tweetzy.spawners.api.spawner.Level;
-import ca.tweetzy.spawners.api.spawner.Preset;
-import ca.tweetzy.spawners.api.spawner.Spawner;
-import ca.tweetzy.spawners.api.spawner.SpawnerUser;
+import ca.tweetzy.spawners.api.spawner.*;
 import ca.tweetzy.spawners.impl.PlacedSpawner;
 import ca.tweetzy.spawners.impl.SpawnerPlayer;
 import ca.tweetzy.spawners.impl.SpawnerPreset;
+import ca.tweetzy.spawners.impl.shopitem.EntityShopItem;
+import ca.tweetzy.spawners.impl.shopitem.PresetShopItem;
 import ca.tweetzy.spawners.model.LevelFactory;
 import ca.tweetzy.spawners.model.Serialize;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import lombok.NonNull;
 import org.bukkit.entity.EntityType;
 import org.bukkit.plugin.Plugin;
@@ -272,6 +273,84 @@ public final class DataManager extends DataManagerAbstract {
 		}));
 	}
 
+	public void insertShopItem(@NonNull final ShopItem shopItem, final Callback<ShopItem> callback) {
+		this.runAsync(() -> this.databaseConnector.connect(connection -> {
+			final String query = "INSERT INTO " + this.getTablePrefix() + "shop_item (id, content) VALUES (?, ?)";
+			final String fetchQuery = "SELECT * FROM " + this.getTablePrefix() + "shop_item WHERE id = ?";
+
+			try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+				final PreparedStatement fetch = connection.prepareStatement(fetchQuery);
+
+				fetch.setString(1, shopItem.getUUID().toString());
+
+				preparedStatement.setString(1, shopItem.getUUID().toString());
+				preparedStatement.setString(2, shopItem.getJsonString());
+
+				preparedStatement.executeUpdate();
+
+				if (callback != null) {
+					final ResultSet res = fetch.executeQuery();
+					res.next();
+					callback.accept(null, extractShopItem(res));
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				resolveCallback(callback, e);
+			}
+
+		}));
+	}
+
+	public void updateShopItem(@NonNull final ShopItem shopItem, Callback<Boolean> callback) {
+		this.runAsync(() -> this.databaseConnector.connect(connection -> {
+			try (PreparedStatement statement = connection.prepareStatement("UPDATE " + this.getTablePrefix() + "shop_item SET content = ? WHERE id = ?")) {
+
+				statement.setString(1, shopItem.getJsonString());
+				statement.setString(2, shopItem.getUUID().toString());
+
+				int result = statement.executeUpdate();
+
+				if (callback != null)
+					callback.accept(null, result > 0);
+
+			} catch (Exception e) {
+				resolveCallback(callback, e);
+			}
+		}));
+	}
+
+	public void deleteShopItem(@NonNull final UUID id, Callback<Boolean> callback) {
+		this.runAsync(() -> this.databaseConnector.connect(connection -> {
+			try (PreparedStatement statement = connection.prepareStatement("DELETE FROM " + this.getTablePrefix() + "shop_item WHERE id = ?")) {
+				statement.setString(1, id.toString());
+
+				int result = statement.executeUpdate();
+				callback.accept(null, result > 0);
+
+			} catch (Exception e) {
+				resolveCallback(callback, e);
+			}
+		}));
+	}
+
+	public void getShopItems(@NonNull final Callback<List<ShopItem>> callback) {
+		final List<ShopItem> shopItems = new ArrayList<>();
+		this.runAsync(() -> this.databaseConnector.connect(connection -> {
+			try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM " + this.getTablePrefix() + "shop_item")) {
+				final ResultSet resultSet = statement.executeQuery();
+				while (resultSet.next()) {
+					final ShopItem shopItem = extractShopItem(resultSet);
+					shopItems.add(shopItem);
+				}
+
+				callback.accept(null, shopItems);
+			} catch (Exception e) {
+				resolveCallback(callback, e);
+			}
+		}));
+	}
+
 	public void insertSpawnerPreset(@NonNull final Preset preset, final Callback<Preset> callback) {
 		this.runAsync(() -> this.databaseConnector.connect(connection -> {
 			final String query = "INSERT INTO " + this.getTablePrefix() + "spawner_preset (id, entity_type, levels) VALUES (?, ?, ?)";
@@ -450,6 +529,13 @@ public final class DataManager extends DataManagerAbstract {
 				EntityType.valueOf(resultSet.getString("entity_type").toUpperCase()),
 				SpawnerPreset.decodeLevelsJson(resultSet.getString("levels"))
 		);
+	}
+
+	private ShopItem extractShopItem(final ResultSet resultSet) throws SQLException {
+		final JsonObject content = JsonParser.parseString(resultSet.getString("content")).getAsJsonObject();
+		final boolean isPresetItem = content.get("type").getAsString().equalsIgnoreCase("preset");
+
+		return isPresetItem ? PresetShopItem.decodeShopItem(resultSet.getString("content")) : EntityShopItem.decodeShopItem(resultSet.getString("content"));
 	}
 
 
