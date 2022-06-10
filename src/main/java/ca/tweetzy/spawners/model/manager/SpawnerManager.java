@@ -93,6 +93,8 @@ public final class SpawnerManager implements Manager {
 
 	public void applySpawnerDefaults(@NonNull final CreatureSpawner spawner, final boolean update) {
 		spawner.setDelay(Settings.DEFAULT_SPAWNER_DELAY.getInt());
+		spawner.setMaxSpawnDelay(Settings.DEFAULT_SPAWNER_DELAY.getInt());
+		spawner.setMinSpawnDelay(Settings.DEFAULT_SPAWNER_DELAY.getInt());
 		spawner.setSpawnCount(Settings.DEFAULT_SPAWNER_SPAWN_COUNT.getInt());
 		spawner.setRequiredPlayerRange(Settings.DEFAULT_SPAWNER_ACTIVATION_RANGE.getInt());
 		spawner.setMaxNearbyEntities(Settings.DEFAULT_SPAWNER_MAX_NEARBY_ENTITIES.getInt());
@@ -105,9 +107,10 @@ public final class SpawnerManager implements Manager {
 
 		switch (level.getLevelOption()) {
 			case SPAWN_INTERVAL -> {
-				spawner.setDelay(level.getValue());
-				spawner.setMinSpawnDelay(level.getValue());
+				spawner.setMinSpawnDelay(0);
 				spawner.setMaxSpawnDelay(level.getValue());
+				spawner.setDelay(level.getValue());
+
 			}
 			case SPAWN_COUNT -> spawner.setSpawnCount(level.getValue());
 			case MAX_NEARBY_ENTITIES -> spawner.setMaxNearbyEntities(level.getValue());
