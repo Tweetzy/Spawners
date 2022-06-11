@@ -23,13 +23,13 @@ import ca.tweetzy.rose.command.ReturnType;
 import ca.tweetzy.rose.utils.ChatUtil;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.settings.Translation;
-import com.jeff_media.morepersistentdatatypes.DataType;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.List;
 
@@ -56,7 +56,7 @@ public final class ButcherCommand extends Command {
 			for (World world : Bukkit.getWorlds()) {
 				for (LivingEntity livingEntity : world.getLivingEntities()) {
 
-					if (livingEntity.getPersistentDataContainer().has(key, DataType.STRING)) {
+					if (livingEntity.getPersistentDataContainer().has(key, PersistentDataType.STRING)) {
 						livingEntity.remove();
 						count++;
 					}
@@ -77,7 +77,7 @@ public final class ButcherCommand extends Command {
 			for (LivingEntity livingEntity : world.getLivingEntities()) {
 				if (livingEntity.getType() != entityType) continue;
 
-				if (livingEntity.getPersistentDataContainer().has(key, DataType.STRING)) {
+				if (livingEntity.getPersistentDataContainer().has(key, PersistentDataType.STRING)) {
 					livingEntity.remove();
 					count++;
 				}
@@ -88,7 +88,7 @@ public final class ButcherCommand extends Command {
 				for (LivingEntity livingEntity : allWorld.getLivingEntities()) {
 					if (livingEntity.getType() != entityType) continue;
 
-					if (livingEntity.getPersistentDataContainer().has(key, DataType.STRING)) {
+					if (livingEntity.getPersistentDataContainer().has(key, PersistentDataType.STRING)) {
 						livingEntity.remove();
 						count++;
 					}

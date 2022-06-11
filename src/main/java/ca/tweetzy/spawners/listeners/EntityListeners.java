@@ -19,12 +19,12 @@ package ca.tweetzy.spawners.listeners;
 
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.spawner.Spawner;
-import com.jeff_media.morepersistentdatatypes.DataType;
 import org.bukkit.NamespacedKey;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.SpawnerSpawnEvent;
+import org.bukkit.persistence.PersistentDataType;
 
 /**
  * Date Created: May 11 2022
@@ -40,7 +40,7 @@ public final class EntityListeners implements Listener {
 		if (spawner == null) return;
 
 		final NamespacedKey key = new NamespacedKey(Spawners.getInstance(), "SpawnersEntityOwner");
-		event.getEntity().getPersistentDataContainer().set(key, DataType.STRING, spawner.getOwnerName() + ":" + spawner.getOwner().toString());
+		event.getEntity().getPersistentDataContainer().set(key, PersistentDataType.STRING, spawner.getOwnerName() + ":" + spawner.getOwner().toString());
 	}
 
 }
