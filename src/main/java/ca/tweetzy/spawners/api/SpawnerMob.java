@@ -33,6 +33,11 @@ import org.bukkit.entity.EntityType;
 public enum SpawnerMob {
 
 	// passive
+	ALLAY(EntityType.ALLAY, Translation.MOB_NAME_ALLAY.getString(), MobBehaviour.PASSIVE, "https://textures.minecraft.net/texture/e50294a1747310f104124c6373cc639b712baa57b7d926297b645188b7bb9ab9"),
+	FROG(EntityType.FROG, Translation.MOB_NAME_FROG.getString(), MobBehaviour.PASSIVE, "https://textures.minecraft.net/texture/87d62e7d4c313f2138250dbf50fa2f5a7792d9a523b18ebcac1cd73b4b656d74"),
+	TADPOLE(EntityType.TADPOLE, Translation.MOB_NAME_TADPOLE.getString(), MobBehaviour.PASSIVE, "https://textures.minecraft.net/texture/987035f5352334c2cba6ac4c65c2b9059739d6d0e839c1dd98d75d2e77957847"),
+
+
 	OCELOT(EntityType.OCELOT, Translation.MOB_NAME_OCELOT.getString(), MobBehaviour.PASSIVE, "https://textures.minecraft.net/texture/8c433c1347313b23b67eec92f8807aed2566ec29fd416bdf7a59c22596628355"),
 	MUSHROOM_COW(EntityType.MUSHROOM_COW, Translation.MOB_NAME_MUSHROOM_COW.getString(), MobBehaviour.PASSIVE, "https://textures.minecraft.net/texture/d0bc61b9757a7b83e03cd2507a2157913c2cf016e7c096a4d6cf1fe1b8db"),
 	PIG(EntityType.PIG, Translation.MOB_NAME_PIG.getString(), MobBehaviour.PASSIVE, "https://textures.minecraft.net/texture/1a371a06ea7858f89d27cc1055c317b23f105c9125bc516d3891aa4c835c299"),
@@ -78,6 +83,8 @@ public enum SpawnerMob {
 	SPIDER(EntityType.SPIDER, Translation.MOB_NAME_SPIDER.getString(), MobBehaviour.NEUTRAL, "https://textures.minecraft.net/texture/5f7e82446fab1e41577ba70ab40e290ef841c245233011f39459ac6f852c8331"),
 
 	// hostile
+	WARDEN(EntityType.WARDEN, Translation.MOB_NAME_WARDEN.getString(), MobBehaviour.HOSTILE, "https://textures.minecraft.net/texture/53c4970510fb0f99be3f0c3d5a5919c6eeef04e433120e20107c66aba675a9b7"),
+
 	ELDER_GUARDIAN(EntityType.ELDER_GUARDIAN, Translation.MOB_NAME_ELDER_GUARDIAN.getString(), MobBehaviour.HOSTILE, "https://textures.minecraft.net/texture/4340a268f25fd5cc276ca147a8446b2630a55867a2349f7ca107c26eb58991"),
 	WITHER_SKELETON(EntityType.WITHER_SKELETON, Translation.MOB_NAME_WITHER_SKELETON.getString(), MobBehaviour.HOSTILE, "https://textures.minecraft.net/texture/2d26f2dfdf5dffc16fc80811a843524daf12c4931ec850307775c6d35a5f46c1"),
 	STRAY(EntityType.STRAY, Translation.MOB_NAME_STRAY.getString(), MobBehaviour.HOSTILE, "https://textures.minecraft.net/texture/6572747a639d2240feeae5c81c6874e6ee7547b599e74546490dc75fa2089186"),

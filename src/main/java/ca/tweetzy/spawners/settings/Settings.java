@@ -242,6 +242,18 @@ public final class Settings {
 	public static final ConfigSetting MOB_CHANGE_GOAT_ENABLED = new ConfigSetting(config, "mob change.goat.enabled", true, "Should players be able to set their spawner to a Goat");
 	public static final ConfigSetting MOB_CHANGE_GOAT_COST = new ConfigSetting(config, "mob change.goat.cost", 5000D, "The cost to switch the spawner to a Goat");
 
+	public static final ConfigSetting MOB_CHANGE_ALLAY_ENABLED = new ConfigSetting(config, "mob change.allay.enabled", true, "Should players be able to set their spawner to a Allay");
+	public static final ConfigSetting MOB_CHANGE_ALLAY_COST = new ConfigSetting(config, "mob change.allay.cost", 5000D, "The cost to switch the spawner to a Allay");
+
+	public static final ConfigSetting MOB_CHANGE_FROG_ENABLED = new ConfigSetting(config, "mob change.frog.enabled", true, "Should players be able to set their spawner to a Frog");
+	public static final ConfigSetting MOB_CHANGE_FROG_COST = new ConfigSetting(config, "mob change.frog.cost", 5000D, "The cost to switch the spawner to a Frog");
+
+	public static final ConfigSetting MOB_CHANGE_TADPOLE_ENABLED = new ConfigSetting(config, "mob change.tadpole.enabled", true, "Should players be able to set their spawner to a Tadpole");
+	public static final ConfigSetting MOB_CHANGE_TADPOLE_COST = new ConfigSetting(config, "mob change.tadpole.cost", 5000D, "The cost to switch the spawner to a Tadpole");
+
+	public static final ConfigSetting MOB_CHANGE_WARDEN_ENABLED = new ConfigSetting(config, "mob change.warden.enabled", true, "Should players be able to set their spawner to a Warden");
+	public static final ConfigSetting MOB_CHANGE_WARDEN_COST = new ConfigSetting(config, "mob change.warden.cost", 5000D, "The cost to switch the spawner to a Warden");
+
 	@SneakyThrows
 	public static void setup() {
 		config.applySettings();

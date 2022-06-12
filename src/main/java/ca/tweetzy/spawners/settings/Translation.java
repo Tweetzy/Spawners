@@ -61,6 +61,10 @@ public enum Translation {
 	SPAWNER_CHUNK_LIMIT_REACHED("misc.spawner per chunk limit reached", "&cYou cannot place anymore spawners within this chunk!"),
 	SPAWNER_PLACE_LIMIT_REACHED("misc.spawner place limit reached", "&cYou cannot place anymore spawners!"),
 
+	MOB_NAME_ALLAY("mob names.allay", "Allay"),
+	MOB_NAME_FROG("mob names.frog", "Frog"),
+	MOB_NAME_TADPOLE("mob names.tadpole", "Tadpole"),
+	MOB_NAME_WARDEN("mob names.warden", "Warden"),
 	MOB_NAME_ELDER_GUARDIAN("mob names.elder guardian", "Elder guardian"),
 	MOB_NAME_WITHER_SKELETON("mob names.wither skeleton", "Wither skeleton"),
 	MOB_NAME_STRAY("mob names.stray", "Stray"),

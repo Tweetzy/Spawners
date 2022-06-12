@@ -105,6 +105,13 @@ public enum MobUpgrade {
 	GLOW_SQUID(Settings.MOB_CHANGE_GLOW_SQUID_ENABLED.getBoolean(), Settings.MOB_CHANGE_GLOW_SQUID_COST.getDouble(), SpawnerMob.GLOW_SQUID),
 	GOAT(Settings.MOB_CHANGE_GOAT_ENABLED.getBoolean(), Settings.MOB_CHANGE_GOAT_COST.getDouble(), SpawnerMob.GOAT),
 
+	// 1.19
+	ALLAY(Settings.MOB_CHANGE_ALLAY_ENABLED.getBoolean(), Settings.MOB_CHANGE_ALLAY_COST.getDouble(), SpawnerMob.ALLAY),
+	FROG(Settings.MOB_CHANGE_FROG_ENABLED.getBoolean(), Settings.MOB_CHANGE_FROG_COST.getDouble(), SpawnerMob.FROG),
+	TADPOLE(Settings.MOB_CHANGE_TADPOLE_ENABLED.getBoolean(), Settings.MOB_CHANGE_TADPOLE_COST.getDouble(), SpawnerMob.TADPOLE),
+	WARDEN(Settings.MOB_CHANGE_WARDEN_ENABLED.getBoolean(), Settings.MOB_CHANGE_WARDEN_COST.getDouble(), SpawnerMob.WARDEN),
+
+
 	;
 
 	private boolean enabled;
