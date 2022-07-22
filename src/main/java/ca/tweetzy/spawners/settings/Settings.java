@@ -45,6 +45,8 @@ public final class Settings {
 	public static final ConfigSetting ALLOW_NON_OWNER_BREAK = new ConfigSetting(config, "allow non owner break", false, "If true, player's who don't own the spawner item/block can still break it");
 	public static final ConfigSetting ENABLE_SHOP = new ConfigSetting(config, "enable shop", true, "If true, the shop icon will appear in /spawners for users to buy spawners (items need to be added first)");
 
+	public static final ConfigSetting SPAWNER_REQUIRE_REDSTONE_SIGNAL = new ConfigSetting(config, "redstone.spawners require redstone signal", false, "If true, if a Spawners' spawner doesn't have a redstone signal", "it will not be able to spawn anything.");
+
 	public static final ConfigSetting MAX_SPAWNER_PER_CHUNK_ENABLED = new ConfigSetting(config, "max spawners per chunk.enabled", true, "If true, spawners will limit the amount of spawners within a chunk");
 	public static final ConfigSetting MAX_SPAWNER_PER_CHUNK = new ConfigSetting(config, "max spawners per chunk.max", 16, "If max spawners per chunk.enabled is enabled, it will use this limit");
 	public static final ConfigSetting MAX_SPAWNER_PER_PLAYER = new ConfigSetting(config, "max spawners per player", 16, "Can be overridden using the perm: spawners.maxplace.#, # being the new total");

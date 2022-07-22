@@ -385,9 +385,14 @@ public final class BlockListeners implements Listener {
 			return false;
 		}
 
-		if (Settings.MINE_REQUIRES_SILK_TOUCH.getBoolean() && !stack.containsEnchantment(Enchantment.SILK_TOUCH)) {
-			Translation.SPAWNER_REQUIRE_SILK.send(player);
-			return false;
+		if (Settings.MINE_REQUIRES_SILK_TOUCH.getBoolean()) {
+			if (player.hasPermission("spawners.nosilktouch"))
+				return true;
+
+			if (!stack.containsEnchantment(Enchantment.SILK_TOUCH)) {
+				Translation.SPAWNER_REQUIRE_SILK.send(player);
+				return false;
+			}
 		}
 
 		return true;

@@ -19,7 +19,11 @@ package ca.tweetzy.spawners.listeners;
 
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.spawner.Spawner;
+import ca.tweetzy.spawners.settings.Settings;
+import org.bukkit.Effect;
+import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
+import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -41,6 +45,23 @@ public final class EntityListeners implements Listener {
 
 		final NamespacedKey key = new NamespacedKey(Spawners.getInstance(), "SpawnersEntityOwner");
 		event.getEntity().getPersistentDataContainer().set(key, PersistentDataType.STRING, spawner.getOwnerName() + ":" + spawner.getOwner().toString());
+
+
+		if (Settings.SPAWNER_REQUIRE_REDSTONE_SIGNAL.getBoolean()) {
+			final Block block = event.getSpawner().getBlock();
+
+			if (!block.isBlockIndirectlyPowered()) {
+//				final Location particleLocationCentered = block.getLocation().add(0.5, 0.5, 0.5);
+//
+//				double x = 1 * Math.cos(0);
+//				double z = 1 * Math.sin(0);
+//				particleLocationCentered.add(x, 0.2, z);
+//
+//				block.getWorld().playEffect(particleLocationCentered, Effect.SMOKE,20);
+
+				event.setCancelled(true);
+			}
+		}
 	}
 
 }
