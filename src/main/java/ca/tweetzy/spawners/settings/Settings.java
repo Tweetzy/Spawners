@@ -46,6 +46,7 @@ public final class Settings {
 	public static final ConfigSetting ENABLE_SHOP = new ConfigSetting(config, "enable shop", true, "If true, the shop icon will appear in /spawners for users to buy spawners (items need to be added first)");
 
 	public static final ConfigSetting SPAWNER_REQUIRE_REDSTONE_SIGNAL = new ConfigSetting(config, "redstone.spawners require redstone signal", false, "If true, if a Spawners' spawner doesn't have a redstone signal", "it will not be able to spawn anything.");
+	public static final ConfigSetting SPAWNER_DISABLES_WITH_REDSTONE_SIGNAL = new ConfigSetting(config, "redstone.spawners disable with redstone signal", false, "If true the spawner will disable when a redstone signal is applied.");
 
 	public static final ConfigSetting MAX_SPAWNER_PER_CHUNK_ENABLED = new ConfigSetting(config, "max spawners per chunk.enabled", true, "If true, spawners will limit the amount of spawners within a chunk");
 	public static final ConfigSetting MAX_SPAWNER_PER_CHUNK = new ConfigSetting(config, "max spawners per chunk.max", 16, "If max spawners per chunk.enabled is enabled, it will use this limit");
