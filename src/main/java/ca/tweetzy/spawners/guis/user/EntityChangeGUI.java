@@ -49,7 +49,7 @@ public final class EntityChangeGUI extends PagedGUI<MobUpgrade> {
 	private final Consumer<MobUpgrade> selected;
 
 	public EntityChangeGUI(@NonNull final Gui parent, @NonNull final Consumer<MobUpgrade> selected) {
-		super(parent, Translation.GUI_ENTITY_CHANGE_TITLE.getString(), Settings.GUI_ENTITY_CHANGE_ROWS.getInt(), Stream.of(MobUpgrade.values()).sorted(Comparator.comparing(mob -> mob.getSpawnerMob().getMobName())).collect(Collectors.toList()));
+		super(parent, Translation.GUI_ENTITY_CHANGE_TITLE.getString(), Settings.GUI_ENTITY_CHANGE_ROWS.getInt(), Stream.of(MobUpgrade.values()).filter(MobUpgrade::isEnabled).sorted(Comparator.comparing(mob -> mob.getSpawnerMob().getMobName())).collect(Collectors.toList()));
 		this.selected = selected;
 		setDefaultItem(QuickItem.of(Settings.GUI_ENTITY_CHANGE_BG.getMaterial()).name(" ").make());
 		draw();
