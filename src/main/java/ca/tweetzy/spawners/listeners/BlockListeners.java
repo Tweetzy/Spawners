@@ -116,11 +116,12 @@ public final class BlockListeners implements Listener {
 		if (event.getHand() != EquipmentSlot.HAND) return;
 		final Player player = event.getPlayer();
 		final SpawnerUser spawnerUser = Spawners.getPlayerManager().findUser(player);
+		final ItemStack hand = event.getItemInHand().clone();
 
-		if (!NBTEditor.contains(event.getItemInHand(), "Spawners:ownerUUID")) return;
+		if (!NBTEditor.contains(hand, "Spawners:ownerUUID")) return;
 
-		final UUID owner = UUID.fromString(NBTEditor.getString(event.getItemInHand(), "Spawners:ownerUUID"));
-		final String ownerName = NBTEditor.getString(event.getItemInHand(), "Spawners:ownerName");
+		final UUID owner = UUID.fromString(NBTEditor.getString(hand, "Spawners:ownerUUID"));
+		final String ownerName = NBTEditor.getString(hand, "Spawners:ownerName");
 
 		final boolean noOwner = owner.equals(SpawnerBuilder.NULL_UUID);
 
@@ -140,7 +141,7 @@ public final class BlockListeners implements Listener {
 			return;
 		}
 
-		final EntityType entityType = EntityType.valueOf(NBTEditor.getString(event.getItemInHand(), "Spawners:entity").toUpperCase());
+		final EntityType entityType = EntityType.valueOf(NBTEditor.getString(hand, "Spawners:entity").toUpperCase());
 
 		if (!handleEntityPlacePerm(spawnerUser, player, entityType)) {
 			event.setCancelled(true);
@@ -159,10 +160,10 @@ public final class BlockListeners implements Listener {
 		final Spawner spawner = new PlacedSpawner(player, entityType, placedBlock.getLocation());
 
 		// spawner levels
-		final Level delayLevel = Spawners.getLevelManager().find(LevelOption.SPAWN_INTERVAL, Integer.parseInt(NBTEditor.getString(event.getItemInHand(), "Spawners:delay")));
-		final Level spawnCountLevel = Spawners.getLevelManager().find(LevelOption.SPAWN_COUNT, Integer.parseInt(NBTEditor.getString(event.getItemInHand(), "Spawners:spawnCount")));
-		final Level maxNearbyLevel = Spawners.getLevelManager().find(LevelOption.MAX_NEARBY_ENTITIES, Integer.parseInt(NBTEditor.getString(event.getItemInHand(), "Spawners:maxNearby")));
-		final Level activationRangeLevel = Spawners.getLevelManager().find(LevelOption.ACTIVATION_RANGE, Integer.parseInt(NBTEditor.getString(event.getItemInHand(), "Spawners:activationRange")));
+		final Level delayLevel = Spawners.getLevelManager().find(LevelOption.SPAWN_INTERVAL, Integer.parseInt(NBTEditor.getString(hand, "Spawners:delay")));
+		final Level spawnCountLevel = Spawners.getLevelManager().find(LevelOption.SPAWN_COUNT, Integer.parseInt(NBTEditor.getString(hand, "Spawners:spawnCount")));
+		final Level maxNearbyLevel = Spawners.getLevelManager().find(LevelOption.MAX_NEARBY_ENTITIES, Integer.parseInt(NBTEditor.getString(hand, "Spawners:maxNearby")));
+		final Level activationRangeLevel = Spawners.getLevelManager().find(LevelOption.ACTIVATION_RANGE, Integer.parseInt(NBTEditor.getString(hand, "Spawners:activationRange")));
 
 		spawner.setLevels(new HashMap<>() {{
 			put(LevelOption.SPAWN_INTERVAL, delayLevel);
@@ -184,13 +185,15 @@ public final class BlockListeners implements Listener {
 
 		// apply options
 		Common.runLater(5, () -> {
-			creatureSpawner.setDelay(delay);
-			creatureSpawner.setMinSpawnDelay(delay);
+			creatureSpawner.setMinSpawnDelay(0);
 			creatureSpawner.setMaxSpawnDelay(delay);
+			creatureSpawner.setDelay(delay);
+
+
 			creatureSpawner.setSpawnCount(spawnCount);
 			creatureSpawner.setMaxNearbyEntities(maxNearby);
 			creatureSpawner.setRequiredPlayerRange(activationRange);
-			creatureSpawner.getPersistentDataContainer().set(new NamespacedKey(Spawners.getInstance(), "SpawnersUpgradeable"), PersistentDataType.STRING, NBTEditor.getString(event.getItemInHand(), "Spawners:upgradeable"));
+			creatureSpawner.getPersistentDataContainer().set(new NamespacedKey(Spawners.getInstance(), "SpawnersUpgradeable"), PersistentDataType.STRING, NBTEditor.getString(hand, "Spawners:upgradeable"));
 
 			// update
 			creatureSpawner.update(true);

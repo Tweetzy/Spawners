@@ -65,7 +65,7 @@ public final class PresetListGUI extends PagedGUI<Preset> {
 
 
 		return QuickItem.of(CompMaterial.PAPER)
-				.name(Replacer.replaceVariables("<GRADIENT:fc67fa>&l%preset%</GRADIENT:f4c4f3>", "preset", preset.getId()))
+				.name(Replacer.replaceVariables( preset.getId().length() == 1 ?  "#fc67fa&l%preset%" :  "<GRADIENT:fc67fa>&l%preset%</GRADIENT:f4c4f3>", "preset", preset.getId()))
 				.lore(Replacer.replaceVariables(Arrays.asList(
 								"",
 								"&7Entity Type&f: &e%entity_type%",
