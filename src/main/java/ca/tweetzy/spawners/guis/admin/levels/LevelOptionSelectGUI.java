@@ -17,9 +17,9 @@
  */
 package ca.tweetzy.spawners.guis.admin.levels;
 
-import ca.tweetzy.rose.comp.enums.CompMaterial;
-import ca.tweetzy.rose.gui.template.BaseGUI;
-import ca.tweetzy.rose.utils.QuickItem;
+import ca.tweetzy.feather.comp.enums.CompMaterial;
+import ca.tweetzy.feather.gui.template.BaseGUI;
+import ca.tweetzy.feather.utils.QuickItem;
 import ca.tweetzy.spawners.api.LevelOption;
 import ca.tweetzy.spawners.guis.admin.SpawnersAdminGUI;
 

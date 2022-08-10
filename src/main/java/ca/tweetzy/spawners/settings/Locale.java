@@ -17,9 +17,9 @@
  */
 package ca.tweetzy.spawners.settings;
 
-import ca.tweetzy.rose.files.comments.format.YamlCommentFormat;
-import ca.tweetzy.rose.files.file.YamlFile;
-import ca.tweetzy.rose.utils.Common;
+import ca.tweetzy.feather.files.comments.format.YamlCommentFormat;
+import ca.tweetzy.feather.files.file.YamlFile;
+import ca.tweetzy.feather.utils.Common;
 import ca.tweetzy.spawners.Spawners;
 import lombok.NonNull;
 import lombok.SneakyThrows;

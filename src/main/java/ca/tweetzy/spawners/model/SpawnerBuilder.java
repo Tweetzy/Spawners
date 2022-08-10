@@ -17,8 +17,8 @@
  */
 package ca.tweetzy.spawners.model;
 
-import ca.tweetzy.rose.utils.ChatUtil;
-import ca.tweetzy.rose.utils.QuickItem;
+import ca.tweetzy.feather.utils.ChatUtil;
+import ca.tweetzy.feather.utils.QuickItem;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.LevelOption;
 import ca.tweetzy.spawners.api.spawner.Level;

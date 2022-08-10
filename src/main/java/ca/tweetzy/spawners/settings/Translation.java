@@ -17,8 +17,8 @@
  */
 package ca.tweetzy.spawners.settings;
 
-import ca.tweetzy.rose.utils.Common;
-import ca.tweetzy.rose.utils.Replacer;
+import ca.tweetzy.feather.utils.Common;
+import ca.tweetzy.feather.utils.Replacer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.bukkit.command.CommandSender;

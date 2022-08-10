@@ -17,7 +17,7 @@
  */
 package ca.tweetzy.spawners.impl;
 
-import ca.tweetzy.rose.utils.PlayerUtil;
+import ca.tweetzy.feather.utils.PlayerUtil;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.spawner.Spawner;
 import ca.tweetzy.spawners.api.spawner.SpawnerUser;

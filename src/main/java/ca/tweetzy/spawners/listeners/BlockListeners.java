@@ -17,10 +17,10 @@
  */
 package ca.tweetzy.spawners.listeners;
 
-import ca.tweetzy.rose.comp.NBTEditor;
-import ca.tweetzy.rose.comp.enums.CompMaterial;
-import ca.tweetzy.rose.utils.ChatUtil;
-import ca.tweetzy.rose.utils.Common;
+import ca.tweetzy.feather.comp.NBTEditor;
+import ca.tweetzy.feather.comp.enums.CompMaterial;
+import ca.tweetzy.feather.utils.ChatUtil;
+import ca.tweetzy.feather.utils.Common;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.LevelOption;
 import ca.tweetzy.spawners.api.spawner.Level;

@@ -17,15 +17,18 @@
  */
 package ca.tweetzy.spawners;
 
-import ca.tweetzy.rose.RoseCore;
-import ca.tweetzy.rose.RosePlugin;
-import ca.tweetzy.rose.command.CommandManager;
-import ca.tweetzy.rose.comp.enums.CompMaterial;
-import ca.tweetzy.rose.database.DataMigrationManager;
-import ca.tweetzy.rose.database.DatabaseConnector;
-import ca.tweetzy.rose.database.SQLiteConnector;
-import ca.tweetzy.rose.gui.GuiManager;
-import ca.tweetzy.rose.utils.Common;
+
+import ca.tweetzy.feather.FeatherCore;
+import ca.tweetzy.feather.FeatherPlugin;
+import ca.tweetzy.feather.command.CommandManager;
+import ca.tweetzy.feather.comp.enums.CompMaterial;
+import ca.tweetzy.feather.config.tweetzy.TweetzyYamlConfig;
+import ca.tweetzy.feather.database.DataMigrationManager;
+import ca.tweetzy.feather.database.DatabaseConnector;
+import ca.tweetzy.feather.database.SQLiteConnector;
+import ca.tweetzy.feather.files.file.YamlFile;
+import ca.tweetzy.feather.gui.GuiManager;
+import ca.tweetzy.feather.utils.Common;
 import ca.tweetzy.spawners.api.SpawnersAPI;
 import ca.tweetzy.spawners.commands.*;
 import ca.tweetzy.spawners.database.DataManager;
@@ -39,8 +42,10 @@ import ca.tweetzy.spawners.settings.Locale;
 import ca.tweetzy.spawners.settings.Settings;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.plugin.RegisteredServiceProvider;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Date Created: May 04 2022
@@ -48,7 +53,9 @@ import java.util.Arrays;
  *
  * @author Kiran Hart
  */
-public final class Spawners extends RosePlugin {
+public final class Spawners extends FeatherPlugin {
+
+	private final YamlFile coreConfig = new YamlFile(getDataFolder() + "/config.yml");
 
 	private final GuiManager guiManager = new GuiManager(this);
 	private final CommandManager commandManager = new CommandManager(this);
@@ -88,7 +95,7 @@ public final class Spawners extends RosePlugin {
 
 	@Override
 	protected void onFlight() {
-		RoseCore.registerPlugin(this, 9, CompMaterial.SPAWNER.name());
+		FeatherCore.registerPlugin(this, 9, CompMaterial.SPAWNER.name());
 
 		// settings & locale setup
 		Settings.setup();
@@ -132,7 +139,17 @@ public final class Spawners extends RosePlugin {
 
 	// instance
 	public static Spawners getInstance() {
-		return (Spawners) RosePlugin.getInstance();
+		return (Spawners) FeatherPlugin.getInstance();
+	}
+
+	@NotNull
+	@Override
+	public List<TweetzyYamlConfig> getConfigs() {
+		return null;
+	}
+
+	public static YamlFile getCoreConfig() {
+		return getInstance().coreConfig;
 	}
 
 	// data manager

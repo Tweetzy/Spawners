@@ -17,11 +17,11 @@
  */
 package ca.tweetzy.spawners.commands;
 
-import ca.tweetzy.rose.command.AllowedExecutor;
-import ca.tweetzy.rose.command.Command;
-import ca.tweetzy.rose.command.ReturnType;
-import ca.tweetzy.rose.comp.enums.CompMaterial;
-import ca.tweetzy.rose.utils.ChatUtil;
+import ca.tweetzy.feather.command.AllowedExecutor;
+import ca.tweetzy.feather.command.Command;
+import ca.tweetzy.feather.command.ReturnType;
+import ca.tweetzy.feather.comp.enums.CompMaterial;
+import ca.tweetzy.feather.utils.ChatUtil;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.spawner.Spawner;
 import ca.tweetzy.spawners.guis.selector.EntitySelectorGUI;

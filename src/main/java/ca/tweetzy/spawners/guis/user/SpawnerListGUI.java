@@ -17,10 +17,10 @@
  */
 package ca.tweetzy.spawners.guis.user;
 
-import ca.tweetzy.rose.comp.enums.CompMaterial;
-import ca.tweetzy.rose.gui.events.GuiClickEvent;
-import ca.tweetzy.rose.gui.template.PagedGUI;
-import ca.tweetzy.rose.utils.QuickItem;
+import ca.tweetzy.feather.comp.enums.CompMaterial;
+import ca.tweetzy.feather.gui.events.GuiClickEvent;
+import ca.tweetzy.feather.gui.template.PagedGUI;
+import ca.tweetzy.feather.utils.QuickItem;
 import ca.tweetzy.spawners.api.LevelOption;
 import ca.tweetzy.spawners.api.spawner.Level;
 import ca.tweetzy.spawners.api.spawner.Spawner;

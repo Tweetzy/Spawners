@@ -17,10 +17,10 @@
  */
 package ca.tweetzy.spawners.settings;
 
-import ca.tweetzy.rose.comp.enums.CompMaterial;
-import ca.tweetzy.rose.files.ConfigSetting;
-import ca.tweetzy.rose.files.file.YamlFile;
-import ca.tweetzy.rose.gui.helper.InventoryBorder;
+import ca.tweetzy.feather.comp.enums.CompMaterial;
+import ca.tweetzy.feather.files.ConfigSetting;
+import ca.tweetzy.feather.files.file.YamlFile;
+import ca.tweetzy.feather.gui.helper.InventoryBorder;
 import ca.tweetzy.spawners.Spawners;
 import lombok.SneakyThrows;
 import org.bukkit.entity.EntityType;
@@ -35,7 +35,7 @@ import java.util.List;
  */
 public final class Settings {
 
-	static final YamlFile config = Spawners.getInstance().getCoreConfig();
+	static final YamlFile config = Spawners.getCoreConfig();
 
 	public static final ConfigSetting PREFIX = new ConfigSetting(config, "prefix", "<GRADIENT:fc67fa>&LSpawners</GRADIENT:f4c4f3> &8»", "The global prefix for the plugin");
 	public static final ConfigSetting LANGUAGE = new ConfigSetting(config, "language", "english", "The default language for the plugin");

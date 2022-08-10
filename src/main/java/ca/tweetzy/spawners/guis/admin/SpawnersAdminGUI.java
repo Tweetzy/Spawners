@@ -17,11 +17,11 @@
  */
 package ca.tweetzy.spawners.guis.admin;
 
-import ca.tweetzy.rose.comp.enums.CompMaterial;
-import ca.tweetzy.rose.gui.template.BaseGUI;
-import ca.tweetzy.rose.utils.ChatUtil;
-import ca.tweetzy.rose.utils.Common;
-import ca.tweetzy.rose.utils.QuickItem;
+import ca.tweetzy.feather.comp.enums.CompMaterial;
+import ca.tweetzy.feather.gui.template.BaseGUI;
+import ca.tweetzy.feather.utils.ChatUtil;
+import ca.tweetzy.feather.utils.Common;
+import ca.tweetzy.feather.utils.QuickItem;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.guis.admin.levels.LevelOptionSelectGUI;
 import ca.tweetzy.spawners.guis.admin.presets.PresetListGUI;

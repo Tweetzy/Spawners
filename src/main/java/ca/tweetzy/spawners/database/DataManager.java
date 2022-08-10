@@ -17,10 +17,10 @@
  */
 package ca.tweetzy.spawners.database;
 
-import ca.tweetzy.rose.database.Callback;
-import ca.tweetzy.rose.database.DataManagerAbstract;
-import ca.tweetzy.rose.database.DatabaseConnector;
-import ca.tweetzy.rose.database.UpdateCallback;
+import ca.tweetzy.feather.database.Callback;
+import ca.tweetzy.feather.database.DataManagerAbstract;
+import ca.tweetzy.feather.database.DatabaseConnector;
+import ca.tweetzy.feather.database.UpdateCallback;
 import ca.tweetzy.spawners.api.LevelOption;
 import ca.tweetzy.spawners.api.spawner.*;
 import ca.tweetzy.spawners.impl.PlacedSpawner;

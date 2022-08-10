@@ -17,10 +17,10 @@
  */
 package ca.tweetzy.spawners.guis;
 
-import ca.tweetzy.rose.comp.enums.CompMaterial;
-import ca.tweetzy.rose.gui.Gui;
-import ca.tweetzy.rose.gui.template.BaseGUI;
-import ca.tweetzy.rose.utils.QuickItem;
+import ca.tweetzy.feather.comp.enums.CompMaterial;
+import ca.tweetzy.feather.gui.Gui;
+import ca.tweetzy.feather.gui.template.BaseGUI;
+import ca.tweetzy.feather.utils.QuickItem;
 import ca.tweetzy.spawners.settings.Translation;
 import lombok.NonNull;
 
