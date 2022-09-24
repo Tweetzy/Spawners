@@ -65,6 +65,13 @@ public final class SpawnerOverviewGUI extends BaseGUI {
 					.make()
 			));
 
+		// merge
+		setButton(3, 4, QuickItem
+				.of(CompMaterial.PACKED_ICE)
+				.name(Translation.GUI_SPAWNER_OVERVIEW_ITEMS_MERGE_NAME.getString())
+				.lore(Translation.GUI_SPAWNER_OVERVIEW_ITEMS_MERGE_LORE.getList())
+				.make(), click -> click.manager.showGUI(click.player, new SpawnerMergeGUI(this.spawner, this.canUpgrade)));
+
 		if (this.canUpgrade && Spawners.getEconomy() != null) {
 			// entity type
 			setButton(3, 2, QuickItem
