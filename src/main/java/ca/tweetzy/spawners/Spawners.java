@@ -78,7 +78,14 @@ public final class Spawners extends FeatherPlugin {
 	private DataManager dataManager;
 
 	@Override
-	protected void onWake() {
+	protected void onFlight() {
+		FeatherCore.registerPlugin(this, 9, CompMaterial.SPAWNER.name());
+
+		// settings & locale setup
+		Settings.setup();
+		Locale.setup();
+		Common.setPrefix(Settings.PREFIX.getString());
+
 		// Set up the database if enabled
 		this.databaseConnector = new SQLiteConnector(this);
 		this.dataManager = new DataManager(this.databaseConnector, this);
@@ -91,16 +98,6 @@ public final class Spawners extends FeatherPlugin {
 
 		// run migrations for tables
 		dataMigrationManager.runMigrations();
-	}
-
-	@Override
-	protected void onFlight() {
-		FeatherCore.registerPlugin(this, 9, CompMaterial.SPAWNER.name());
-
-		// settings & locale setup
-		Settings.setup();
-		Locale.setup();
-		Common.setPrefix(Settings.PREFIX.getString());
 
 		// check vault
 		setupEconomy();
