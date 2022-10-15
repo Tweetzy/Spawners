@@ -186,7 +186,7 @@ public final class PlacedSpawner implements Spawner {
 				differenceNeededToMaxOut = availableLevelsToBeUsed;
 
 			// the new level for this upgrade option
-			final int newLevelAmount = Math.min((currentLevel + differenceNeededToMaxOut), maxAvailableLevel);
+			final int newLevelAmount = currentLevel + differenceNeededToMaxOut;
 
 			// the remaining level for the spawner being merged into current one
 			final int remainingLevelFromMergeAmount = mergeSpawnerLevel - differenceNeededToMaxOut;
