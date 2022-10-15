@@ -58,4 +58,13 @@ public interface Spawner extends DataSync, Jsonable {
 	Level getNextLevel(LevelOption levelOption);
 
 	void tryUpgrade(Player player, LevelOption levelOption);
+
+	/**
+	 * Used to merge the passed spawner into this
+	 * spawner
+	 *
+	 * @param spawner is the spawner that should be merged
+	 *                into the current spawner
+	 */
+	void merge(Spawner spawner);
 }

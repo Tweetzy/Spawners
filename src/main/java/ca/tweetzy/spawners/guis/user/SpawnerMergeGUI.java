@@ -22,7 +22,11 @@ import ca.tweetzy.feather.comp.enums.CompMaterial;
 import ca.tweetzy.feather.gui.template.BaseGUI;
 import ca.tweetzy.feather.utils.QuickItem;
 import ca.tweetzy.spawners.Spawners;
+import ca.tweetzy.spawners.api.LevelOption;
+import ca.tweetzy.spawners.api.spawner.Level;
 import ca.tweetzy.spawners.api.spawner.Spawner;
+import ca.tweetzy.spawners.impl.PlacedSpawner;
+import ca.tweetzy.spawners.model.SpawnerBuilder;
 import ca.tweetzy.spawners.settings.Settings;
 import ca.tweetzy.spawners.settings.Translation;
 import lombok.NonNull;
@@ -31,9 +35,15 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 public final class SpawnerMergeGUI extends BaseGUI {
 
 	private final Spawner spawner;
+	private boolean isValidSpawner = false;
+
 	private final int[] statusSlots = new int[]{12, 13, 14, 21, 23, 30, 31, 32};
 
 	private BukkitTask spawnerChecker;
@@ -71,20 +81,24 @@ public final class SpawnerMergeGUI extends BaseGUI {
 
 		CompMaterial ringColour = CompMaterial.WHITE_STAINED_GLASS_PANE;
 		String ringStatusName = Translation.GUI_SPAWNER_MERGE_ITEMS_RING_STATUS_WAIT.getString();
+		this.isValidSpawner = false;
 
 		if (spawnerToMerge != null) {
 			ringColour = CompMaterial.LIME_STAINED_GLASS_PANE;
 			ringStatusName = Translation.GUI_SPAWNER_MERGE_ITEMS_RING_STATUS_READY.getString();
+			this.isValidSpawner = true;
 
 			if (!NBTEditor.contains(spawnerToMerge, "Spawners:entity")) {
 				ringColour = CompMaterial.RED_STAINED_GLASS_PANE;
 				ringStatusName = Translation.GUI_SPAWNER_MERGE_ITEMS_RING_STATUS_INVALID.getString();
+				this.isValidSpawner = false;
 			} else {
 				final EntityType entityType = EntityType.valueOf(NBTEditor.getString(spawnerToMerge, "Spawners:entity").toUpperCase());
 
 				if (this.spawner.getEntityType() != entityType) {
 					ringColour = CompMaterial.RED_STAINED_GLASS_PANE;
 					ringStatusName = Translation.GUI_SPAWNER_MERGE_ITEMS_RING_STATUS_INVALID.getString();
+					this.isValidSpawner = false;
 				}
 			}
 		}
@@ -92,5 +106,35 @@ public final class SpawnerMergeGUI extends BaseGUI {
 
 		for (int i : statusSlots)
 			setItem(i, QuickItem.of(ringColour).name(ringStatusName).make());
+	}
+
+	private void mergeSpawners() {
+		if (!this.isValidSpawner) {
+			return;
+		}
+
+		final ItemStack mergeItem = getItem(22);
+		if (mergeItem == null) return;
+
+		final Spawner spawnerToMerge = convertItemstackToSpawner(mergeItem);
+		this.spawner.merge(spawnerToMerge);
+	}
+
+	private Spawner convertItemstackToSpawner(@NonNull final ItemStack itemStack) {
+		if (!NBTEditor.contains(itemStack, "Spawners:entity")) return null;
+
+		final EntityType entityType = EntityType.valueOf(NBTEditor.getString(itemStack, "Spawners:entity").toUpperCase());
+
+		final Level delayLevel = Spawners.getLevelManager().find(LevelOption.SPAWN_INTERVAL, Integer.parseInt(NBTEditor.getString(itemStack, "Spawners:delay")));
+		final Level spawnCountLevel = Spawners.getLevelManager().find(LevelOption.SPAWN_COUNT, Integer.parseInt(NBTEditor.getString(itemStack, "Spawners:spawnCount")));
+		final Level maxNearbyLevel = Spawners.getLevelManager().find(LevelOption.MAX_NEARBY_ENTITIES, Integer.parseInt(NBTEditor.getString(itemStack, "Spawners:maxNearby")));
+		final Level activationRangeLevel = Spawners.getLevelManager().find(LevelOption.ACTIVATION_RANGE, Integer.parseInt(NBTEditor.getString(itemStack, "Spawners:activationRange")));
+
+		return new PlacedSpawner(SpawnerBuilder.NULL_UUID, SpawnerBuilder.NULL_UUID, Translation.SPAWNER_NO_OWNER.getString(), entityType, new HashMap<>() {{
+			put(LevelOption.SPAWN_INTERVAL, delayLevel);
+			put(LevelOption.SPAWN_COUNT, spawnCountLevel);
+			put(LevelOption.MAX_NEARBY_ENTITIES, maxNearbyLevel);
+			put(LevelOption.ACTIVATION_RANGE, activationRangeLevel);
+		}}, null);
 	}
 }

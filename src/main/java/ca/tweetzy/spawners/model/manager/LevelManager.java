@@ -95,7 +95,7 @@ public final class LevelManager implements Manager {
 				return missingNumber - 1;
 		}
 
-		return found.isEmpty() ? 0 : Collections.max(found.stream().map(Level::getLevelNumber).collect(Collectors.toList()));
+		return found.isEmpty() ? 0 : Collections.max(found.stream().map(Level::getLevelNumber).toList());
 	}
 
 

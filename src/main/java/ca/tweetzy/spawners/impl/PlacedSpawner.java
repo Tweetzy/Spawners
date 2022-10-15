@@ -161,6 +161,47 @@ public final class PlacedSpawner implements Spawner {
 	}
 
 	@Override
+	public void merge(Spawner spawner) {
+		for (Map.Entry<LevelOption, Level> levelOptionLevelEntry : this.levels.entrySet()) {
+			// the current level of the spawner
+			final int currentLevel = levelOptionLevelEntry.getValue().getLevelNumber();
+			// the highest possible level this option can be
+			final int maxAvailableLevel = Spawners.getLevelManager().getHighestLevel(levelOptionLevelEntry.getKey());
+			// the level of the spawner option being merged
+			final int mergeSpawnerLevel = spawner.getLevels().get(levelOptionLevelEntry.getKey()).getLevelNumber();
+
+			// the spawner being used to merge ain't got enough levels
+			// if the current level is already the max level, we can skip as well
+			if (currentLevel == maxAvailableLevel || mergeSpawnerLevel < 2) {
+				continue;
+			}
+
+			int differenceNeededToMaxOut = maxAvailableLevel - currentLevel;
+			// the max amount of levels that can be taken from that merging spawner level option
+			final int availableLevelsToBeUsed = mergeSpawnerLevel - 1;
+
+			// if the amount it takes to max out is bigger than the total available levels
+			// set the difference to the max available levels...
+			if (differenceNeededToMaxOut > availableLevelsToBeUsed)
+				differenceNeededToMaxOut = availableLevelsToBeUsed;
+
+			// the new level for this upgrade option
+			final int newLevelAmount = Math.min((currentLevel + differenceNeededToMaxOut), maxAvailableLevel);
+
+			// the remaining level for the spawner being merged into current one
+			final int remainingLevelFromMergeAmount = mergeSpawnerLevel - differenceNeededToMaxOut;
+
+			// get the new levels from the level manager
+			final Level newLevel = Spawners.getLevelManager().find(levelOptionLevelEntry.getKey(), newLevelAmount);
+			final Level remainingLevel = Spawners.getLevelManager().find(levelOptionLevelEntry.getKey(), remainingLevelFromMergeAmount);
+
+			this.levels.put(levelOptionLevelEntry.getKey(), newLevel);
+			// TODO update the spawner block
+			// TODO update and return the spawner item being merged assuming levels have remainder of 1
+		}
+	}
+
+	@Override
 	public void sync() {
 		Spawners.getDataManager().updateSpawner(this, null);
 	}
