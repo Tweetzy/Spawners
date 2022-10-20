@@ -27,7 +27,6 @@ import ca.tweetzy.spawners.api.spawner.Level;
 import ca.tweetzy.spawners.api.spawner.Spawner;
 import ca.tweetzy.spawners.impl.PlacedSpawner;
 import ca.tweetzy.spawners.model.SpawnerBuilder;
-import ca.tweetzy.spawners.settings.Settings;
 import ca.tweetzy.spawners.settings.Translation;
 import lombok.NonNull;
 import org.bukkit.Bukkit;
@@ -36,8 +35,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 
 public final class SpawnerMergeGUI extends BaseGUI {
 
@@ -74,6 +71,8 @@ public final class SpawnerMergeGUI extends BaseGUI {
 	protected void draw() {
 		drawStatusRing();
 		applyBackExit();
+
+		setButton(getRows() - 1, 4, QuickItem.of(CompMaterial.LIME_DYE).name("&ahehe").make(), e -> mergeSpawners());
 	}
 
 	private void drawStatusRing() {

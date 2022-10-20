@@ -17,6 +17,7 @@
  */
 package ca.tweetzy.spawners.impl;
 
+import ca.tweetzy.feather.utils.Common;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.LevelOption;
 import ca.tweetzy.spawners.api.spawner.Level;
@@ -195,7 +196,10 @@ public final class PlacedSpawner implements Spawner {
 			final Level newLevel = Spawners.getLevelManager().find(levelOptionLevelEntry.getKey(), newLevelAmount);
 			final Level remainingLevel = Spawners.getLevelManager().find(levelOptionLevelEntry.getKey(), remainingLevelFromMergeAmount);
 
-			this.levels.put(levelOptionLevelEntry.getKey(), newLevel);
+//			this.levels.put(levelOptionLevelEntry.getKey(), newLevel);
+
+			Common.broadcast(null, newLevel.getLevelNumber() + " - new level ");
+			Common.broadcast(null, remainingLevel.getLevelNumber() + " - remaining level");
 			// TODO update the spawner block
 			// TODO update and return the spawner item being merged assuming levels have remainder of 1
 		}
