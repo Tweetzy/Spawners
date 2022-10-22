@@ -22,7 +22,6 @@ import ca.tweetzy.feather.FeatherCore;
 import ca.tweetzy.feather.FeatherPlugin;
 import ca.tweetzy.feather.command.CommandManager;
 import ca.tweetzy.feather.comp.enums.CompMaterial;
-import ca.tweetzy.feather.config.tweetzy.TweetzyYamlConfig;
 import ca.tweetzy.feather.database.DataMigrationManager;
 import ca.tweetzy.feather.database.DatabaseConnector;
 import ca.tweetzy.feather.database.SQLiteConnector;
@@ -42,10 +41,8 @@ import ca.tweetzy.spawners.settings.Locale;
 import ca.tweetzy.spawners.settings.Settings;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.plugin.RegisteredServiceProvider;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * Date Created: May 04 2022
@@ -139,11 +136,6 @@ public final class Spawners extends FeatherPlugin {
 		return (Spawners) FeatherPlugin.getInstance();
 	}
 
-	@NotNull
-	@Override
-	public List<TweetzyYamlConfig> getConfigs() {
-		return null;
-	}
 
 	public static YamlFile getCoreConfig() {
 		return getInstance().coreConfig;
