@@ -62,6 +62,10 @@ public final class SpawnerBuilder {
 		return SpawnerBuilder.of(player, EntityType.PIG);
 	}
 
+	public static SpawnerBuilder of(final Spawner spawner) {
+		return SpawnerBuilder.of(spawner.getEntityType());
+	}
+
 	public static SpawnerBuilder of(@NonNull final EntityType entityType) {
 		return new SpawnerBuilder(NULL_UUID, Translation.SPAWNER_NO_OWNER.getString(), entityType, true);
 	}
