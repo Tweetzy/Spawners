@@ -39,6 +39,7 @@ import java.util.HashMap;
 public final class SpawnerMergeGUI extends BaseGUI {
 
 	private final Spawner spawner;
+	private final boolean canUpgrade;
 	private boolean isValidSpawner = false;
 
 	private final int[] statusSlots = new int[]{12, 13, 14, 21, 23, 30, 31, 32};
@@ -48,6 +49,7 @@ public final class SpawnerMergeGUI extends BaseGUI {
 	public SpawnerMergeGUI(@NonNull final Spawner spawner, final boolean canUpgrade) {
 		super(new SpawnerOverviewGUI(spawner, canUpgrade), Translation.GUI_SPAWNER_MERGE_TITLE.getString());
 		this.spawner = spawner;
+		this.canUpgrade = canUpgrade;
 
 		setAcceptsItems(true);
 		setUnlocked(22);
@@ -62,6 +64,9 @@ public final class SpawnerMergeGUI extends BaseGUI {
 				this.spawnerChecker.cancel();
 				this.spawnerChecker = null;
 			}
+
+			if (getItem(22) != null)
+				close.player.getInventory().addItem(getItem(22));
 		});
 
 		draw();
@@ -70,9 +75,19 @@ public final class SpawnerMergeGUI extends BaseGUI {
 	@Override
 	protected void draw() {
 		drawStatusRing();
-		applyBackExit();
+		setButton(getRows() - 1, 0, getBackButton(), click -> {
+			click.gui.close();
+			click.manager.showGUI(click.player, new SpawnerOverviewGUI(this.spawner, this.canUpgrade));
+		});
 
-		setButton(getRows() - 1, 4, QuickItem.of(CompMaterial.LIME_DYE).name("&ahehe").make(), e -> mergeSpawners());
+		setButton(getRows() - 1, 4, QuickItem.of(CompMaterial.LIME_DYE)
+				.name(Translation.GUI_SPAWNER_MERGE_ITEMS_CONFIRM_BTN_NAME.getString())
+				.lore(Translation.GUI_SPAWNER_MERGE_ITEMS_CONFIRM_BTN_LORE.getList())
+				.make(), e -> {
+
+			if (!this.spawner.isMaxedOut())
+				mergeSpawners();
+		});
 	}
 
 	private void drawStatusRing() {
@@ -83,6 +98,7 @@ public final class SpawnerMergeGUI extends BaseGUI {
 		this.isValidSpawner = false;
 
 		if (spawnerToMerge != null) {
+
 			ringColour = CompMaterial.LIME_STAINED_GLASS_PANE;
 			ringStatusName = Translation.GUI_SPAWNER_MERGE_ITEMS_RING_STATUS_READY.getString();
 			this.isValidSpawner = true;
@@ -102,6 +118,10 @@ public final class SpawnerMergeGUI extends BaseGUI {
 			}
 		}
 
+		if (this.spawner.isMaxedOut()) {
+			ringColour = CompMaterial.RED_STAINED_GLASS_PANE;
+			ringStatusName = Translation.GUI_SPAWNER_MERGE_ITEMS_RING_STATUS_MAX.getString();
+		}
 
 		for (int i : statusSlots)
 			setItem(i, QuickItem.of(ringColour).name(ringStatusName).make());
@@ -116,7 +136,17 @@ public final class SpawnerMergeGUI extends BaseGUI {
 		if (mergeItem == null) return;
 
 		final Spawner spawnerToMerge = convertItemstackToSpawner(mergeItem);
-		this.spawner.merge(spawnerToMerge);
+		this.spawner.merge(spawnerToMerge, leftoverSpawner -> {
+			if (leftoverSpawner != null) {
+				final SpawnerBuilder builder = SpawnerBuilder.of(leftoverSpawner);
+
+				for (Level level : leftoverSpawner.getLevels().values()) {
+					builder.addLevel(level);
+				}
+
+				setItem(22, builder.make());
+			}
+		});
 	}
 
 	private Spawner convertItemstackToSpawner(@NonNull final ItemStack itemStack) {
