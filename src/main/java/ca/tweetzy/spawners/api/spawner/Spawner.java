@@ -26,6 +26,7 @@ import org.bukkit.entity.Player;
 
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 /**
  * Date Created: May 04 2022
@@ -57,6 +58,10 @@ public interface Spawner extends DataSync, Jsonable {
 
 	Level getNextLevel(LevelOption levelOption);
 
+	boolean isLevelMax(Level level);
+
+	boolean isMaxedOut();
+
 	void tryUpgrade(Player player, LevelOption levelOption);
 
 	/**
@@ -66,5 +71,5 @@ public interface Spawner extends DataSync, Jsonable {
 	 * @param spawner is the spawner that should be merged
 	 *                into the current spawner
 	 */
-	void merge(Spawner spawner);
+	void merge(Spawner spawner, Consumer<Spawner> leftover);
 }
