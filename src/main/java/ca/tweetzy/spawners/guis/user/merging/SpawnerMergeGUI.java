@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package ca.tweetzy.spawners.guis.user;
+package ca.tweetzy.spawners.guis.user.merging;
 
 import ca.tweetzy.feather.comp.NBTEditor;
 import ca.tweetzy.feather.comp.enums.CompMaterial;
@@ -25,6 +25,7 @@ import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.LevelOption;
 import ca.tweetzy.spawners.api.spawner.Level;
 import ca.tweetzy.spawners.api.spawner.Spawner;
+import ca.tweetzy.spawners.guis.user.SpawnerOverviewGUI;
 import ca.tweetzy.spawners.impl.PlacedSpawner;
 import ca.tweetzy.spawners.model.SpawnerBuilder;
 import ca.tweetzy.spawners.settings.Translation;
@@ -77,7 +78,7 @@ public final class SpawnerMergeGUI extends BaseGUI {
 		drawStatusRing();
 		setButton(getRows() - 1, 0, getBackButton(), click -> {
 			click.gui.close();
-			click.manager.showGUI(click.player, new SpawnerOverviewGUI(this.spawner, this.canUpgrade));
+			click.manager.showGUI(click.player, new MergeSplitGUI(this.spawner, this.canUpgrade));
 		});
 
 		setButton(getRows() - 1, 4, QuickItem.of(CompMaterial.LIME_DYE)
