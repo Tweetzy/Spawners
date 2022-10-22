@@ -242,6 +242,17 @@ public enum Translation {
 	GUI_SPAWNER_MERGE_ITEMS_RING_STATUS_READY("gui.spawner merge.items.status.ready", "&a&lReady to begin merge"),
 	GUI_SPAWNER_MERGE_ITEMS_RING_STATUS_INVALID("gui.spawner merge.items.status.invalid", "&c&lMerge not possible"),
 
+	GUI_SPAWNER_MERGE_ITEMS_RING_STATUS_MAX("gui.spawner merge.items.status.maxed out", "&c&lSpawner Maxed Out"),
+
+	GUI_SPAWNER_MERGE_ITEMS_CONFIRM_BTN_NAME("gui.spawner merge.items.confirm.name", "&a&lConfirm Merge"),
+	GUI_SPAWNER_MERGE_ITEMS_CONFIRM_BTN_LORE("gui.spawner merge.items.confirm.lore", Arrays.asList(
+			"",
+			"&e&lClick &8» &7To merge levels"
+	)),
+
+	GUI_SPAWNER_MERGE_OR_SPLIT_TITLE("gui.spawner merge or split.title", "<GRADIENT:fc67fa>&lSpawner</GRADIENT:f4c4f3> &8> &7Merge or Split?"),
+
+
 	GUI_SPAWNER_OVERVIEW_TITLE("gui.spawner overview.title", "<GRADIENT:fc67fa>&lSpawner</GRADIENT:f4c4f3> &8> &7Overview"),
 	GUI_SPAWNER_OVERVIEW_ITEMS_ENTITY_NAME("gui.spawner overview.items.entity.name", "<GRADIENT:fc67fa>&lEntity Type</GRADIENT:f4c4f3>"),
 	GUI_SPAWNER_OVERVIEW_ITEMS_ENTITY_LORE("gui.spawner overview.items.entity.lore", Arrays.asList(
@@ -251,13 +262,14 @@ public enum Translation {
 			"&e&lClick &8» &7To change entity"
 	)),
 
-	GUI_SPAWNER_OVERVIEW_ITEMS_MERGE_NAME("gui.spawner overview.items.merge.name", "<GRADIENT:fc67fa>&lMerge Spawner</GRADIENT:f4c4f3>"),
+	GUI_SPAWNER_OVERVIEW_ITEMS_MERGE_NAME("gui.spawner overview.items.merge.name", "<GRADIENT:fc67fa>&lMerge/Split Spawner</GRADIENT:f4c4f3>"),
 	GUI_SPAWNER_OVERVIEW_ITEMS_MERGE_LORE("gui.spawner overview.items.merge.lore", Arrays.asList(
 			"",
 			"&7Used to merge another spawner item",
-			"&7levels into this spawner.",
+			"&7levels into this spawner. Or to split",
+			"&7current levels into a new spawner",
 			"",
-			"&e&lClick &8» &7To merge spawner"
+			"&e&lClick &8» &7To merge/split spawner"
 	)),
 
 	GUI_SPAWNER_OVERVIEW_ITEMS_UPGRADE_DISABLED_NAME("gui.spawner overview.items.upgrade disabled.name", "&C&LUpgrade Disabled"),
