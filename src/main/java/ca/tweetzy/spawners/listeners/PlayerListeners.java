@@ -17,13 +17,10 @@
  */
 package ca.tweetzy.spawners.listeners;
 
-import ca.tweetzy.feather.comp.NBTEditor;
-import ca.tweetzy.feather.comp.enums.CompMaterial;
-import ca.tweetzy.feather.utils.Common;
+import ca.tweetzy.flight.comp.enums.CompMaterial;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.spawner.Spawner;
 import ca.tweetzy.spawners.guis.user.SpawnerOverviewGUI;
-import ca.tweetzy.spawners.settings.Settings;
 import ca.tweetzy.spawners.settings.Translation;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -35,7 +32,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 
 /**

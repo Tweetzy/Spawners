@@ -17,8 +17,8 @@
  */
 package ca.tweetzy.spawners.settings;
 
-import ca.tweetzy.feather.utils.Common;
-import ca.tweetzy.feather.utils.Replacer;
+import ca.tweetzy.flight.utils.Common;
+import ca.tweetzy.flight.utils.Replacer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.bukkit.command.CommandSender;
@@ -252,6 +252,63 @@ public enum Translation {
 
 	GUI_SPAWNER_MERGE_OR_SPLIT_TITLE("gui.spawner merge or split.title", "<GRADIENT:fc67fa>&lSpawner</GRADIENT:f4c4f3> &8> &7Merge or Split?"),
 
+	GUI_SPAWNER_MERGE_OR_SPLIT_ITEMS_MERGE_NAME("gui.spawner merge or split.items.merge.name", "<GRADIENT:fc67fa>&lMerge</GRADIENT:f4c4f3>"),
+	GUI_SPAWNER_MERGE_OR_SPLIT_ITEMS_MERGE_LORE("gui.spawner merge or split.items.merge.lore", Arrays.asList(
+			"",
+			"&e&lClick &8» &7To merge with another spawner"
+	)),
+
+	GUI_SPAWNER_MERGE_OR_SPLIT_ITEMS_SPLIT_NAME("gui.spawner merge or split.items.split.name", "<GRADIENT:fc67fa>&lSplit</GRADIENT:f4c4f3>"),
+	GUI_SPAWNER_MERGE_OR_SPLIT_ITEMS_SPLIT_LORE("gui.spawner merge or split.items.split.lore", Arrays.asList(
+			"",
+			"&e&lClick &8» &7To split spawner levels"
+	)),
+
+	GUI_SPAWNER_SPLIT_TITLE("gui.spawner split.title", "<GRADIENT:fc67fa>&lSpawner</GRADIENT:f4c4f3> &8> &7Split Levels"),
+	GUI_SPAWNER_SPLIT_ITEMS_DECREASE_NAME("gui.spawner split.items.decrease.name", "&c&lDecrease"),
+	GUI_SPAWNER_SPLIT_ITEMS_DECREASE_LORE("gui.spawner split.items.decrease.lore", Arrays.asList(
+			"",
+			"&e&lClick &8» &7To decrease amount"
+	)),
+
+	GUI_SPAWNER_SPLIT_ITEMS_INCREASE_NAME("gui.spawner split.items.increase.name", "&a&lIncrease"),
+	GUI_SPAWNER_SPLIT_ITEMS_INCREASE_LORE("gui.spawner split.items.increase.lore", Arrays.asList(
+			"",
+			"&e&lClick &8» &7To increase amount"
+	)),
+
+
+	GUI_SPAWNER_SPLIT_ITEMS_DELAY_NAME("gui.spawner split.items.delay.name", "<GRADIENT:fc67fa>&lSpawn Delay</GRADIENT:f4c4f3>"),
+	GUI_SPAWNER_SPLIT_ITEMS_DELAY_LORE("gui.spawner split.items.delay.lore", Arrays.asList(
+			"",
+			"&7Current&f: &e%current_split_amount%",
+			"&7Available&f: &e%available_split_amount%",
+			""
+	)),
+
+	GUI_SPAWNER_SPLIT_ITEMS_SPAWN_COUNT_NAME("gui.spawner split.items.spawn count.name", "<GRADIENT:fc67fa>&lSpawn Count</GRADIENT:f4c4f3>"),
+	GUI_SPAWNER_SPLIT_ITEMS_SPAWN_COUNT_LORE("gui.spawner split.items.spawn count.lore", Arrays.asList(
+			"",
+			"&7Current&f: &e%current_split_amount%",
+			"&7Available&f: &e%available_split_amount%",
+			""
+	)),
+
+	GUI_SPAWNER_SPLIT_ITEMS_NEARBY_MOBS_NAME("gui.spawner split.items.nearby mobs.name", "<GRADIENT:fc67fa>&lMax Nearby Mobs</GRADIENT:f4c4f3>"),
+	GUI_SPAWNER_SPLIT_ITEMS_NEARBY_MOBS_LORE("gui.spawner split.items.nearby mobs.lore", Arrays.asList(
+			"",
+			"&7Current&f: &e%current_split_amount%",
+			"&7Available&f: &e%available_split_amount%",
+			""
+	)),
+
+	GUI_SPAWNER_SPLIT_ITEMS_ACTIVATION_RANGE_NAME("gui.spawner split.items.activation range.name", "<GRADIENT:fc67fa>&lActivation Range</GRADIENT:f4c4f3>"),
+	GUI_SPAWNER_SPLIT_ITEMS_ACTIVATION_RANGE_LORE("gui.spawner split.items.activation range.lore", Arrays.asList(
+			"",
+			"&7Current&f: &e%current_split_amount%",
+			"&7Available&f: &e%available_split_amount%",
+			""
+	)),
 
 	GUI_SPAWNER_OVERVIEW_TITLE("gui.spawner overview.title", "<GRADIENT:fc67fa>&lSpawner</GRADIENT:f4c4f3> &8> &7Overview"),
 	GUI_SPAWNER_OVERVIEW_ITEMS_ENTITY_NAME("gui.spawner overview.items.entity.name", "<GRADIENT:fc67fa>&lEntity Type</GRADIENT:f4c4f3>"),

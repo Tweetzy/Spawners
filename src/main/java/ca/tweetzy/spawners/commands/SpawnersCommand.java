@@ -17,9 +17,9 @@
  */
 package ca.tweetzy.spawners.commands;
 
-import ca.tweetzy.feather.command.AllowedExecutor;
-import ca.tweetzy.feather.command.Command;
-import ca.tweetzy.feather.command.ReturnType;
+import ca.tweetzy.flight.command.AllowedExecutor;
+import ca.tweetzy.flight.command.Command;
+import ca.tweetzy.flight.command.ReturnType;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.spawner.SpawnerUser;
 import ca.tweetzy.spawners.guis.user.SpawnersMainGUI;

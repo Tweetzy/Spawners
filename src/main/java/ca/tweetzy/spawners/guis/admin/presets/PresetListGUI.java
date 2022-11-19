@@ -17,14 +17,14 @@
  */
 package ca.tweetzy.spawners.guis.admin.presets;
 
-import ca.tweetzy.feather.comp.enums.CompMaterial;
-import ca.tweetzy.feather.gui.events.GuiClickEvent;
-import ca.tweetzy.feather.gui.helper.InventoryBorder;
-import ca.tweetzy.feather.gui.template.PagedGUI;
-import ca.tweetzy.feather.utils.ChatUtil;
-import ca.tweetzy.feather.utils.QuickItem;
-import ca.tweetzy.feather.utils.Replacer;
-import ca.tweetzy.feather.utils.input.TitleInput;
+import ca.tweetzy.flight.comp.enums.CompMaterial;
+import ca.tweetzy.flight.gui.events.GuiClickEvent;
+import ca.tweetzy.flight.gui.helper.InventoryBorder;
+import ca.tweetzy.flight.gui.template.PagedGUI;
+import ca.tweetzy.flight.utils.ChatUtil;
+import ca.tweetzy.flight.utils.QuickItem;
+import ca.tweetzy.flight.utils.Replacer;
+import ca.tweetzy.flight.utils.input.TitleInput;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.LevelOption;
 import ca.tweetzy.spawners.api.spawner.Level;
@@ -65,7 +65,7 @@ public final class PresetListGUI extends PagedGUI<Preset> {
 
 
 		return QuickItem.of(CompMaterial.PAPER)
-				.name(Replacer.replaceVariables( preset.getId().length() == 1 ?  "#fc67fa&l%preset%" :  "<GRADIENT:fc67fa>&l%preset%</GRADIENT:f4c4f3>", "preset", preset.getId()))
+				.name(Replacer.replaceVariables(preset.getId().length() == 1 ? "#fc67fa&l%preset%" : "<GRADIENT:fc67fa>&l%preset%</GRADIENT:f4c4f3>", "preset", preset.getId()))
 				.lore(Replacer.replaceVariables(Arrays.asList(
 								"",
 								"&7Entity Type&f: &e%entity_type%",
@@ -104,7 +104,7 @@ public final class PresetListGUI extends PagedGUI<Preset> {
 				return;
 			}
 
-			new TitleInput(clickEvent.player, "<GRADIENT:fc67fa>&lNew Preset</GRADIENT:f4c4f3>", "&fEnter an ID for the preset") {
+			new TitleInput(Spawners.getInstance(), clickEvent.player, "<GRADIENT:fc67fa>&lNew Preset</GRADIENT:f4c4f3>", "&fEnter an ID for the preset") {
 
 				@Override
 				public void onExit(Player player) {

@@ -17,12 +17,12 @@
  */
 package ca.tweetzy.spawners.guis.user;
 
-import ca.tweetzy.feather.comp.NBTEditor;
-import ca.tweetzy.feather.comp.enums.CompMaterial;
-import ca.tweetzy.feather.gui.Gui;
-import ca.tweetzy.feather.gui.events.GuiClickEvent;
-import ca.tweetzy.feather.gui.template.PagedGUI;
-import ca.tweetzy.feather.utils.QuickItem;
+import ca.tweetzy.flight.comp.NBTEditor;
+import ca.tweetzy.flight.comp.enums.CompMaterial;
+import ca.tweetzy.flight.gui.Gui;
+import ca.tweetzy.flight.gui.events.GuiClickEvent;
+import ca.tweetzy.flight.gui.template.PagedGUI;
+import ca.tweetzy.flight.utils.QuickItem;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.MobUpgrade;
 import ca.tweetzy.spawners.settings.Settings;
@@ -82,7 +82,7 @@ public final class EntityChangeGUI extends PagedGUI<MobUpgrade> {
 
 	@Override
 	protected List<Integer> fillSlots() {
-		return Settings.GUI_ENTITY_CHANGE_FILL_SLOTS.getIntegerList();
+		return (List<Integer>) Settings.GUI_ENTITY_CHANGE_FILL_SLOTS.get();
 	}
 
 	@Override

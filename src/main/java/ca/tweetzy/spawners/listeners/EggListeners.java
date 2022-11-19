@@ -17,8 +17,8 @@
  */
 package ca.tweetzy.spawners.listeners;
 
-import ca.tweetzy.feather.comp.enums.CompMaterial;
-import ca.tweetzy.feather.utils.ChatUtil;
+import ca.tweetzy.flight.comp.enums.CompMaterial;
+import ca.tweetzy.flight.utils.ChatUtil;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.spawner.Spawner;
 import ca.tweetzy.spawners.api.spawner.SpawnerUser;

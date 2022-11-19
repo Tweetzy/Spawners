@@ -17,19 +17,19 @@
  */
 package ca.tweetzy.spawners.guis.admin.spawners;
 
-import ca.tweetzy.feather.comp.enums.CompMaterial;
-import ca.tweetzy.feather.gui.events.GuiClickEvent;
-import ca.tweetzy.feather.gui.helper.InventoryBorder;
-import ca.tweetzy.feather.gui.template.PagedGUI;
-import ca.tweetzy.feather.utils.Common;
-import ca.tweetzy.feather.utils.QuickItem;
-import ca.tweetzy.feather.utils.Replacer;
+import ca.tweetzy.flight.comp.enums.CompMaterial;
+import ca.tweetzy.flight.gui.events.GuiClickEvent;
+import ca.tweetzy.flight.gui.helper.InventoryBorder;
+import ca.tweetzy.flight.gui.template.PagedGUI;
+import ca.tweetzy.flight.utils.QuickItem;
+import ca.tweetzy.flight.utils.Replacer;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.LevelOption;
 import ca.tweetzy.spawners.api.spawner.Level;
 import ca.tweetzy.spawners.api.spawner.Spawner;
 import ca.tweetzy.spawners.guis.admin.SpawnersAdminGUI;
 import ca.tweetzy.spawners.settings.Translation;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.player.PlayerTeleportEvent;
@@ -118,7 +118,7 @@ public final class SpawnerListAdminGUI extends PagedGUI<Spawner> {
 
 			Spawners.getSpawnerManager().deleteSpawner(spawner, success -> {
 				assert CompMaterial.AIR.parseMaterial() != null;
-				Common.runLater(() -> location.getBlock().setType(CompMaterial.AIR.parseMaterial()));
+				Bukkit.getScheduler().runTaskLater(Spawners.getInstance(), () -> location.getBlock().setType(CompMaterial.AIR.parseMaterial()), 1L);
 				event.manager.showGUI(event.player, new SpawnerListAdminGUI());
 			});
 		}

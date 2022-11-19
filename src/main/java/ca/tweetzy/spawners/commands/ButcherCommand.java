@@ -17,10 +17,10 @@
  */
 package ca.tweetzy.spawners.commands;
 
-import ca.tweetzy.feather.command.AllowedExecutor;
-import ca.tweetzy.feather.command.Command;
-import ca.tweetzy.feather.command.ReturnType;
-import ca.tweetzy.feather.utils.ChatUtil;
+import ca.tweetzy.flight.command.AllowedExecutor;
+import ca.tweetzy.flight.command.Command;
+import ca.tweetzy.flight.command.ReturnType;
+import ca.tweetzy.flight.utils.ChatUtil;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.settings.Translation;
 import org.bukkit.Bukkit;

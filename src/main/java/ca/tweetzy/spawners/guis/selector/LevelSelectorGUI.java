@@ -17,13 +17,13 @@
  */
 package ca.tweetzy.spawners.guis.selector;
 
-import ca.tweetzy.feather.comp.enums.CompMaterial;
-import ca.tweetzy.feather.gui.Gui;
-import ca.tweetzy.feather.gui.events.GuiClickEvent;
-import ca.tweetzy.feather.gui.helper.InventoryBorder;
-import ca.tweetzy.feather.gui.template.PagedGUI;
-import ca.tweetzy.feather.utils.QuickItem;
-import ca.tweetzy.feather.utils.Replacer;
+import ca.tweetzy.flight.comp.enums.CompMaterial;
+import ca.tweetzy.flight.gui.Gui;
+import ca.tweetzy.flight.gui.events.GuiClickEvent;
+import ca.tweetzy.flight.gui.helper.InventoryBorder;
+import ca.tweetzy.flight.gui.template.PagedGUI;
+import ca.tweetzy.flight.utils.QuickItem;
+import ca.tweetzy.flight.utils.Replacer;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.LevelOption;
 import ca.tweetzy.spawners.api.spawner.Level;

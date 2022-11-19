@@ -17,12 +17,12 @@
  */
 package ca.tweetzy.spawners.guis.admin.presets;
 
-import ca.tweetzy.feather.comp.NBTEditor;
-import ca.tweetzy.feather.comp.enums.CompMaterial;
-import ca.tweetzy.feather.gui.template.BaseGUI;
-import ca.tweetzy.feather.utils.ChatUtil;
-import ca.tweetzy.feather.utils.QuickItem;
-import ca.tweetzy.feather.utils.Replacer;
+import ca.tweetzy.flight.comp.NBTEditor;
+import ca.tweetzy.flight.comp.enums.CompMaterial;
+import ca.tweetzy.flight.gui.template.BaseGUI;
+import ca.tweetzy.flight.utils.ChatUtil;
+import ca.tweetzy.flight.utils.QuickItem;
+import ca.tweetzy.flight.utils.Replacer;
 import ca.tweetzy.spawners.api.LevelOption;
 import ca.tweetzy.spawners.api.SpawnerMob;
 import ca.tweetzy.spawners.api.spawner.Preset;

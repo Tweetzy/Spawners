@@ -18,16 +18,14 @@
 package ca.tweetzy.spawners;
 
 
-import ca.tweetzy.feather.FeatherCore;
-import ca.tweetzy.feather.FeatherPlugin;
-import ca.tweetzy.feather.command.CommandManager;
-import ca.tweetzy.feather.comp.enums.CompMaterial;
-import ca.tweetzy.feather.database.DataMigrationManager;
-import ca.tweetzy.feather.database.DatabaseConnector;
-import ca.tweetzy.feather.database.SQLiteConnector;
-import ca.tweetzy.feather.files.file.YamlFile;
-import ca.tweetzy.feather.gui.GuiManager;
-import ca.tweetzy.feather.utils.Common;
+import ca.tweetzy.flight.FlightPlugin;
+import ca.tweetzy.flight.command.CommandManager;
+import ca.tweetzy.flight.config.tweetzy.TweetzyYamlConfig;
+import ca.tweetzy.flight.database.DataMigrationManager;
+import ca.tweetzy.flight.database.DatabaseConnector;
+import ca.tweetzy.flight.database.SQLiteConnector;
+import ca.tweetzy.flight.gui.GuiManager;
+import ca.tweetzy.flight.utils.Common;
 import ca.tweetzy.spawners.api.SpawnersAPI;
 import ca.tweetzy.spawners.commands.*;
 import ca.tweetzy.spawners.database.DataManager;
@@ -50,9 +48,9 @@ import java.util.Arrays;
  *
  * @author Kiran Hart
  */
-public final class Spawners extends FeatherPlugin {
+public final class Spawners extends FlightPlugin {
 
-	private final YamlFile coreConfig = new YamlFile(getDataFolder() + "/config.yml");
+	private final TweetzyYamlConfig coreConfig = new TweetzyYamlConfig(this, "config.yml");
 
 	private final GuiManager guiManager = new GuiManager(this);
 	private final CommandManager commandManager = new CommandManager(this);
@@ -76,8 +74,6 @@ public final class Spawners extends FeatherPlugin {
 
 	@Override
 	protected void onFlight() {
-		FeatherCore.registerPlugin(this, 9, CompMaterial.SPAWNER.name());
-
 		// settings & locale setup
 		Settings.setup();
 		Locale.setup();
@@ -87,11 +83,7 @@ public final class Spawners extends FeatherPlugin {
 		this.databaseConnector = new SQLiteConnector(this);
 		this.dataManager = new DataManager(this.databaseConnector, this);
 
-		final DataMigrationManager dataMigrationManager = new DataMigrationManager(this.databaseConnector, this.dataManager,
-				new _1_InitialMigration(),
-				new _2_SpawnerPresetMigration(),
-				new _3_SpawnerShopItemMigration()
-		);
+		final DataMigrationManager dataMigrationManager = new DataMigrationManager(this.databaseConnector, this.dataManager, new _1_InitialMigration(), new _2_SpawnerPresetMigration(), new _3_SpawnerShopItemMigration());
 
 		// run migrations for tables
 		dataMigrationManager.runMigrations();
@@ -99,21 +91,10 @@ public final class Spawners extends FeatherPlugin {
 		// check vault
 		setupEconomy();
 
-		Arrays.asList(
-				this.playerManager,
-				this.levelManager,
-				this.spawnerManager,
-				this.presetManager,
-				this.shopItemManager
-		).forEach(Manager::load);
+		Arrays.asList(this.playerManager, this.levelManager, this.spawnerManager, this.presetManager, this.shopItemManager).forEach(Manager::load);
 
 		// setup command manager
-		this.commandManager.registerCommandDynamically(new SpawnersCommand()).addSubCommands(
-				new GiveCommand(),
-				new AdminCommand(),
-				new SetCommand(),
-				new ButcherCommand()
-		);
+		this.commandManager.registerCommandDynamically(new SpawnersCommand()).addSubCommands(new GiveCommand(), new AdminCommand(), new SetCommand(), new ButcherCommand());
 
 		// initialize gui manager
 		this.guiManager.init();
@@ -133,11 +114,11 @@ public final class Spawners extends FeatherPlugin {
 
 	// instance
 	public static Spawners getInstance() {
-		return (Spawners) FeatherPlugin.getInstance();
+		return (Spawners) FlightPlugin.getInstance();
 	}
 
 
-	public static YamlFile getCoreConfig() {
+	public static TweetzyYamlConfig getCoreConfig() {
 		return getInstance().coreConfig;
 	}
 

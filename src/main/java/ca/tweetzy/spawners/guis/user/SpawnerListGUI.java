@@ -17,10 +17,10 @@
  */
 package ca.tweetzy.spawners.guis.user;
 
-import ca.tweetzy.feather.comp.enums.CompMaterial;
-import ca.tweetzy.feather.gui.events.GuiClickEvent;
-import ca.tweetzy.feather.gui.template.PagedGUI;
-import ca.tweetzy.feather.utils.QuickItem;
+import ca.tweetzy.flight.comp.enums.CompMaterial;
+import ca.tweetzy.flight.gui.events.GuiClickEvent;
+import ca.tweetzy.flight.gui.template.PagedGUI;
+import ca.tweetzy.flight.utils.QuickItem;
 import ca.tweetzy.spawners.api.LevelOption;
 import ca.tweetzy.spawners.api.spawner.Level;
 import ca.tweetzy.spawners.api.spawner.Spawner;
@@ -97,7 +97,7 @@ public final class SpawnerListGUI extends PagedGUI<Spawner> {
 
 	@Override
 	protected List<Integer> fillSlots() {
-		return Settings.GUI_YOUR_SPAWNERS_FILL_SLOTS.getIntegerList();
+		return (List<Integer>) Settings.GUI_YOUR_SPAWNERS_FILL_SLOTS.get();
 	}
 
 	@Override

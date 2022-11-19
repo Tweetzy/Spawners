@@ -17,15 +17,14 @@
  */
 package ca.tweetzy.spawners.guis.admin.shop;
 
-import ca.tweetzy.feather.comp.NBTEditor;
-import ca.tweetzy.feather.comp.enums.CompMaterial;
-import ca.tweetzy.feather.gui.events.GuiClickEvent;
-import ca.tweetzy.feather.gui.helper.InventoryBorder;
-import ca.tweetzy.feather.gui.template.PagedGUI;
-import ca.tweetzy.feather.utils.ChatUtil;
-import ca.tweetzy.feather.utils.Common;
-import ca.tweetzy.feather.utils.QuickItem;
-import ca.tweetzy.feather.utils.Replacer;
+import ca.tweetzy.flight.comp.NBTEditor;
+import ca.tweetzy.flight.comp.enums.CompMaterial;
+import ca.tweetzy.flight.gui.events.GuiClickEvent;
+import ca.tweetzy.flight.gui.helper.InventoryBorder;
+import ca.tweetzy.flight.gui.template.PagedGUI;
+import ca.tweetzy.flight.utils.ChatUtil;
+import ca.tweetzy.flight.utils.QuickItem;
+import ca.tweetzy.flight.utils.Replacer;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.LevelOption;
 import ca.tweetzy.spawners.api.SpawnerMob;
@@ -39,6 +38,7 @@ import ca.tweetzy.spawners.impl.shopitem.EntityShopItem;
 import ca.tweetzy.spawners.impl.shopitem.PresetShopItem;
 import ca.tweetzy.spawners.model.UserInput;
 import ca.tweetzy.spawners.settings.Translation;
+import org.bukkit.Bukkit;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
@@ -146,12 +146,12 @@ public final class SpawnerShopAdminGUI extends PagedGUI<ShopItem> {
 				click.manager.showGUI(click.player, new PresetSelectorGUI(this, selectedPreset -> {
 					UserInput.askInteger(click.player, this, "<GRADIENT:fc67fa>&lNew Shop Item</GRADIENT:f4c4f3>", "&fEnter stack/purchase quantity", quantity -> {
 						// run synchronously coz of inventory close
-						Common.runLater(() -> UserInput.askDouble(click.player, this, "<GRADIENT:fc67fa>&lNew Shop Item</GRADIENT:f4c4f3>", "&fEnter price of item", cost -> {
+						Bukkit.getScheduler().runTaskLater(Spawners.getInstance(), () -> UserInput.askDouble(click.player, this, "<GRADIENT:fc67fa>&lNew Shop Item</GRADIENT:f4c4f3>", "&fEnter price of item", cost -> {
 							Spawners.getShopItemManager().createShopItem(new PresetShopItem(selectedPreset.getId(), quantity, cost), (created, shopItem) -> {
 								if (created)
 									click.manager.showGUI(click.player, new SpawnerShopAdminGUI());
 							});
-						}));
+						}), 1L);
 					});
 				}));
 			}
@@ -160,12 +160,12 @@ public final class SpawnerShopAdminGUI extends PagedGUI<ShopItem> {
 				click.manager.showGUI(click.player, new EntitySelectorGUI(this, EntitySelectorGUI.EntityViewMode.ALL, selectedEntity -> {
 					UserInput.askInteger(click.player, this, "<GRADIENT:fc67fa>&lNew Shop Item</GRADIENT:f4c4f3>", "&fEnter stack/purchase quantity", quantity -> {
 						// run synchronously coz of inventory close
-						Common.runLater(() -> UserInput.askDouble(click.player, this, "<GRADIENT:fc67fa>&lNew Shop Item</GRADIENT:f4c4f3>", "&fEnter price of item", cost -> {
+						Bukkit.getScheduler().runTaskLater(Spawners.getInstance(), () -> UserInput.askDouble(click.player, this, "<GRADIENT:fc67fa>&lNew Shop Item</GRADIENT:f4c4f3>", "&fEnter price of item", cost -> {
 							Spawners.getShopItemManager().createShopItem(new EntityShopItem(selectedEntity, quantity, cost), (created, shopItem) -> {
 								if (created)
 									click.manager.showGUI(click.player, new SpawnerShopAdminGUI());
 							});
-						}));
+						}), 1L);
 					});
 				}));
 			}

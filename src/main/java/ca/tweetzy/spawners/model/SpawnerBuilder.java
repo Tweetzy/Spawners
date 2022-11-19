@@ -17,14 +17,13 @@
  */
 package ca.tweetzy.spawners.model;
 
-import ca.tweetzy.feather.utils.ChatUtil;
-import ca.tweetzy.feather.utils.QuickItem;
+import ca.tweetzy.flight.utils.ChatUtil;
+import ca.tweetzy.flight.utils.QuickItem;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.LevelOption;
 import ca.tweetzy.spawners.api.spawner.Level;
 import ca.tweetzy.spawners.api.spawner.Preset;
 import ca.tweetzy.spawners.api.spawner.Spawner;
-import ca.tweetzy.spawners.impl.PlacedSpawner;
 import ca.tweetzy.spawners.settings.Settings;
 import ca.tweetzy.spawners.settings.Translation;
 import lombok.AllArgsConstructor;

@@ -17,7 +17,7 @@
  */
 package ca.tweetzy.spawners.listeners;
 
-import ca.tweetzy.feather.utils.Common;
+import ca.tweetzy.flight.utils.Common;
 import ca.tweetzy.spawners.Spawners;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

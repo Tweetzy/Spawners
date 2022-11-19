@@ -17,9 +17,9 @@
  */
 package ca.tweetzy.spawners.model;
 
-import ca.tweetzy.feather.gui.Gui;
-import ca.tweetzy.feather.utils.Common;
-import ca.tweetzy.feather.utils.input.TitleInput;
+import ca.tweetzy.flight.gui.Gui;
+import ca.tweetzy.flight.utils.Common;
+import ca.tweetzy.flight.utils.input.TitleInput;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.settings.Translation;
 import lombok.NonNull;
@@ -46,7 +46,7 @@ public final class UserInput {
 	public void askString(@NonNull final Player player, final Gui exitGui, @NonNull final String title, @NonNull final String subtitle, @NonNull final Consumer<String> input) {
 		player.closeInventory();
 
-		new TitleInput(player, Common.colorize(title), Common.colorize(subtitle)) {
+		new TitleInput(Spawners.getInstance(), player, Common.colorize(title), Common.colorize(subtitle)) {
 
 			@Override
 			public void onExit(Player player) {
@@ -69,7 +69,7 @@ public final class UserInput {
 	public void askInteger(@NonNull final Player player, final Gui exitGui, @NonNull final String title, @NonNull final String subtitle, @NonNull final Consumer<Integer> input) {
 		player.closeInventory();
 
-		new TitleInput(player, Common.colorize(title), Common.colorize(subtitle)) {
+		new TitleInput(Spawners.getInstance(), player, Common.colorize(title), Common.colorize(subtitle)) {
 
 			@Override
 			public void onExit(Player player) {
@@ -97,7 +97,7 @@ public final class UserInput {
 	public void askDouble(@NonNull final Player player, final Gui exitGui, @NonNull final String title, @NonNull final String subtitle, @NonNull final Consumer<Double> input) {
 		player.closeInventory();
 
-		new TitleInput(player, Common.colorize(title), Common.colorize(subtitle)) {
+		new TitleInput(Spawners.getInstance(), player, Common.colorize(title), Common.colorize(subtitle)) {
 
 			@Override
 			public void onExit(Player player) {

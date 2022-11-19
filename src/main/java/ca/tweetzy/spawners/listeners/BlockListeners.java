@@ -17,10 +17,9 @@
  */
 package ca.tweetzy.spawners.listeners;
 
-import ca.tweetzy.feather.comp.NBTEditor;
-import ca.tweetzy.feather.comp.enums.CompMaterial;
-import ca.tweetzy.feather.utils.ChatUtil;
-import ca.tweetzy.feather.utils.Common;
+import ca.tweetzy.flight.comp.NBTEditor;
+import ca.tweetzy.flight.comp.enums.CompMaterial;
+import ca.tweetzy.flight.utils.ChatUtil;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.LevelOption;
 import ca.tweetzy.spawners.api.spawner.Level;
@@ -31,6 +30,7 @@ import ca.tweetzy.spawners.model.SpawnerBuilder;
 import ca.tweetzy.spawners.settings.Settings;
 import ca.tweetzy.spawners.settings.Translation;
 import lombok.NonNull;
+import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.CreatureSpawner;
@@ -184,7 +184,7 @@ public final class BlockListeners implements Listener {
 		final int activationRange = activationRangeLevel == null ? Settings.DEFAULT_SPAWNER_ACTIVATION_RANGE.getInt() : activationRangeLevel.getValue();
 
 		// apply options
-		Common.runLater(5, () -> {
+		Bukkit.getScheduler().runTaskLater(Spawners.getInstance(), () -> {
 			creatureSpawner.setMinSpawnDelay(0);
 			creatureSpawner.setMaxSpawnDelay(delay);
 			creatureSpawner.setDelay(delay);
@@ -197,7 +197,7 @@ public final class BlockListeners implements Listener {
 
 			// update
 			creatureSpawner.update(true);
-		});
+		}, 5L);
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)
@@ -248,7 +248,7 @@ public final class BlockListeners implements Listener {
 
 					spawner.getLevels().forEach((option, level) -> builder.addLevel(level));
 
-					Common.runLater(() -> block.getWorld().dropItemNaturally(block.getLocation(), builder.make()));
+					Bukkit.getScheduler().runTaskLater(Spawners.getInstance(), () -> block.getWorld().dropItemNaturally(block.getLocation(), builder.make()), 1L);
 				}
 			});
 

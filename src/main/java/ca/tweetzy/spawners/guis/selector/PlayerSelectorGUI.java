@@ -17,11 +17,11 @@
  */
 package ca.tweetzy.spawners.guis.selector;
 
-import ca.tweetzy.feather.comp.enums.CompMaterial;
-import ca.tweetzy.feather.gui.Gui;
-import ca.tweetzy.feather.gui.events.GuiClickEvent;
-import ca.tweetzy.feather.gui.template.PagedGUI;
-import ca.tweetzy.feather.utils.QuickItem;
+import ca.tweetzy.flight.comp.enums.CompMaterial;
+import ca.tweetzy.flight.gui.Gui;
+import ca.tweetzy.flight.gui.events.GuiClickEvent;
+import ca.tweetzy.flight.gui.template.PagedGUI;
+import ca.tweetzy.flight.utils.QuickItem;
 import ca.tweetzy.spawners.guis.ConfirmGUI;
 import ca.tweetzy.spawners.settings.Settings;
 import ca.tweetzy.spawners.settings.Translation;
@@ -83,6 +83,6 @@ public final class PlayerSelectorGUI extends PagedGUI<Player> {
 
 	@Override
 	protected List<Integer> fillSlots() {
-		return Settings.GUI_PLAYER_SELECT_FILL_SLOTS.getIntegerList();
+		return (List<Integer>) Settings.GUI_PLAYER_SELECT_FILL_SLOTS.get();
 	}
 }

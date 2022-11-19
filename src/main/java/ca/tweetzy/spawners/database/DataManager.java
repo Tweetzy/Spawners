@@ -17,10 +17,11 @@
  */
 package ca.tweetzy.spawners.database;
 
-import ca.tweetzy.feather.database.Callback;
-import ca.tweetzy.feather.database.DataManagerAbstract;
-import ca.tweetzy.feather.database.DatabaseConnector;
-import ca.tweetzy.feather.database.UpdateCallback;
+import ca.tweetzy.flight.database.Callback;
+import ca.tweetzy.flight.database.DataManagerAbstract;
+import ca.tweetzy.flight.database.DatabaseConnector;
+import ca.tweetzy.flight.database.UpdateCallback;
+import ca.tweetzy.flight.utils.SerializeUtil;
 import ca.tweetzy.spawners.api.LevelOption;
 import ca.tweetzy.spawners.api.spawner.*;
 import ca.tweetzy.spawners.impl.PlacedSpawner;
@@ -29,7 +30,6 @@ import ca.tweetzy.spawners.impl.SpawnerPreset;
 import ca.tweetzy.spawners.impl.shopitem.EntityShopItem;
 import ca.tweetzy.spawners.impl.shopitem.PresetShopItem;
 import ca.tweetzy.spawners.model.LevelFactory;
-import ca.tweetzy.spawners.model.Serialize;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import lombok.NonNull;
@@ -172,7 +172,7 @@ public final class DataManager extends DataManagerAbstract {
 				preparedStatement.setString(3, spawner.getOwnerName());
 				preparedStatement.setString(4, spawner.getEntityType().name());
 				preparedStatement.setString(5, spawner.getJsonString());
-				preparedStatement.setString(6, Serialize.serializeLocation(spawner.getLocation()));
+				preparedStatement.setString(6, SerializeUtil.serializeLocation(spawner.getLocation()));
 
 				preparedStatement.executeUpdate();
 
@@ -519,7 +519,7 @@ public final class DataManager extends DataManagerAbstract {
 				resultSet.getString("owner_name"),
 				EntityType.valueOf(resultSet.getString("entity_type")),
 				PlacedSpawner.decodeLevelsJson(resultSet.getString("levels")),
-				Serialize.deserializeLocation(resultSet.getString("location"))
+				SerializeUtil.deserializeLocation(resultSet.getString("location"))
 		);
 	}
 
