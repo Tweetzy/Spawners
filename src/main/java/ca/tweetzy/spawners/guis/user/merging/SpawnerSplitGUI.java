@@ -19,9 +19,14 @@ package ca.tweetzy.spawners.guis.user.merging;
 
 import ca.tweetzy.flight.comp.enums.CompMaterial;
 import ca.tweetzy.flight.gui.template.BaseGUI;
+import ca.tweetzy.flight.utils.PlayerUtil;
 import ca.tweetzy.flight.utils.QuickItem;
+import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.LevelOption;
+import ca.tweetzy.spawners.api.spawner.Level;
 import ca.tweetzy.spawners.api.spawner.Spawner;
+import ca.tweetzy.spawners.guis.user.SpawnerOverviewGUI;
+import ca.tweetzy.spawners.model.SpawnerBuilder;
 import ca.tweetzy.spawners.settings.Translation;
 import lombok.NonNull;
 
@@ -41,7 +46,7 @@ public final class SpawnerSplitGUI extends BaseGUI {
 		this.canUpgrade = canUpgrade;
 
 		for (LevelOption value : LevelOption.values()) {
-			splitAmount.put(value, 0);
+			splitAmount.put(value, 1);
 		}
 
 		draw();
@@ -54,6 +59,9 @@ public final class SpawnerSplitGUI extends BaseGUI {
 			drawLevelButtons(value, value.ordinal() + 1);
 		}
 
+		drawSplitOffSpawner();
+		drawConfirmationButton();
+
 		applyBackExit();
 	}
 
@@ -65,7 +73,7 @@ public final class SpawnerSplitGUI extends BaseGUI {
 				.lore(Translation.GUI_SPAWNER_SPLIT_ITEMS_DECREASE_LORE.getList())
 				.make(), click -> {
 
-			if (this.splitAmount.get(option) > 0) {
+			if (this.splitAmount.get(option) > 1) {
 				this.splitAmount.put(option, this.splitAmount.get(option) - 1);
 				draw();
 			}
@@ -106,12 +114,60 @@ public final class SpawnerSplitGUI extends BaseGUI {
 				.lore(Translation.GUI_SPAWNER_SPLIT_ITEMS_INCREASE_LORE.getList())
 				.make(), click -> {
 
-			if (this.spawner.getLevels().get(option).getLevelNumber() - 1 - this.splitAmount.get(option) == 0)
+			if (this.spawner.getLevels().get(option).getLevelNumber() - 1 - this.splitAmount.get(option) <= 1)
 				return;
 
 
 			this.splitAmount.put(option, this.splitAmount.get(option) + 1);
 			draw();
 		});
+	}
+
+	private void drawSplitOffSpawner() {
+		setItem(1, 7, getSpawnerBuilder().make());
+	}
+
+	private void drawConfirmationButton() {
+		boolean canSplit = true;
+
+		for (LevelOption option : LevelOption.values()) {
+			if (this.spawner.getLevels().get(option).getLevelNumber() - 1 - this.splitAmount.get(option) <= 0) {
+				canSplit = false;
+				break;
+			}
+		}
+
+		boolean finalCanSplit = canSplit;
+
+		setButton(4, 7, QuickItem
+				.of(canSplit ? CompMaterial.LIME_STAINED_GLASS_PANE : CompMaterial.RED_STAINED_GLASS_PANE)
+				.name(canSplit ? Translation.GUI_SPAWNER_SPLIT_ITEMS_CONFIRM_NAME.getString() : Translation.GUI_SPAWNER_SPLIT_ITEMS_INVALID_NAME.getString())
+				.lore(canSplit ? Translation.GUI_SPAWNER_SPLIT_ITEMS_CONFIRM_LORE.getList() : Translation.GUI_SPAWNER_SPLIT_ITEMS_INVALID_LORE.getList())
+				.make(), click -> {
+
+			if (!finalCanSplit)
+				return;
+
+			PlayerUtil.giveItem(click.player, getSpawnerBuilder().make());
+
+			final Map<LevelOption, Level> levelMap = new HashMap<>();
+
+			for (LevelOption value : LevelOption.values()) {
+				final Level newLevel = Spawners.getLevelManager().find(value, this.spawner.getLevels().get(value).getLevelNumber() - this.splitAmount.get(value));
+				levelMap.putIfAbsent(value, newLevel);
+			}
+
+			this.spawner.setLevels(levelMap);
+			this.spawner.reApplyLevels();
+
+			click.manager.showGUI(click.player, new SpawnerOverviewGUI(this.spawner, this.canUpgrade));
+		});
+	}
+
+	private SpawnerBuilder getSpawnerBuilder() {
+		final SpawnerBuilder spawner = SpawnerBuilder.of(this.spawner);
+		this.splitAmount.forEach(spawner::addLevel);
+
+		return spawner;
 	}
 }

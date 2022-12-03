@@ -17,6 +17,7 @@
  */
 package ca.tweetzy.spawners.settings;
 
+import ca.tweetzy.flight.comp.enums.CompMaterial;
 import ca.tweetzy.flight.utils.Common;
 import ca.tweetzy.flight.utils.Replacer;
 import lombok.AllArgsConstructor;
@@ -308,6 +309,19 @@ public enum Translation {
 			"&7Current&f: &e%current_split_amount%",
 			"&7Available&f: &e%available_split_amount%",
 			""
+	)),
+
+	GUI_SPAWNER_SPLIT_ITEMS_CONFIRM_NAME("gui.spawner split.items.confirm.name", "&a&lConfirm Split"),
+	GUI_SPAWNER_SPLIT_ITEMS_CONFIRM_LORE("gui.spawner split.items.confirm.lore", Arrays.asList(
+			"",
+			"&e&lClick &8» &7To split levels"
+	)),
+
+	GUI_SPAWNER_SPLIT_ITEMS_INVALID_NAME("gui.spawner split.items.invalid.name", "&c&lNot Enough Levels"),
+	GUI_SPAWNER_SPLIT_ITEMS_INVALID_LORE("gui.spawner split.items.invalid.lore", Arrays.asList(
+			"",
+			"&cYou cannot split anymore levels from this",
+			"&cspawner as it requires at least 2 levels."
 	)),
 
 	GUI_SPAWNER_OVERVIEW_TITLE("gui.spawner overview.title", "<GRADIENT:fc67fa>&lSpawner</GRADIENT:f4c4f3> &8> &7Overview"),

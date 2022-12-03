@@ -227,6 +227,18 @@ public final class PlacedSpawner implements Spawner {
 	}
 
 	@Override
+	public void reApplyLevels() {
+		this.levels.forEach((option, level) -> {
+			final Block block = this.location.getBlock();
+			final CreatureSpawner creatureSpawner = (CreatureSpawner) block.getState();
+
+			Spawners.getSpawnerManager().applySpawnerLevel(creatureSpawner, level);
+		});
+
+		sync();
+	}
+
+	@Override
 	public void sync() {
 		Spawners.getDataManager().updateSpawner(this, null);
 	}

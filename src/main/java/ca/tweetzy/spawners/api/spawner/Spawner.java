@@ -72,4 +72,6 @@ public interface Spawner extends DataSync, Jsonable {
 	 *                into the current spawner
 	 */
 	void merge(Spawner spawner, Consumer<Spawner> leftover);
+
+	void reApplyLevels();
 }
