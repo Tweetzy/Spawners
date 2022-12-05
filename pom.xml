@@ -8,7 +8,7 @@
 
     <name>Spawners</name>
     <description>The ultimate spawner plugin</description>
-    <version>1.3.0</version>
+    <version>1.4.0</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -16,13 +16,17 @@
         <jarName>${project.name}</jarName>
         <main.class>${project.groupId}.${project.artifactId}.${project.name}</main.class>
         <java.version>16</java.version>
-        <feather.version>3.4.0</feather.version>
-        <feather.path>ca.tweetzy</feather.path>
+        <flight.version>3.7.0</flight.version>
+        <flight.path>ca.tweetzy</flight.path>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <repositories>
         <repository>
+            <id>repsy</id>
+            <name>Tweetzy Maven Repo On Repsy</name>
+            <url>https://repo.repsy.io/mvn/kiran/tweetzy</url>
+        </repository>   <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
@@ -33,6 +37,10 @@
         <repository>
             <id>placeholderapi</id>
             <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+        </repository>
+        <repository>
+            <id>techscode</id>
+            <url>https://repo.techscode.com/repository/maven-releases/</url>
         </repository>
     </repositories>
 
@@ -51,9 +59,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>${feather.path}</groupId>
-            <artifactId>feather</artifactId>
-            <version>${feather.version}</version>
+            <groupId>${flight.path}</groupId>
+            <artifactId>flight</artifactId>
+            <version>${flight.version}</version>
         </dependency>
         <dependency>
             <groupId>com.github.MilkBowl</groupId>
@@ -71,6 +79,11 @@
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.8.6</version>
+        </dependency>
+        <dependency>
+            <groupId>me.TechsCode</groupId>
+            <artifactId>UltraEconomyAPI</artifactId>
+            <version>1.0.0</version>
         </dependency>
     </dependencies>
     <build>
@@ -127,7 +140,7 @@
                     <createDependencyReducedPom>false</createDependencyReducedPom>
                     <artifactSet>
                         <includes>
-                            <include>${feather.path}:feather*</include>
+                            <include>${flight.path}:flight*</include>
                         </includes>
                     </artifactSet>
                     <filters>
@@ -143,8 +156,8 @@
                     </filters>
                     <relocations>
                         <relocation>
-                            <pattern>ca.tweetzy.feather</pattern>
-                            <shadedPattern>${project.groupId}.${project.artifactId}.feather</shadedPattern>
+                            <pattern>ca.tweetzy.flight</pattern>
+                            <shadedPattern>${project.groupId}.${project.artifactId}.flight</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>
