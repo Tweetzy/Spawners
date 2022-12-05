@@ -40,6 +40,9 @@ public final class Settings {
 	public static final ConfigEntry PREFIX = config.createEntry("prefix", "<GRADIENT:fc67fa>&LSpawners</GRADIENT:f4c4f3> &8»").withComment("The global prefix for the plugin");
 	public static final ConfigEntry LANGUAGE = config.createEntry("language", "english").withComment("The default language for the plugin");
 
+	public static final ConfigEntry UPGRADE_CURRENCY = config.createEntry("currency.upgrade", "vault").withComment("If you are using something like UltraEconomy you can use 'UltraEconomy:theCurrencyName' instead");
+	public static final ConfigEntry UPGRADE_SPAWNER_SHOP = config.createEntry("currency.spawner shop", "vault").withComment("If you are using something like UltraEconomy you can use 'UltraEconomy:theCurrencyName' instead");
+
 	public static final ConfigEntry SPAWNER_ITEM = config.createEntry("spawner item", CompMaterial.SPAWNER.name()).withComment("This should probably be a block if you decide to change it..");
 	public static final ConfigEntry ALLOW_NON_OWNER_PLACE = config.createEntry("allow non owner place", false).withComment("If true, player's who don't own the spawner item/block can still place it");
 	public static final ConfigEntry ALLOW_NON_OWNER_BREAK = config.createEntry("allow non owner break", false).withComment("If true, player's who don't own the spawner item/block can still break it");
