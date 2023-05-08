@@ -18,10 +18,12 @@
 package ca.tweetzy.spawners.listeners;
 
 import ca.tweetzy.flight.comp.enums.CompMaterial;
+import ca.tweetzy.flight.settings.TranslationManager;
+import ca.tweetzy.flight.utils.Common;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.spawner.Spawner;
 import ca.tweetzy.spawners.guis.user.SpawnerOverviewGUI;
-import ca.tweetzy.spawners.settings.Translation;
+import ca.tweetzy.spawners.settings.Translations;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.CreatureSpawner;
@@ -61,7 +63,7 @@ public final class PlayerListeners implements Listener {
 		if (spawner == null) return;
 
 		if (!spawner.getOwner().equals(player.getUniqueId())) {
-			Translation.SPAWNER_NOT_OWNER.send(player);
+			Common.tell(player, TranslationManager.string(Translations.SPAWNER_NOT_OWNER));
 			return;
 		}
 

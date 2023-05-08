@@ -22,7 +22,9 @@ import ca.tweetzy.flight.comp.enums.CompMaterial;
 import ca.tweetzy.flight.gui.events.GuiClickEvent;
 import ca.tweetzy.flight.gui.helper.InventoryBorder;
 import ca.tweetzy.flight.gui.template.PagedGUI;
+import ca.tweetzy.flight.settings.TranslationManager;
 import ca.tweetzy.flight.utils.ChatUtil;
+import ca.tweetzy.flight.utils.Common;
 import ca.tweetzy.flight.utils.QuickItem;
 import ca.tweetzy.flight.utils.Replacer;
 import ca.tweetzy.spawners.Spawners;
@@ -37,7 +39,7 @@ import ca.tweetzy.spawners.guis.selector.PresetSelectorGUI;
 import ca.tweetzy.spawners.impl.shopitem.EntityShopItem;
 import ca.tweetzy.spawners.impl.shopitem.PresetShopItem;
 import ca.tweetzy.spawners.model.UserInput;
-import ca.tweetzy.spawners.settings.Translation;
+import ca.tweetzy.spawners.settings.Translations;
 import org.bukkit.Bukkit;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
@@ -139,7 +141,7 @@ public final class SpawnerShopAdminGUI extends PagedGUI<ShopItem> {
 			if (click.clickType == ClickType.LEFT) {
 
 				if (Spawners.getPresetManager().getContents().isEmpty()) {
-					Translation.NO_PRESETS_MADE.send(click.player);
+					Common.tell(click.player, TranslationManager.string(Translations.NO_PRESETS_MADE));
 					return;
 				}
 
@@ -204,11 +206,11 @@ public final class SpawnerShopAdminGUI extends PagedGUI<ShopItem> {
 
 	@Override
 	protected ItemStack getPreviousButton() {
-		return QuickItem.of(CompMaterial.ARROW, Translation.MISC_PREV_PAGE.getString()).make();
+		return QuickItem.of(CompMaterial.ARROW, TranslationManager.string(Translations.MISC_PREV_PAGE)).make();
 	}
 
 	@Override
 	protected ItemStack getNextButton() {
-		return QuickItem.of(CompMaterial.ARROW, Translation.MISC_NEXT_PAGE.getString()).make();
+		return QuickItem.of(CompMaterial.ARROW, TranslationManager.string(Translations.MISC_NEXT_PAGE)).make();
 	}
 }

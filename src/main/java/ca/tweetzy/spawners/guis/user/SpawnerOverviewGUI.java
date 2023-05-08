@@ -20,7 +20,9 @@ package ca.tweetzy.spawners.guis.user;
 import ca.tweetzy.flight.comp.NBTEditor;
 import ca.tweetzy.flight.comp.enums.CompMaterial;
 import ca.tweetzy.flight.gui.template.BaseGUI;
+import ca.tweetzy.flight.settings.TranslationManager;
 import ca.tweetzy.flight.utils.ChatUtil;
+import ca.tweetzy.flight.utils.Common;
 import ca.tweetzy.flight.utils.QuickItem;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.LevelOption;
@@ -28,7 +30,7 @@ import ca.tweetzy.spawners.api.SpawnerMob;
 import ca.tweetzy.spawners.api.spawner.Spawner;
 import ca.tweetzy.spawners.guis.selector.PlayerSelectorGUI;
 import ca.tweetzy.spawners.guis.user.merging.MergeSplitGUI;
-import ca.tweetzy.spawners.settings.Translation;
+import ca.tweetzy.spawners.settings.Translations;
 import lombok.NonNull;
 import org.bukkit.block.CreatureSpawner;
 
@@ -46,7 +48,7 @@ public final class SpawnerOverviewGUI extends BaseGUI {
 	private final boolean canUpgrade;
 
 	public SpawnerOverviewGUI(@NonNull final Spawner spawner, final boolean canUpgrade) {
-		super(null, Translation.GUI_SPAWNER_OVERVIEW_TITLE.getString(), 5);
+		super(null, TranslationManager.string(Translations.GUI_SPAWNER_OVERVIEW_TITLE), 5);
 		this.spawner = spawner;
 		this.canUpgrade = canUpgrade;
 		draw();
@@ -61,31 +63,31 @@ public final class SpawnerOverviewGUI extends BaseGUI {
 
 		if (!this.canUpgrade || Spawners.getEconomy() == null)
 			Arrays.asList(10, 12, 14, 16, 29, 33).forEach(slot -> setItem(slot, QuickItem.of(CompMaterial.RED_STAINED_GLASS_PANE)
-					.name(Translation.GUI_SPAWNER_OVERVIEW_ITEMS_UPGRADE_DISABLED_NAME.getString())
-					.lore(Translation.GUI_SPAWNER_OVERVIEW_ITEMS_UPGRADE_DISABLED_LORE.getList())
+					.name(TranslationManager.string(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_UPGRADE_DISABLED_NAME))
+					.lore(TranslationManager.list(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_UPGRADE_DISABLED_LORE))
 					.make()
 			));
 
 		// merge
 		setButton(3, 4, QuickItem
 				.of(CompMaterial.PACKED_ICE)
-				.name(Translation.GUI_SPAWNER_OVERVIEW_ITEMS_MERGE_NAME.getString())
-				.lore(Translation.GUI_SPAWNER_OVERVIEW_ITEMS_MERGE_LORE.getList())
+				.name(TranslationManager.string(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_MERGE_NAME))
+				.lore(TranslationManager.list(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_MERGE_LORE))
 				.make(), click -> click.manager.showGUI(click.player, new MergeSplitGUI(this.spawner, this.canUpgrade)));
 
 		if (this.canUpgrade && Spawners.getEconomy() != null) {
 			// entity type
 			setButton(3, 2, QuickItem
 					.of(NBTEditor.getHead(SpawnerMob.valueOf(this.spawner.getEntityType().name()).getHeadTexture()))
-					.name(Translation.GUI_SPAWNER_OVERVIEW_ITEMS_ENTITY_NAME.getString())
-					.lore(Translation.GUI_SPAWNER_OVERVIEW_ITEMS_ENTITY_LORE.getList(
+					.name(TranslationManager.string(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_ENTITY_NAME))
+					.lore(TranslationManager.list(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_ENTITY_LORE,
 							"entity_type", ChatUtil.capitalizeFully(this.spawner.getEntityType())
 					))
 					.make(), click -> click.manager.showGUI(click.player, new EntityChangeGUI(this, selected -> {
 
 				Spawners.getEconomy().withdrawPlayer(click.player, selected.getCost());
-				Translation.MONEY_REMOVE.send(click.player, "amount", String.format("%,.2f", selected.getCost()));
-				Translation.SPAWNER_UPGRADED_ENTITY_TYPE.send(click.player, "entity_type", ChatUtil.capitalizeFully(selected.getSpawnerMob().getEntityType()));
+				Common.tell(click.player, TranslationManager.string(Translations.MONEY_REMOVE, "amount", String.format("%,.2f", selected.getCost())));
+				Common.tell(click.player, TranslationManager.string(Translations.SPAWNER_UPGRADED_ENTITY_TYPE, "entity_type", ChatUtil.capitalizeFully(selected.getSpawnerMob().getEntityType())));
 
 				final CreatureSpawner creatureSpawner = (CreatureSpawner) spawner.getLocation().getBlock().getState();
 				Spawners.getSpawnerManager().changeSpawnerEntity(creatureSpawner, selected.getSpawnerMob().getEntityType());
@@ -97,8 +99,8 @@ public final class SpawnerOverviewGUI extends BaseGUI {
 			// ownership
 			setButton(3, 6, QuickItem
 					.of(CompMaterial.LECTERN)
-					.name(Translation.GUI_SPAWNER_OVERVIEW_ITEMS_OWNER_NAME.getString())
-					.lore(Translation.GUI_SPAWNER_OVERVIEW_ITEMS_OWNER_LORE.getList(
+					.name(TranslationManager.string(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_OWNER_NAME))
+					.lore(TranslationManager.list(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_OWNER_LORE,
 							"owner_name", spawner.getOwnerName()
 					))
 					.make(), click -> click.manager.showGUI(click.player, new PlayerSelectorGUI(this, click.player, (selectedUser, confirmed) -> {
@@ -112,8 +114,8 @@ public final class SpawnerOverviewGUI extends BaseGUI {
 				this.spawner.setOwnerName(selectedUser.getName());
 				click.player.closeInventory();
 
-				Translation.SPAWNER_RECEIVED_OWNERSHIP.send(selectedUser, "player_name", click.player.getName());
-				Translation.SPAWNER_GAVE_OWNERSHIP.send(click.player, "player_name", selectedUser.getName());
+				Common.tell(click.player, TranslationManager.string(Translations.SPAWNER_RECEIVED_OWNERSHIP, "player_name", click.player.getName()));
+				Common.tell(click.player, TranslationManager.string(Translations.SPAWNER_GAVE_OWNERSHIP, "player_name", selectedUser.getName()));
 
 				this.spawner.sync();
 			})));
@@ -125,8 +127,8 @@ public final class SpawnerOverviewGUI extends BaseGUI {
 			// spawn delay
 			setButton(1, 1, QuickItem
 					.of(CompMaterial.REPEATER)
-					.name(Translation.GUI_SPAWNER_OVERVIEW_ITEMS_DELAY_LEVEL_NAME.getString())
-					.lore(spawner.getNextLevel(LevelOption.SPAWN_INTERVAL) == null ? Translation.GUI_SPAWNER_OVERVIEW_ITEMS_DELAY_LEVEL_LORE_MAX.getList() : Translation.GUI_SPAWNER_OVERVIEW_ITEMS_DELAY_LEVEL_LORE.getList(
+					.name(TranslationManager.string(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_DELAY_LEVEL_NAME))
+					.lore(spawner.getNextLevel(LevelOption.SPAWN_INTERVAL) == null ? TranslationManager.string(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_DELAY_LEVEL_LORE_MAX) : TranslationManager.string(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_DELAY_LEVEL_LORE,
 							"level_number", spawner.getLevels().get(LevelOption.SPAWN_INTERVAL).getLevelNumber(),
 							"level_value", String.format("%,.2f", spawner.getLevels().get(LevelOption.SPAWN_INTERVAL).getValue() / 20D),
 							"level_upgrade_cost", spawner.getNextLevel(LevelOption.SPAWN_INTERVAL).getCost(),
@@ -141,8 +143,8 @@ public final class SpawnerOverviewGUI extends BaseGUI {
 			// spawn count
 			setButton(1, 3, QuickItem
 					.of(CompMaterial.TRIPWIRE_HOOK)
-					.name(Translation.GUI_SPAWNER_OVERVIEW_ITEMS_SPAWN_COUNT_LEVEL_NAME.getString())
-					.lore(spawner.getNextLevel(LevelOption.SPAWN_COUNT) == null ? Translation.GUI_SPAWNER_OVERVIEW_ITEMS_SPAWN_COUNT_LEVEL_LORE_MAX.getList() : Translation.GUI_SPAWNER_OVERVIEW_ITEMS_SPAWN_COUNT_LEVEL_LORE.getList(
+					.name(TranslationManager.string(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_SPAWN_COUNT_LEVEL_NAME))
+					.lore(spawner.getNextLevel(LevelOption.SPAWN_COUNT) == null ? TranslationManager.string(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_SPAWN_COUNT_LEVEL_LORE_MAX) : TranslationManager.string(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_SPAWN_COUNT_LEVEL_LORE,
 							"level_number", spawner.getLevels().get(LevelOption.SPAWN_COUNT).getLevelNumber(),
 							"level_value", spawner.getLevels().get(LevelOption.SPAWN_COUNT).getValue(),
 							"level_upgrade_cost", spawner.getNextLevel(LevelOption.SPAWN_COUNT).getCost(),
@@ -157,8 +159,8 @@ public final class SpawnerOverviewGUI extends BaseGUI {
 			// max nearby entities
 			setButton(1, 5, QuickItem
 					.of(CompMaterial.OBSERVER)
-					.name(Translation.GUI_SPAWNER_OVERVIEW_ITEMS_MAX_NEARBY_LEVEL_NAME.getString())
-					.lore(spawner.getNextLevel(LevelOption.MAX_NEARBY_ENTITIES) == null ? Translation.GUI_SPAWNER_OVERVIEW_ITEMS_MAX_NEARBY_LEVEL_LORE_MAX.getList() : Translation.GUI_SPAWNER_OVERVIEW_ITEMS_MAX_NEARBY_LEVEL_LORE.getList(
+					.name(TranslationManager.string(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_MAX_NEARBY_LEVEL_NAME))
+					.lore(spawner.getNextLevel(LevelOption.MAX_NEARBY_ENTITIES) == null ? TranslationManager.string(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_MAX_NEARBY_LEVEL_LORE_MAX) : TranslationManager.string(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_MAX_NEARBY_LEVEL_LORE,
 							"level_number", spawner.getLevels().get(LevelOption.MAX_NEARBY_ENTITIES).getLevelNumber(),
 							"level_value", spawner.getLevels().get(LevelOption.MAX_NEARBY_ENTITIES).getValue(),
 							"level_upgrade_cost", spawner.getNextLevel(LevelOption.MAX_NEARBY_ENTITIES).getCost(),
@@ -173,8 +175,8 @@ public final class SpawnerOverviewGUI extends BaseGUI {
 			// activation range
 			setButton(1, 7, QuickItem
 					.of(CompMaterial.COMPARATOR)
-					.name(Translation.GUI_SPAWNER_OVERVIEW_ITEMS_ACTIVATION_RANGE_LEVEL_NAME.getString())
-					.lore(spawner.getNextLevel(LevelOption.ACTIVATION_RANGE) == null ? Translation.GUI_SPAWNER_OVERVIEW_ITEMS_ACTIVATION_RANGE_LEVEL_LORE_MAX.getList() : Translation.GUI_SPAWNER_OVERVIEW_ITEMS_ACTIVATION_RANGE_LEVEL_LORE.getList(
+					.name(TranslationManager.string(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_ACTIVATION_RANGE_LEVEL_NAME))
+					.lore(spawner.getNextLevel(LevelOption.ACTIVATION_RANGE) == null ? TranslationManager.string(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_ACTIVATION_RANGE_LEVEL_LORE_MAX) : TranslationManager.string(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_ACTIVATION_RANGE_LEVEL_LORE,
 							"level_number", spawner.getLevels().get(LevelOption.ACTIVATION_RANGE).getLevelNumber(),
 							"level_value", spawner.getLevels().get(LevelOption.ACTIVATION_RANGE).getValue(),
 							"level_upgrade_cost", spawner.getNextLevel(LevelOption.ACTIVATION_RANGE).getCost(),

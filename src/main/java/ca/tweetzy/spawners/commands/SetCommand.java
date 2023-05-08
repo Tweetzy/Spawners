@@ -21,11 +21,13 @@ import ca.tweetzy.flight.command.AllowedExecutor;
 import ca.tweetzy.flight.command.Command;
 import ca.tweetzy.flight.command.ReturnType;
 import ca.tweetzy.flight.comp.enums.CompMaterial;
+import ca.tweetzy.flight.settings.TranslationManager;
 import ca.tweetzy.flight.utils.ChatUtil;
+import ca.tweetzy.flight.utils.Common;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.spawner.Spawner;
 import ca.tweetzy.spawners.guis.selector.EntitySelectorGUI;
-import ca.tweetzy.spawners.settings.Translation;
+import ca.tweetzy.spawners.settings.Translations;
 import org.bukkit.block.Block;
 import org.bukkit.block.CreatureSpawner;
 import org.bukkit.command.CommandSender;
@@ -51,7 +53,7 @@ public final class SetCommand extends Command {
 		final Block targetBlock = player.getTargetBlock(null, 25);
 
 		if (targetBlock.getType() != CompMaterial.SPAWNER.parseMaterial()) {
-			Translation.NOT_A_SPAWNER.send(player);
+			Common.tell(player, TranslationManager.string(Translations.NOT_A_SPAWNER));
 			return ReturnType.FAIL;
 		}
 
@@ -63,7 +65,7 @@ public final class SetCommand extends Command {
 			creatureSpawner.setSpawnedType(selected);
 			creatureSpawner.update(true);
 
-			Translation.UPDATED_SPAWN_TYPE.send(player, "entity_type", ChatUtil.capitalizeFully(selected));
+			Common.tell(player, TranslationManager.string(Translations.UPDATED_SPAWN_TYPE, "entity_type", ChatUtil.capitalizeFully(selected)));
 			player.closeInventory();
 
 			if (spawner != null) {

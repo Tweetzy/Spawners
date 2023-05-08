@@ -18,12 +18,14 @@
 package ca.tweetzy.spawners.listeners;
 
 import ca.tweetzy.flight.comp.enums.CompMaterial;
+import ca.tweetzy.flight.settings.TranslationManager;
 import ca.tweetzy.flight.utils.ChatUtil;
+import ca.tweetzy.flight.utils.Common;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.spawner.Spawner;
 import ca.tweetzy.spawners.api.spawner.SpawnerUser;
 import ca.tweetzy.spawners.settings.Settings;
-import ca.tweetzy.spawners.settings.Translation;
+import ca.tweetzy.spawners.settings.Translations;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -69,7 +71,7 @@ public final class EggListeners implements Listener {
 		final EntityType entityType = EntityType.valueOf(hand.getType().name().replace("_SPAWN_EGG", ""));
 
 		if (!spawnerUser.isAllowedToThrowSpawnEgg(player, entityType)) {
-			Translation.NOT_ALLOWED_TO_THROW_EGG.send(player, "entity_type", ChatUtil.capitalizeFully(entityType));
+			Common.tell(player, TranslationManager.string(Translations.NOT_ALLOWED_TO_THROW_EGG, "entity_type", ChatUtil.capitalizeFully(entityType)));
 			return;
 		}
 
@@ -133,14 +135,14 @@ public final class EggListeners implements Listener {
 		final Spawner spawner = Spawners.getSpawnerManager().find(block.getLocation());
 
 		if (spawner != null && !spawner.getOwner().equals(player.getUniqueId())) {
-			Translation.SPAWNER_NOT_OWNER_CHANGE_WITH_EGG.send(player, "owner_name", spawner.getOwnerName());
+			Common.tell(player, TranslationManager.string(Translations.SPAWNER_NOT_OWNER_CHANGE_WITH_EGG, "owner_name", spawner.getOwnerName()));
 			event.setUseItemInHand(Event.Result.DENY);
 			event.setCancelled(true);
 			return;
 		}
 
 		if (!spawnerUser.isAllowedToChangeWithEgg(player, entityType)) {
-			Translation.SPAWNER_CANNOT_CHANGE_WITH_EGG.send(player, "entity_type", ChatUtil.capitalizeFully(entityType));
+			Common.tell(player, TranslationManager.string(Translations.SPAWNER_CANNOT_CHANGE_WITH_EGG, "entity_type", ChatUtil.capitalizeFully(entityType)));
 			return;
 		}
 

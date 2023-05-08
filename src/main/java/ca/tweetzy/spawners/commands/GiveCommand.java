@@ -20,10 +20,12 @@ package ca.tweetzy.spawners.commands;
 import ca.tweetzy.flight.command.AllowedExecutor;
 import ca.tweetzy.flight.command.Command;
 import ca.tweetzy.flight.command.ReturnType;
+import ca.tweetzy.flight.settings.TranslationManager;
+import ca.tweetzy.flight.utils.Common;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.spawner.Preset;
 import ca.tweetzy.spawners.model.SpawnerBuilder;
-import ca.tweetzy.spawners.settings.Translation;
+import ca.tweetzy.spawners.settings.Translations;
 import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -58,7 +60,7 @@ public final class GiveCommand extends Command {
 
 		if (!isGivingAll)
 			if (target == null) {
-				Translation.PLAYER_OFFLINE.send(sender, "player", args[0]);
+				Common.tell(sender, TranslationManager.string(Translations.PLAYER_OFFLINE, "player", args[0]));
 				return ReturnType.FAIL;
 			}
 

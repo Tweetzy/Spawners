@@ -18,10 +18,11 @@
 package ca.tweetzy.spawners.model;
 
 import ca.tweetzy.flight.gui.Gui;
+import ca.tweetzy.flight.settings.TranslationManager;
 import ca.tweetzy.flight.utils.Common;
 import ca.tweetzy.flight.utils.input.TitleInput;
 import ca.tweetzy.spawners.Spawners;
-import ca.tweetzy.spawners.settings.Translation;
+import ca.tweetzy.spawners.settings.Translations;
 import lombok.NonNull;
 import lombok.experimental.UtilityClass;
 import org.apache.commons.lang.math.NumberUtils;
@@ -80,7 +81,7 @@ public final class UserInput {
 			@Override
 			public boolean onResult(String string) {
 				if (!NumberUtils.isNumber(ChatColor.stripColor(string))) {
-					Translation.NOT_A_NUMBER.send(player);
+					Common.tell(player, TranslationManager.string(Translations.NOT_A_NUMBER));
 					return false;
 				}
 
@@ -108,7 +109,7 @@ public final class UserInput {
 			@Override
 			public boolean onResult(String string) {
 				if (!NumberUtils.isNumber(ChatColor.stripColor(string))) {
-					Translation.NOT_A_NUMBER.send(player);
+					Common.tell(player, TranslationManager.string(Translations.NOT_A_NUMBER));
 					return false;
 				}
 

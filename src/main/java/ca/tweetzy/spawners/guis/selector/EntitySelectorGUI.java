@@ -23,11 +23,12 @@ import ca.tweetzy.flight.gui.Gui;
 import ca.tweetzy.flight.gui.events.GuiClickEvent;
 import ca.tweetzy.flight.gui.helper.InventoryBorder;
 import ca.tweetzy.flight.gui.template.PagedGUI;
+import ca.tweetzy.flight.settings.TranslationManager;
 import ca.tweetzy.flight.utils.ChatUtil;
 import ca.tweetzy.flight.utils.QuickItem;
 import ca.tweetzy.spawners.api.MobBehaviour;
 import ca.tweetzy.spawners.api.SpawnerMob;
-import ca.tweetzy.spawners.settings.Translation;
+import ca.tweetzy.spawners.settings.Translations;
 import lombok.NonNull;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
@@ -51,7 +52,7 @@ public final class EntitySelectorGUI extends PagedGUI<SpawnerMob> {
 	private final EntityViewMode entityViewMode;
 
 	public EntitySelectorGUI(Gui parent, @NonNull final EntityViewMode entityViewMode, @NonNull final Consumer<EntityType> selected) {
-		super(parent, Translation.GUI_ENTITY_SELECTOR_TITLE.getString(), 6,
+		super(parent, TranslationManager.string(Translations.GUI_ENTITY_SELECTOR_TITLE), 6,
 				entityViewMode == EntityViewMode.ALL ?
 						Arrays.stream(SpawnerMob.values()).sorted(Comparator.comparing(SpawnerMob::getMobName)).collect(Collectors.toList())
 						:
@@ -68,8 +69,8 @@ public final class EntitySelectorGUI extends PagedGUI<SpawnerMob> {
 	protected ItemStack makeDisplayItem(SpawnerMob spawnerMob) {
 		return QuickItem
 				.of(NBTEditor.getHead(spawnerMob.getHeadTexture()))
-				.name(Translation.GUI_ENTITY_SELECTOR_ITEMS_ENTITY_NAME.getString("entity_name", spawnerMob.getMobName()))
-				.lore(Translation.GUI_ENTITY_SELECTOR_ITEMS_ENTITY_LORE.getList())
+				.name(TranslationManager.string(Translations.GUI_ENTITY_SELECTOR_ITEMS_ENTITY_NAME, "entity_name", spawnerMob.getMobName()))
+				.lore(TranslationManager.list(Translations.GUI_ENTITY_SELECTOR_ITEMS_ENTITY_LORE))
 				.make();
 	}
 
@@ -81,8 +82,8 @@ public final class EntitySelectorGUI extends PagedGUI<SpawnerMob> {
 	@Override
 	protected void drawAdditional() {
 		setButton(5, 4, QuickItem.of(CompMaterial.REPEATER)
-				.name(Translation.GUI_ENTITY_SELECTOR_ITEMS_MODE_NAME.getString())
-				.lore(Translation.GUI_ENTITY_SELECTOR_ITEMS_MODE_LORE.getList("entity_behaviour", ChatUtil.capitalizeFully(this.entityViewMode)))
+				.name(TranslationManager.string(Translations.GUI_ENTITY_SELECTOR_ITEMS_MODE_NAME))
+				.lore(TranslationManager.list(Translations.GUI_ENTITY_SELECTOR_ITEMS_MODE_LORE, "entity_behaviour", ChatUtil.capitalizeFully(this.entityViewMode)))
 				.make(), click -> click.manager.showGUI(click.player, new EntitySelectorGUI(this.parent, this.entityViewMode.next(), this.selected)));
 	}
 
@@ -93,12 +94,12 @@ public final class EntitySelectorGUI extends PagedGUI<SpawnerMob> {
 
 	@Override
 	protected ItemStack getPreviousButton() {
-		return QuickItem.of(CompMaterial.ARROW, Translation.MISC_PREV_PAGE.getString()).make();
+		return QuickItem.of(CompMaterial.ARROW, TranslationManager.string(Translations.MISC_PREV_PAGE)).make();
 	}
 
 	@Override
 	protected ItemStack getNextButton() {
-		return QuickItem.of(CompMaterial.ARROW, Translation.MISC_NEXT_PAGE.getString()).make();
+		return QuickItem.of(CompMaterial.ARROW, TranslationManager.string(Translations.MISC_NEXT_PAGE)).make();
 	}
 
 	public enum EntityViewMode {

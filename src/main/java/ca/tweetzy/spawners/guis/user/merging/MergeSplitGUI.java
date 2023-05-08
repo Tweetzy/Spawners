@@ -19,11 +19,12 @@ package ca.tweetzy.spawners.guis.user.merging;
 
 import ca.tweetzy.flight.comp.enums.CompMaterial;
 import ca.tweetzy.flight.gui.template.BaseGUI;
+import ca.tweetzy.flight.settings.TranslationManager;
 import ca.tweetzy.flight.utils.QuickItem;
 import ca.tweetzy.spawners.api.spawner.Spawner;
 import ca.tweetzy.spawners.guis.user.SpawnerOverviewGUI;
 import ca.tweetzy.spawners.settings.Settings;
-import ca.tweetzy.spawners.settings.Translation;
+import ca.tweetzy.spawners.settings.Translations;
 import lombok.NonNull;
 
 public final class MergeSplitGUI extends BaseGUI {
@@ -32,7 +33,7 @@ public final class MergeSplitGUI extends BaseGUI {
 	private final boolean canUpgrade;
 
 	public MergeSplitGUI(@NonNull final Spawner spawner, final boolean canUpgrade) {
-		super(new SpawnerOverviewGUI(spawner, canUpgrade), Translation.GUI_SPAWNER_MERGE_OR_SPLIT_TITLE.getString(), Settings.GUI_MERGE_OR_SPLIT_ROWS.getInt());
+		super(new SpawnerOverviewGUI(spawner, canUpgrade), TranslationManager.string(Translations.GUI_SPAWNER_MERGE_OR_SPLIT_TITLE), Settings.GUI_MERGE_OR_SPLIT_ROWS.getInt());
 		this.spawner = spawner;
 		this.canUpgrade = canUpgrade;
 
@@ -46,14 +47,14 @@ public final class MergeSplitGUI extends BaseGUI {
 
 		setButton(1, 2, QuickItem
 				.of(CompMaterial.SHULKER_BOX)
-				.name(Translation.GUI_SPAWNER_MERGE_OR_SPLIT_ITEMS_MERGE_NAME.getString())
-				.lore(Translation.GUI_SPAWNER_MERGE_OR_SPLIT_ITEMS_MERGE_LORE.getList())
+				.name(TranslationManager.string(Translations.GUI_SPAWNER_MERGE_OR_SPLIT_ITEMS_MERGE_NAME))
+				.lore(TranslationManager.list(Translations.GUI_SPAWNER_MERGE_OR_SPLIT_ITEMS_MERGE_LORE))
 				.make(), click -> click.manager.showGUI(click.player, new SpawnerMergeGUI(this.spawner, this.canUpgrade)));
 
 		setButton(1, 6, QuickItem
 				.of(CompMaterial.PRISMARINE_SHARD)
-				.name(Translation.GUI_SPAWNER_MERGE_OR_SPLIT_ITEMS_SPLIT_NAME.getString())
-				.lore(Translation.GUI_SPAWNER_MERGE_OR_SPLIT_ITEMS_SPLIT_LORE.getList())
+				.name(TranslationManager.string(Translations.GUI_SPAWNER_MERGE_OR_SPLIT_ITEMS_SPLIT_NAME))
+				.lore(TranslationManager.list(Translations.GUI_SPAWNER_MERGE_OR_SPLIT_ITEMS_SPLIT_LORE))
 				.make(), click -> click.manager.showGUI(click.player, new SpawnerSplitGUI(this.spawner, this.canUpgrade)));
 	}
 }

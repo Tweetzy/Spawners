@@ -22,6 +22,7 @@ import ca.tweetzy.flight.gui.Gui;
 import ca.tweetzy.flight.gui.events.GuiClickEvent;
 import ca.tweetzy.flight.gui.helper.InventoryBorder;
 import ca.tweetzy.flight.gui.template.PagedGUI;
+import ca.tweetzy.flight.settings.TranslationManager;
 import ca.tweetzy.flight.utils.ChatUtil;
 import ca.tweetzy.flight.utils.QuickItem;
 import ca.tweetzy.flight.utils.Replacer;
@@ -29,7 +30,7 @@ import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.LevelOption;
 import ca.tweetzy.spawners.api.spawner.Level;
 import ca.tweetzy.spawners.api.spawner.Preset;
-import ca.tweetzy.spawners.settings.Translation;
+import ca.tweetzy.spawners.settings.Translations;
 import lombok.NonNull;
 import org.bukkit.inventory.ItemStack;
 
@@ -61,31 +62,7 @@ public final class PresetSelectorGUI extends PagedGUI<Preset> {
 		final Level activationRangeLevel = preset.getLevels().get(LevelOption.ACTIVATION_RANGE);
 
 
-		return QuickItem.of(CompMaterial.PAPER)
-				.name(Replacer.replaceVariables("<GRADIENT:fc67fa>&l%preset%</GRADIENT:f4c4f3>", "preset", preset.getId()))
-				.lore(Replacer.replaceVariables(Arrays.asList(
-								"",
-								"&7Entity Type&f: &e%entity_type%",
-								"",
-								"&e&lLevels",
-								"    &7Spawn Delay&f: &a%spawn_delay_level% &f(&e%spawn_delay%&as&f)",
-								"    &7Spawn Count&f: &a%spawn_count_level% &f(&e%spawn_count%&f)",
-								"    &7Max Nearby Mobs&f: &a%max_nearby_entities_level% &f(&e%max_nearby_entities%&f)",
-								"    &7Activation Range&f: &a%activation_range_level% &f(&e%activation_range%&f)",
-								"",
-								"&e&lLeft Click &8» &7To edit preset",
-								"&c&lPress 1 &8» &7To delete preset"
-						),
-						"entity_type", ChatUtil.capitalizeFully(preset.getEntityType()),
-						"spawn_delay_level", delayLevel.getLevelNumber(),
-						"spawn_count_level", spawnCountLevel.getLevelNumber(),
-						"max_nearby_entities_level", maxNearbyLevel.getLevelNumber(),
-						"activation_range_level", activationRangeLevel.getLevelNumber(),
-						"spawn_delay", String.format(String.valueOf(delayLevel.getValue() / 20), "%,.2f"),
-						"spawn_count", spawnCountLevel.getValue(),
-						"max_nearby_entities", maxNearbyLevel.getValue(),
-						"activation_range", activationRangeLevel.getValue()
-				)).make();
+		return QuickItem.of(CompMaterial.PAPER).name(Replacer.replaceVariables("<GRADIENT:fc67fa>&l%preset%</GRADIENT:f4c4f3>", "preset", preset.getId())).lore(Replacer.replaceVariables(Arrays.asList("", "&7Entity Type&f: &e%entity_type%", "", "&e&lLevels", "    &7Spawn Delay&f: &a%spawn_delay_level% &f(&e%spawn_delay%&as&f)", "    &7Spawn Count&f: &a%spawn_count_level% &f(&e%spawn_count%&f)", "    &7Max Nearby Mobs&f: &a%max_nearby_entities_level% &f(&e%max_nearby_entities%&f)", "    &7Activation Range&f: &a%activation_range_level% &f(&e%activation_range%&f)", "", "&e&lLeft Click &8» &7To edit preset", "&c&lPress 1 &8» &7To delete preset"), "entity_type", ChatUtil.capitalizeFully(preset.getEntityType()), "spawn_delay_level", delayLevel.getLevelNumber(), "spawn_count_level", spawnCountLevel.getLevelNumber(), "max_nearby_entities_level", maxNearbyLevel.getLevelNumber(), "activation_range_level", activationRangeLevel.getLevelNumber(), "spawn_delay", String.format(String.valueOf(delayLevel.getValue() / 20), "%,.2f"), "spawn_count", spawnCountLevel.getValue(), "max_nearby_entities", maxNearbyLevel.getValue(), "activation_range", activationRangeLevel.getValue())).make();
 	}
 
 	@Override
@@ -99,11 +76,11 @@ public final class PresetSelectorGUI extends PagedGUI<Preset> {
 
 	@Override
 	protected ItemStack getPreviousButton() {
-		return QuickItem.of(CompMaterial.ARROW, Translation.MISC_PREV_PAGE.getString()).make();
+		return QuickItem.of(CompMaterial.ARROW, TranslationManager.string(Translations.MISC_PREV_PAGE)).make();
 	}
 
 	@Override
 	protected ItemStack getNextButton() {
-		return QuickItem.of(CompMaterial.ARROW, Translation.MISC_NEXT_PAGE.getString()).make();
+		return QuickItem.of(CompMaterial.ARROW, TranslationManager.string(Translations.MISC_NEXT_PAGE)).make();
 	}
 }

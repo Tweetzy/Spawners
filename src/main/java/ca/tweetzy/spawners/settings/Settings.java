@@ -21,6 +21,7 @@ import ca.tweetzy.flight.comp.enums.CompMaterial;
 import ca.tweetzy.flight.config.ConfigEntry;
 import ca.tweetzy.flight.config.tweetzy.TweetzyYamlConfig;
 import ca.tweetzy.flight.gui.helper.InventoryBorder;
+import ca.tweetzy.flight.settings.FlightSettings;
 import ca.tweetzy.spawners.Spawners;
 import lombok.SneakyThrows;
 import org.bukkit.entity.EntityType;
@@ -33,12 +34,12 @@ import java.util.List;
  *
  * @author Kiran Hart
  */
-public final class Settings {
+public final class Settings extends FlightSettings {
 
 	static final TweetzyYamlConfig config = Spawners.getCoreConfig();
 
 	public static final ConfigEntry PREFIX = config.createEntry("prefix", "<GRADIENT:fc67fa>&LSpawners</GRADIENT:f4c4f3> &8»").withComment("The global prefix for the plugin");
-	public static final ConfigEntry LANGUAGE = config.createEntry("language", "english").withComment("The default language for the plugin");
+	public static final ConfigEntry LANGUAGE = config.createEntry("language", "en_us").withComment("The default language for the plugin");
 
 	public static final ConfigEntry UPGRADE_CURRENCY = config.createEntry("currency.upgrade", "vault").withComment("If you are using something like UltraEconomy you can use 'UltraEconomy:theCurrencyName' instead");
 	public static final ConfigEntry UPGRADE_SPAWNER_SHOP = config.createEntry("currency.spawner shop", "vault").withComment("If you are using something like UltraEconomy you can use 'UltraEconomy:theCurrencyName' instead");
@@ -86,7 +87,7 @@ public final class Settings {
 	public static final ConfigEntry GUI_PLAYER_SELECT_FILL_SLOTS = config.createEntry("gui.player select.fill slots", InventoryBorder.getInsideBorders(5)).withComment("The slots in which player heads will be placed into");
 	public static final ConfigEntry GUI_PLAYER_SELECT_FILL_DECORATION = config.createEntry("gui.player select.decoration", List.of("0:BLACK_STAINED_GLASS_PANE")).withComment("Option Decoration items (slot:material_name)");
 
-	public static final ConfigEntry GUI_MAIN_ROWS = config.createEntry("gui.main.rows", 6).withComment("The size (rows, min = 2, max = 6) of the main player gui");
+	public static final ConfigEntry GUI_MAIN_ROWS = config.createEntry("gui.main.rows", 3).withComment("The size (rows, min = 2, max = 6) of the main player gui");
 	public static final ConfigEntry GUI_MAIN_BG = config.createEntry("gui.main.background", CompMaterial.BLACK_STAINED_GLASS_PANE.name()).withComment("The default background material");
 	public static final ConfigEntry GUI_MAIN_FILL_DECORATION = config.createEntry("gui.main.decoration", List.of("0:BLACK_STAINED_GLASS_PANE")).withComment("Option Decoration items (slot:material_name)");
 
@@ -263,7 +264,7 @@ public final class Settings {
 	public static final ConfigEntry MOB_CHANGE_TADPOLE_COST = config.createEntry("mob change.tadpole.cost", 5000D).withComment("The cost to switch the spawner to a Tadpole");
 
 	public static final ConfigEntry MOB_CHANGE_WARDEN_ENABLED = config.createEntry("mob change.warden.enabled", true).withComment("Should players be able to set their spawner to a Warden");
-	public static final ConfigEntry MOB_CHANGE_WARDEN_COST = config.createEntry("mob change.warden.cost", 5000D).withComment("The cost to switch the spawner to a Warden");
+	public static final ConfigEntry MOB_CHANGE_WARDEN_COST = create("mob change.warden.cost", 5000D).withComment("The cost to switch the spawner to a Warden");
 
 	@SneakyThrows
 	public static void setup() {

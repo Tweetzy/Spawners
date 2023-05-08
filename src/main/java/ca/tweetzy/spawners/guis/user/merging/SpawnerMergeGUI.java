@@ -20,6 +20,7 @@ package ca.tweetzy.spawners.guis.user.merging;
 import ca.tweetzy.flight.comp.NBTEditor;
 import ca.tweetzy.flight.comp.enums.CompMaterial;
 import ca.tweetzy.flight.gui.template.BaseGUI;
+import ca.tweetzy.flight.settings.TranslationManager;
 import ca.tweetzy.flight.utils.QuickItem;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.LevelOption;
@@ -28,7 +29,7 @@ import ca.tweetzy.spawners.api.spawner.Spawner;
 import ca.tweetzy.spawners.guis.user.SpawnerOverviewGUI;
 import ca.tweetzy.spawners.impl.PlacedSpawner;
 import ca.tweetzy.spawners.model.SpawnerBuilder;
-import ca.tweetzy.spawners.settings.Translation;
+import ca.tweetzy.spawners.settings.Translations;
 import lombok.NonNull;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.EntityType;
@@ -48,7 +49,7 @@ public final class SpawnerMergeGUI extends BaseGUI {
 	private BukkitTask spawnerChecker;
 
 	public SpawnerMergeGUI(@NonNull final Spawner spawner, final boolean canUpgrade) {
-		super(new SpawnerOverviewGUI(spawner, canUpgrade), Translation.GUI_SPAWNER_MERGE_TITLE.getString());
+		super(new SpawnerOverviewGUI(spawner, canUpgrade), TranslationManager.string(Translations.GUI_SPAWNER_MERGE_TITLE));
 		this.spawner = spawner;
 		this.canUpgrade = canUpgrade;
 
@@ -82,8 +83,8 @@ public final class SpawnerMergeGUI extends BaseGUI {
 		});
 
 		setButton(getRows() - 1, 4, QuickItem.of(CompMaterial.LIME_DYE)
-				.name(Translation.GUI_SPAWNER_MERGE_ITEMS_CONFIRM_BTN_NAME.getString())
-				.lore(Translation.GUI_SPAWNER_MERGE_ITEMS_CONFIRM_BTN_LORE.getList())
+				.name(TranslationManager.string(Translations.GUI_SPAWNER_MERGE_ITEMS_CONFIRM_BTN_NAME))
+				.lore(TranslationManager.list(Translations.GUI_SPAWNER_MERGE_ITEMS_CONFIRM_BTN_LORE))
 				.make(), e -> {
 
 			if (!this.spawner.isMaxedOut())
@@ -95,25 +96,25 @@ public final class SpawnerMergeGUI extends BaseGUI {
 		final ItemStack spawnerToMerge = getItem(22);
 
 		CompMaterial ringColour = CompMaterial.WHITE_STAINED_GLASS_PANE;
-		String ringStatusName = Translation.GUI_SPAWNER_MERGE_ITEMS_RING_STATUS_WAIT.getString();
+		String ringStatusName = TranslationManager.string(Translations.GUI_SPAWNER_MERGE_ITEMS_RING_STATUS_WAIT);
 		this.isValidSpawner = false;
 
 		if (spawnerToMerge != null) {
 
 			ringColour = CompMaterial.LIME_STAINED_GLASS_PANE;
-			ringStatusName = Translation.GUI_SPAWNER_MERGE_ITEMS_RING_STATUS_READY.getString();
+			ringStatusName = TranslationManager.string(Translations.GUI_SPAWNER_MERGE_ITEMS_RING_STATUS_READY);
 			this.isValidSpawner = true;
 
 			if (!NBTEditor.contains(spawnerToMerge, "Spawners:entity")) {
 				ringColour = CompMaterial.RED_STAINED_GLASS_PANE;
-				ringStatusName = Translation.GUI_SPAWNER_MERGE_ITEMS_RING_STATUS_INVALID.getString();
+				ringStatusName = TranslationManager.string(Translations.GUI_SPAWNER_MERGE_ITEMS_RING_STATUS_INVALID);
 				this.isValidSpawner = false;
 			} else {
 				final EntityType entityType = EntityType.valueOf(NBTEditor.getString(spawnerToMerge, "Spawners:entity").toUpperCase());
 
 				if (this.spawner.getEntityType() != entityType) {
 					ringColour = CompMaterial.RED_STAINED_GLASS_PANE;
-					ringStatusName = Translation.GUI_SPAWNER_MERGE_ITEMS_RING_STATUS_INVALID.getString();
+					ringStatusName = TranslationManager.string(Translations.GUI_SPAWNER_MERGE_ITEMS_RING_STATUS_INVALID);
 					this.isValidSpawner = false;
 				}
 			}
@@ -121,7 +122,7 @@ public final class SpawnerMergeGUI extends BaseGUI {
 
 		if (this.spawner.isMaxedOut()) {
 			ringColour = CompMaterial.RED_STAINED_GLASS_PANE;
-			ringStatusName = Translation.GUI_SPAWNER_MERGE_ITEMS_RING_STATUS_MAX.getString();
+			ringStatusName = TranslationManager.string(Translations.GUI_SPAWNER_MERGE_ITEMS_RING_STATUS_MAX);
 		}
 
 		for (int i : statusSlots)
@@ -160,7 +161,7 @@ public final class SpawnerMergeGUI extends BaseGUI {
 		final Level maxNearbyLevel = Spawners.getLevelManager().find(LevelOption.MAX_NEARBY_ENTITIES, Integer.parseInt(NBTEditor.getString(itemStack, "Spawners:maxNearby")));
 		final Level activationRangeLevel = Spawners.getLevelManager().find(LevelOption.ACTIVATION_RANGE, Integer.parseInt(NBTEditor.getString(itemStack, "Spawners:activationRange")));
 
-		return new PlacedSpawner(SpawnerBuilder.NULL_UUID, SpawnerBuilder.NULL_UUID, Translation.SPAWNER_NO_OWNER.getString(), entityType, new HashMap<>() {{
+		return new PlacedSpawner(SpawnerBuilder.NULL_UUID, SpawnerBuilder.NULL_UUID, TranslationManager.string(Translations.SPAWNER_NO_OWNER), entityType, new HashMap<>() {{
 			put(LevelOption.SPAWN_INTERVAL, delayLevel);
 			put(LevelOption.SPAWN_COUNT, spawnCountLevel);
 			put(LevelOption.MAX_NEARBY_ENTITIES, maxNearbyLevel);

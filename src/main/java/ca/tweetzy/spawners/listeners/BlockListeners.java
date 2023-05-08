@@ -19,7 +19,9 @@ package ca.tweetzy.spawners.listeners;
 
 import ca.tweetzy.flight.comp.NBTEditor;
 import ca.tweetzy.flight.comp.enums.CompMaterial;
+import ca.tweetzy.flight.settings.TranslationManager;
 import ca.tweetzy.flight.utils.ChatUtil;
+import ca.tweetzy.flight.utils.Common;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.LevelOption;
 import ca.tweetzy.spawners.api.spawner.Level;
@@ -28,7 +30,7 @@ import ca.tweetzy.spawners.api.spawner.SpawnerUser;
 import ca.tweetzy.spawners.impl.PlacedSpawner;
 import ca.tweetzy.spawners.model.SpawnerBuilder;
 import ca.tweetzy.spawners.settings.Settings;
-import ca.tweetzy.spawners.settings.Translation;
+import ca.tweetzy.spawners.settings.Translations;
 import lombok.NonNull;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
@@ -76,7 +78,7 @@ public final class BlockListeners implements Listener {
 		if (uuid.equals(SpawnerBuilder.NULL_UUID)) {
 
 			if (!spawnerUser.isAllowedToPlaceSpawners(player)) {
-				Translation.SPAWNER_PLACE_LIMIT_REACHED.send(player);
+				Common.tell(player, TranslationManager.string(Translations.SPAWNER_PLACE_LIMIT_REACHED));
 				event.setCancelled(true);
 				return;
 			}
@@ -126,13 +128,13 @@ public final class BlockListeners implements Listener {
 		final boolean noOwner = owner.equals(SpawnerBuilder.NULL_UUID);
 
 		if (!noOwner && !Settings.ALLOW_NON_OWNER_PLACE.getBoolean() && !owner.equals(player.getUniqueId())) {
-			Translation.SPAWNER_NOT_OWNER_PLACE.send(player, "owner_name", ownerName);
+			Common.tell(player, TranslationManager.string(Translations.SPAWNER_NOT_OWNER_PLACE, "owner_name", ownerName));
 			event.setCancelled(true);
 			return;
 		}
 
 		if (!spawnerUser.isAllowedToPlaceSpawners(player)) {
-			Translation.SPAWNER_PLACE_LIMIT_REACHED.send(player);
+			Common.tell(player, TranslationManager.string(Translations.SPAWNER_PLACE_LIMIT_REACHED));
 			event.setCancelled(true);
 			return;
 		}
@@ -218,7 +220,7 @@ public final class BlockListeners implements Listener {
 
 			// check owner
 			if (!player.getUniqueId().equals(spawner.getOwner()) && !Settings.ALLOW_NON_OWNER_BREAK.getBoolean()) {
-				Translation.SPAWNER_NOT_OWNER_BREAK.send(player, "owner_name", spawner.getOwnerName());
+				Common.tell(player, TranslationManager.string(Translations.SPAWNER_NOT_OWNER_BREAK, "owner_name", spawner.getOwnerName()));
 				event.setCancelled(true);
 				return;
 			}
@@ -352,7 +354,7 @@ public final class BlockListeners implements Listener {
 
 	private boolean handleChunkLimit(@NonNull final BlockPlaceEvent event) {
 		if (Settings.MAX_SPAWNER_PER_CHUNK_ENABLED.getBoolean() && !Spawners.getSpawnerManager().canPlaceSpawnerInChunk(event.getBlock().getChunk())) {
-			Translation.SPAWNER_CHUNK_LIMIT_REACHED.send(event.getPlayer());
+			Common.tell(event.getPlayer(), TranslationManager.string(Translations.SPAWNER_CHUNK_LIMIT_REACHED));
 			event.setCancelled(true);
 			return false;
 		}
@@ -361,7 +363,7 @@ public final class BlockListeners implements Listener {
 
 	private boolean handleEntityBreakPerm(@NonNull final SpawnerUser spawnerUser, @NonNull final Player player, @NonNull final EntityType entityType) {
 		if (!spawnerUser.isAllowedToMineEntity(player, entityType)) {
-			Translation.SPAWNER_CANNOT_BREAK_ENTITY.send(player, "entity_type", ChatUtil.capitalizeFully(entityType));
+			Common.tell(player, TranslationManager.string(Translations.SPAWNER_CANNOT_BREAK_ENTITY, "entity_type", ChatUtil.capitalizeFully(entityType)));
 			return false;
 		}
 		return true;
@@ -369,7 +371,7 @@ public final class BlockListeners implements Listener {
 
 	private boolean handleEntityPlacePerm(@NonNull final SpawnerUser spawnerUser, @NonNull final Player player, @NonNull final EntityType entityType) {
 		if (!spawnerUser.isAllowedToPlaceEntity(player, entityType)) {
-			Translation.SPAWNER_CANNOT_PLACE_ENTITY.send(player, "entity_type", ChatUtil.capitalizeFully(entityType));
+			Common.tell(player, TranslationManager.string(Translations.SPAWNER_CANNOT_PLACE_ENTITY, "entity_type", ChatUtil.capitalizeFully(entityType)));
 			return false;
 		}
 		return true;
@@ -379,12 +381,12 @@ public final class BlockListeners implements Listener {
 		final ItemStack stack = player.getInventory().getItemInMainHand();
 
 		if (stack.getType() == CompMaterial.AIR.parseMaterial()) {
-			Translation.SPAWNER_REQUIRE_PICKAXE.send(player);
+			Common.tell(player, TranslationManager.string(Translations.SPAWNER_REQUIRE_PICKAXE));
 			return false;
 		}
 
 		if (!stack.getType().name().endsWith("_PICKAXE")) {
-			Translation.SPAWNER_REQUIRE_PICKAXE.send(player);
+			Common.tell(player, TranslationManager.string(Translations.SPAWNER_REQUIRE_PICKAXE));
 			return false;
 		}
 
@@ -393,7 +395,7 @@ public final class BlockListeners implements Listener {
 				return true;
 
 			if (!stack.containsEnchantment(Enchantment.SILK_TOUCH)) {
-				Translation.SPAWNER_REQUIRE_SILK.send(player);
+				Common.tell(player, TranslationManager.string(Translations.SPAWNER_REQUIRE_SILK));
 				return false;
 			}
 		}

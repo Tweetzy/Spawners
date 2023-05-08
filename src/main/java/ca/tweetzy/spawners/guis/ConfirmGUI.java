@@ -20,8 +20,9 @@ package ca.tweetzy.spawners.guis;
 import ca.tweetzy.flight.comp.enums.CompMaterial;
 import ca.tweetzy.flight.gui.Gui;
 import ca.tweetzy.flight.gui.template.BaseGUI;
+import ca.tweetzy.flight.settings.TranslationManager;
 import ca.tweetzy.flight.utils.QuickItem;
-import ca.tweetzy.spawners.settings.Translation;
+import ca.tweetzy.spawners.settings.Translations;
 import lombok.NonNull;
 
 import java.util.function.Consumer;
@@ -37,7 +38,7 @@ public final class ConfirmGUI extends BaseGUI {
 	private final Consumer<Boolean> confirmed;
 
 	public ConfirmGUI(Gui parent, @NonNull final Consumer<Boolean> confirmed) {
-		super(parent, Translation.GUI_CONFIRM_TITLE.getString(), 3);
+		super(parent, TranslationManager.string(Translations.GUI_CONFIRM_TITLE), 3);
 		this.confirmed = confirmed;
 		draw();
 	}
@@ -46,10 +47,10 @@ public final class ConfirmGUI extends BaseGUI {
 	protected void draw() {
 
 		for (int i = 10; i < 13; i++)
-			setButton(i, QuickItem.of(CompMaterial.RED_STAINED_GLASS_PANE, Translation.GUI_CONFIRM_ITEMS_CANCEL_NAME.getString()).lore(Translation.GUI_CONFIRM_ITEMS_CANCEL_LORE.getList()).make(), click -> this.confirmed.accept(false));
+			setButton(i, QuickItem.of(CompMaterial.RED_STAINED_GLASS_PANE, TranslationManager.string(Translations.GUI_CONFIRM_ITEMS_CANCEL_NAME)).lore(TranslationManager.list(Translations.GUI_CONFIRM_ITEMS_CANCEL_LORE)).make(), click -> this.confirmed.accept(false));
 
 		for (int i = 14; i < 17; i++)
-			setButton(i, QuickItem.of(CompMaterial.LIME_STAINED_GLASS_PANE, Translation.GUI_CONFIRM_ITEMS_CONFIRM_NAME.getString()).lore(Translation.GUI_CONFIRM_ITEMS_CONFIRM_LORE.getList()).make(), click -> this.confirmed.accept(true));
+			setButton(i, QuickItem.of(CompMaterial.LIME_STAINED_GLASS_PANE, TranslationManager.string(Translations.GUI_CONFIRM_ITEMS_CONFIRM_NAME)).lore(TranslationManager.list(Translations.GUI_CONFIRM_ITEMS_CONFIRM_LORE)).make(), click -> this.confirmed.accept(true));
 
 
 		applyBackExit();

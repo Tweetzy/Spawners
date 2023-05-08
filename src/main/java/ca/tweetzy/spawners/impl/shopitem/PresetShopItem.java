@@ -17,11 +17,13 @@
  */
 package ca.tweetzy.spawners.impl.shopitem;
 
+import ca.tweetzy.flight.settings.TranslationManager;
+import ca.tweetzy.flight.utils.Common;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.spawner.Preset;
 import ca.tweetzy.spawners.api.spawner.ShopItem;
 import ca.tweetzy.spawners.model.SpawnerBuilder;
-import ca.tweetzy.spawners.settings.Translation;
+import ca.tweetzy.spawners.settings.Translations;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import lombok.Getter;
@@ -69,17 +71,17 @@ public final class PresetShopItem extends ShopItem {
 		if (Spawners.getEconomy() == null) return;
 
 		if (!Spawners.getEconomy().has(player, this.price)) {
-			Translation.NOT_ENOUGH_MONEY.send(player);
+			Common.tell(player, TranslationManager.string(Translations.NOT_ENOUGH_MONEY));
 			return;
 		}
 
 		if (player.getInventory().firstEmpty() == -1) {
-			Translation.NO_INVENTORY_SPACE.send(player);
+			Common.tell(player, TranslationManager.string(Translations.NO_INVENTORY_SPACE));
 			return;
 		}
 
 		Spawners.getEconomy().withdrawPlayer(player, this.price);
-		Translation.MONEY_REMOVE.send(player, "amount", String.format("%,.2f", this.price));
+		Common.tell(player, TranslationManager.string(Translations.MONEY_REMOVE, "amount", String.format("%,.2f", this.price)));
 
 		final ItemStack item = SpawnerBuilder.of(player, preset).make();
 

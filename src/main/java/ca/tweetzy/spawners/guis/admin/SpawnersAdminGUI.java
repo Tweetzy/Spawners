@@ -19,6 +19,7 @@ package ca.tweetzy.spawners.guis.admin;
 
 import ca.tweetzy.flight.comp.enums.CompMaterial;
 import ca.tweetzy.flight.gui.template.BaseGUI;
+import ca.tweetzy.flight.settings.TranslationManager;
 import ca.tweetzy.flight.utils.ChatUtil;
 import ca.tweetzy.flight.utils.Common;
 import ca.tweetzy.flight.utils.QuickItem;
@@ -27,7 +28,7 @@ import ca.tweetzy.spawners.guis.admin.levels.LevelOptionSelectGUI;
 import ca.tweetzy.spawners.guis.admin.presets.PresetListGUI;
 import ca.tweetzy.spawners.guis.admin.shop.SpawnerShopAdminGUI;
 import ca.tweetzy.spawners.guis.admin.spawners.SpawnerListAdminGUI;
-import ca.tweetzy.spawners.settings.Translation;
+import ca.tweetzy.spawners.settings.Translations;
 
 /**
  * Date Created: May 04 2022
@@ -38,7 +39,7 @@ import ca.tweetzy.spawners.settings.Translation;
 public final class SpawnersAdminGUI extends BaseGUI {
 
 	public SpawnersAdminGUI() {
-		super(null, Translation.GUI_ADMIN_MAIN_TITLE.getString("plugin_version", Spawners.getInstance().getVersion()), 5);
+		super(null, TranslationManager.string(Translations.GUI_ADMIN_MAIN_TITLE, "plugin_version", Spawners.getInstance().getVersion()), 5);
 		draw();
 	}
 
@@ -46,26 +47,27 @@ public final class SpawnersAdminGUI extends BaseGUI {
 	protected void draw() {
 		setButton(1, 1, QuickItem
 				.of(CompMaterial.TRIPWIRE_HOOK)
-				.name(Translation.GUI_ADMIN_MAIN_ITEMS_LEVELS_NAME.getString())
-				.lore(Translation.GUI_ADMIN_MAIN_ITEMS_LEVELS_LORE.getList())
+				.name(TranslationManager.string(Translations.GUI_ADMIN_MAIN_ITEMS_LEVELS_NAME))
+				.lore(TranslationManager.list(Translations.GUI_ADMIN_MAIN_ITEMS_LEVELS_LORE))
 				.make(), click -> click.manager.showGUI(click.player, new LevelOptionSelectGUI()));
 
 		setButton(1, 4, QuickItem
 				.of(CompMaterial.SPAWNER)
-				.name(Translation.GUI_ADMIN_MAIN_ITEMS_SPAWNERS_NAME.getString())
-				.lore(Translation.GUI_ADMIN_MAIN_ITEMS_SPAWNERS_LORE.getList())
+				.name(TranslationManager.string(Translations.GUI_ADMIN_MAIN_ITEMS_SPAWNERS_NAME))
+				.lore(TranslationManager.list(Translations.GUI_ADMIN_MAIN_ITEMS_SPAWNERS_LORE))
+				.hideTags(true)
 				.make(), click -> click.manager.showGUI(click.player, new SpawnerListAdminGUI()));
 
 		setButton(1, 7, QuickItem
 				.of(CompMaterial.CARTOGRAPHY_TABLE)
-				.name(Translation.GUI_ADMIN_MAIN_ITEMS_PRESETS_NAME.getString())
-				.lore(Translation.GUI_ADMIN_MAIN_ITEMS_PRESETS_LORE.getList())
+				.name(TranslationManager.string(Translations.GUI_ADMIN_MAIN_ITEMS_PRESETS_NAME))
+				.lore(TranslationManager.list(Translations.GUI_ADMIN_MAIN_ITEMS_PRESETS_LORE))
 				.make(), click -> click.manager.showGUI(click.player, new PresetListGUI()));
 
 		setButton(3, 2, QuickItem
 				.of(CompMaterial.GOLD_INGOT)
-				.name(Translation.GUI_ADMIN_MAIN_ITEMS_SHOP_NAME.getString())
-				.lore(Translation.GUI_ADMIN_MAIN_ITEMS_SHOP_LORE.getList())
+				.name(TranslationManager.string(Translations.GUI_ADMIN_MAIN_ITEMS_SHOP_NAME))
+				.lore(TranslationManager.list(Translations.GUI_ADMIN_MAIN_ITEMS_SHOP_LORE))
 				.make(), click -> click.manager.showGUI(click.player, new SpawnerShopAdminGUI()));
 
 		setButton(3, 6, QuickItem.of(CompMaterial.DIAMOND)

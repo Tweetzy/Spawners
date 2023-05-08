@@ -21,7 +21,9 @@ import ca.tweetzy.flight.comp.enums.CompMaterial;
 import ca.tweetzy.flight.gui.events.GuiClickEvent;
 import ca.tweetzy.flight.gui.helper.InventoryBorder;
 import ca.tweetzy.flight.gui.template.PagedGUI;
+import ca.tweetzy.flight.settings.TranslationManager;
 import ca.tweetzy.flight.utils.ChatUtil;
+import ca.tweetzy.flight.utils.Common;
 import ca.tweetzy.flight.utils.QuickItem;
 import ca.tweetzy.flight.utils.Replacer;
 import ca.tweetzy.flight.utils.input.TitleInput;
@@ -32,7 +34,7 @@ import ca.tweetzy.spawners.api.spawner.Preset;
 import ca.tweetzy.spawners.guis.admin.SpawnersAdminGUI;
 import ca.tweetzy.spawners.impl.SpawnerPreset;
 import ca.tweetzy.spawners.settings.Settings;
-import ca.tweetzy.spawners.settings.Translation;
+import ca.tweetzy.spawners.settings.Translations;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -100,7 +102,7 @@ public final class PresetListGUI extends PagedGUI<Preset> {
 				.make(), clickEvent -> {
 
 			if (!Spawners.getLevelManager().optionsHasAtLeastOneOption()) {
-				Translation.NEED_TO_MAKE_LEVELS.send(clickEvent.player);
+				Common.tell(clickEvent.player, TranslationManager.string(Translations.NEED_TO_MAKE_LEVELS));
 				return;
 			}
 
@@ -116,7 +118,7 @@ public final class PresetListGUI extends PagedGUI<Preset> {
 					string = ChatColor.stripColor(string.trim().toLowerCase());
 
 					if (Spawners.getPresetManager().find(string) != null) {
-						Translation.PRESET_ID_TAKEN.send(clickEvent.player, "preset_id", string);
+						Common.tell(clickEvent.player, TranslationManager.string(Translations.PRESET_ID_TAKEN, "preset_id", string));
 						return false;
 					}
 
@@ -158,11 +160,11 @@ public final class PresetListGUI extends PagedGUI<Preset> {
 
 	@Override
 	protected ItemStack getPreviousButton() {
-		return QuickItem.of(CompMaterial.ARROW, Translation.MISC_PREV_PAGE.getString()).make();
+		return QuickItem.of(CompMaterial.ARROW, TranslationManager.string(Translations.MISC_PREV_PAGE)).make();
 	}
 
 	@Override
 	protected ItemStack getNextButton() {
-		return QuickItem.of(CompMaterial.ARROW, Translation.MISC_NEXT_PAGE.getString()).make();
+		return QuickItem.of(CompMaterial.ARROW, TranslationManager.string(Translations.MISC_NEXT_PAGE)).make();
 	}
 }

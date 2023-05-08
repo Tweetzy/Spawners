@@ -19,6 +19,7 @@ package ca.tweetzy.spawners.guis.user.merging;
 
 import ca.tweetzy.flight.comp.enums.CompMaterial;
 import ca.tweetzy.flight.gui.template.BaseGUI;
+import ca.tweetzy.flight.settings.TranslationManager;
 import ca.tweetzy.flight.utils.PlayerUtil;
 import ca.tweetzy.flight.utils.QuickItem;
 import ca.tweetzy.spawners.Spawners;
@@ -27,7 +28,7 @@ import ca.tweetzy.spawners.api.spawner.Level;
 import ca.tweetzy.spawners.api.spawner.Spawner;
 import ca.tweetzy.spawners.guis.user.SpawnerOverviewGUI;
 import ca.tweetzy.spawners.model.SpawnerBuilder;
-import ca.tweetzy.spawners.settings.Translation;
+import ca.tweetzy.spawners.settings.Translations;
 import lombok.NonNull;
 
 import java.util.HashMap;
@@ -41,7 +42,7 @@ public final class SpawnerSplitGUI extends BaseGUI {
 	private final Map<LevelOption, Integer> splitAmount = new HashMap<>();
 
 	public SpawnerSplitGUI(@NonNull final Spawner spawner, final boolean canUpgrade) {
-		super(new MergeSplitGUI(spawner, canUpgrade), Translation.GUI_SPAWNER_SPLIT_TITLE.getString(), 6);
+		super(new MergeSplitGUI(spawner, canUpgrade), TranslationManager.string(Translations.GUI_SPAWNER_SPLIT_TITLE), 6);
 		this.spawner = spawner;
 		this.canUpgrade = canUpgrade;
 
@@ -69,8 +70,8 @@ public final class SpawnerSplitGUI extends BaseGUI {
 
 		setButton(row, 1, QuickItem
 				.of(CompMaterial.RED_STAINED_GLASS_PANE)
-				.name(Translation.GUI_SPAWNER_SPLIT_ITEMS_DECREASE_NAME.getString())
-				.lore(Translation.GUI_SPAWNER_SPLIT_ITEMS_DECREASE_LORE.getList())
+				.name(TranslationManager.string(Translations.GUI_SPAWNER_SPLIT_ITEMS_DECREASE_NAME))
+				.lore(TranslationManager.list(Translations.GUI_SPAWNER_SPLIT_ITEMS_DECREASE_LORE))
 				.make(), click -> {
 
 			if (this.splitAmount.get(option) > 1) {
@@ -80,10 +81,10 @@ public final class SpawnerSplitGUI extends BaseGUI {
 		});
 
 		final String name = switch (option) {
-			case SPAWN_INTERVAL -> Translation.GUI_SPAWNER_SPLIT_ITEMS_DELAY_NAME.getString();
-			case SPAWN_COUNT -> Translation.GUI_SPAWNER_SPLIT_ITEMS_SPAWN_COUNT_NAME.getString();
-			case MAX_NEARBY_ENTITIES -> Translation.GUI_SPAWNER_SPLIT_ITEMS_NEARBY_MOBS_NAME.getString();
-			case ACTIVATION_RANGE -> Translation.GUI_SPAWNER_SPLIT_ITEMS_ACTIVATION_RANGE_NAME.getString();
+			case SPAWN_INTERVAL -> TranslationManager.string(Translations.GUI_SPAWNER_SPLIT_ITEMS_DELAY_NAME);
+			case SPAWN_COUNT -> TranslationManager.string(Translations.GUI_SPAWNER_SPLIT_ITEMS_SPAWN_COUNT_NAME);
+			case MAX_NEARBY_ENTITIES -> TranslationManager.string(Translations.GUI_SPAWNER_SPLIT_ITEMS_NEARBY_MOBS_NAME);
+			case ACTIVATION_RANGE -> TranslationManager.string(Translations.GUI_SPAWNER_SPLIT_ITEMS_ACTIVATION_RANGE_NAME);
 		};
 
 		final CompMaterial material = switch (option) {
@@ -98,20 +99,20 @@ public final class SpawnerSplitGUI extends BaseGUI {
 				.name(name)
 				.lore(switch (option) {
 					case SPAWN_INTERVAL ->
-							Translation.GUI_SPAWNER_SPLIT_ITEMS_DELAY_LORE.getList("current_split_amount", this.splitAmount.get(option), "available_split_amount", this.spawner.getLevels().get(option).getLevelNumber() - 1 - this.splitAmount.get(option));
+							TranslationManager.string(Translations.GUI_SPAWNER_SPLIT_ITEMS_DELAY_LORE, "current_split_amount", this.splitAmount.get(option), "available_split_amount", this.spawner.getLevels().get(option).getLevelNumber() - 1 - this.splitAmount.get(option));
 					case SPAWN_COUNT ->
-							Translation.GUI_SPAWNER_SPLIT_ITEMS_SPAWN_COUNT_LORE.getList("current_split_amount", this.splitAmount.get(option), "available_split_amount", this.spawner.getLevels().get(option).getLevelNumber() - 1 - this.splitAmount.get(option));
+							TranslationManager.string(Translations.GUI_SPAWNER_SPLIT_ITEMS_SPAWN_COUNT_LORE, "current_split_amount", this.splitAmount.get(option), "available_split_amount", this.spawner.getLevels().get(option).getLevelNumber() - 1 - this.splitAmount.get(option));
 					case MAX_NEARBY_ENTITIES ->
-							Translation.GUI_SPAWNER_SPLIT_ITEMS_NEARBY_MOBS_LORE.getList("current_split_amount", this.splitAmount.get(option), "available_split_amount", this.spawner.getLevels().get(option).getLevelNumber() - 1 - this.splitAmount.get(option));
+							TranslationManager.string(Translations.GUI_SPAWNER_SPLIT_ITEMS_NEARBY_MOBS_LORE, "current_split_amount", this.splitAmount.get(option), "available_split_amount", this.spawner.getLevels().get(option).getLevelNumber() - 1 - this.splitAmount.get(option));
 					case ACTIVATION_RANGE ->
-							Translation.GUI_SPAWNER_SPLIT_ITEMS_ACTIVATION_RANGE_LORE.getList("current_split_amount", this.splitAmount.get(option), "available_split_amount", this.spawner.getLevels().get(option).getLevelNumber() - 1 - this.splitAmount.get(option));
+							TranslationManager.string(Translations.GUI_SPAWNER_SPLIT_ITEMS_ACTIVATION_RANGE_LORE, "current_split_amount", this.splitAmount.get(option), "available_split_amount", this.spawner.getLevels().get(option).getLevelNumber() - 1 - this.splitAmount.get(option));
 				}).make()
 		);
 
 		setButton(row, 5, QuickItem
 				.of(CompMaterial.LIME_STAINED_GLASS_PANE)
-				.name(Translation.GUI_SPAWNER_SPLIT_ITEMS_INCREASE_NAME.getString())
-				.lore(Translation.GUI_SPAWNER_SPLIT_ITEMS_INCREASE_LORE.getList())
+				.name(TranslationManager.string(Translations.GUI_SPAWNER_SPLIT_ITEMS_INCREASE_NAME))
+				.lore(TranslationManager.list(Translations.GUI_SPAWNER_SPLIT_ITEMS_INCREASE_LORE))
 				.make(), click -> {
 
 			if (this.spawner.getLevels().get(option).getLevelNumber() - 1 - this.splitAmount.get(option) <= 1)
@@ -141,8 +142,8 @@ public final class SpawnerSplitGUI extends BaseGUI {
 
 		setButton(4, 7, QuickItem
 				.of(canSplit ? CompMaterial.LIME_STAINED_GLASS_PANE : CompMaterial.RED_STAINED_GLASS_PANE)
-				.name(canSplit ? Translation.GUI_SPAWNER_SPLIT_ITEMS_CONFIRM_NAME.getString() : Translation.GUI_SPAWNER_SPLIT_ITEMS_INVALID_NAME.getString())
-				.lore(canSplit ? Translation.GUI_SPAWNER_SPLIT_ITEMS_CONFIRM_LORE.getList() : Translation.GUI_SPAWNER_SPLIT_ITEMS_INVALID_LORE.getList())
+				.name(canSplit ? TranslationManager.string(Translations.GUI_SPAWNER_SPLIT_ITEMS_CONFIRM_NAME) : TranslationManager.string(Translations.GUI_SPAWNER_SPLIT_ITEMS_INVALID_NAME))
+				.lore(canSplit ? TranslationManager.list(Translations.GUI_SPAWNER_SPLIT_ITEMS_CONFIRM_LORE) : TranslationManager.list(Translations.GUI_SPAWNER_SPLIT_ITEMS_INVALID_LORE))
 				.make(), click -> {
 
 			if (!finalCanSplit)

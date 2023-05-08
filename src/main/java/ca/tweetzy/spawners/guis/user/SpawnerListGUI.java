@@ -20,13 +20,14 @@ package ca.tweetzy.spawners.guis.user;
 import ca.tweetzy.flight.comp.enums.CompMaterial;
 import ca.tweetzy.flight.gui.events.GuiClickEvent;
 import ca.tweetzy.flight.gui.template.PagedGUI;
+import ca.tweetzy.flight.settings.TranslationManager;
 import ca.tweetzy.flight.utils.QuickItem;
 import ca.tweetzy.spawners.api.LevelOption;
 import ca.tweetzy.spawners.api.spawner.Level;
 import ca.tweetzy.spawners.api.spawner.Spawner;
 import ca.tweetzy.spawners.api.spawner.SpawnerUser;
 import ca.tweetzy.spawners.settings.Settings;
-import ca.tweetzy.spawners.settings.Translation;
+import ca.tweetzy.spawners.settings.Translations;
 import lombok.NonNull;
 import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.inventory.ItemStack;
@@ -42,7 +43,7 @@ import java.util.List;
 public final class SpawnerListGUI extends PagedGUI<Spawner> {
 
 	public SpawnerListGUI(@NonNull final SpawnerUser spawnerUser) {
-		super(new SpawnersMainGUI(spawnerUser), Translation.GUI_YOUR_SPAWNERS_TITLE.getString(), Settings.GUI_YOUR_SPAWNERS_ROWS.getInt(), spawnerUser.getPlacedSpawners());
+		super(new SpawnersMainGUI(spawnerUser), TranslationManager.string(Translations.GUI_YOUR_SPAWNERS_TITLE), Settings.GUI_YOUR_SPAWNERS_ROWS.getInt(), spawnerUser.getPlacedSpawners());
 		setDefaultItem(QuickItem.of(Settings.GUI_YOUR_SPAWNERS_BG.getMaterial()).name(" ").make());
 		draw();
 	}
@@ -57,8 +58,8 @@ public final class SpawnerListGUI extends PagedGUI<Spawner> {
 
 		return QuickItem
 				.of(CompMaterial.SPAWNER)
-				.name(Translation.GUI_YOUR_SPAWNERS_ITEMS_SPAWNER_NAME.getString())
-				.lore(Translation.GUI_YOUR_SPAWNERS_ITEMS_SPAWNER_LORE.getList(
+				.name(TranslationManager.string(Translations.GUI_YOUR_SPAWNERS_ITEMS_SPAWNER_NAME))
+				.lore(TranslationManager.list(Translations.GUI_YOUR_SPAWNERS_ITEMS_SPAWNER_LORE,
 						"world_name", spawner.getLocation().getWorld().getName(),
 						"world_x", spawner.getLocation().getBlockX(),
 						"world_y", spawner.getLocation().getBlockY(),
@@ -102,11 +103,11 @@ public final class SpawnerListGUI extends PagedGUI<Spawner> {
 
 	@Override
 	protected ItemStack getPreviousButton() {
-		return QuickItem.of(CompMaterial.ARROW, Translation.MISC_PREV_PAGE.getString()).make();
+		return QuickItem.of(CompMaterial.ARROW, TranslationManager.string(Translations.MISC_PREV_PAGE)).make();
 	}
 
 	@Override
 	protected ItemStack getNextButton() {
-		return QuickItem.of(CompMaterial.ARROW, Translation.MISC_NEXT_PAGE.getString()).make();
+		return QuickItem.of(CompMaterial.ARROW, TranslationManager.string(Translations.MISC_NEXT_PAGE)).make();
 	}
 }

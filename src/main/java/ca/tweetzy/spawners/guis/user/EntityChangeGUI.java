@@ -22,11 +22,13 @@ import ca.tweetzy.flight.comp.enums.CompMaterial;
 import ca.tweetzy.flight.gui.Gui;
 import ca.tweetzy.flight.gui.events.GuiClickEvent;
 import ca.tweetzy.flight.gui.template.PagedGUI;
+import ca.tweetzy.flight.settings.TranslationManager;
+import ca.tweetzy.flight.utils.Common;
 import ca.tweetzy.flight.utils.QuickItem;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.MobUpgrade;
 import ca.tweetzy.spawners.settings.Settings;
-import ca.tweetzy.spawners.settings.Translation;
+import ca.tweetzy.spawners.settings.Translations;
 import lombok.NonNull;
 import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.entity.Player;
@@ -49,7 +51,7 @@ public final class EntityChangeGUI extends PagedGUI<MobUpgrade> {
 	private final Consumer<MobUpgrade> selected;
 
 	public EntityChangeGUI(@NonNull final Gui parent, @NonNull final Consumer<MobUpgrade> selected) {
-		super(parent, Translation.GUI_ENTITY_CHANGE_TITLE.getString(), Settings.GUI_ENTITY_CHANGE_ROWS.getInt(), Stream.of(MobUpgrade.values()).filter(MobUpgrade::isEnabled).sorted(Comparator.comparing(mob -> mob.getSpawnerMob().getMobName())).collect(Collectors.toList()));
+		super(parent, TranslationManager.string(Translations.GUI_ENTITY_CHANGE_TITLE), Settings.GUI_ENTITY_CHANGE_ROWS.getInt(), Stream.of(MobUpgrade.values()).filter(MobUpgrade::isEnabled).sorted(Comparator.comparing(mob -> mob.getSpawnerMob().getMobName())).collect(Collectors.toList()));
 		this.selected = selected;
 		setDefaultItem(QuickItem.of(Settings.GUI_ENTITY_CHANGE_BG.getMaterial()).name(" ").make());
 		draw();
@@ -59,8 +61,8 @@ public final class EntityChangeGUI extends PagedGUI<MobUpgrade> {
 	protected ItemStack makeDisplayItem(MobUpgrade mobUpgrade) {
 		return QuickItem
 				.of(NBTEditor.getHead(mobUpgrade.getSpawnerMob().getHeadTexture()))
-				.name(Translation.GUI_ENTITY_CHANGE_ITEMS_ENTITY_NAME.getString("entity_name", mobUpgrade.getSpawnerMob().getMobName()))
-				.lore(Translation.GUI_ENTITY_CHANGE_ITEMS_ENTITY_LORE.getList("entity_cost", String.format("%,.2f", mobUpgrade.getCost())))
+				.name(TranslationManager.string(Translations.GUI_ENTITY_CHANGE_ITEMS_ENTITY_NAME, "entity_name", mobUpgrade.getSpawnerMob().getMobName()))
+				.lore(TranslationManager.list(Translations.GUI_ENTITY_CHANGE_ITEMS_ENTITY_LORE, "entity_cost", String.format("%,.2f", mobUpgrade.getCost())))
 				.make();
 	}
 
@@ -89,7 +91,7 @@ public final class EntityChangeGUI extends PagedGUI<MobUpgrade> {
 	protected void onClick(MobUpgrade mobUpgrade, GuiClickEvent clickEvent) {
 		final Player player = clickEvent.player;
 		if (!Spawners.getEconomy().has(player, mobUpgrade.getCost())) {
-			Translation.NOT_ENOUGH_MONEY.send(player);
+			Common.tell(player, TranslationManager.string(Translations.NOT_ENOUGH_MONEY));
 			return;
 		}
 
@@ -98,11 +100,11 @@ public final class EntityChangeGUI extends PagedGUI<MobUpgrade> {
 
 	@Override
 	protected ItemStack getPreviousButton() {
-		return QuickItem.of(CompMaterial.ARROW, Translation.MISC_PREV_PAGE.getString()).make();
+		return QuickItem.of(CompMaterial.ARROW, TranslationManager.string(Translations.MISC_PREV_PAGE)).make();
 	}
 
 	@Override
 	protected ItemStack getNextButton() {
-		return QuickItem.of(CompMaterial.ARROW, Translation.MISC_NEXT_PAGE.getString()).make();
+		return QuickItem.of(CompMaterial.ARROW, TranslationManager.string(Translations.MISC_NEXT_PAGE)).make();
 	}
 }

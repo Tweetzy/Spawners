@@ -21,10 +21,11 @@ import ca.tweetzy.flight.comp.enums.CompMaterial;
 import ca.tweetzy.flight.gui.Gui;
 import ca.tweetzy.flight.gui.events.GuiClickEvent;
 import ca.tweetzy.flight.gui.template.PagedGUI;
+import ca.tweetzy.flight.settings.TranslationManager;
 import ca.tweetzy.flight.utils.QuickItem;
 import ca.tweetzy.spawners.guis.ConfirmGUI;
 import ca.tweetzy.spawners.settings.Settings;
-import ca.tweetzy.spawners.settings.Translation;
+import ca.tweetzy.spawners.settings.Translations;
 import lombok.NonNull;
 import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.Bukkit;
@@ -46,7 +47,7 @@ public final class PlayerSelectorGUI extends PagedGUI<Player> {
 	private final BiConsumer<Player, Boolean> selected;
 
 	public PlayerSelectorGUI(Gui parent, @NonNull final Player viewer, @NonNull final BiConsumer<Player, Boolean> selected) {
-		super(parent, Translation.GUI_PLAYER_SELECT_TITLE.getString(), Settings.GUI_PLAYER_SELECT_ROWS.getInt(), Bukkit.getOnlinePlayers().stream().filter(player -> !player.getUniqueId().equals(viewer.getUniqueId())).collect(Collectors.toList()));
+		super(parent, TranslationManager.string(Translations.GUI_PLAYER_SELECT_TITLE), Settings.GUI_PLAYER_SELECT_ROWS.getInt(), Bukkit.getOnlinePlayers().stream().filter(player -> !player.getUniqueId().equals(viewer.getUniqueId())).collect(Collectors.toList()));
 		setDefaultItem(QuickItem.of(Settings.GUI_PLAYER_SELECT_BG.getMaterial()).name(" ").make());
 		this.selected = selected;
 		draw();
@@ -55,8 +56,8 @@ public final class PlayerSelectorGUI extends PagedGUI<Player> {
 	@Override
 	protected ItemStack makeDisplayItem(Player player) {
 		return QuickItem.of(player)
-				.name(Translation.GUI_PLAYER_SELECT_ITEMS_PLAYER_NAME.getString("player_name", player.getName()))
-				.lore(Translation.GUI_PLAYER_SELECT_ITEMS_PLAYER_LORE.getList())
+				.name(TranslationManager.string(Translations.GUI_PLAYER_SELECT_ITEMS_PLAYER_NAME, "player_name", player.getName()))
+				.lore(TranslationManager.list(Translations.GUI_PLAYER_SELECT_ITEMS_PLAYER_LORE))
 				.make();
 	}
 

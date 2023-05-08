@@ -35,8 +35,8 @@ import ca.tweetzy.spawners.database.migrations._3_SpawnerShopItemMigration;
 import ca.tweetzy.spawners.impl.APIImplementation;
 import ca.tweetzy.spawners.listeners.*;
 import ca.tweetzy.spawners.model.manager.*;
-import ca.tweetzy.spawners.settings.Locale;
 import ca.tweetzy.spawners.settings.Settings;
+import ca.tweetzy.spawners.settings.Translations;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
@@ -76,7 +76,8 @@ public final class Spawners extends FlightPlugin {
 	protected void onFlight() {
 		// settings & locale setup
 		Settings.setup();
-		Locale.setup();
+		Translations.init();
+
 		Common.setPrefix(Settings.PREFIX.getString());
 
 		// Set up the database if enabled

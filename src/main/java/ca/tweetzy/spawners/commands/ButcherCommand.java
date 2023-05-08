@@ -20,9 +20,11 @@ package ca.tweetzy.spawners.commands;
 import ca.tweetzy.flight.command.AllowedExecutor;
 import ca.tweetzy.flight.command.Command;
 import ca.tweetzy.flight.command.ReturnType;
+import ca.tweetzy.flight.settings.TranslationManager;
 import ca.tweetzy.flight.utils.ChatUtil;
+import ca.tweetzy.flight.utils.Common;
 import ca.tweetzy.spawners.Spawners;
-import ca.tweetzy.spawners.settings.Translation;
+import ca.tweetzy.spawners.settings.Translations;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.World;
@@ -63,7 +65,7 @@ public final class ButcherCommand extends Command {
 				}
 			}
 
-			Translation.REMOVED_ENTITIES_ALL.send(sender, "total", count);
+			Common.tell(sender, TranslationManager.string(Translations.REMOVED_ENTITIES_ALL, "total", count));
 			return ReturnType.SUCCESS;
 		}
 
@@ -96,7 +98,7 @@ public final class ButcherCommand extends Command {
 			}
 
 
-		Translation.REMOVED_ENTITIES_ENTITY.send(sender, "total", count, "entity_type", ChatUtil.capitalizeFully(entityType));
+		Common.tell(sender, TranslationManager.string(Translations.REMOVED_ENTITIES_ENTITY, "total", count, "entity_type", ChatUtil.capitalizeFully(entityType)));
 		return ReturnType.SUCCESS;
 	}
 

@@ -19,12 +19,13 @@ package ca.tweetzy.spawners.guis.user;
 
 import ca.tweetzy.flight.comp.enums.CompMaterial;
 import ca.tweetzy.flight.gui.template.BaseGUI;
+import ca.tweetzy.flight.settings.TranslationManager;
 import ca.tweetzy.flight.utils.Common;
 import ca.tweetzy.flight.utils.QuickItem;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.spawner.SpawnerUser;
 import ca.tweetzy.spawners.settings.Settings;
-import ca.tweetzy.spawners.settings.Translation;
+import ca.tweetzy.spawners.settings.Translations;
 import lombok.NonNull;
 import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.inventory.ItemStack;
@@ -40,7 +41,7 @@ public final class SpawnersMainGUI extends BaseGUI {
 	final SpawnerUser spawnerUser;
 
 	public SpawnersMainGUI(@NonNull final SpawnerUser spawnerUser) {
-		super(null, Translation.GUI_MAIN_TITLE.getString(), Settings.GUI_MAIN_ROWS.getInt());
+		super(null, TranslationManager.string(Translations.GUI_MAIN_TITLE), Settings.GUI_MAIN_ROWS.getInt());
 		setDefaultItem(QuickItem.of(Settings.GUI_MAIN_BG.getMaterial()).name(" ").make());
 		this.spawnerUser = spawnerUser;
 		draw();
@@ -62,15 +63,17 @@ public final class SpawnersMainGUI extends BaseGUI {
 
 		// 0 1 2 3 4 5 6 7 8
 
-		setButton(1, Settings.ENABLE_SHOP.getBoolean() ? 2 : 4, QuickItem.of(CompMaterial.SPAWNER)
-				.name(Translation.GUI_MAIN_ITEMS_YOUR_SPAWNERS_NAME.getString())
-				.lore(Translation.GUI_MAIN_ITEMS_YOUR_SPAWNERS_LORE.getList("total_placed_spawners", this.spawnerUser.getPlacedSpawners().size()))
+		setButton(1, Settings.ENABLE_SHOP.getBoolean() ? 2 : 4, QuickItem
+				.of(CompMaterial.SPAWNER)
+				.name(TranslationManager.string(Translations.GUI_MAIN_ITEMS_YOUR_SPAWNERS_NAME))
+				.lore(TranslationManager.list(Translations.GUI_MAIN_ITEMS_YOUR_SPAWNERS_LORE, "total_placed_spawners", this.spawnerUser.getPlacedSpawners().size()))
+				.hideTags(true)
 				.make(), click -> click.manager.showGUI(click.player, new SpawnerListGUI(this.spawnerUser)));
 
 		if (Settings.ENABLE_SHOP.getBoolean())
 			setButton(1, 6, QuickItem.of(CompMaterial.EMERALD)
-					.name(Translation.GUI_MAIN_ITEMS_SHOP_NAME.getString())
-					.lore(Translation.GUI_MAIN_ITEMS_SHOP_LORE.getList())
+					.name(TranslationManager.string(Translations.GUI_MAIN_ITEMS_SHOP_NAME))
+					.lore(TranslationManager.list(Translations.GUI_MAIN_ITEMS_SHOP_LORE))
 					.make(), click -> {
 
 				if (Spawners.getEconomy() == null) {

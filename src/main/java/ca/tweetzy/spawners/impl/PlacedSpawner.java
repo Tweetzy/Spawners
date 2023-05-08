@@ -17,12 +17,14 @@
  */
 package ca.tweetzy.spawners.impl;
 
+import ca.tweetzy.flight.settings.TranslationManager;
+import ca.tweetzy.flight.utils.Common;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.LevelOption;
 import ca.tweetzy.spawners.api.spawner.Level;
 import ca.tweetzy.spawners.api.spawner.Spawner;
 import ca.tweetzy.spawners.model.LevelFactory;
-import ca.tweetzy.spawners.settings.Translation;
+import ca.tweetzy.spawners.settings.Translations;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -136,10 +138,10 @@ public final class PlacedSpawner implements Spawner {
 
 		if (nextLevel == null) {
 			switch (levelOption) {
-				case SPAWN_INTERVAL -> Translation.SPAWNER_MAX_DELAY.send(player);
-				case SPAWN_COUNT -> Translation.SPAWNER_MAX_SPAWN_COUNT.send(player);
-				case MAX_NEARBY_ENTITIES -> Translation.SPAWNER_MAX_NEARBY_MOBS.send(player);
-				case ACTIVATION_RANGE -> Translation.SPAWNER_MAX_ACTIVATION_RANGE.send(player);
+				case SPAWN_INTERVAL -> Common.tell(player, TranslationManager.string(Translations.SPAWNER_MAX_DELAY));
+				case SPAWN_COUNT -> Common.tell(player, TranslationManager.string(Translations.SPAWNER_MAX_SPAWN_COUNT));
+				case MAX_NEARBY_ENTITIES -> Common.tell(player, TranslationManager.string(Translations.SPAWNER_MAX_NEARBY_MOBS));
+				case ACTIVATION_RANGE -> Common.tell(player, TranslationManager.string(Translations.SPAWNER_MAX_ACTIVATION_RANGE));
 				default -> {
 				}
 			}
@@ -148,13 +150,13 @@ public final class PlacedSpawner implements Spawner {
 
 		// cost
 		if (!Spawners.getEconomy().has(player, nextLevel.getCost())) {
-			Translation.NOT_ENOUGH_MONEY.send(player);
+			Common.tell(player, TranslationManager.string(Translations.NOT_ENOUGH_MONEY));
 			return;
 		}
 
 		// withdraw and upgrade
 		Spawners.getEconomy().withdrawPlayer(player, nextLevel.getCost());
-		Translation.MONEY_REMOVE.send(player, "amount", String.format("%,.2f", nextLevel.getCost()));
+		Common.tell(player, TranslationManager.string(Translations.MONEY_REMOVE, "amount", String.format("%,.2f", nextLevel.getCost())));
 
 		this.levels.put(nextLevel.getLevelOption(), nextLevel);
 
@@ -164,10 +166,14 @@ public final class PlacedSpawner implements Spawner {
 
 		Spawners.getSpawnerManager().applySpawnerLevel(creatureSpawner, nextLevel);
 		switch (levelOption) {
-			case SPAWN_INTERVAL -> Translation.SPAWNER_UPGRADED_DELAY.send(player, "previous_level", level.getLevelNumber(), "current_level", nextLevel.getLevelNumber());
-			case SPAWN_COUNT -> Translation.SPAWNER_UPGRADED_SPAWN_COUNT.send(player, "previous_level", level.getLevelNumber(), "current_level", nextLevel.getLevelNumber());
-			case MAX_NEARBY_ENTITIES -> Translation.SPAWNER_UPGRADED_NEARBY_MOBS.send(player, "previous_level", level.getLevelNumber(), "current_level", nextLevel.getLevelNumber());
-			case ACTIVATION_RANGE -> Translation.SPAWNER_UPGRADED_ACTIVATION_RANGE.send(player, "previous_level", level.getLevelNumber(), "current_level", nextLevel.getLevelNumber());
+			case SPAWN_INTERVAL ->
+					Common.tell(player, TranslationManager.string(Translations.SPAWNER_UPGRADED_DELAY, "previous_level", level.getLevelNumber(), "current_level", nextLevel.getLevelNumber()));
+			case SPAWN_COUNT ->
+					Common.tell(player, TranslationManager.string(Translations.SPAWNER_UPGRADED_SPAWN_COUNT, "previous_level", level.getLevelNumber(), "current_level", nextLevel.getLevelNumber()));
+			case MAX_NEARBY_ENTITIES ->
+					Common.tell(player, TranslationManager.string(Translations.SPAWNER_UPGRADED_NEARBY_MOBS, "previous_level", level.getLevelNumber(), "current_level", nextLevel.getLevelNumber()));
+			case ACTIVATION_RANGE ->
+					Common.tell(player, TranslationManager.string(Translations.SPAWNER_UPGRADED_ACTIVATION_RANGE, "previous_level", level.getLevelNumber(), "current_level", nextLevel.getLevelNumber()));
 			default -> {
 			}
 		}

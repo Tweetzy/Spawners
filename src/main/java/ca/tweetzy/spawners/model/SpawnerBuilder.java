@@ -17,6 +17,7 @@
  */
 package ca.tweetzy.spawners.model;
 
+import ca.tweetzy.flight.settings.TranslationManager;
 import ca.tweetzy.flight.utils.ChatUtil;
 import ca.tweetzy.flight.utils.QuickItem;
 import ca.tweetzy.spawners.Spawners;
@@ -25,7 +26,7 @@ import ca.tweetzy.spawners.api.spawner.Level;
 import ca.tweetzy.spawners.api.spawner.Preset;
 import ca.tweetzy.spawners.api.spawner.Spawner;
 import ca.tweetzy.spawners.settings.Settings;
-import ca.tweetzy.spawners.settings.Translation;
+import ca.tweetzy.spawners.settings.Translations;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.bukkit.entity.EntityType;
@@ -66,7 +67,7 @@ public final class SpawnerBuilder {
 	}
 
 	public static SpawnerBuilder of(@NonNull final EntityType entityType) {
-		return new SpawnerBuilder(NULL_UUID, Translation.SPAWNER_NO_OWNER.getString(), entityType, true);
+		return new SpawnerBuilder(NULL_UUID, TranslationManager.string(Translations.SPAWNER_NO_OWNER), entityType, true);
 	}
 
 	public static SpawnerBuilder of(final Player player, final EntityType entityType) {
@@ -80,7 +81,7 @@ public final class SpawnerBuilder {
 	}
 
 	public SpawnerBuilder setNoOwner() {
-		this.ownerName = Translation.SPAWNER_NO_OWNER.getString();
+		this.ownerName = TranslationManager.string(Translations.SPAWNER_NO_OWNER);
 		this.ownerUUID = NULL_UUID;
 		return this;
 	}
@@ -144,8 +145,8 @@ public final class SpawnerBuilder {
 		final int maxNearby = this.levels.stream().filter(level -> level.getLevelOption() == LevelOption.MAX_NEARBY_ENTITIES).findFirst().map(Level::getLevelNumber).orElse(1);
 		final int activationRange = this.levels.stream().filter(level -> level.getLevelOption() == LevelOption.ACTIVATION_RANGE).findFirst().map(Level::getLevelNumber).orElse(1);
 
-		itemStack.name(Translation.SPAWNER_NAME.getString("entity_type", ChatUtil.capitalizeFully(this.entityType)));
-		itemStack.lore(Translation.SPAWNER_LORE.getList(
+		itemStack.name(TranslationManager.string(Translations.SPAWNER_NAME, "entity_type", ChatUtil.capitalizeFully(this.entityType)));
+		itemStack.lore(TranslationManager.list(Translations.SPAWNER_LORE,
 				"spawner_owner_name", this.ownerName,
 				"spawner_spawn_delay_level", delay,
 				"spawner_spawn_count_level", spawnCount,
