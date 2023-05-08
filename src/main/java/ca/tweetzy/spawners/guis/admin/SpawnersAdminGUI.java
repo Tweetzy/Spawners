@@ -68,7 +68,15 @@ public final class SpawnersAdminGUI extends BaseGUI {
 				.of(CompMaterial.GOLD_INGOT)
 				.name(TranslationManager.string(Translations.GUI_ADMIN_MAIN_ITEMS_SHOP_NAME))
 				.lore(TranslationManager.list(Translations.GUI_ADMIN_MAIN_ITEMS_SHOP_LORE))
-				.make(), click -> click.manager.showGUI(click.player, new SpawnerShopAdminGUI()));
+				.make(), click -> {
+
+			if (!Spawners.getLevelManager().optionsHasAtLeastOneOption()) {
+				Common.tell(click.player, TranslationManager.string(Translations.NEED_TO_MAKE_LEVELS));
+				return;
+			}
+
+			click.manager.showGUI(click.player, new SpawnerShopAdminGUI());
+		});
 
 		setButton(3, 6, QuickItem.of(CompMaterial.DIAMOND)
 				.name("&e&lPatreon")

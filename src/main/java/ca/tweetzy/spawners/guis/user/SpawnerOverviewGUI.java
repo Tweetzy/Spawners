@@ -128,7 +128,7 @@ public final class SpawnerOverviewGUI extends BaseGUI {
 			setButton(1, 1, QuickItem
 					.of(CompMaterial.REPEATER)
 					.name(TranslationManager.string(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_DELAY_LEVEL_NAME))
-					.lore(spawner.getNextLevel(LevelOption.SPAWN_INTERVAL) == null ? TranslationManager.string(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_DELAY_LEVEL_LORE_MAX) : TranslationManager.string(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_DELAY_LEVEL_LORE,
+					.lore(spawner.getNextLevel(LevelOption.SPAWN_INTERVAL) == null ? TranslationManager.list(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_DELAY_LEVEL_LORE_MAX) : TranslationManager.list(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_DELAY_LEVEL_LORE,
 							"level_number", spawner.getLevels().get(LevelOption.SPAWN_INTERVAL).getLevelNumber(),
 							"level_value", String.format("%,.2f", spawner.getLevels().get(LevelOption.SPAWN_INTERVAL).getValue() / 20D),
 							"level_upgrade_cost", spawner.getNextLevel(LevelOption.SPAWN_INTERVAL).getCost(),
@@ -144,7 +144,7 @@ public final class SpawnerOverviewGUI extends BaseGUI {
 			setButton(1, 3, QuickItem
 					.of(CompMaterial.TRIPWIRE_HOOK)
 					.name(TranslationManager.string(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_SPAWN_COUNT_LEVEL_NAME))
-					.lore(spawner.getNextLevel(LevelOption.SPAWN_COUNT) == null ? TranslationManager.string(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_SPAWN_COUNT_LEVEL_LORE_MAX) : TranslationManager.string(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_SPAWN_COUNT_LEVEL_LORE,
+					.lore(spawner.getNextLevel(LevelOption.SPAWN_COUNT) == null ? TranslationManager.list(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_SPAWN_COUNT_LEVEL_LORE_MAX) : TranslationManager.list(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_SPAWN_COUNT_LEVEL_LORE,
 							"level_number", spawner.getLevels().get(LevelOption.SPAWN_COUNT).getLevelNumber(),
 							"level_value", spawner.getLevels().get(LevelOption.SPAWN_COUNT).getValue(),
 							"level_upgrade_cost", spawner.getNextLevel(LevelOption.SPAWN_COUNT).getCost(),
@@ -160,7 +160,7 @@ public final class SpawnerOverviewGUI extends BaseGUI {
 			setButton(1, 5, QuickItem
 					.of(CompMaterial.OBSERVER)
 					.name(TranslationManager.string(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_MAX_NEARBY_LEVEL_NAME))
-					.lore(spawner.getNextLevel(LevelOption.MAX_NEARBY_ENTITIES) == null ? TranslationManager.string(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_MAX_NEARBY_LEVEL_LORE_MAX) : TranslationManager.string(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_MAX_NEARBY_LEVEL_LORE,
+					.lore(spawner.getNextLevel(LevelOption.MAX_NEARBY_ENTITIES) == null ? TranslationManager.list(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_MAX_NEARBY_LEVEL_LORE_MAX) : TranslationManager.list(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_MAX_NEARBY_LEVEL_LORE,
 							"level_number", spawner.getLevels().get(LevelOption.MAX_NEARBY_ENTITIES).getLevelNumber(),
 							"level_value", spawner.getLevels().get(LevelOption.MAX_NEARBY_ENTITIES).getValue(),
 							"level_upgrade_cost", spawner.getNextLevel(LevelOption.MAX_NEARBY_ENTITIES).getCost(),
@@ -176,7 +176,7 @@ public final class SpawnerOverviewGUI extends BaseGUI {
 			setButton(1, 7, QuickItem
 					.of(CompMaterial.COMPARATOR)
 					.name(TranslationManager.string(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_ACTIVATION_RANGE_LEVEL_NAME))
-					.lore(spawner.getNextLevel(LevelOption.ACTIVATION_RANGE) == null ? TranslationManager.string(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_ACTIVATION_RANGE_LEVEL_LORE_MAX) : TranslationManager.string(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_ACTIVATION_RANGE_LEVEL_LORE,
+					.lore(spawner.getNextLevel(LevelOption.ACTIVATION_RANGE) == null ? TranslationManager.list(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_ACTIVATION_RANGE_LEVEL_LORE_MAX) : TranslationManager.list(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_ACTIVATION_RANGE_LEVEL_LORE,
 							"level_number", spawner.getLevels().get(LevelOption.ACTIVATION_RANGE).getLevelNumber(),
 							"level_value", spawner.getLevels().get(LevelOption.ACTIVATION_RANGE).getValue(),
 							"level_upgrade_cost", spawner.getNextLevel(LevelOption.ACTIVATION_RANGE).getCost(),
