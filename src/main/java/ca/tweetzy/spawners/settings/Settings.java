@@ -266,6 +266,15 @@ public final class Settings extends FlightSettings {
 	public static final ConfigEntry MOB_CHANGE_WARDEN_ENABLED = config.createEntry("mob change.warden.enabled", true).withComment("Should players be able to set their spawner to a Warden");
 	public static final ConfigEntry MOB_CHANGE_WARDEN_COST = create("mob change.warden.cost", 5000D).withComment("The cost to switch the spawner to a Warden");
 
+	public static final ConfigEntry MOB_CHANGE_CAMEL_ENABLED = config.createEntry("mob change.camel.enabled", true).withComment("Should players be able to set their spawner to a Camel");
+	public static final ConfigEntry MOB_CHANGE_CAMEL_COST = create("mob change.camel.cost", 5000D).withComment("The cost to switch the spawner to a Camel");
+
+	public static final ConfigEntry MOB_CHANGE_SNIFFER_ENABLED = config.createEntry("mob change.sniffer.enabled", true).withComment("Should players be able to set their spawner to a Sniffer");
+	public static final ConfigEntry MOB_CHANGE_SNIFFER_COST = create("mob change.sniffer.cost", 5000D).withComment("The cost to switch the spawner to a Sniffer");
+
+
+
+
 	@SneakyThrows
 	public static void setup() {
 		config.init();

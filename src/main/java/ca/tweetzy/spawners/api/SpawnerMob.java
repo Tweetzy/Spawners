@@ -66,6 +66,7 @@ public enum SpawnerMob {
 	RABBIT(EntityType.RABBIT, TranslationManager.string(Translations.MOB_NAME_RABBIT), MobBehaviour.PASSIVE, "https://textures.minecraft.net/texture/99f083ddd0af6c44553dc5ee8d113e07240407e2e8bf841ad44c881b690b668c"),
 	FOX(EntityType.FOX, TranslationManager.string(Translations.MOB_NAME_FOX), MobBehaviour.PASSIVE, "https://textures.minecraft.net/texture/e2f62858a09b09608397a33ad2de0341d39ddbd70fd480e5e83739e0cf79b212"),
 	PUFFERFISH(EntityType.PUFFERFISH, TranslationManager.string(Translations.MOB_NAME_PUFFERFISH), MobBehaviour.PASSIVE, "https://textures.minecraft.net/texture/292350c9f0993ed54db2c7113936325683ffc20104a9b622aa457d37e708d931"),
+	SNIFFER(EntityType.SNIFFER, TranslationManager.string(Translations.MOB_NAME_SNIFFER), MobBehaviour.PASSIVE, "https://textures.minecraft.net/texture/87ad920a66e38cc3426a5bff084667e8772116915e298098567c139f222e2c42"),
 
 	// neutral
 	LLAMA(EntityType.LLAMA, TranslationManager.string(Translations.MOB_NAME_LLAMA), MobBehaviour.NEUTRAL, "https://textures.minecraft.net/texture/6d2ffce9a174fe1c084e2d82052182d94f95ed436b75ff7ea7a4e94d94c72d8a"),
@@ -82,6 +83,7 @@ public enum SpawnerMob {
 	ENDERMAN(EntityType.ENDERMAN, TranslationManager.string(Translations.MOB_NAME_ENDERMAN), MobBehaviour.NEUTRAL, "https://textures.minecraft.net/texture/aacb357709d8cdf1cd9c9dbe313e7bab3276ae84234982e93e13839ab7cc5d16"),
 	CAVE_SPIDER(EntityType.CAVE_SPIDER, TranslationManager.string(Translations.MOB_NAME_CAVE_SPIDER), MobBehaviour.NEUTRAL, "https://textures.minecraft.net/texture/41645dfd77d09923107b3496e94eeb5c30329f97efc96ed76e226e98224"),
 	SPIDER(EntityType.SPIDER, TranslationManager.string(Translations.MOB_NAME_SPIDER), MobBehaviour.NEUTRAL, "https://textures.minecraft.net/texture/5f7e82446fab1e41577ba70ab40e290ef841c245233011f39459ac6f852c8331"),
+	CAMEL(EntityType.CAMEL, TranslationManager.string(Translations.MOB_NAME_CAMEL), MobBehaviour.NEUTRAL, "https://textures.minecraft.net/texture/3642c9f71131b5df4a8c21c8c6f10684f22abafb8cd68a1d55ac4bf263a53a31"),
 
 	// hostile
 	WARDEN(EntityType.WARDEN, TranslationManager.string(Translations.MOB_NAME_WARDEN), MobBehaviour.HOSTILE, "https://textures.minecraft.net/texture/53c4970510fb0f99be3f0c3d5a5919c6eeef04e433120e20107c66aba675a9b7"),

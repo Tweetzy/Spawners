@@ -111,6 +111,10 @@ public enum MobUpgrade {
 	TADPOLE(Settings.MOB_CHANGE_TADPOLE_ENABLED.getBoolean(), Settings.MOB_CHANGE_TADPOLE_COST.getDouble(), SpawnerMob.TADPOLE),
 	WARDEN(Settings.MOB_CHANGE_WARDEN_ENABLED.getBoolean(), Settings.MOB_CHANGE_WARDEN_COST.getDouble(), SpawnerMob.WARDEN),
 
+	// 1.20
+	CAMEL(Settings.MOB_CHANGE_CAMEL_ENABLED.getBoolean(), Settings.MOB_CHANGE_CAMEL_COST.getDouble(), SpawnerMob.CAMEL),
+	SNIFFER(Settings.MOB_CHANGE_SNIFFER_ENABLED.getBoolean(), Settings.MOB_CHANGE_SNIFFER_COST.getDouble(), SpawnerMob.SNIFFER),
+
 
 	;
 
