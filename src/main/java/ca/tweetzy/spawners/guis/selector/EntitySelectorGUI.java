@@ -17,7 +17,6 @@
  */
 package ca.tweetzy.spawners.guis.selector;
 
-import ca.tweetzy.flight.comp.NBTEditor;
 import ca.tweetzy.flight.comp.enums.CompMaterial;
 import ca.tweetzy.flight.gui.Gui;
 import ca.tweetzy.flight.gui.events.GuiClickEvent;
@@ -68,7 +67,7 @@ public final class EntitySelectorGUI extends PagedGUI<SpawnerMob> {
 	@Override
 	protected ItemStack makeDisplayItem(SpawnerMob spawnerMob) {
 		return QuickItem
-				.of(NBTEditor.getHead(spawnerMob.getHeadTexture()))
+				.of(spawnerMob.getHeadTexture())
 				.name(TranslationManager.string(Translations.GUI_ENTITY_SELECTOR_ITEMS_ENTITY_NAME, "entity_name", spawnerMob.getMobName()))
 				.lore(TranslationManager.list(Translations.GUI_ENTITY_SELECTOR_ITEMS_ENTITY_LORE))
 				.make();

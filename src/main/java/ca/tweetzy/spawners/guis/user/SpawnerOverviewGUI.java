@@ -17,7 +17,6 @@
  */
 package ca.tweetzy.spawners.guis.user;
 
-import ca.tweetzy.flight.comp.NBTEditor;
 import ca.tweetzy.flight.comp.enums.CompMaterial;
 import ca.tweetzy.flight.gui.template.BaseGUI;
 import ca.tweetzy.flight.settings.TranslationManager;
@@ -78,7 +77,7 @@ public final class SpawnerOverviewGUI extends BaseGUI {
 		if (this.canUpgrade && Spawners.getEconomy() != null) {
 			// entity type
 			setButton(3, 2, QuickItem
-					.of(NBTEditor.getHead(SpawnerMob.valueOf(this.spawner.getEntityType().name()).getHeadTexture()))
+					.of(SpawnerMob.valueOf(this.spawner.getEntityType().name()).getHeadTexture())
 					.name(TranslationManager.string(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_ENTITY_NAME))
 					.lore(TranslationManager.list(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_ENTITY_LORE,
 							"entity_type", ChatUtil.capitalizeFully(this.spawner.getEntityType())

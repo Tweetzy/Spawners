@@ -17,9 +17,9 @@
  */
 package ca.tweetzy.spawners.guis.user.merging;
 
-import ca.tweetzy.flight.comp.NBTEditor;
 import ca.tweetzy.flight.comp.enums.CompMaterial;
 import ca.tweetzy.flight.gui.template.BaseGUI;
+import ca.tweetzy.flight.nbtapi.NBT;
 import ca.tweetzy.flight.settings.TranslationManager;
 import ca.tweetzy.flight.utils.QuickItem;
 import ca.tweetzy.spawners.Spawners;
@@ -105,12 +105,12 @@ public final class SpawnerMergeGUI extends BaseGUI {
 			ringStatusName = TranslationManager.string(Translations.GUI_SPAWNER_MERGE_ITEMS_RING_STATUS_READY);
 			this.isValidSpawner = true;
 
-			if (!NBTEditor.contains(spawnerToMerge, "Spawners:entity")) {
+			if (!NBT.get(spawnerToMerge, nbt -> nbt.hasTag("Spawners:entity"))) {
 				ringColour = CompMaterial.RED_STAINED_GLASS_PANE;
 				ringStatusName = TranslationManager.string(Translations.GUI_SPAWNER_MERGE_ITEMS_RING_STATUS_INVALID);
 				this.isValidSpawner = false;
 			} else {
-				final EntityType entityType = EntityType.valueOf(NBTEditor.getString(spawnerToMerge, "Spawners:entity").toUpperCase());
+				final EntityType entityType = NBT.get(spawnerToMerge, nbt -> nbt.getEnum("Spawners:entity", EntityType.class));
 
 				if (this.spawner.getEntityType() != entityType) {
 					ringColour = CompMaterial.RED_STAINED_GLASS_PANE;
@@ -152,14 +152,14 @@ public final class SpawnerMergeGUI extends BaseGUI {
 	}
 
 	private Spawner convertItemstackToSpawner(@NonNull final ItemStack itemStack) {
-		if (!NBTEditor.contains(itemStack, "Spawners:entity")) return null;
+		if (!NBT.get(itemStack, nbt -> nbt.hasTag("Spawners:entity"))) return null;
 
-		final EntityType entityType = EntityType.valueOf(NBTEditor.getString(itemStack, "Spawners:entity").toUpperCase());
+		final EntityType entityType = NBT.get(itemStack, nbt -> nbt.getEnum("Spawners:entity", EntityType.class));
 
-		final Level delayLevel = Spawners.getLevelManager().find(LevelOption.SPAWN_INTERVAL, Integer.parseInt(NBTEditor.getString(itemStack, "Spawners:delay")));
-		final Level spawnCountLevel = Spawners.getLevelManager().find(LevelOption.SPAWN_COUNT, Integer.parseInt(NBTEditor.getString(itemStack, "Spawners:spawnCount")));
-		final Level maxNearbyLevel = Spawners.getLevelManager().find(LevelOption.MAX_NEARBY_ENTITIES, Integer.parseInt(NBTEditor.getString(itemStack, "Spawners:maxNearby")));
-		final Level activationRangeLevel = Spawners.getLevelManager().find(LevelOption.ACTIVATION_RANGE, Integer.parseInt(NBTEditor.getString(itemStack, "Spawners:activationRange")));
+		final Level delayLevel = Spawners.getLevelManager().find(LevelOption.SPAWN_INTERVAL, Integer.parseInt(NBT.get(itemStack, nbt -> nbt.getString("Spawners:delay"))));
+		final Level spawnCountLevel = Spawners.getLevelManager().find(LevelOption.SPAWN_COUNT, Integer.parseInt(NBT.get(itemStack, nbt -> nbt.getString("Spawners:spawnCount"))));
+		final Level maxNearbyLevel = Spawners.getLevelManager().find(LevelOption.MAX_NEARBY_ENTITIES, Integer.parseInt(NBT.get(itemStack, nbt -> nbt.getString("Spawners:maxNearby"))));
+		final Level activationRangeLevel = Spawners.getLevelManager().find(LevelOption.ACTIVATION_RANGE, Integer.parseInt(NBT.get(itemStack, nbt -> nbt.getString("Spawners:activationRange"))));
 
 		return new PlacedSpawner(SpawnerBuilder.NULL_UUID, SpawnerBuilder.NULL_UUID, TranslationManager.string(Translations.SPAWNER_NO_OWNER), entityType, new HashMap<>() {{
 			put(LevelOption.SPAWN_INTERVAL, delayLevel);

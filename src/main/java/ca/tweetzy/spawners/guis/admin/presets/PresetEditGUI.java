@@ -17,7 +17,6 @@
  */
 package ca.tweetzy.spawners.guis.admin.presets;
 
-import ca.tweetzy.flight.comp.NBTEditor;
 import ca.tweetzy.flight.comp.enums.CompMaterial;
 import ca.tweetzy.flight.gui.template.BaseGUI;
 import ca.tweetzy.flight.utils.ChatUtil;
@@ -52,7 +51,7 @@ public final class PresetEditGUI extends BaseGUI {
 	protected void draw() {
 
 		setButton(1, 4, QuickItem
-				.of(NBTEditor.getHead(SpawnerMob.valueOf(this.preset.getEntityType().name()).getHeadTexture()))
+				.of(SpawnerMob.valueOf(this.preset.getEntityType().name()).getHeadTexture())
 				.name("<GRADIENT:fc67fa>&lEntity Type</GRADIENT:f4c4f3>")
 				.lore(Replacer.replaceVariables(Arrays.asList(
 								"",

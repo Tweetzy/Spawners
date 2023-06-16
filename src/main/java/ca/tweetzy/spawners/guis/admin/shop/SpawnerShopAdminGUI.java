@@ -17,7 +17,6 @@
  */
 package ca.tweetzy.spawners.guis.admin.shop;
 
-import ca.tweetzy.flight.comp.NBTEditor;
 import ca.tweetzy.flight.comp.enums.CompMaterial;
 import ca.tweetzy.flight.gui.events.GuiClickEvent;
 import ca.tweetzy.flight.gui.helper.InventoryBorder;
@@ -70,7 +69,7 @@ public final class SpawnerShopAdminGUI extends PagedGUI<ShopItem> {
 			spawnerMob = SpawnerMob.valueOf(Spawners.getPresetManager().find(((PresetShopItem) shopItem).getPresetId()).getEntityType().name());
 		}
 
-		QuickItem quickItem = QuickItem.of(NBTEditor.getHead(spawnerMob.getHeadTexture()));
+		QuickItem quickItem = QuickItem.of(spawnerMob.getHeadTexture());
 		quickItem.name(String.format("<GRADIENT:fc67fa>&l%s Spawner</GRADIENT:f4c4f3>", ChatUtil.capitalizeFully(spawnerMob.getMobName())));
 
 		List<String> lore = Arrays.asList(

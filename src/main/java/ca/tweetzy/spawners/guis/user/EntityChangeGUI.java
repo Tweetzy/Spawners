@@ -17,7 +17,6 @@
  */
 package ca.tweetzy.spawners.guis.user;
 
-import ca.tweetzy.flight.comp.NBTEditor;
 import ca.tweetzy.flight.comp.enums.CompMaterial;
 import ca.tweetzy.flight.gui.Gui;
 import ca.tweetzy.flight.gui.events.GuiClickEvent;
@@ -60,7 +59,7 @@ public final class EntityChangeGUI extends PagedGUI<MobUpgrade> {
 	@Override
 	protected ItemStack makeDisplayItem(MobUpgrade mobUpgrade) {
 		return QuickItem
-				.of(NBTEditor.getHead(mobUpgrade.getSpawnerMob().getHeadTexture()))
+				.of(mobUpgrade.getSpawnerMob().getHeadTexture())
 				.name(TranslationManager.string(Translations.GUI_ENTITY_CHANGE_ITEMS_ENTITY_NAME, "entity_name", mobUpgrade.getSpawnerMob().getMobName()))
 				.lore(TranslationManager.list(Translations.GUI_ENTITY_CHANGE_ITEMS_ENTITY_LORE, "entity_cost", String.format("%,.2f", mobUpgrade.getCost())))
 				.make();
