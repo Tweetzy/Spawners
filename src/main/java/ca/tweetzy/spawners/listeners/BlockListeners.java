@@ -72,9 +72,9 @@ public final class BlockListeners implements Listener {
 		final SpawnerUser spawnerUser = Spawners.getPlayerManager().findUser(player);
 
 		if (hand.getType() != CompMaterial.SPAWNER.parseMaterial()) return;
-		if (!NBT.get(hand, nbt -> nbt.hasTag("Spawners:ownerUUID"))) return;
+		if (!NBT.get(hand, nbt -> (boolean) nbt.hasTag("Spawners:ownerUUID"))) return;
 //
-		final UUID uuid = UUID.fromString(NBT.get(hand, nbt -> nbt.getString("Spawners:ownerUUID")));
+		final UUID uuid = UUID.fromString(NBT.get(hand, nbt -> (String) nbt.getString("Spawners:ownerUUID")));
 		if (uuid.equals(SpawnerBuilder.NULL_UUID)) {
 
 			if (!spawnerUser.isAllowedToPlaceSpawners(player)) {
@@ -120,10 +120,10 @@ public final class BlockListeners implements Listener {
 		final SpawnerUser spawnerUser = Spawners.getPlayerManager().findUser(player);
 		final ItemStack hand = event.getItemInHand().clone();
 
-		if (!NBT.get(hand, nbt -> nbt.hasTag("Spawners:ownerUUID"))) return;
+		if (!NBT.get(hand, nbt -> (boolean) nbt.hasTag("Spawners:ownerUUID"))) return;
 
-		final UUID owner = UUID.fromString(NBT.get(hand, nbt -> nbt.getString("Spawners:ownerUUID")));
-		final String ownerName = NBT.get(hand, nbt -> nbt.getString("Spawners:ownerName"));
+		final UUID owner = UUID.fromString(NBT.get(hand, nbt -> (String) nbt.getString("Spawners:ownerUUID")));
+		final String ownerName = NBT.get(hand, nbt -> (String) nbt.getString("Spawners:ownerName"));
 
 		final boolean noOwner = owner.equals(SpawnerBuilder.NULL_UUID);
 
@@ -143,7 +143,7 @@ public final class BlockListeners implements Listener {
 			return;
 		}
 
-		final EntityType entityType = NBT.get(hand, nbt -> nbt.getEnum("Spawners:entity", EntityType.class));
+		final EntityType entityType = NBT.get(hand, nbt -> (EntityType) nbt.getEnum("Spawners:entity", EntityType.class));
 
 		if (!handleEntityPlacePerm(spawnerUser, player, entityType)) {
 			event.setCancelled(true);
@@ -162,10 +162,10 @@ public final class BlockListeners implements Listener {
 		final Spawner spawner = new PlacedSpawner(player, entityType, placedBlock.getLocation());
 
 		// spawner levels
-		final Level delayLevel = Spawners.getLevelManager().find(LevelOption.SPAWN_INTERVAL, Integer.parseInt(NBT.get(hand, nbt -> nbt.getString("Spawners:delay"))));
-		final Level spawnCountLevel = Spawners.getLevelManager().find(LevelOption.SPAWN_COUNT, Integer.parseInt(NBT.get(hand, nbt -> nbt.getString("Spawners:spawnCount"))));
-		final Level maxNearbyLevel = Spawners.getLevelManager().find(LevelOption.MAX_NEARBY_ENTITIES, Integer.parseInt(NBT.get(hand, nbt -> nbt.getString("Spawners:maxNearby"))));
-		final Level activationRangeLevel = Spawners.getLevelManager().find(LevelOption.ACTIVATION_RANGE, Integer.parseInt(NBT.get(hand, nbt -> nbt.getString("Spawners:activationRange"))));
+		final Level delayLevel = Spawners.getLevelManager().find(LevelOption.SPAWN_INTERVAL, Integer.parseInt(NBT.get(hand, nbt -> (String) nbt.getString("Spawners:delay"))));
+		final Level spawnCountLevel = Spawners.getLevelManager().find(LevelOption.SPAWN_COUNT, Integer.parseInt(NBT.get(hand, nbt -> (String) nbt.getString("Spawners:spawnCount"))));
+		final Level maxNearbyLevel = Spawners.getLevelManager().find(LevelOption.MAX_NEARBY_ENTITIES, Integer.parseInt(NBT.get(hand, nbt -> (String) nbt.getString("Spawners:maxNearby"))));
+		final Level activationRangeLevel = Spawners.getLevelManager().find(LevelOption.ACTIVATION_RANGE, Integer.parseInt(NBT.get(hand, nbt -> (String) nbt.getString("Spawners:activationRange"))));
 
 		spawner.setLevels(new HashMap<>() {{
 			put(LevelOption.SPAWN_INTERVAL, delayLevel);
@@ -195,7 +195,7 @@ public final class BlockListeners implements Listener {
 			creatureSpawner.setSpawnCount(spawnCount);
 			creatureSpawner.setMaxNearbyEntities(maxNearby);
 			creatureSpawner.setRequiredPlayerRange(activationRange);
-			creatureSpawner.getPersistentDataContainer().set(new NamespacedKey(Spawners.getInstance(), "SpawnersUpgradeable"), PersistentDataType.STRING, NBT.get(hand, nbt -> nbt.getString("Spawners:upgradeable")));
+			creatureSpawner.getPersistentDataContainer().set(new NamespacedKey(Spawners.getInstance(), "SpawnersUpgradeable"), PersistentDataType.STRING, NBT.get(hand, nbt -> (String) nbt.getString("Spawners:upgradeable")));
 
 			// update
 			creatureSpawner.update(true);
