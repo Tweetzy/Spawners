@@ -18,7 +18,6 @@
 package ca.tweetzy.spawners.guis.user;
 
 import ca.tweetzy.flight.comp.enums.CompMaterial;
-import ca.tweetzy.flight.gui.template.BaseGUI;
 import ca.tweetzy.flight.settings.TranslationManager;
 import ca.tweetzy.flight.utils.ChatUtil;
 import ca.tweetzy.flight.utils.Common;
@@ -27,6 +26,7 @@ import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.LevelOption;
 import ca.tweetzy.spawners.api.SpawnerMob;
 import ca.tweetzy.spawners.api.spawner.Spawner;
+import ca.tweetzy.spawners.guis.SpawnersBaseGUI;
 import ca.tweetzy.spawners.guis.selector.PlayerSelectorGUI;
 import ca.tweetzy.spawners.guis.user.merging.MergeSplitGUI;
 import ca.tweetzy.spawners.settings.Translations;
@@ -41,7 +41,7 @@ import java.util.Arrays;
  *
  * @author Kiran Hart
  */
-public final class SpawnerOverviewGUI extends BaseGUI {
+public final class SpawnerOverviewGUI extends SpawnersBaseGUI {
 
 	private final Spawner spawner;
 	private final boolean canUpgrade;

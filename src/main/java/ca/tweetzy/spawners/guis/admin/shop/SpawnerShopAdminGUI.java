@@ -20,7 +20,6 @@ package ca.tweetzy.spawners.guis.admin.shop;
 import ca.tweetzy.flight.comp.enums.CompMaterial;
 import ca.tweetzy.flight.gui.events.GuiClickEvent;
 import ca.tweetzy.flight.gui.helper.InventoryBorder;
-import ca.tweetzy.flight.gui.template.PagedGUI;
 import ca.tweetzy.flight.settings.TranslationManager;
 import ca.tweetzy.flight.utils.ChatUtil;
 import ca.tweetzy.flight.utils.Common;
@@ -32,6 +31,7 @@ import ca.tweetzy.spawners.api.SpawnerMob;
 import ca.tweetzy.spawners.api.spawner.Level;
 import ca.tweetzy.spawners.api.spawner.Preset;
 import ca.tweetzy.spawners.api.spawner.ShopItem;
+import ca.tweetzy.spawners.guis.SpawnersPagedGUI;
 import ca.tweetzy.spawners.guis.admin.SpawnersAdminGUI;
 import ca.tweetzy.spawners.guis.selector.EntitySelectorGUI;
 import ca.tweetzy.spawners.guis.selector.PresetSelectorGUI;
@@ -52,7 +52,7 @@ import java.util.List;
  *
  * @author Kiran Hart
  */
-public final class SpawnerShopAdminGUI extends PagedGUI<ShopItem> {
+public final class SpawnerShopAdminGUI extends SpawnersPagedGUI<ShopItem> {
 
 	public SpawnerShopAdminGUI() {
 		super(new SpawnersAdminGUI(), "<GRADIENT:fc67fa>&lSpawner Shop</GRADIENT:f4c4f3> &8> &7Edit", 6, Spawners.getShopItemManager().getContents());
@@ -203,13 +203,4 @@ public final class SpawnerShopAdminGUI extends PagedGUI<ShopItem> {
 		return InventoryBorder.getInsideBorders(5);
 	}
 
-	@Override
-	protected ItemStack getPreviousButton() {
-		return QuickItem.of(CompMaterial.ARROW, TranslationManager.string(Translations.MISC_PREV_PAGE)).make();
-	}
-
-	@Override
-	protected ItemStack getNextButton() {
-		return QuickItem.of(CompMaterial.ARROW, TranslationManager.string(Translations.MISC_NEXT_PAGE)).make();
-	}
 }

@@ -29,26 +29,23 @@ public final class UltraEconomyCurrency extends AbstractCurrency {
 
 	public UltraEconomyCurrency(String currencyName) {
 		super("UltraEconomy", currencyName);
-		this.currency = UltraEconomy.getAPI().getCurrencies().name(currencyName).orElseThrow();
+		this.currency = UltraEconomy.getInstance().getCurrencies().name(currencyName).orElse(null);
 	}
 
 	@Override
 	public boolean has(OfflinePlayer player, double amount) {
-		final Account account = UltraEconomy.getAPI().getAccounts().uuid(player.getUniqueId()).orElse(null);
-		if (account == null)
-			return false;
+		final Account account = UltraEconomy.getInstance().getAccounts().uuid(player.getUniqueId()).orElse(null);
+		if (account == null) return false;
 
 		return account.getBalance(this.currency).getSum() >= amount;
 	}
 
 	@Override
 	public boolean withdraw(OfflinePlayer player, double amount) {
-		final Account account = UltraEconomy.getAPI().getAccounts().uuid(player.getUniqueId()).orElse(null);
-		if (account == null)
-			return false;
+		final Account account = UltraEconomy.getInstance().getAccounts().uuid(player.getUniqueId()).orElse(null);
+		if (account == null) return false;
 
-		final float oldAmount = account.getBalance(this.currency).getOnBank();
-		account.getBalance(this.currency).setBank(oldAmount - (float) amount);
+		account.removeBalance(this.currency, amount);
 		return true;
 	}
 }

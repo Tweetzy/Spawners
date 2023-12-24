@@ -18,13 +18,13 @@
 package ca.tweetzy.spawners.guis.admin.presets;
 
 import ca.tweetzy.flight.comp.enums.CompMaterial;
-import ca.tweetzy.flight.gui.template.BaseGUI;
 import ca.tweetzy.flight.utils.ChatUtil;
 import ca.tweetzy.flight.utils.QuickItem;
 import ca.tweetzy.flight.utils.Replacer;
 import ca.tweetzy.spawners.api.LevelOption;
 import ca.tweetzy.spawners.api.SpawnerMob;
 import ca.tweetzy.spawners.api.spawner.Preset;
+import ca.tweetzy.spawners.guis.SpawnersBaseGUI;
 import ca.tweetzy.spawners.guis.selector.EntitySelectorGUI;
 import ca.tweetzy.spawners.guis.selector.LevelSelectorGUI;
 import lombok.NonNull;
@@ -37,7 +37,7 @@ import java.util.Arrays;
  *
  * @author Kiran Hart
  */
-public final class PresetEditGUI extends BaseGUI {
+public final class PresetEditGUI extends SpawnersBaseGUI {
 
 	private final Preset preset;
 

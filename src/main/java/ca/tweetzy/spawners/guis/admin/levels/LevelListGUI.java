@@ -20,17 +20,15 @@ package ca.tweetzy.spawners.guis.admin.levels;
 import ca.tweetzy.flight.comp.enums.CompMaterial;
 import ca.tweetzy.flight.gui.events.GuiClickEvent;
 import ca.tweetzy.flight.gui.helper.InventoryBorder;
-import ca.tweetzy.flight.gui.template.PagedGUI;
-import ca.tweetzy.flight.settings.TranslationManager;
 import ca.tweetzy.flight.utils.ChatUtil;
 import ca.tweetzy.flight.utils.QuickItem;
 import ca.tweetzy.flight.utils.Replacer;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.LevelOption;
 import ca.tweetzy.spawners.api.spawner.Level;
+import ca.tweetzy.spawners.guis.SpawnersPagedGUI;
 import ca.tweetzy.spawners.model.LevelFactory;
 import ca.tweetzy.spawners.settings.Settings;
-import ca.tweetzy.spawners.settings.Translations;
 import lombok.NonNull;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
@@ -45,7 +43,7 @@ import java.util.stream.Collectors;
  *
  * @author Kiran Hart
  */
-public final class LevelListGUI extends PagedGUI<Level> {
+public final class LevelListGUI extends SpawnersPagedGUI<Level> {
 
 	private final LevelOption levelOption;
 
@@ -104,15 +102,5 @@ public final class LevelListGUI extends PagedGUI<Level> {
 	@Override
 	protected List<Integer> fillSlots() {
 		return InventoryBorder.getInsideBorders(5);
-	}
-
-	@Override
-	protected ItemStack getPreviousButton() {
-		return QuickItem.of(CompMaterial.ARROW, TranslationManager.string(Translations.MISC_PREV_PAGE)).make();
-	}
-
-	@Override
-	protected ItemStack getNextButton() {
-		return QuickItem.of(CompMaterial.ARROW, TranslationManager.string(Translations.MISC_NEXT_PAGE)).make();
 	}
 }

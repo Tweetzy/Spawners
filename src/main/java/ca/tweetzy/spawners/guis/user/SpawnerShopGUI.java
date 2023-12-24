@@ -19,7 +19,6 @@ package ca.tweetzy.spawners.guis.user;
 
 import ca.tweetzy.flight.comp.enums.CompMaterial;
 import ca.tweetzy.flight.gui.events.GuiClickEvent;
-import ca.tweetzy.flight.gui.template.PagedGUI;
 import ca.tweetzy.flight.settings.TranslationManager;
 import ca.tweetzy.flight.utils.ChatUtil;
 import ca.tweetzy.flight.utils.QuickItem;
@@ -30,6 +29,7 @@ import ca.tweetzy.spawners.api.spawner.Level;
 import ca.tweetzy.spawners.api.spawner.Preset;
 import ca.tweetzy.spawners.api.spawner.ShopItem;
 import ca.tweetzy.spawners.api.spawner.SpawnerUser;
+import ca.tweetzy.spawners.guis.SpawnersPagedGUI;
 import ca.tweetzy.spawners.impl.shopitem.EntityShopItem;
 import ca.tweetzy.spawners.impl.shopitem.PresetShopItem;
 import ca.tweetzy.spawners.settings.Settings;
@@ -46,7 +46,7 @@ import java.util.List;
  *
  * @author Kiran Hart
  */
-public final class SpawnerShopGUI extends PagedGUI<ShopItem> {
+public final class SpawnerShopGUI extends SpawnersPagedGUI<ShopItem> {
 
 	public SpawnerShopGUI(@NonNull final SpawnerUser spawnerUser) {
 		super(new SpawnersMainGUI(spawnerUser), TranslationManager.string(Translations.GUI_SPAWNER_SHOP_TITLE), Settings.GUI_SHOP_ROWS.getInt(), Spawners.getShopItemManager().getContents());
@@ -125,16 +125,6 @@ public final class SpawnerShopGUI extends PagedGUI<ShopItem> {
 
 	@Override
 	protected List<Integer> fillSlots() {
-		return (List<Integer>) Settings.GUI_SHOP_FILL_SLOTS.get();
-	}
-
-	@Override
-	protected ItemStack getPreviousButton() {
-		return QuickItem.of(CompMaterial.ARROW, TranslationManager.string(Translations.MISC_PREV_PAGE)).make();
-	}
-
-	@Override
-	protected ItemStack getNextButton() {
-		return QuickItem.of(CompMaterial.ARROW, TranslationManager.string(Translations.MISC_NEXT_PAGE)).make();
+		return Settings.GUI_SHOP_FILL_SLOTS.getIntList();
 	}
 }

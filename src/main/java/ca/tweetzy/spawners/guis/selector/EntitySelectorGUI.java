@@ -21,12 +21,12 @@ import ca.tweetzy.flight.comp.enums.CompMaterial;
 import ca.tweetzy.flight.gui.Gui;
 import ca.tweetzy.flight.gui.events.GuiClickEvent;
 import ca.tweetzy.flight.gui.helper.InventoryBorder;
-import ca.tweetzy.flight.gui.template.PagedGUI;
 import ca.tweetzy.flight.settings.TranslationManager;
 import ca.tweetzy.flight.utils.ChatUtil;
 import ca.tweetzy.flight.utils.QuickItem;
 import ca.tweetzy.spawners.api.MobBehaviour;
 import ca.tweetzy.spawners.api.SpawnerMob;
+import ca.tweetzy.spawners.guis.SpawnersPagedGUI;
 import ca.tweetzy.spawners.settings.Translations;
 import lombok.NonNull;
 import org.bukkit.entity.EntityType;
@@ -44,7 +44,7 @@ import java.util.stream.Collectors;
  *
  * @author Kiran Hart
  */
-public final class EntitySelectorGUI extends PagedGUI<SpawnerMob> {
+public final class EntitySelectorGUI extends SpawnersPagedGUI<SpawnerMob> {
 
 	private final Gui parent;
 	private final Consumer<EntityType> selected;
@@ -89,16 +89,6 @@ public final class EntitySelectorGUI extends PagedGUI<SpawnerMob> {
 	@Override
 	protected List<Integer> fillSlots() {
 		return InventoryBorder.getInsideBorders(5);
-	}
-
-	@Override
-	protected ItemStack getPreviousButton() {
-		return QuickItem.of(CompMaterial.ARROW, TranslationManager.string(Translations.MISC_PREV_PAGE)).make();
-	}
-
-	@Override
-	protected ItemStack getNextButton() {
-		return QuickItem.of(CompMaterial.ARROW, TranslationManager.string(Translations.MISC_NEXT_PAGE)).make();
 	}
 
 	public enum EntityViewMode {

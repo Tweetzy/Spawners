@@ -18,11 +18,11 @@
 package ca.tweetzy.spawners.guis.admin.levels;
 
 import ca.tweetzy.flight.comp.enums.CompMaterial;
-import ca.tweetzy.flight.gui.template.BaseGUI;
 import ca.tweetzy.flight.utils.ChatUtil;
 import ca.tweetzy.flight.utils.QuickItem;
 import ca.tweetzy.flight.utils.Replacer;
 import ca.tweetzy.spawners.api.spawner.Level;
+import ca.tweetzy.spawners.guis.SpawnersBaseGUI;
 import ca.tweetzy.spawners.model.UserInput;
 import lombok.NonNull;
 import org.bukkit.event.inventory.ClickType;
@@ -33,7 +33,7 @@ import org.bukkit.event.inventory.ClickType;
  *
  * @author Kiran Hart
  */
-public final class LevelEditGUI extends BaseGUI {
+public final class LevelEditGUI extends SpawnersBaseGUI {
 
 	private final Level level;
 

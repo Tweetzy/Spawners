@@ -20,10 +20,10 @@ package ca.tweetzy.spawners.guis.selector;
 import ca.tweetzy.flight.comp.enums.CompMaterial;
 import ca.tweetzy.flight.gui.Gui;
 import ca.tweetzy.flight.gui.events.GuiClickEvent;
-import ca.tweetzy.flight.gui.template.PagedGUI;
 import ca.tweetzy.flight.settings.TranslationManager;
 import ca.tweetzy.flight.utils.QuickItem;
 import ca.tweetzy.spawners.guis.ConfirmGUI;
+import ca.tweetzy.spawners.guis.SpawnersPagedGUI;
 import ca.tweetzy.spawners.settings.Settings;
 import ca.tweetzy.spawners.settings.Translations;
 import lombok.NonNull;
@@ -42,7 +42,7 @@ import java.util.stream.Collectors;
  *
  * @author Kiran Hart
  */
-public final class PlayerSelectorGUI extends PagedGUI<Player> {
+public final class PlayerSelectorGUI extends SpawnersPagedGUI<Player> {
 
 	private final BiConsumer<Player, Boolean> selected;
 
@@ -84,6 +84,6 @@ public final class PlayerSelectorGUI extends PagedGUI<Player> {
 
 	@Override
 	protected List<Integer> fillSlots() {
-		return (List<Integer>) Settings.GUI_PLAYER_SELECT_FILL_SLOTS.get();
+		return Settings.GUI_PLAYER_SELECT_FILL_SLOTS.getIntList();
 	}
 }

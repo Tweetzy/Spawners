@@ -77,6 +77,12 @@ public final class Settings extends FlightSettings {
 	public static final ConfigEntry EXPLOSION_RESETS_OWNER = config.createEntry("explosion.reset owner", true).withComment("If the spawner is dropped by explosion, should the owner be reset?");
 	public static final ConfigEntry EXPLOSION_PREVENT_UNKNOWN_SOURCE = config.createEntry("explosion.prevent unknown source", true).withComment("If the spawner is broken due to an unknown explosion source, should it cancel?");
 
+
+	public static ConfigEntry GUI_SHARED_ITEMS_BACK_BUTTON = create("gui.shared buttons.back button.item", CompMaterial.DARK_OAK_DOOR.name());
+	public static ConfigEntry GUI_SHARED_ITEMS_EXIT_BUTTON = create("gui.shared buttons.exit button.item", CompMaterial.BARRIER.name());
+	public static ConfigEntry GUI_SHARED_ITEMS_PREVIOUS_BUTTON = create("gui.shared buttons.previous button.item", CompMaterial.ARROW.name());
+	public static ConfigEntry GUI_SHARED_ITEMS_NEXT_BUTTON = create("gui.shared buttons.next button.item", CompMaterial.ARROW.name());
+
 	public static final ConfigEntry GUI_ENTITY_CHANGE_ROWS = config.createEntry("gui.entity change.rows", 6).withComment("The size (rows, min = 2, max = 6) of the spawner mob change gui");
 	public static final ConfigEntry GUI_ENTITY_CHANGE_BG = config.createEntry("gui.entity change.background", CompMaterial.BLACK_STAINED_GLASS_PANE.name()).withComment("The default background material");
 	public static final ConfigEntry GUI_ENTITY_CHANGE_FILL_SLOTS = config.createEntry("gui.entity change.fill slots", InventoryBorder.getInsideBorders(5)).withComment("The slots in which mob heads will be placed into");
@@ -86,6 +92,7 @@ public final class Settings extends FlightSettings {
 	public static final ConfigEntry GUI_PLAYER_SELECT_BG = config.createEntry("gui.player select.background", CompMaterial.BLACK_STAINED_GLASS_PANE.name()).withComment("The default background material");
 	public static final ConfigEntry GUI_PLAYER_SELECT_FILL_SLOTS = config.createEntry("gui.player select.fill slots", InventoryBorder.getInsideBorders(5)).withComment("The slots in which player heads will be placed into");
 	public static final ConfigEntry GUI_PLAYER_SELECT_FILL_DECORATION = config.createEntry("gui.player select.decoration", List.of("0:BLACK_STAINED_GLASS_PANE")).withComment("Option Decoration items (slot:material_name)");
+
 
 	public static final ConfigEntry GUI_MAIN_ROWS = config.createEntry("gui.main.rows", 3).withComment("The size (rows, min = 2, max = 6) of the main player gui");
 	public static final ConfigEntry GUI_MAIN_BG = config.createEntry("gui.main.background", CompMaterial.BLACK_STAINED_GLASS_PANE.name()).withComment("The default background material");
@@ -271,8 +278,6 @@ public final class Settings extends FlightSettings {
 
 	public static final ConfigEntry MOB_CHANGE_SNIFFER_ENABLED = config.createEntry("mob change.sniffer.enabled", true).withComment("Should players be able to set their spawner to a Sniffer");
 	public static final ConfigEntry MOB_CHANGE_SNIFFER_COST = create("mob change.sniffer.cost", 5000D).withComment("The cost to switch the spawner to a Sniffer");
-
-
 
 
 	@SneakyThrows

@@ -18,9 +18,9 @@
 package ca.tweetzy.spawners.guis.admin.levels;
 
 import ca.tweetzy.flight.comp.enums.CompMaterial;
-import ca.tweetzy.flight.gui.template.BaseGUI;
 import ca.tweetzy.flight.utils.QuickItem;
 import ca.tweetzy.spawners.api.LevelOption;
+import ca.tweetzy.spawners.guis.SpawnersBaseGUI;
 import ca.tweetzy.spawners.guis.admin.SpawnersAdminGUI;
 
 /**
@@ -29,7 +29,7 @@ import ca.tweetzy.spawners.guis.admin.SpawnersAdminGUI;
  *
  * @author Kiran Hart
  */
-public final class LevelOptionSelectGUI extends BaseGUI {
+public final class LevelOptionSelectGUI extends SpawnersBaseGUI {
 
 	public LevelOptionSelectGUI() {
 		super(new SpawnersAdminGUI(), "<GRADIENT:fc67fa>&LSpawners</GRADIENT:f4c4f3> &8> &7Select Option", 4);

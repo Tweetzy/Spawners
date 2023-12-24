@@ -19,7 +19,6 @@ package ca.tweetzy.spawners.guis;
 
 import ca.tweetzy.flight.comp.enums.CompMaterial;
 import ca.tweetzy.flight.gui.Gui;
-import ca.tweetzy.flight.gui.template.BaseGUI;
 import ca.tweetzy.flight.settings.TranslationManager;
 import ca.tweetzy.flight.utils.QuickItem;
 import ca.tweetzy.spawners.settings.Translations;
@@ -33,7 +32,7 @@ import java.util.function.Consumer;
  *
  * @author Kiran Hart
  */
-public final class ConfirmGUI extends BaseGUI {
+public final class ConfirmGUI extends SpawnersBaseGUI {
 
 	private final Consumer<Boolean> confirmed;
 

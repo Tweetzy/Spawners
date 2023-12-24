@@ -18,16 +18,16 @@
 package ca.tweetzy.spawners.guis.user.merging;
 
 import ca.tweetzy.flight.comp.enums.CompMaterial;
-import ca.tweetzy.flight.gui.template.BaseGUI;
 import ca.tweetzy.flight.settings.TranslationManager;
 import ca.tweetzy.flight.utils.QuickItem;
 import ca.tweetzy.spawners.api.spawner.Spawner;
+import ca.tweetzy.spawners.guis.SpawnersBaseGUI;
 import ca.tweetzy.spawners.guis.user.SpawnerOverviewGUI;
 import ca.tweetzy.spawners.settings.Settings;
 import ca.tweetzy.spawners.settings.Translations;
 import lombok.NonNull;
 
-public final class MergeSplitGUI extends BaseGUI {
+public final class MergeSplitGUI extends SpawnersBaseGUI {
 
 	private final Spawner spawner;
 	private final boolean canUpgrade;

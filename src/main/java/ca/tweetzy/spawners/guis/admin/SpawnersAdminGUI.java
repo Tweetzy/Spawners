@@ -18,12 +18,12 @@
 package ca.tweetzy.spawners.guis.admin;
 
 import ca.tweetzy.flight.comp.enums.CompMaterial;
-import ca.tweetzy.flight.gui.template.BaseGUI;
 import ca.tweetzy.flight.settings.TranslationManager;
 import ca.tweetzy.flight.utils.ChatUtil;
 import ca.tweetzy.flight.utils.Common;
 import ca.tweetzy.flight.utils.QuickItem;
 import ca.tweetzy.spawners.Spawners;
+import ca.tweetzy.spawners.guis.SpawnersBaseGUI;
 import ca.tweetzy.spawners.guis.admin.levels.LevelOptionSelectGUI;
 import ca.tweetzy.spawners.guis.admin.presets.PresetListGUI;
 import ca.tweetzy.spawners.guis.admin.shop.SpawnerShopAdminGUI;
@@ -36,7 +36,7 @@ import ca.tweetzy.spawners.settings.Translations;
  *
  * @author Kiran Hart
  */
-public final class SpawnersAdminGUI extends BaseGUI {
+public final class SpawnersAdminGUI extends SpawnersBaseGUI {
 
 	public SpawnersAdminGUI() {
 		super(null, TranslationManager.string(Translations.GUI_ADMIN_MAIN_TITLE, "plugin_version", Spawners.getInstance().getVersion()), 5);

@@ -40,8 +40,6 @@ public final class Translations extends TranslationManager {
  */
 	public static final TranslationEntry MISC_IS_ALLOWED = create("conditionals.is allowed", "&aAllowed");
 	public static final TranslationEntry MISC_IS_DISALLOWED = create("conditionals.is disallowed", "&cDisallowed");
-	public static final TranslationEntry MISC_NEXT_PAGE = create("conditionals.next page", "&eNext Page");
-	public static final TranslationEntry MISC_PREV_PAGE = create("conditionals.prev page", "&ePrevious Page");
 	public static final TranslationEntry NOT_ENOUGH_MONEY = create("misc.not enough money", "&cYou do not have enough money!");
 	public static final TranslationEntry NOT_A_NUMBER = create("misc.not a number", "&cThat is not a valid number");
 	public static final TranslationEntry PLAYER_OFFLINE = create("misc.player not found", "&cThe player &4%player% &cis not online!");
@@ -57,6 +55,27 @@ public final class Translations extends TranslationManager {
 	public static final TranslationEntry NEED_TO_MAKE_LEVELS = create("misc.need to create levels", "&cYou need to create 1 level for each upgrade first.");
 	public static final TranslationEntry SPAWNER_CHUNK_LIMIT_REACHED = create("misc.spawner per chunk limit reached", "&cYou cannot place anymore spawners within this chunk!");
 	public static final TranslationEntry SPAWNER_PLACE_LIMIT_REACHED = create("misc.spawner place limit reached", "&cYou cannot place anymore spawners!");
+
+
+	public static TranslationEntry GUI_SHARED_ITEMS_BACK_BUTTON_NAME = create("gui.shared buttons.back button.name", "<GRADIENT:65B1B4>&LGo Back</GRADIENT:2B6F8A>");
+	public static TranslationEntry GUI_SHARED_ITEMS_BACK_BUTTON_LORE = create("gui.shared buttons.back button.lore",
+			"&e&l%left_click% &7to go back"
+	);
+
+	public static TranslationEntry GUI_SHARED_ITEMS_EXIT_BUTTON_NAME = create("gui.shared buttons.exit button.name", "<GRADIENT:65B1B4>&LExit</GRADIENT:2B6F8A>");
+	public static TranslationEntry GUI_SHARED_ITEMS_EXIT_BUTTON_LORE = create("gui.shared buttons.exit button.lore",
+			"&e&l%left_click% &7to exit menu"
+	);
+
+	public static TranslationEntry GUI_SHARED_ITEMS_PREVIOUS_BUTTON_NAME = create("gui.shared buttons.previous button.name", "<GRADIENT:65B1B4>&lPrevious Page</GRADIENT:2B6F8A>");
+	public static TranslationEntry GUI_SHARED_ITEMS_PREVIOUS_BUTTON_LORE = create("gui.shared buttons.previous button.lore",
+			"&e&l%left_click% &7to go back a page"
+	);
+
+	public static TranslationEntry GUI_SHARED_ITEMS_NEXT_BUTTON_NAME = create("gui.shared buttons.next button.name", "<GRADIENT:65B1B4>&lNext Page</GRADIENT:2B6F8A>");
+	public static TranslationEntry GUI_SHARED_ITEMS_NEXT_BUTTON_LORE = create("gui.shared buttons.next button.lore",
+			"&e&l%left_click% &7to go to next page"
+	);
 
 	public static final TranslationEntry MOB_NAME_ALLAY = create("mob names.allay", "Allay");
 	public static final TranslationEntry MOB_NAME_FROG = create("mob names.frog", "Frog");

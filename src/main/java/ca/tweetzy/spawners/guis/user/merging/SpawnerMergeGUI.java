@@ -18,7 +18,6 @@
 package ca.tweetzy.spawners.guis.user.merging;
 
 import ca.tweetzy.flight.comp.enums.CompMaterial;
-import ca.tweetzy.flight.gui.template.BaseGUI;
 import ca.tweetzy.flight.nbtapi.NBT;
 import ca.tweetzy.flight.settings.TranslationManager;
 import ca.tweetzy.flight.utils.QuickItem;
@@ -26,6 +25,7 @@ import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.LevelOption;
 import ca.tweetzy.spawners.api.spawner.Level;
 import ca.tweetzy.spawners.api.spawner.Spawner;
+import ca.tweetzy.spawners.guis.SpawnersBaseGUI;
 import ca.tweetzy.spawners.guis.user.SpawnerOverviewGUI;
 import ca.tweetzy.spawners.impl.PlacedSpawner;
 import ca.tweetzy.spawners.model.SpawnerBuilder;
@@ -38,7 +38,7 @@ import org.bukkit.scheduler.BukkitTask;
 
 import java.util.HashMap;
 
-public final class SpawnerMergeGUI extends BaseGUI {
+public final class SpawnerMergeGUI extends SpawnersBaseGUI {
 
 	private final Spawner spawner;
 	private final boolean canUpgrade;
@@ -154,7 +154,7 @@ public final class SpawnerMergeGUI extends BaseGUI {
 	private Spawner convertItemstackToSpawner(@NonNull final ItemStack itemStack) {
 		if (!NBT.get(itemStack, nbt -> (boolean) nbt.hasTag("Spawners:entity"))) return null;
 
-		final EntityType entityType = NBT.get(itemStack, nbt ->(EntityType) nbt.getEnum("Spawners:entity", EntityType.class));
+		final EntityType entityType = NBT.get(itemStack, nbt -> (EntityType) nbt.getEnum("Spawners:entity", EntityType.class));
 
 		final Level delayLevel = Spawners.getLevelManager().find(LevelOption.SPAWN_INTERVAL, Integer.parseInt(NBT.get(itemStack, nbt -> (String) nbt.getString("Spawners:delay"))));
 		final Level spawnCountLevel = Spawners.getLevelManager().find(LevelOption.SPAWN_COUNT, Integer.parseInt(NBT.get(itemStack, nbt -> (String) nbt.getString("Spawners:spawnCount"))));
