@@ -211,7 +211,9 @@ public final class BlockListeners implements Listener {
 		if (block.getType() != CompMaterial.SPAWNER.parseMaterial()) return;
 
 		final CreatureSpawner creatureSpawner = (CreatureSpawner) block.getState();
+		final ItemStack stack = player.getInventory().getItemInMainHand();
 		final Spawner spawner = Spawners.getSpawnerManager().find(event.getBlock().getLocation());
+		final boolean hasSilk = player.hasPermission("spawners.nosilktouch") || stack.containsEnchantment(Enchantment.SILK_TOUCH);
 
 		// spawner placed by user
 		if (spawner != null) {
@@ -232,6 +234,12 @@ public final class BlockListeners implements Listener {
 			}
 
 			if (!handleTool(player)) {
+				event.setCancelled(true);
+				return;
+			}
+
+			if (Settings.MINE_REQUIRES_SILK_TOUCH.getBoolean() && !hasSilk) {
+				Common.tell(player, TranslationManager.string(Translations.SPAWNER_REQUIRE_SILK));
 				event.setCancelled(true);
 				return;
 			}
@@ -265,6 +273,16 @@ public final class BlockListeners implements Listener {
 		// natural spawner
 		// check entity break perm
 		if (!handleEntityBreakPerm(spawnerUser, player, creatureSpawner.getSpawnedType())) {
+			event.setCancelled(true);
+			return;
+		}
+
+		if (Settings.MINE_REQUIRES_SILK_TOUCH.getBoolean() && !hasSilk) {
+			if (Settings.MINE_WITHOUT_SILK_BREAKS.getBoolean()) {
+				return;
+			}
+
+			Common.tell(player, TranslationManager.string(Translations.SPAWNER_REQUIRE_SILK));
 			event.setCancelled(true);
 			return;
 		}
@@ -390,15 +408,15 @@ public final class BlockListeners implements Listener {
 			return false;
 		}
 
-		if (Settings.MINE_REQUIRES_SILK_TOUCH.getBoolean()) {
-			if (player.hasPermission("spawners.nosilktouch"))
-				return true;
-
-			if (!stack.containsEnchantment(Enchantment.SILK_TOUCH)) {
-				Common.tell(player, TranslationManager.string(Translations.SPAWNER_REQUIRE_SILK));
-				return false;
-			}
-		}
+//		if (Settings.MINE_REQUIRES_SILK_TOUCH.getBoolean()) {
+//			if (player.hasPermission("spawners.nosilktouch"))
+//				return true;
+//
+//			if (!stack.containsEnchantment(Enchantment.SILK_TOUCH)) {
+//				Common.tell(player, TranslationManager.string(Translations.SPAWNER_REQUIRE_SILK));
+//				return false;
+//			}
+//		}
 
 		return true;
 	}

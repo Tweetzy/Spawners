@@ -71,6 +71,7 @@ public final class Settings extends FlightSettings {
 
 	public static final ConfigEntry MINE_DROP_CHANCE = config.createEntry("mine.drop chance", 50D).withComment("Chance for the spawner to drop when mined");
 	public static final ConfigEntry MINE_REQUIRES_SILK_TOUCH = config.createEntry("mine.requires silk touch", true).withComment("Should silk touch be required to mine spawners?");
+	public static final ConfigEntry MINE_WITHOUT_SILK_BREAKS = config.createEntry("mine.no silk drops nothing", true).withComment("If a player mines a spawner (natural) without silk touch, it drops nothing");
 
 	public static final ConfigEntry EXPLOSION_DROP_ENABLED = config.createEntry("explosion.drop enabled", true).withComment("Should spawners break during an explosion");
 	public static final ConfigEntry EXPLOSION_DROP_CHANCE = config.createEntry("explosion.drop chance", 25D).withComment("The chance for the spawner to drop if exploded by tnt");
