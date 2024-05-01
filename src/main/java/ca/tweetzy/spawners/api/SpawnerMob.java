@@ -21,6 +21,7 @@ import ca.tweetzy.flight.settings.TranslationManager;
 import ca.tweetzy.spawners.settings.Translations;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.EntityType;
 
 /**
@@ -40,7 +41,7 @@ public enum SpawnerMob {
 
 
 	OCELOT(EntityType.OCELOT, TranslationManager.string(Translations.MOB_NAME_OCELOT), MobBehaviour.PASSIVE, "https://textures.minecraft.net/texture/8c433c1347313b23b67eec92f8807aed2566ec29fd416bdf7a59c22596628355"),
-	MUSHROOM_COW(EntityType.MUSHROOM_COW, TranslationManager.string(Translations.MOB_NAME_MUSHROOM_COW), MobBehaviour.PASSIVE, "https://textures.minecraft.net/texture/d0bc61b9757a7b83e03cd2507a2157913c2cf016e7c096a4d6cf1fe1b8db"),
+	MUSHROOM_COW((Bukkit.getServer().getBukkitVersion().contains("1.20.5") || Bukkit.getServer().getBukkitVersion().contains("1.20.6")) ? EntityType.MOOSHROOM : EntityType.valueOf("MUSHROOM_COW"), TranslationManager.string(Translations.MOB_NAME_MUSHROOM_COW), MobBehaviour.PASSIVE, "https://textures.minecraft.net/texture/d0bc61b9757a7b83e03cd2507a2157913c2cf016e7c096a4d6cf1fe1b8db"),
 	PIG(EntityType.PIG, TranslationManager.string(Translations.MOB_NAME_PIG), MobBehaviour.PASSIVE, "https://textures.minecraft.net/texture/1a371a06ea7858f89d27cc1055c317b23f105c9125bc516d3891aa4c835c299"),
 	SHEEP(EntityType.SHEEP, TranslationManager.string(Translations.MOB_NAME_SHEEP), MobBehaviour.PASSIVE, "https://textures.minecraft.net/texture/292df216ecd27624ac771bacfbfe006e1ed84a79e9270be0f88e9c8791d1ece4"),
 	COW(EntityType.COW, TranslationManager.string(Translations.MOB_NAME_COW), MobBehaviour.PASSIVE, "https://textures.minecraft.net/texture/82fa683a1c584a9723603548c8c03eaf47e8365bafc16af15b14814268c7c778"),
@@ -61,7 +62,7 @@ public enum SpawnerMob {
 	MULE(EntityType.MULE, TranslationManager.string(Translations.MOB_NAME_MULE), MobBehaviour.PASSIVE, "https://textures.minecraft.net/texture/a0486a742e7dda0bae61ce2f55fa13527f1c3b334c57c034bb4cf132fb5f5f"),
 	BAT(EntityType.BAT, TranslationManager.string(Translations.MOB_NAME_BAT), MobBehaviour.PASSIVE, "https://textures.minecraft.net/texture/6681a72da7263ca9aef066542ecca7a180c40e328c0463fcb114cb3b83057552"),
 	CAT(EntityType.CAT, TranslationManager.string(Translations.MOB_NAME_CAT), MobBehaviour.PASSIVE, "https://textures.minecraft.net/texture/e566de34d04d14b39fcb15daaa7b547fb238e7d3187b424d426958adc514033"),
-	SNOWMAN(EntityType.SNOWMAN, TranslationManager.string(Translations.MOB_NAME_SNOWMAN), MobBehaviour.PASSIVE, "https://textures.minecraft.net/texture/9aed9fe4ed0893e325f4fbd32b093c1cc562cba27ff73359d356f1c288e441f9"),
+	SNOWMAN((Bukkit.getServer().getBukkitVersion().contains("1.20.5") || Bukkit.getServer().getBukkitVersion().contains("1.20.6")) ? EntityType.SNOW_GOLEM : EntityType.valueOf("SNOWMAN"), TranslationManager.string(Translations.MOB_NAME_SNOWMAN), MobBehaviour.PASSIVE, "https://textures.minecraft.net/texture/9aed9fe4ed0893e325f4fbd32b093c1cc562cba27ff73359d356f1c288e441f9"),
 	HORSE(EntityType.HORSE, TranslationManager.string(Translations.MOB_NAME_HORSE), MobBehaviour.PASSIVE, "https://textures.minecraft.net/texture/679d0cf0615ff81b1d5d0b791af85494ab6b5af971de18a46a8f911b3b59736e"),
 	RABBIT(EntityType.RABBIT, TranslationManager.string(Translations.MOB_NAME_RABBIT), MobBehaviour.PASSIVE, "https://textures.minecraft.net/texture/99f083ddd0af6c44553dc5ee8d113e07240407e2e8bf841ad44c881b690b668c"),
 	FOX(EntityType.FOX, TranslationManager.string(Translations.MOB_NAME_FOX), MobBehaviour.PASSIVE, "https://textures.minecraft.net/texture/e2f62858a09b09608397a33ad2de0341d39ddbd70fd480e5e83739e0cf79b212"),

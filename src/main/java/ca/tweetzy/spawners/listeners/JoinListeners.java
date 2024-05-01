@@ -17,12 +17,10 @@
  */
 package ca.tweetzy.spawners.listeners;
 
-import ca.tweetzy.flight.utils.Common;
 import ca.tweetzy.spawners.Spawners;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 /**
@@ -41,8 +39,4 @@ public final class JoinListeners implements Listener {
 			Spawners.getPlayerManager().createPlayer(player, null);
 	}
 
-	@EventHandler
-	public void onChat(AsyncPlayerChatEvent chatEvent) {
-		chatEvent.setMessage(Common.colorize(chatEvent.getMessage()));
-	}
 }

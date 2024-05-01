@@ -29,6 +29,7 @@ import ca.tweetzy.spawners.api.spawner.Spawner;
 import ca.tweetzy.spawners.api.spawner.SpawnerUser;
 import ca.tweetzy.spawners.impl.PlacedSpawner;
 import ca.tweetzy.spawners.model.SpawnerBuilder;
+import ca.tweetzy.spawners.model.hook.TownyHook;
 import ca.tweetzy.spawners.settings.Settings;
 import ca.tweetzy.spawners.settings.Translations;
 import lombok.NonNull;
@@ -74,6 +75,14 @@ public final class BlockListeners implements Listener {
 		if (hand.getType() != CompMaterial.SPAWNER.parseMaterial()) return;
 		if (!NBT.get(hand, nbt -> (boolean) nbt.hasTag("Spawners:ownerUUID"))) return;
 //
+		// check towny
+		// TODO move this into flight
+		if (!TownyHook.canBuild(player, event.getBlockAgainst())) {
+			event.setCancelled(true);
+			event.setBuild(false);
+			return;
+		}
+
 		final UUID uuid = UUID.fromString(NBT.get(hand, nbt -> (String) nbt.getString("Spawners:ownerUUID")));
 		if (uuid.equals(SpawnerBuilder.NULL_UUID)) {
 
@@ -121,6 +130,14 @@ public final class BlockListeners implements Listener {
 		final ItemStack hand = event.getItemInHand().clone();
 
 		if (!NBT.get(hand, nbt -> (boolean) nbt.hasTag("Spawners:ownerUUID"))) return;
+
+		// check towny
+		// TODO move this into flight
+		if (!TownyHook.canBuild(player, event.getBlockAgainst())) {
+			event.setCancelled(true);
+			event.setBuild(false);
+			return;
+		}
 
 		final UUID owner = UUID.fromString(NBT.get(hand, nbt -> (String) nbt.getString("Spawners:ownerUUID")));
 		final String ownerName = NBT.get(hand, nbt -> (String) nbt.getString("Spawners:ownerName"));
@@ -214,6 +231,15 @@ public final class BlockListeners implements Listener {
 		final ItemStack stack = player.getInventory().getItemInMainHand();
 		final Spawner spawner = Spawners.getSpawnerManager().find(event.getBlock().getLocation());
 		final boolean hasSilk = player.hasPermission("spawners.nosilktouch") || stack.containsEnchantment(Enchantment.SILK_TOUCH);
+
+		// check towny
+		// TODO move this into flight
+		if (!TownyHook.canBreak(player, block)) {
+			event.setCancelled(true);
+			event.setDropItems(false);
+			event.setExpToDrop(0);
+			return;
+		}
 
 		// spawner placed by user
 		if (spawner != null) {
