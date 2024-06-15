@@ -8,7 +8,7 @@
 
     <name>Spawners</name>
     <description>The ultimate spawner plugin</description>
-    <version>1.11.0</version>
+    <version>1.12.0</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -60,7 +60,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
-            <version>1.20.5-R0.1-SNAPSHOT</version>
+            <version>1.21-R0.1-20240613.215823-1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
