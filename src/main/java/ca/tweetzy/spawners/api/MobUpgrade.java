@@ -115,6 +115,11 @@ public enum MobUpgrade {
 	CAMEL(Settings.MOB_CHANGE_CAMEL_ENABLED.getBoolean(), Settings.MOB_CHANGE_CAMEL_COST.getDouble(), SpawnerMob.CAMEL),
 	SNIFFER(Settings.MOB_CHANGE_SNIFFER_ENABLED.getBoolean(), Settings.MOB_CHANGE_SNIFFER_COST.getDouble(), SpawnerMob.SNIFFER),
 
+	// 1.20.5  - 1.21
+	ARMADILLO(Settings.MOB_CHANGE_ARMADILLO_ENABLED.getBoolean(), Settings.MOB_CHANGE_ARMADILLO_COST.getDouble(), SpawnerMob.ARMADILLO),
+	BREEZE(Settings.MOB_CHANGE_BREEZE_ENABLED.getBoolean(), Settings.MOB_CHANGE_BREEZE_COST.getDouble(), SpawnerMob.BREEZE),
+	BOGGED(Settings.MOB_CHANGE_BOGGED_ENABLED.getBoolean(), Settings.MOB_CHANGE_BOGGED_COST.getDouble(), SpawnerMob.BOGGED),
+
 
 	;
 

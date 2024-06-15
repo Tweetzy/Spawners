@@ -156,6 +156,9 @@ public final class Translations extends TranslationManager {
 	public static final TranslationEntry MOB_NAME_GOAT = create("mob names.goat", "Goat");
 	public static final TranslationEntry MOB_NAME_CAMEL = create("mob names.camel", "Camel");
 	public static final TranslationEntry MOB_NAME_SNIFFER = create("mob names.sniffer", "Sniffer");
+	public static final TranslationEntry MOB_NAME_ARMADILLO = create("mob names.armadillo", "Armadillo");
+	public static final TranslationEntry MOB_NAME_BREEZE = create("mob names.breeze", "Breeze");
+	public static final TranslationEntry MOB_NAME_BOGGED = create("mob names.bogged", "Bogged");
 
 	public static final TranslationEntry SPAWNER_NO_OWNER = create("spawner.no owner", "No Owner");
 	public static final TranslationEntry SPAWNER_REQUIRE_SILK = create("spawner.requires silk touch", "&cYou need silk touch to mine spawners!");

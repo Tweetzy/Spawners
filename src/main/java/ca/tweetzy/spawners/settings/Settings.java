@@ -280,6 +280,14 @@ public final class Settings extends FlightSettings {
 	public static final ConfigEntry MOB_CHANGE_SNIFFER_ENABLED = config.createEntry("mob change.sniffer.enabled", true).withComment("Should players be able to set their spawner to a Sniffer");
 	public static final ConfigEntry MOB_CHANGE_SNIFFER_COST = create("mob change.sniffer.cost", 5000D).withComment("The cost to switch the spawner to a Sniffer");
 
+	public static final ConfigEntry MOB_CHANGE_ARMADILLO_ENABLED = config.createEntry("mob change.armadillo.enabled", true).withComment("Should players be able to set their spawner to an Armadillo");
+	public static final ConfigEntry MOB_CHANGE_ARMADILLO_COST = create("mob change.armadillo.cost", 5000D).withComment("The cost to switch the spawner to a Armadillo");
+
+	public static final ConfigEntry MOB_CHANGE_BOGGED_ENABLED = config.createEntry("mob change.bogged.enabled", true).withComment("Should players be able to set their spawner to a Bogged");
+	public static final ConfigEntry MOB_CHANGE_BOGGED_COST = create("mob change.bogged.cost", 5000D).withComment("The cost to switch the spawner to a Bogged");
+
+	public static final ConfigEntry MOB_CHANGE_BREEZE_ENABLED = config.createEntry("mob change.breeze.enabled", true).withComment("Should players be able to set their spawner to a Breeze");
+	public static final ConfigEntry MOB_CHANGE_BREEZE_COST = create("mob change.breeze.cost", 5000D).withComment("The cost to switch the spawner to a Breeze");
 
 	@SneakyThrows
 	public static void setup() {
