@@ -22,6 +22,7 @@ import ca.tweetzy.flight.nbtapi.NBT;
 import ca.tweetzy.flight.settings.TranslationManager;
 import ca.tweetzy.flight.utils.ChatUtil;
 import ca.tweetzy.flight.utils.Common;
+import ca.tweetzy.flight.utils.PlayerUtil;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.LevelOption;
 import ca.tweetzy.spawners.api.spawner.Level;
@@ -283,8 +284,7 @@ public final class BlockListeners implements Listener {
 						);
 
 					spawner.getLevels().forEach((option, level) -> builder.addLevel(level));
-
-					Bukkit.getScheduler().runTaskLater(Spawners.getInstance(), () -> block.getWorld().dropItemNaturally(block.getLocation(), builder.make()), 1L);
+					tryGiveOrDrop(player, block, builder.make());
 				}
 			});
 
@@ -326,8 +326,18 @@ public final class BlockListeners implements Listener {
 
 			builder.addDefaultLevels();
 
-			block.getWorld().dropItemNaturally(block.getLocation(), builder.make());
+			tryGiveOrDrop(player, block, builder.make());
 		}
+	}
+
+	private void tryGiveOrDrop(@NonNull final Player player, @NonNull final Block block, @NonNull final ItemStack itemStack) {
+		Bukkit.getScheduler().runTaskLater(Spawners.getInstance(), () -> {
+			if (!Settings.ATTEMPT_TO_PLACE_IN_INVENTORY.getBoolean())
+				block.getWorld().dropItemNaturally(block.getLocation(), itemStack);
+			else
+				PlayerUtil.giveItem(player, itemStack);
+
+		}, 1L);
 	}
 
 	/*

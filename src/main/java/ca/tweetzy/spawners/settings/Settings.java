@@ -51,6 +51,7 @@ public final class Settings extends FlightSettings {
 
 	public static final ConfigEntry SPAWNER_REQUIRE_REDSTONE_SIGNAL = config.createEntry("redstone.spawners require redstone signal", false).withComment("If true, if a Spawners' spawner doesn't have a redstone signal it will not be able to spawn anything.");
 	public static final ConfigEntry SPAWNER_DISABLES_WITH_REDSTONE_SIGNAL = config.createEntry("redstone.spawners disable with redstone signal", false).withComment("If true the spawner will disable when a redstone signal is applied.");
+	public static final ConfigEntry ATTEMPT_TO_PLACE_IN_INVENTORY = config.createEntry("mine.attempt to place in inventory", false).withComment("If true, Spawners will try to place the item in their player's inventory before dropping it.");
 
 	public static final ConfigEntry MAX_SPAWNER_PER_CHUNK_ENABLED = config.createEntry("max spawners per chunk.enabled", true).withComment("If true, spawners will limit the amount of spawners within a chunk");
 	public static final ConfigEntry MAX_SPAWNER_PER_CHUNK = config.createEntry("max spawners per chunk.max", 16).withComment("If max spawners per chunk.enabled is enabled, it will use this limit");
