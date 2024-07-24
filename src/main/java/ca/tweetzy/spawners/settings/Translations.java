@@ -32,7 +32,7 @@ public final class Translations extends TranslationManager {
 
 
 	public static void init() {
-		new Translations(Spawners.getInstance()).setup();
+		new Translations(Spawners.getInstance()).setup(Spawners.getInstance());
 	}
 
 	/*

@@ -17,8 +17,11 @@
  */
 package ca.tweetzy.spawners.model.manager;
 
+import ca.tweetzy.shops.api.shop.Shop;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.spawner.ShopItem;
+import ca.tweetzy.spawners.model.hook.ShopsHook;
+import ca.tweetzy.spawners.settings.Settings;
 import lombok.NonNull;
 
 import java.util.List;
@@ -84,6 +87,7 @@ public final class ShopItemManager implements Manager {
 	public void load() {
 		// clear player list
 		this.contents.clear();
+
 
 		Spawners.getDataManager().getShopItems((error, result) -> {
 			if (error == null)

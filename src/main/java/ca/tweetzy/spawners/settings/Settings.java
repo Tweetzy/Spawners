@@ -49,6 +49,9 @@ public final class Settings extends FlightSettings {
 	public static final ConfigEntry ALLOW_NON_OWNER_BREAK = config.createEntry("allow non owner break", false).withComment("If true, player's who don't own the spawner item/block can still break it");
 	public static final ConfigEntry ENABLE_SHOP = config.createEntry("enable shop", true).withComment("If true, the shop icon will appear in /spawners for users to buy spawners (items need to be added first)");
 
+	public static final ConfigEntry USE_SHOPS_FOR_SELLING  = config.createEntry("shop.use shops for selling", false).withComment("If true spawners will use the specified shop from the Shops plugin (by Tweetzy) instead of the built-in one.");
+	public static final ConfigEntry SHOPS_ID  = config.createEntry("shop.shops store id", "spawners").withComment("This is the id of the shop name from Shops, if this is not correct it will default to the built in one. (the shops category can be private)");
+
 	public static final ConfigEntry SPAWNER_REQUIRE_REDSTONE_SIGNAL = config.createEntry("redstone.spawners require redstone signal", false).withComment("If true, if a Spawners' spawner doesn't have a redstone signal it will not be able to spawn anything.");
 	public static final ConfigEntry SPAWNER_DISABLES_WITH_REDSTONE_SIGNAL = config.createEntry("redstone.spawners disable with redstone signal", false).withComment("If true the spawner will disable when a redstone signal is applied.");
 	public static final ConfigEntry ATTEMPT_TO_PLACE_IN_INVENTORY = config.createEntry("mine.attempt to place in inventory", false).withComment("If true, Spawners will try to place the item in their player's inventory before dropping it.");

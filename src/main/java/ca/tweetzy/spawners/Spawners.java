@@ -95,7 +95,7 @@ public final class Spawners extends FlightPlugin {
 		Arrays.asList(this.playerManager, this.levelManager, this.spawnerManager, this.presetManager, this.shopItemManager).forEach(Manager::load);
 
 		// setup command manager
-		this.commandManager.registerCommandDynamically(new SpawnersCommand()).addSubCommands(new GiveCommand(), new AdminCommand(), new SetCommand(), new ButcherCommand());
+		this.commandManager.registerCommandDynamically(new SpawnersCommand()).addSubCommands(new GiveCommand(), new AdminCommand(), new SetCommand(), new ButcherCommand(), new ReloadCommand());
 
 		// initialize gui manager
 		this.guiManager.init();

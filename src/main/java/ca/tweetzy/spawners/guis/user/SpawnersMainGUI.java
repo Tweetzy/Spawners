@@ -21,9 +21,13 @@ import ca.tweetzy.flight.comp.enums.CompMaterial;
 import ca.tweetzy.flight.settings.TranslationManager;
 import ca.tweetzy.flight.utils.Common;
 import ca.tweetzy.flight.utils.QuickItem;
+import ca.tweetzy.shops.Shops;
+import ca.tweetzy.shops.api.shop.Shop;
+import ca.tweetzy.shops.gui.user.ShopContentsGUI;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.spawner.SpawnerUser;
 import ca.tweetzy.spawners.guis.SpawnersBaseGUI;
+import ca.tweetzy.spawners.model.hook.ShopsHook;
 import ca.tweetzy.spawners.settings.Settings;
 import ca.tweetzy.spawners.settings.Translations;
 import lombok.NonNull;
@@ -81,7 +85,15 @@ public final class SpawnersMainGUI extends SpawnersBaseGUI {
 					return;
 				}
 
-				click.manager.showGUI(click.player, new SpawnerShopGUI(this.spawnerUser));
+				if (Settings.USE_SHOPS_FOR_SELLING.getBoolean() && ShopsHook.isShopsEnabled()) {
+					final Shop shop = ShopsHook.getSpawnerShop();
+					if (shop == null)
+						click.manager.showGUI(click.player, new SpawnerShopGUI(this.spawnerUser));
+					else
+						Shops.getGuiManager().showGUI(click.player, new ShopContentsGUI(null, click.player, shop, true));
+				} else {
+					click.manager.showGUI(click.player, new SpawnerShopGUI(this.spawnerUser));
+				}
 			});
 	}
 }
