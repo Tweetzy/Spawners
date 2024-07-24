@@ -8,7 +8,7 @@
 
     <name>Spawners</name>
     <description>The ultimate spawner plugin</description>
-    <version>1.13.0</version>
+    <version>1.14.0</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -16,7 +16,7 @@
         <jarName>${project.name}</jarName>
         <main.class>${project.groupId}.${project.artifactId}.${project.name}</main.class>
         <java.version>16</java.version>
-        <flight.version>3.23.0</flight.version>
+        <flight.version>3.24.0</flight.version>
         <flight.path>ca.tweetzy</flight.path>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -67,6 +67,11 @@
             <groupId>${flight.path}</groupId>
             <artifactId>flight</artifactId>
             <version>${flight.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${flight.path}</groupId>
+            <artifactId>shops</artifactId>
+            <version>4.6.0</version>
         </dependency>
         <dependency>
             <groupId>com.github.MilkBowl</groupId>
