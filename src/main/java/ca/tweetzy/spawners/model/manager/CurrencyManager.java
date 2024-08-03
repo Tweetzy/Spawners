@@ -19,6 +19,7 @@ package ca.tweetzy.spawners.model.manager;
 
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.AbstractCurrency;
+import ca.tweetzy.spawners.api.manager.ListManager;
 import ca.tweetzy.spawners.model.loader.UltraEconomyLoader;
 import lombok.NonNull;
 import org.bukkit.OfflinePlayer;
@@ -27,9 +28,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public final class CurrencyManager implements Manager {
+public final class CurrencyManager extends ListManager<AbstractCurrency> {
 
-	private final List<AbstractCurrency> currencies = Collections.synchronizedList(new ArrayList<>());
+	public CurrencyManager() {
+		super("Currency");
+	}
 
 	public boolean has(@NonNull final OfflinePlayer offlinePlayer, @NonNull final String owningPlugin, @NonNull final String currencyName, final double amount) {
 		if (owningPlugin.equalsIgnoreCase("vault") || currencyName.equalsIgnoreCase("vault"))
@@ -48,16 +51,18 @@ public final class CurrencyManager implements Manager {
 	}
 
 	public AbstractCurrency locateCurrency(@NonNull final String owningPlugin, @NonNull final String currencyName) {
-		synchronized (this.currencies) {
-			return this.currencies.stream().filter(currency -> currency.getOwningPlugin().equals(owningPlugin) && currency.getCurrencyName().equals(currencyName)).findFirst().orElse(null);
+		synchronized (this.managerContent) {
+			return this.managerContent.stream().filter(currency -> currency.getOwningPlugin().equals(owningPlugin) && currency.getCurrencyName().equals(currencyName)).findFirst().orElse(null);
 		}
 	}
 
 	@Override
 	public void load() {
-		synchronized (this.currencies) {
-			this.currencies.clear();
-			this.currencies.addAll(UltraEconomyLoader.getAllCurrencies());
+		this.managerContent.clear();
+
+
+		synchronized (this.managerContent) {
+			this.managerContent.addAll(UltraEconomyLoader.getAllCurrencies());
 		}
 	}
 

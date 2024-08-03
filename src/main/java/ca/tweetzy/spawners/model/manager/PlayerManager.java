@@ -18,15 +18,14 @@
 package ca.tweetzy.spawners.model.manager;
 
 import ca.tweetzy.spawners.Spawners;
+import ca.tweetzy.spawners.api.manager.KeyValueManager;
 import ca.tweetzy.spawners.api.spawner.SpawnerUser;
 import ca.tweetzy.spawners.impl.SpawnerPlayer;
 import lombok.NonNull;
 import org.bukkit.entity.Player;
 
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
 
 /**
@@ -35,22 +34,24 @@ import java.util.function.BiConsumer;
  *
  * @author Kiran Hart
  */
-public final class PlayerManager implements Manager {
+public final class PlayerManager extends KeyValueManager<UUID, SpawnerUser> {
 
-	private final Map<UUID, SpawnerUser> contents = new ConcurrentHashMap<>();
+	public PlayerManager() {
+		super("Player");
+	}
 
 	public void add(@NonNull SpawnerUser spawnerUser) {
-		if (this.contents.containsKey(spawnerUser.getUUID())) return;
-		this.contents.put(spawnerUser.getUUID(), spawnerUser);
+		if (this.managerContent.containsKey(spawnerUser.getUUID())) return;
+		this.managerContent.put(spawnerUser.getUUID(), spawnerUser);
 	}
 
 	public void remove(@NonNull UUID userUUID) {
-		if (!this.contents.containsKey(userUUID)) return;
-		this.contents.remove(userUUID);
+		if (!this.managerContent.containsKey(userUUID)) return;
+		this.managerContent.remove(userUUID);
 	}
 
 	public SpawnerUser find(@NonNull UUID userUUID) {
-		return this.contents.getOrDefault(userUUID, null);
+		return this.managerContent.getOrDefault(userUUID, null);
 	}
 
 	public SpawnerUser findUser(@NonNull final Player player) {
@@ -58,7 +59,7 @@ public final class PlayerManager implements Manager {
 	}
 
 	public List<SpawnerUser> getContents() {
-		return List.copyOf(this.contents.values());
+		return List.copyOf(this.managerContent.values());
 	}
 
 	/*
@@ -78,7 +79,7 @@ public final class PlayerManager implements Manager {
 	@Override
 	public void load() {
 		// clear player list
-		this.contents.clear();
+		clear();
 
 		Spawners.getDataManager().getUsers((error, result) -> {
 			if (error == null)

@@ -18,12 +18,11 @@
 package ca.tweetzy.spawners.model.manager;
 
 import ca.tweetzy.spawners.Spawners;
+import ca.tweetzy.spawners.api.manager.KeyValueManager;
 import ca.tweetzy.spawners.api.spawner.Preset;
 import lombok.NonNull;
 
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -33,26 +32,28 @@ import java.util.function.Consumer;
  *
  * @author Kiran Hart
  */
-public final class PresetManager implements Manager {
+public final class PresetManager extends KeyValueManager<String, Preset> {
 
-	private final Map<String, Preset> contents = new ConcurrentHashMap<>();
+	public PresetManager() {
+		super("Preset");
+	}
 
 	public void add(@NonNull Preset preset) {
-		if (this.contents.containsKey(preset.getId())) return;
-		this.contents.put(preset.getId().toLowerCase(), preset);
+		if (this.managerContent.containsKey(preset.getId())) return;
+		this.managerContent.put(preset.getId().toLowerCase(), preset);
 	}
 
 	public void remove(@NonNull String key) {
-		if (!this.contents.containsKey(key.toLowerCase())) return;
-		this.contents.remove(key.toLowerCase());
+		if (!this.managerContent.containsKey(key.toLowerCase())) return;
+		this.managerContent.remove(key.toLowerCase());
 	}
 
 	public Preset find(@NonNull String key) {
-		return this.contents.getOrDefault(key.toLowerCase(), null);
+		return this.managerContent.getOrDefault(key.toLowerCase(), null);
 	}
 
 	public List<Preset> getContents() {
-		return List.copyOf(this.contents.values());
+		return List.copyOf(this.managerContent.values());
 	}
 
 	public void createPreset(@NonNull final Preset preset, final BiConsumer<Boolean, Preset> consumer) {
@@ -77,7 +78,7 @@ public final class PresetManager implements Manager {
 
 	@Override
 	public void load() {
-		this.contents.clear();
+		clear();
 
 		Spawners.getDataManager().getSpawnerPresets((error, results) -> {
 			if (error == null)

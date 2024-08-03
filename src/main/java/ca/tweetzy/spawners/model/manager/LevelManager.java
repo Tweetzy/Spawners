@@ -19,6 +19,7 @@ package ca.tweetzy.spawners.model.manager;
 
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.LevelOption;
+import ca.tweetzy.spawners.api.manager.ListManager;
 import ca.tweetzy.spawners.api.spawner.Level;
 import lombok.NonNull;
 
@@ -36,33 +37,28 @@ import java.util.stream.Collectors;
  *
  * @author Kiran Hart
  */
-public final class LevelManager implements Manager {
+public final class LevelManager extends ListManager<Level> {
 
-	private final List<Level> levels = Collections.synchronizedList(new ArrayList<>());
-
-	public void add(@NonNull final Level level) {
-		synchronized (this.levels) {
-			if (this.levels.contains(level)) return;
-			this.levels.add(level);
-		}
+	public LevelManager() {
+		super("Level");
 	}
 
 	public void remove(@NonNull final Level level) {
-		synchronized (this.levels) {
-			if (!this.levels.contains(level)) return;
-			this.levels.remove(level);
+		synchronized (this.managerContent) {
+			if (!this.managerContent.contains(level)) return;
+			this.managerContent.remove(level);
 		}
 	}
 
 	public Level find(@NonNull final LevelOption levelOption, final int levelNumber) {
-		synchronized (this.levels) {
-			return this.levels.stream().filter(level -> level.getLevelOption() == levelOption && level.getLevelNumber() == levelNumber).findFirst().orElse(null);
+		synchronized (this.managerContent) {
+			return this.managerContent.stream().filter(level -> level.getLevelOption() == levelOption && level.getLevelNumber() == levelNumber).findFirst().orElse(null);
 		}
 	}
 
 	public List<Level> getContents() {
-		synchronized (this.levels) {
-			return List.copyOf(levels);
+		synchronized (this.managerContent) {
+			return List.copyOf(managerContent);
 		}
 	}
 
@@ -74,8 +70,8 @@ public final class LevelManager implements Manager {
 	}
 
 	public List<Level> getLevels(@NonNull final LevelOption levelOption) {
-		synchronized (this.levels) {
-			return List.copyOf(this.levels.stream().filter(level -> level.getLevelOption() == levelOption).collect(Collectors.toList()));
+		synchronized (this.managerContent) {
+			return List.copyOf(this.managerContent.stream().filter(level -> level.getLevelOption() == levelOption).collect(Collectors.toList()));
 		}
 	}
 
@@ -134,6 +130,7 @@ public final class LevelManager implements Manager {
 
 	@Override
 	public void load() {
+		clear();
 
 		Spawners.getDataManager().getLevels((error, result) -> {
 			if (error == null)

@@ -18,6 +18,7 @@
 package ca.tweetzy.spawners.model.manager;
 
 import ca.tweetzy.spawners.Spawners;
+import ca.tweetzy.spawners.api.manager.KeyValueManager;
 import ca.tweetzy.spawners.api.spawner.Level;
 import ca.tweetzy.spawners.api.spawner.Spawner;
 import ca.tweetzy.spawners.settings.Settings;
@@ -40,27 +41,29 @@ import java.util.function.Consumer;
  *
  * @author Kiran Hart
  */
-public final class SpawnerManager implements Manager {
+public final class SpawnerManager extends KeyValueManager<Location, Spawner> {
 
-	public Map<Location, Spawner> contents = new ConcurrentHashMap<>();
+	public SpawnerManager() {
+		super("Spawner");
+	}
 
 	public void add(@NotNull Spawner spawner) {
-		if (this.contents.containsKey(spawner.getLocation())) return;
-		this.contents.put(spawner.getLocation(), spawner);
+		if (this.managerContent.containsKey(spawner.getLocation())) return;
+		this.managerContent.put(spawner.getLocation(), spawner);
 	}
 
 	public void remove(@NotNull Location location) {
-		if (!this.contents.containsKey(location)) return;
-		this.contents.remove(location);
+		if (!this.managerContent.containsKey(location)) return;
+		this.managerContent.remove(location);
 	}
 
 	public Spawner find(@NotNull Location location) {
-		return this.contents.getOrDefault(location, null);
+		return this.managerContent.getOrDefault(location, null);
 
 	}
 
 	public List<Spawner> getContents() {
-		return List.copyOf(this.contents.values());
+		return List.copyOf(this.managerContent.values());
 	}
 
 	/*
@@ -148,7 +151,7 @@ public final class SpawnerManager implements Manager {
 
 	@Override
 	public void load() {
-		this.contents.clear();
+		clear();
 
 		Spawners.getDataManager().getSpawners((error, result) -> {
 			if (error == null)

@@ -17,17 +17,13 @@
  */
 package ca.tweetzy.spawners.model.manager;
 
-import ca.tweetzy.shops.api.shop.Shop;
 import ca.tweetzy.spawners.Spawners;
+import ca.tweetzy.spawners.api.manager.KeyValueManager;
 import ca.tweetzy.spawners.api.spawner.ShopItem;
-import ca.tweetzy.spawners.model.hook.ShopsHook;
-import ca.tweetzy.spawners.settings.Settings;
 import lombok.NonNull;
 
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -37,26 +33,28 @@ import java.util.function.Consumer;
  *
  * @author Kiran Hart
  */
-public final class ShopItemManager implements Manager {
+public final class ShopItemManager extends KeyValueManager<UUID, ShopItem> {
 
-	private final Map<UUID, ShopItem> contents = new ConcurrentHashMap<>();
+	public ShopItemManager() {
+		super("Shop Item");
+	}
 
 	public void add(@NonNull ShopItem shopItem) {
-		if (this.contents.containsKey(shopItem.getUUID())) return;
-		this.contents.put(shopItem.getUUID(), shopItem);
+		if (this.managerContent.containsKey(shopItem.getUUID())) return;
+		this.managerContent.put(shopItem.getUUID(), shopItem);
 	}
 
 	public void remove(@NonNull UUID id) {
-		if (!this.contents.containsKey(id)) return;
-		this.contents.remove(id);
+		if (!this.managerContent.containsKey(id)) return;
+		this.managerContent.remove(id);
 	}
 
 	public ShopItem find(@NonNull UUID id) {
-		return this.contents.getOrDefault(id, null);
+		return this.managerContent.getOrDefault(id, null);
 	}
 
 	public List<ShopItem> getContents() {
-		return List.copyOf(this.contents.values());
+		return List.copyOf(this.managerContent.values());
 	}
 
 		/*
@@ -85,9 +83,7 @@ public final class ShopItemManager implements Manager {
 
 	@Override
 	public void load() {
-		// clear player list
-		this.contents.clear();
-
+		clear();
 
 		Spawners.getDataManager().getShopItems((error, result) -> {
 			if (error == null)

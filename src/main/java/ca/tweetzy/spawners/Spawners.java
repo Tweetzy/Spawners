@@ -27,6 +27,7 @@ import ca.tweetzy.flight.database.SQLiteConnector;
 import ca.tweetzy.flight.gui.GuiManager;
 import ca.tweetzy.flight.utils.Common;
 import ca.tweetzy.spawners.api.SpawnersAPI;
+import ca.tweetzy.spawners.api.manager.Manager;
 import ca.tweetzy.spawners.commands.*;
 import ca.tweetzy.spawners.database.DataManager;
 import ca.tweetzy.spawners.database.migrations._1_InitialMigration;
@@ -60,6 +61,7 @@ public final class Spawners extends FlightPlugin {
 	private final SpawnerManager spawnerManager = new SpawnerManager();
 	private final PresetManager presetManager = new PresetManager();
 	private final ShopItemManager shopItemManager = new ShopItemManager();
+	private final RegionHookManager regionHookManager = new RegionHookManager();
 
 	private final SpawnersAPI spawnersAPI = new APIImplementation();
 
@@ -92,7 +94,7 @@ public final class Spawners extends FlightPlugin {
 		// check vault
 		setupEconomy();
 
-		Arrays.asList(this.playerManager, this.levelManager, this.spawnerManager, this.presetManager, this.shopItemManager).forEach(Manager::load);
+		Arrays.asList(this.playerManager, this.levelManager, this.spawnerManager, this.presetManager, this.shopItemManager, this.regionHookManager).forEach(Manager::load);
 
 		// setup command manager
 		this.commandManager.registerCommandDynamically(new SpawnersCommand()).addSubCommands(new GiveCommand(), new AdminCommand(), new SetCommand(), new ButcherCommand(), new ReloadCommand());
@@ -157,6 +159,12 @@ public final class Spawners extends FlightPlugin {
 	public static ShopItemManager getShopItemManager() {
 		return getInstance().shopItemManager;
 	}
+
+	// region manager
+	public static RegionHookManager getRegionHookManager() {
+		return getInstance().regionHookManager;
+	}
+
 
 	// economy
 	public static Economy getEconomy() {

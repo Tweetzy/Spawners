@@ -15,29 +15,27 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package ca.tweetzy.spawners.model.hook;
+package ca.tweetzy.spawners.api.region;
 
-import ca.tweetzy.spawners.api.region.AbstractRegionPlugin;
-import com.palmergames.bukkit.towny.object.TownyPermission;
-import com.palmergames.bukkit.towny.utils.PlayerCacheUtil;
+import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
-public final class TownyHook extends AbstractRegionPlugin {
+public interface RegionHook {
 
-	public TownyHook() {
-		super("Towny");
+	default boolean canBreak(final Player player, Location location) {
+		return false;
 	}
 
-	@Override
-	public boolean canBreak(Player player, Block block) {
-		if (!isEnabled()) return true;
-		return PlayerCacheUtil.getCachePermission(player, block.getLocation(), block.getType(), TownyPermission.ActionType.DESTROY);
+	default boolean canBuild(final Player player, Location location) {
+		return false;
 	}
 
-	@Override
-	public boolean canBuild(Player player, Block block) {
-		if (!isEnabled()) return true;
-		return PlayerCacheUtil.getCachePermission(player, block.getLocation(), block.getType(), TownyPermission.ActionType.BUILD);
+	default boolean canBreak(final Player player, Block block) {
+		return false;
+	}
+
+	default boolean canBuild(final Player player, Block block) {
+		return false;
 	}
 }

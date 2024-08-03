@@ -1,6 +1,6 @@
 /*
  * Spawners
- * Copyright 2022 Kiran Hart
+ * Copyright 2024 Kiran Hart
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,15 +15,19 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package ca.tweetzy.spawners.model.manager;
+package ca.tweetzy.spawners.api.region;
 
-/**
- * Date Created: May 13 2022
- * Time Created: 2:31 p.m.
- *
- * @author Kiran Hart
- */
-public interface Manager {
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import org.bukkit.Bukkit;
 
-	void load();
+@Getter
+@AllArgsConstructor
+public abstract class AbstractRegionPlugin implements RegionHook {
+
+	protected String pluginName;
+
+	public boolean isEnabled() {
+		return Bukkit.getServer().getPluginManager().isPluginEnabled(this.pluginName);
+	}
 }

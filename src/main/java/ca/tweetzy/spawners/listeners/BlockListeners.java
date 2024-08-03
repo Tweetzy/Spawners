@@ -19,6 +19,9 @@ package ca.tweetzy.spawners.listeners;
 
 import ca.tweetzy.flight.comp.enums.CompMaterial;
 import ca.tweetzy.flight.nbtapi.NBT;
+import ca.tweetzy.flight.nbtapi.NBTBlock;
+import ca.tweetzy.flight.nbtapi.NBTCompound;
+import ca.tweetzy.flight.nbtapi.iface.ReadWriteNBT;
 import ca.tweetzy.flight.settings.TranslationManager;
 import ca.tweetzy.flight.utils.ChatUtil;
 import ca.tweetzy.flight.utils.Common;
@@ -30,7 +33,6 @@ import ca.tweetzy.spawners.api.spawner.Spawner;
 import ca.tweetzy.spawners.api.spawner.SpawnerUser;
 import ca.tweetzy.spawners.impl.PlacedSpawner;
 import ca.tweetzy.spawners.model.SpawnerBuilder;
-import ca.tweetzy.spawners.model.hook.TownyHook;
 import ca.tweetzy.spawners.settings.Settings;
 import ca.tweetzy.spawners.settings.Translations;
 import lombok.NonNull;
@@ -69,72 +71,67 @@ public final class BlockListeners implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onNonSpawnersSpawnerPlace(final BlockPlaceEvent event) {
 		if (event.getHand() != EquipmentSlot.HAND) return;
-		final ItemStack hand = event.getItemInHand();
+		final ItemStack hand = event.getItemInHand().clone();
 		final Player player = event.getPlayer();
 		final SpawnerUser spawnerUser = Spawners.getPlayerManager().findUser(player);
 
 		if (hand.getType() != CompMaterial.SPAWNER.parseMaterial()) return;
-		if (!NBT.get(hand, nbt -> (boolean) nbt.hasTag("Spawners:ownerUUID"))) return;
-//
+
 		// check towny
-		// TODO move this into flight
-		if (!TownyHook.canBuild(player, event.getBlockAgainst())) {
+		if (!Spawners.getRegionHookManager().canBuild(player, event.getBlockPlaced())) {
 			event.setCancelled(true);
 			event.setBuild(false);
 			return;
 		}
 
-		final UUID uuid = UUID.fromString(NBT.get(hand, nbt -> (String) nbt.getString("Spawners:ownerUUID")));
-		if (uuid.equals(SpawnerBuilder.NULL_UUID)) {
-
-			if (!spawnerUser.isAllowedToPlaceSpawners(player)) {
-				Common.tell(player, TranslationManager.string(Translations.SPAWNER_PLACE_LIMIT_REACHED));
-				event.setCancelled(true);
-				return;
-			}
+		if (!spawnerUser.isAllowedToPlaceSpawners(player)) {
+			Common.tell(player, TranslationManager.string(Translations.SPAWNER_PLACE_LIMIT_REACHED));
+			event.setCancelled(true);
+			return;
+		}
 
 //			check spawner count
-			if (!(handleChunkLimit(event))) {
-				return;
-			}
-
-			final EntityType entityType = EntityType.valueOf(Settings.DEFAULT_SPAWNER_ENTITY.getString());
-
-			final CreatureSpawner creatureSpawner = (CreatureSpawner) event.getBlock().getState();
-			creatureSpawner.setSpawnedType(entityType);
-			Spawners.getSpawnerManager().applySpawnerDefaults(creatureSpawner, true);
-
-			final Spawner spawner = new PlacedSpawner(player, entityType, event.getBlockPlaced().getLocation());
-
-			// spawner levels
-			final Level delayLevel = Spawners.getLevelManager().find(LevelOption.SPAWN_INTERVAL, 1);
-			final Level spawnCountLevel = Spawners.getLevelManager().find(LevelOption.SPAWN_COUNT, 1);
-			final Level maxNearbyLevel = Spawners.getLevelManager().find(LevelOption.MAX_NEARBY_ENTITIES, 1);
-			final Level activationRangeLevel = Spawners.getLevelManager().find(LevelOption.ACTIVATION_RANGE, 1);
-
-			spawner.setLevels(new HashMap<>() {{
-				put(LevelOption.SPAWN_INTERVAL, delayLevel);
-				put(LevelOption.SPAWN_COUNT, spawnCountLevel);
-				put(LevelOption.MAX_NEARBY_ENTITIES, maxNearbyLevel);
-				put(LevelOption.ACTIVATION_RANGE, activationRangeLevel);
-			}});
-
-			Spawners.getSpawnerManager().createSpawner(spawner, null);
+		if (!(handleChunkLimit(event))) {
+			return;
 		}
+
+		final EntityType entityType = EntityType.valueOf(Settings.DEFAULT_SPAWNER_ENTITY.getString());
+
+		final CreatureSpawner creatureSpawner = (CreatureSpawner) event.getBlock().getState();
+		creatureSpawner.setSpawnedType(entityType);
+		Spawners.getSpawnerManager().applySpawnerDefaults(creatureSpawner, true);
+
+		final Spawner spawner = new PlacedSpawner(player, entityType, event.getBlockPlaced().getLocation());
+
+		// spawner levels
+		final Level delayLevel = Spawners.getLevelManager().find(LevelOption.SPAWN_INTERVAL, 1);
+		final Level spawnCountLevel = Spawners.getLevelManager().find(LevelOption.SPAWN_COUNT, 1);
+		final Level maxNearbyLevel = Spawners.getLevelManager().find(LevelOption.MAX_NEARBY_ENTITIES, 1);
+		final Level activationRangeLevel = Spawners.getLevelManager().find(LevelOption.ACTIVATION_RANGE, 1);
+
+		spawner.setLevels(new HashMap<>() {{
+			put(LevelOption.SPAWN_INTERVAL, delayLevel);
+			put(LevelOption.SPAWN_COUNT, spawnCountLevel);
+			put(LevelOption.MAX_NEARBY_ENTITIES, maxNearbyLevel);
+			put(LevelOption.ACTIVATION_RANGE, activationRangeLevel);
+		}});
+
+		Spawners.getSpawnerManager().createSpawner(spawner, null);
+//		}
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onSpawnerPlace(final BlockPlaceEvent event) {
 		if (event.getHand() != EquipmentSlot.HAND) return;
+		final ItemStack hand = event.getItemInHand().clone();
 		final Player player = event.getPlayer();
 		final SpawnerUser spawnerUser = Spawners.getPlayerManager().findUser(player);
-		final ItemStack hand = event.getItemInHand().clone();
 
-		if (!NBT.get(hand, nbt -> (boolean) nbt.hasTag("Spawners:ownerUUID"))) return;
+		if (!NBT.get(hand, nbt -> (boolean) nbt.hasTag("Spawners:ownerUUID"))) {
+			return;
+		}
 
-		// check towny
-		// TODO move this into flight
-		if (!TownyHook.canBuild(player, event.getBlockAgainst())) {
+		if (!Spawners.getRegionHookManager().canBuild(player, event.getBlockPlaced())) {
 			event.setCancelled(true);
 			event.setBuild(false);
 			return;
@@ -233,9 +230,8 @@ public final class BlockListeners implements Listener {
 		final Spawner spawner = Spawners.getSpawnerManager().find(event.getBlock().getLocation());
 		final boolean hasSilk = player.hasPermission("spawners.nosilktouch") || stack.containsEnchantment(Enchantment.SILK_TOUCH);
 
-		// check towny
-		// TODO move this into flight
-		if (!TownyHook.canBreak(player, block)) {
+		// check region plugins
+		if (!Spawners.getRegionHookManager().canBreak(player, block)) {
 			event.setCancelled(true);
 			event.setDropItems(false);
 			event.setExpToDrop(0);
