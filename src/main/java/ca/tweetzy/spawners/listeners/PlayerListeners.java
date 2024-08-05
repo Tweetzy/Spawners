@@ -23,6 +23,7 @@ import ca.tweetzy.flight.utils.Common;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.api.spawner.Spawner;
 import ca.tweetzy.spawners.guis.user.SpawnerOverviewGUI;
+import ca.tweetzy.spawners.settings.Settings;
 import ca.tweetzy.spawners.settings.Translations;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -51,7 +52,7 @@ public final class PlayerListeners implements Listener {
 
 		final Player player = event.getPlayer();
 
-		if (!player.isSneaking()) return;
+		if (!player.isSneaking() && Settings.REQUIRE_SHIFT_FOR_SPAWNER_VIEW.getBoolean()) return;
 
 		final Block block = event.getClickedBlock();
 		if (block == null) return;

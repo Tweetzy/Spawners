@@ -3,8 +3,8 @@ package ca.tweetzy.spawners.commands;
 import ca.tweetzy.flight.command.AllowedExecutor;
 import ca.tweetzy.flight.command.Command;
 import ca.tweetzy.flight.command.ReturnType;
-import ca.tweetzy.shops.settings.Settings;
-import ca.tweetzy.shops.settings.Translations;
+import ca.tweetzy.spawners.settings.Settings;
+import ca.tweetzy.spawners.settings.Translations;
 import org.bukkit.command.CommandSender;
 
 import java.util.List;
@@ -17,7 +17,7 @@ public final class ReloadCommand extends Command {
 
 	@Override
 	protected ReturnType execute(CommandSender sender, String... args) {
-		Settings.init();
+		Settings.setup();
 		Translations.init();
 		tell(sender, "&aReloaded configuration files");
 		return ReturnType.SUCCESS;
