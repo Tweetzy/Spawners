@@ -76,6 +76,7 @@ public final class BlockListeners implements Listener {
 		final SpawnerUser spawnerUser = Spawners.getPlayerManager().findUser(player);
 
 		if (hand.getType() != CompMaterial.SPAWNER.parseMaterial()) return;
+		if (NBT.get(hand, nbt -> (boolean) nbt.hasTag("Spawners:ownerUUID"))) return;
 
 		// check towny
 		if (!Spawners.getRegionHookManager().canBuild(player, event.getBlockPlaced())) {
@@ -90,7 +91,7 @@ public final class BlockListeners implements Listener {
 			return;
 		}
 
-//			check spawner count
+//		check spawner count
 		if (!(handleChunkLimit(event))) {
 			return;
 		}
@@ -227,11 +228,13 @@ public final class BlockListeners implements Listener {
 
 		final CreatureSpawner creatureSpawner = (CreatureSpawner) block.getState();
 		final ItemStack stack = player.getInventory().getItemInMainHand();
+
 		final Spawner spawner = Spawners.getSpawnerManager().find(event.getBlock().getLocation());
 		final boolean hasSilk = player.hasPermission("spawners.nosilktouch") || stack.containsEnchantment(Enchantment.SILK_TOUCH);
 
 		// check region plugins
-		if (!Spawners.getRegionHookManager().canBreak(player, block)) {
+		final boolean passesRegionBreak = Spawners.getRegionHookManager().canBreak(player, block);
+		if (!passesRegionBreak) {
 			event.setCancelled(true);
 			event.setDropItems(false);
 			event.setExpToDrop(0);
