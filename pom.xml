@@ -8,7 +8,7 @@
 
     <name>Spawners</name>
     <description>The ultimate spawner plugin</description>
-    <version>1.15.0</version>
+    <version>1.16.0</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -50,6 +50,10 @@
         <repository>
             <id>sk89q-repo</id>
             <url>https://maven.enginehub.org/repo/</url>
+        </repository>
+        <repository>
+            <id>factionsuuid</id>
+            <url>https://dependency.download/releases</url>
         </repository>
     </repositories>
 
@@ -109,6 +113,12 @@
             <groupId>com.sk89q.worldguard</groupId>
             <artifactId>worldguard-bukkit</artifactId>
             <version>7.0.10</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>dev.kitteh</groupId>
+            <artifactId>factionsuuid</artifactId>
+            <version>0.7.0</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

@@ -21,6 +21,7 @@ import ca.tweetzy.flight.utils.Common;
 import ca.tweetzy.spawners.api.manager.ListManager;
 import ca.tweetzy.spawners.api.region.AbstractRegionPlugin;
 import ca.tweetzy.spawners.api.region.RegionHook;
+import ca.tweetzy.spawners.model.hook.FactionsUUIDHook;
 import ca.tweetzy.spawners.model.hook.TownyHook;
 import ca.tweetzy.spawners.model.hook.WorldGuardHook;
 import org.bukkit.Bukkit;
@@ -72,6 +73,11 @@ public final class RegionHookManager extends ListManager<AbstractRegionPlugin> i
 		if (Bukkit.getServer().getPluginManager().isPluginEnabled("Towny")) {
 			add(new TownyHook());
 			Common.log("&aInitializing Towny Hook");
+		}
+
+		if (Bukkit.getServer().getPluginManager().isPluginEnabled("Factions")) {
+			add(new FactionsUUIDHook());
+			Common.log("&aInitializing FactionsUUID Hook");
 		}
 	}
 }
