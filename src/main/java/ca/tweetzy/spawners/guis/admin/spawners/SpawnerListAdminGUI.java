@@ -71,7 +71,7 @@ public final class SpawnerListAdminGUI extends SpawnersPagedGUI<Spawner> {
 		final Level activationRangeLevel = spawner.getLevels().get(LevelOption.ACTIVATION_RANGE);
 
 		return QuickItem
-				.of(CompMaterial.SPAWNER)
+				.of(CompMaterial.SPAWNER).hideTags(true)
 				.name(String.format("<GRADIENT:fc67fa>&l%s's Spawner</GRADIENT:f4c4f3>&f", spawner.getOwnerName()))
 				.lore(Replacer.replaceVariables(Arrays.asList(
 								"",

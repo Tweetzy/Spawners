@@ -112,20 +112,20 @@ public final class EggListeners implements Listener {
 		if (event.getClickedBlock() == null || event.getClickedBlock().getType() != CompMaterial.SPAWNER.parseMaterial()) return;
 		if (event.getHand() == EquipmentSlot.OFF_HAND) return;
 
-		if (!Settings.ALLOW_SPAWNER_CHANGE_WITH_EGG.getBoolean()) {
-			event.setCancelled(true);
-			event.setUseInteractedBlock(Event.Result.DENY);
-			event.setUseInteractedBlock(Event.Result.DENY);
-			return;
-		}
-
 		final Player player = event.getPlayer();
 		final SpawnerUser spawnerUser = Spawners.getPlayerManager().findUser(player);
 		final ItemStack hand = event.getItem();
 
 		if (hand == null) return;
-
 		if (!hand.getType().name().endsWith("_SPAWN_EGG")) return;
+
+		if (!Settings.ALLOW_SPAWNER_CHANGE_WITH_EGG.getBoolean()) {
+			event.setUseItemInHand(Event.Result.DENY);
+			event.setUseInteractedBlock(Event.Result.DENY);
+			event.setCancelled(true);
+			return;
+		}
+
 		final EntityType entityType = EntityType.valueOf(hand.getType().name().replace("_SPAWN_EGG", ""));
 
 		final Block block = event.getClickedBlock();
