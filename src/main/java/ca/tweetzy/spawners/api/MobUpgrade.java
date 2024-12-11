@@ -120,6 +120,9 @@ public enum MobUpgrade {
 	BREEZE(Settings.MOB_CHANGE_BREEZE_ENABLED.getBoolean(), Settings.MOB_CHANGE_BREEZE_COST.getDouble(), SpawnerMob.BREEZE),
 	BOGGED(Settings.MOB_CHANGE_BOGGED_ENABLED.getBoolean(), Settings.MOB_CHANGE_BOGGED_COST.getDouble(), SpawnerMob.BOGGED),
 
+	// 1.21.4
+	CREAKING(Settings.MOB_CHANGE_CREAKING_ENABLED.getBoolean(), Settings.MOB_CHANGE_CREAKING_COST.getDouble(), SpawnerMob.CREAKING),
+
 
 	;
 

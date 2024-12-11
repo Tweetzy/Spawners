@@ -294,6 +294,10 @@ public final class Settings extends FlightSettings {
 	public static final ConfigEntry MOB_CHANGE_BREEZE_ENABLED = config.createEntry("mob change.breeze.enabled", true).withComment("Should players be able to set their spawner to a Breeze");
 	public static final ConfigEntry MOB_CHANGE_BREEZE_COST = create("mob change.breeze.cost", 5000D).withComment("The cost to switch the spawner to a Breeze");
 
+	public static final ConfigEntry MOB_CHANGE_CREAKING_ENABLED = config.createEntry("mob change.creaking.enabled", true).withComment("Should players be able to set their spawner to a Creaking");
+	public static final ConfigEntry MOB_CHANGE_CREAKING_COST = config.createEntry("mob change.creaking.cost", 5000D).withComment("The cost to switch the spawner to a Creaking");
+
+
 	@SneakyThrows
 	public static void setup() {
 		config.init();

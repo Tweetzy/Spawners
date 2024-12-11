@@ -87,9 +87,9 @@ public enum SpawnerMob {
 	CAMEL(EntityType.CAMEL, TranslationManager.string(Translations.MOB_NAME_CAMEL), MobBehaviour.NEUTRAL, "https://textures.minecraft.net/texture/3642c9f71131b5df4a8c21c8c6f10684f22abafb8cd68a1d55ac4bf263a53a31"),
 
 	// hostile
-	BREEZE(EntityType.BREEZE, TranslationManager.string(Translations.MOB_NAME_BREEZE), MobBehaviour.PASSIVE, "https://textures.minecraft.net/texture/a275728af7e6a29c88125b675a39d88ae9919bb61fdc200337fed6ab0c49d65c"),
-	BOGGED(EntityType.BOGGED, TranslationManager.string(Translations.MOB_NAME_BOGGED), MobBehaviour.PASSIVE, "https://textures.minecraft.net/texture/a3b9003ba2d05562c75119b8a62185c67130e9282f7acbac4bc2824c21eb95d9"),
-
+	CREAKING(EntityType.CREAKING, TranslationManager.string(Translations.MOB_NAME_CREAKING), MobBehaviour.HOSTILE, "http://textures.minecraft.net/texture/77b5be72769ccff1a6cb77c5848e01d7e5704a3d349c0737ff93cb54d02380ac"),
+	BREEZE(EntityType.BREEZE, TranslationManager.string(Translations.MOB_NAME_BREEZE), MobBehaviour.HOSTILE, "https://textures.minecraft.net/texture/a275728af7e6a29c88125b675a39d88ae9919bb61fdc200337fed6ab0c49d65c"),
+	BOGGED(EntityType.BOGGED, TranslationManager.string(Translations.MOB_NAME_BOGGED), MobBehaviour.HOSTILE, "https://textures.minecraft.net/texture/a3b9003ba2d05562c75119b8a62185c67130e9282f7acbac4bc2824c21eb95d9"),
 	WARDEN(EntityType.WARDEN, TranslationManager.string(Translations.MOB_NAME_WARDEN), MobBehaviour.HOSTILE, "https://textures.minecraft.net/texture/53c4970510fb0f99be3f0c3d5a5919c6eeef04e433120e20107c66aba675a9b7"),
 	ELDER_GUARDIAN(EntityType.ELDER_GUARDIAN, TranslationManager.string(Translations.MOB_NAME_ELDER_GUARDIAN), MobBehaviour.HOSTILE, "https://textures.minecraft.net/texture/4340a268f25fd5cc276ca147a8446b2630a55867a2349f7ca107c26eb58991"),
 	WITHER_SKELETON(EntityType.WITHER_SKELETON, TranslationManager.string(Translations.MOB_NAME_WITHER_SKELETON), MobBehaviour.HOSTILE, "https://textures.minecraft.net/texture/2d26f2dfdf5dffc16fc80811a843524daf12c4931ec850307775c6d35a5f46c1"),
