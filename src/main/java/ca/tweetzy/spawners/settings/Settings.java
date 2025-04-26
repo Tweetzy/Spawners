@@ -105,8 +105,21 @@ public final class Settings extends FlightSettings {
 	public static final ConfigEntry GUI_MAIN_FILL_DECORATION = config.createEntry("gui.main.decoration", List.of("0:BLACK_STAINED_GLASS_PANE")).withComment("Option Decoration items (slot:material_name)");
 
 	public static final ConfigEntry GUI_MERGE_OR_SPLIT_ROWS = config.createEntry("gui.merge or split.rows", 3).withComment("The size (rows, min = 2, max = 6) of the merge/split gui");
-
 	public static final ConfigEntry GUI_MERGE_OR_SPLIT_BG = config.createEntry("gui.merge or split.background", CompMaterial.BLACK_STAINED_GLASS_PANE.name()).withComment("The default background material");
+
+	public static final ConfigEntry GUI_SPAWNER_OVERVIEW_ROWS = config.createEntry("gui.spawner overview.rows", 5);
+	public static final ConfigEntry GUI_SPAWNER_OVERVIEW_ITEMS_MERGE_SLOT = config.createEntry("gui.spawner overview.items.merge.slot", 31).withComment("Set to -1 to hide/disable in gui");
+	public static final ConfigEntry GUI_SPAWNER_OVERVIEW_ITEMS_ENTITY_SLOT = config.createEntry("gui.spawner overview.items.change entity.slot", 29).withComment("Set to -1 to hide/disable in gui");
+	public static final ConfigEntry GUI_SPAWNER_OVERVIEW_ITEMS_OWNER_SLOT = config.createEntry("gui.spawner overview.items.owner.slot", 33).withComment("Set to -1 to hide/disable in gui");
+	public static final ConfigEntry GUI_SPAWNER_OVERVIEW_ITEMS_DELAY_SLOT = config.createEntry("gui.spawner overview.items.spawn delay.slot", 10).withComment("Set to -1 to hide/disable in gui");
+	public static final ConfigEntry GUI_SPAWNER_OVERVIEW_ITEMS_COUNT_SLOT = config.createEntry("gui.spawner overview.items.spawn count.slot", 12).withComment("Set to -1 to hide/disable in gui");
+	public static final ConfigEntry GUI_SPAWNER_OVERVIEW_ITEMS_MAX_ENTITY_SLOT = config.createEntry("gui.spawner overview.items.max nearby entities.slot", 14).withComment("Set to -1 to hide/disable in gui");
+	public static final ConfigEntry GUI_SPAWNER_OVERVIEW_ITEMS_ACTIVATION_RANGE_SLOT = config.createEntry("gui.spawner overview.items.activation range.slot", 16).withComment("Set to -1 to hide/disable in gui");
+
+	public static final ConfigEntry GUI_SPAWNER_OVERVIEW_BG = config.createEntry("gui.spawner overview.background", CompMaterial.BLACK_STAINED_GLASS_PANE.name()).withComment("The default background material");
+	public static final ConfigEntry GUI_SPAWNER_OVERVIEW_DECORATION = config.createEntry("gui.spawner overview.decoration", List.of(
+			"slot:0-45 item:BLACK_STAINED_GLASS_PANE"
+	)).withComment("List of decorations. Ex. slot:0-8 item:BLACK_STAINED_GLASS_PANE or slot:9 item:BLACK_STAINED_GLASS_PANE");
 
 
 	public static final ConfigEntry GUI_YOUR_SPAWNERS_ROWS = config.createEntry("gui.your spawners.rows", 6).withComment("The size (rows, min = 2, max = 6)");

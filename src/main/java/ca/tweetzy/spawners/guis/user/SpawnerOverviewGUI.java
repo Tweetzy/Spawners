@@ -29,11 +29,17 @@ import ca.tweetzy.spawners.api.spawner.Spawner;
 import ca.tweetzy.spawners.guis.SpawnersBaseGUI;
 import ca.tweetzy.spawners.guis.selector.PlayerSelectorGUI;
 import ca.tweetzy.spawners.guis.user.merging.MergeSplitGUI;
+import ca.tweetzy.spawners.model.ItemParser;
+import ca.tweetzy.spawners.settings.Settings;
 import ca.tweetzy.spawners.settings.Translations;
 import lombok.NonNull;
 import org.bukkit.block.CreatureSpawner;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.IntStream;
 
 /**
  * Date Created: May 17 2022
@@ -47,9 +53,10 @@ public final class SpawnerOverviewGUI extends SpawnersBaseGUI {
 	private final boolean canUpgrade;
 
 	public SpawnerOverviewGUI(@NonNull final Spawner spawner, final boolean canUpgrade) {
-		super(null, TranslationManager.string(Translations.GUI_SPAWNER_OVERVIEW_TITLE), 5);
+		super(null, TranslationManager.string(Translations.GUI_SPAWNER_OVERVIEW_TITLE), Settings.GUI_SPAWNER_OVERVIEW_ROWS.getInt());
 		this.spawner = spawner;
 		this.canUpgrade = canUpgrade;
+		setDefaultItem(QuickItem.bg(Settings.GUI_SPAWNER_OVERVIEW_BG.getString()));
 		draw();
 	}
 
@@ -60,6 +67,29 @@ public final class SpawnerOverviewGUI extends SpawnersBaseGUI {
 	@Override
 	protected void draw() {
 
+		// decoration
+		Settings.GUI_SPAWNER_OVERVIEW_DECORATION.getStringList().forEach(itemLine -> {
+			final Map<String, List<String>> keyed = ItemParser.parseString(itemLine);
+
+			String item = keyed.get("item").get(0);
+			if (keyed.containsKey("model"))
+				item += ":" + keyed.get("model").get(0);
+
+			List<Integer> possibleSlots = new ArrayList<>();
+			final String rawSlots = keyed.get("slot").get(0);
+			if (rawSlots.contains("-")) {
+				final String[] slotSplit = rawSlots.split("-");
+				possibleSlots.addAll(IntStream.rangeClosed(Integer.parseInt(slotSplit[0]),Integer.parseInt(slotSplit[1])).boxed().toList());
+			} else {
+				possibleSlots.add(Integer.parseInt(rawSlots));
+			}
+
+			for (Integer possibleSlot : possibleSlots) {
+				setItem(possibleSlot, QuickItem.bg(QuickItem.of(item).make()));
+			}
+
+		});
+
 		if (!this.canUpgrade || Spawners.getEconomy() == null)
 			Arrays.asList(10, 12, 14, 16, 29, 33).forEach(slot -> setItem(slot, QuickItem.of(CompMaterial.RED_STAINED_GLASS_PANE)
 					.name(TranslationManager.string(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_UPGRADE_DISABLED_NAME))
@@ -68,7 +98,7 @@ public final class SpawnerOverviewGUI extends SpawnersBaseGUI {
 			));
 
 		// merge
-		setButton(3, 4, QuickItem
+		setButton(Settings.GUI_SPAWNER_OVERVIEW_ITEMS_MERGE_SLOT.getInt(), QuickItem
 				.of(CompMaterial.PACKED_ICE)
 				.name(TranslationManager.string(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_MERGE_NAME))
 				.lore(TranslationManager.list(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_MERGE_LORE))
@@ -76,13 +106,13 @@ public final class SpawnerOverviewGUI extends SpawnersBaseGUI {
 
 		if (this.canUpgrade && Spawners.getEconomy() != null) {
 			// entity type
-			setButton(3, 2, QuickItem
+			setButton(Settings.GUI_SPAWNER_OVERVIEW_ITEMS_ENTITY_SLOT.getInt(), QuickItem
 					.of(SpawnerMob.valueOf(this.spawner.getEntityType().name()).getHeadTexture())
 					.name(TranslationManager.string(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_ENTITY_NAME))
 					.lore(TranslationManager.list(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_ENTITY_LORE,
 							"entity_type", ChatUtil.capitalizeFully(this.spawner.getEntityType())
 					))
-					.make(), click -> click.manager.showGUI(click.player, new EntityChangeGUI(this, selected -> {
+					.make(), click -> click.manager.showGUI(click.player, new EntityChangeGUI(this, click.player, selected -> {
 
 				Spawners.getEconomy().withdrawPlayer(click.player, selected.getCost());
 				Common.tell(click.player, TranslationManager.string(Translations.MONEY_REMOVE, "amount", String.format("%,.2f", selected.getCost())));
@@ -96,7 +126,7 @@ public final class SpawnerOverviewGUI extends SpawnersBaseGUI {
 			})));
 
 			// ownership
-			setButton(3, 6, QuickItem
+			setButton(Settings.GUI_SPAWNER_OVERVIEW_ITEMS_OWNER_SLOT.getInt(), QuickItem
 					.of(CompMaterial.LECTERN)
 					.name(TranslationManager.string(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_OWNER_NAME))
 					.lore(TranslationManager.list(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_OWNER_LORE,
@@ -124,7 +154,7 @@ public final class SpawnerOverviewGUI extends SpawnersBaseGUI {
 			// additional settings
 
 			// spawn delay
-			setButton(1, 1, QuickItem
+			setButton(Settings.GUI_SPAWNER_OVERVIEW_ITEMS_DELAY_SLOT.getInt(), QuickItem
 					.of(CompMaterial.REPEATER)
 					.name(TranslationManager.string(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_DELAY_LEVEL_NAME))
 					.lore(spawner.getNextLevel(LevelOption.SPAWN_INTERVAL) == null ? TranslationManager.list(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_DELAY_LEVEL_LORE_MAX) : TranslationManager.list(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_DELAY_LEVEL_LORE,
@@ -140,7 +170,7 @@ public final class SpawnerOverviewGUI extends SpawnersBaseGUI {
 			});
 
 			// spawn count
-			setButton(1, 3, QuickItem
+			setButton(Settings.GUI_SPAWNER_OVERVIEW_ITEMS_COUNT_SLOT.getInt(), QuickItem
 					.of(CompMaterial.TRIPWIRE_HOOK)
 					.name(TranslationManager.string(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_SPAWN_COUNT_LEVEL_NAME))
 					.lore(spawner.getNextLevel(LevelOption.SPAWN_COUNT) == null ? TranslationManager.list(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_SPAWN_COUNT_LEVEL_LORE_MAX) : TranslationManager.list(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_SPAWN_COUNT_LEVEL_LORE,
@@ -156,7 +186,7 @@ public final class SpawnerOverviewGUI extends SpawnersBaseGUI {
 			});
 
 			// max nearby entities
-			setButton(1, 5, QuickItem
+			setButton(Settings.GUI_SPAWNER_OVERVIEW_ITEMS_MAX_ENTITY_SLOT.getInt(), QuickItem
 					.of(CompMaterial.OBSERVER)
 					.name(TranslationManager.string(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_MAX_NEARBY_LEVEL_NAME))
 					.lore(spawner.getNextLevel(LevelOption.MAX_NEARBY_ENTITIES) == null ? TranslationManager.list(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_MAX_NEARBY_LEVEL_LORE_MAX) : TranslationManager.list(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_MAX_NEARBY_LEVEL_LORE,
@@ -172,7 +202,7 @@ public final class SpawnerOverviewGUI extends SpawnersBaseGUI {
 			});
 
 			// activation range
-			setButton(1, 7, QuickItem
+			setButton(Settings.GUI_SPAWNER_OVERVIEW_ITEMS_ACTIVATION_RANGE_SLOT.getInt(), QuickItem
 					.of(CompMaterial.COMPARATOR)
 					.name(TranslationManager.string(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_ACTIVATION_RANGE_LEVEL_NAME))
 					.lore(spawner.getNextLevel(LevelOption.ACTIVATION_RANGE) == null ? TranslationManager.list(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_ACTIVATION_RANGE_LEVEL_LORE_MAX) : TranslationManager.list(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_ACTIVATION_RANGE_LEVEL_LORE,

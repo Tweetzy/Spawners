@@ -32,6 +32,7 @@ import lombok.NonNull;
 import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.checkerframework.checker.units.qual.N;
 
 import java.util.Comparator;
 import java.util.List;
@@ -49,12 +50,20 @@ public final class EntityChangeGUI extends SpawnersPagedGUI<MobUpgrade> {
 
 	private final Consumer<MobUpgrade> selected;
 
-	public EntityChangeGUI(@NonNull final Gui parent, @NonNull final Consumer<MobUpgrade> selected) {
-		super(parent, TranslationManager.string(Translations.GUI_ENTITY_CHANGE_TITLE), Settings.GUI_ENTITY_CHANGE_ROWS.getInt(), Stream.of(MobUpgrade.values()).filter(MobUpgrade::isEnabled).sorted(Comparator.comparing(mob -> mob.getSpawnerMob().getMobName())).collect(Collectors.toList()));
+	public EntityChangeGUI(@NonNull final Gui parent, @NonNull final Player player, @NonNull final Consumer<MobUpgrade> selected) {
+		super(parent, TranslationManager.string(Translations.GUI_ENTITY_CHANGE_TITLE), Settings.GUI_ENTITY_CHANGE_ROWS.getInt(), Stream
+				.of(MobUpgrade.values())
+				.filter(mobUpgrade -> mobUpgrade.isEnabled() && player.hasPermission("spawners.upgrade." + mobUpgrade.name().toLowerCase().replace("_", "")))
+				.sorted(Comparator.comparing(mob -> mob.getSpawnerMob().getMobName()))
+				.collect(Collectors.toList()));
+
+
 		this.selected = selected;
 		setDefaultItem(QuickItem.of(Settings.GUI_ENTITY_CHANGE_BG.getMaterial()).name(" ").make());
 		draw();
 	}
+
+
 
 	@Override
 	protected ItemStack makeDisplayItem(MobUpgrade mobUpgrade) {
