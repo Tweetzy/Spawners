@@ -22,6 +22,7 @@ import ca.tweetzy.flight.utils.QuickItem;
 import ca.tweetzy.spawners.api.LevelOption;
 import ca.tweetzy.spawners.guis.SpawnersBaseGUI;
 import ca.tweetzy.spawners.guis.admin.SpawnersAdminGUI;
+import org.bukkit.entity.Player;
 
 /**
  * Date Created: May 13 2022
@@ -31,8 +32,8 @@ import ca.tweetzy.spawners.guis.admin.SpawnersAdminGUI;
  */
 public final class LevelOptionSelectGUI extends SpawnersBaseGUI {
 
-	public LevelOptionSelectGUI() {
-		super(new SpawnersAdminGUI(), "<GRADIENT:fc67fa>&LSpawners</GRADIENT:f4c4f3> &8> &7Select Option", 4);
+	public LevelOptionSelectGUI(Player player) {
+		super(new SpawnersAdminGUI(player),player, "<GRADIENT:fc67fa>&LSpawners</GRADIENT:f4c4f3> &8> &7Select Option", 4);
 		draw();
 	}
 
@@ -51,7 +52,7 @@ public final class LevelOptionSelectGUI extends SpawnersBaseGUI {
 						"",
 						"&e&lClick &8» &7To view interval levels"
 				)
-				.make(), click -> click.manager.showGUI(click.player, new LevelListGUI(LevelOption.SPAWN_INTERVAL)));
+				.make(), click -> click.manager.showGUI(click.player, new LevelListGUI(this.player, LevelOption.SPAWN_INTERVAL)));
 
 		setButton(1, 3, QuickItem
 				.of(CompMaterial.TRIPWIRE_HOOK)
@@ -63,7 +64,7 @@ public final class LevelOptionSelectGUI extends SpawnersBaseGUI {
 						"",
 						"&e&lClick &8» &7To view spawn count levels"
 				)
-				.make(), click -> click.manager.showGUI(click.player, new LevelListGUI(LevelOption.SPAWN_COUNT)));
+				.make(), click -> click.manager.showGUI(click.player, new LevelListGUI(this.player, LevelOption.SPAWN_COUNT)));
 
 		setButton(1, 5, QuickItem
 				.of(CompMaterial.OBSERVER)
@@ -75,7 +76,7 @@ public final class LevelOptionSelectGUI extends SpawnersBaseGUI {
 						"",
 						"&e&lClick &8» &7To view max nearby levels"
 				)
-				.make(), click -> click.manager.showGUI(click.player, new LevelListGUI(LevelOption.MAX_NEARBY_ENTITIES)));
+				.make(), click -> click.manager.showGUI(click.player, new LevelListGUI(this.player, LevelOption.MAX_NEARBY_ENTITIES)));
 
 		setButton(1, 7, QuickItem
 				.of(CompMaterial.COMPARATOR)
@@ -87,7 +88,7 @@ public final class LevelOptionSelectGUI extends SpawnersBaseGUI {
 						"",
 						"&e&lClick &8» &7To view activation range levels"
 				)
-				.make(), click -> click.manager.showGUI(click.player, new LevelListGUI(LevelOption.ACTIVATION_RANGE)));
+				.make(), click -> click.manager.showGUI(click.player, new LevelListGUI(this.player, LevelOption.ACTIVATION_RANGE)));
 
 		applyBackExit();
 	}

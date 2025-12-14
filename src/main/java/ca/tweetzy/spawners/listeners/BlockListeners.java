@@ -19,9 +19,6 @@ package ca.tweetzy.spawners.listeners;
 
 import ca.tweetzy.flight.comp.enums.CompMaterial;
 import ca.tweetzy.flight.nbtapi.NBT;
-import ca.tweetzy.flight.nbtapi.NBTBlock;
-import ca.tweetzy.flight.nbtapi.NBTCompound;
-import ca.tweetzy.flight.nbtapi.iface.ReadWriteNBT;
 import ca.tweetzy.flight.settings.TranslationManager;
 import ca.tweetzy.flight.utils.ChatUtil;
 import ca.tweetzy.flight.utils.Common;
@@ -248,6 +245,15 @@ public final class BlockListeners implements Listener {
 
 		// spawner placed by user
 		if (spawner != null) {
+
+
+			// check admin mode
+			if (player.getPersistentDataContainer().has(Spawners.getAdminModeKey())) {
+				Spawners.getSpawnerManager().deleteSpawner(spawner, success -> {
+				});
+				return;
+			}
+
 			// stop exp dropping, since they could repeatedly break/place
 			event.setExpToDrop(0);
 
@@ -301,6 +307,16 @@ public final class BlockListeners implements Listener {
 		}
 
 		// natural spawner
+
+		// natural minining disabled
+		if (Settings.MINE_PREVENT_NATURAL_MINING.getBoolean()) {
+			if (!player.getPersistentDataContainer().has(Spawners.getAdminModeKey())) {
+				event.setCancelled(true);
+				event.setDropItems(false);
+			}
+			return;
+		}
+
 		// check entity break perm
 		if (!handleEntityBreakPerm(spawnerUser, player, creatureSpawner.getSpawnedType())) {
 			event.setCancelled(true);

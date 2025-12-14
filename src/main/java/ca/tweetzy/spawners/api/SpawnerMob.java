@@ -24,6 +24,10 @@ import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.EntityType;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * Date Created: May 05 2022
  * Time Created: 10:15 p.m.
@@ -35,10 +39,17 @@ import org.bukkit.entity.EntityType;
 public enum SpawnerMob {
 
 	// passive
-	ALLAY(EntityType.ALLAY, TranslationManager.string(Translations.MOB_NAME_ALLAY), MobBehaviour.PASSIVE, "https://textures.minecraft.net/texture/e50294a1747310f104124c6373cc639b712baa57b7d926297b645188b7bb9ab9"),
-	FROG(EntityType.FROG, TranslationManager.string(Translations.MOB_NAME_FROG), MobBehaviour.PASSIVE, "https://textures.minecraft.net/texture/87d62e7d4c313f2138250dbf50fa2f5a7792d9a523b18ebcac1cd73b4b656d74"),
-	TADPOLE(EntityType.TADPOLE, TranslationManager.string(Translations.MOB_NAME_TADPOLE), MobBehaviour.PASSIVE, "https://textures.minecraft.net/texture/987035f5352334c2cba6ac4c65c2b9059739d6d0e839c1dd98d75d2e77957847"),
-	ARMADILLO(EntityType.ARMADILLO, TranslationManager.string(Translations.MOB_NAME_ARMADILLO), MobBehaviour.PASSIVE, "https://textures.minecraft.net/texture/c9c1e96ce985725e22ed6ccf0f4c4810c729a2538b97bda06faeb3b92799c878"),
+	ALLAY(getEntityTypeSafely("ALLAY"), TranslationManager.string(Translations.MOB_NAME_ALLAY), MobBehaviour.PASSIVE, "https://textures.minecraft.net/texture/e50294a1747310f104124c6373cc639b712baa57b7d926297b645188b7bb9ab9"),
+	FROG(getEntityTypeSafely("FROG"), TranslationManager.string(Translations.MOB_NAME_FROG), MobBehaviour.PASSIVE, "https://textures.minecraft.net/texture/87d62e7d4c313f2138250dbf50fa2f5a7792d9a523b18ebcac1cd73b4b656d74"),
+	TADPOLE(getEntityTypeSafely("TADPOLE"), TranslationManager.string(Translations.MOB_NAME_TADPOLE), MobBehaviour.PASSIVE, "https://textures.minecraft.net/texture/987035f5352334c2cba6ac4c65c2b9059739d6d0e839c1dd98d75d2e77957847"),
+	ARMADILLO(getEntityTypeSafely("ARMADILLO"), TranslationManager.string(Translations.MOB_NAME_ARMADILLO), MobBehaviour.PASSIVE, "https://textures.minecraft.net/texture/c9c1e96ce985725e22ed6ccf0f4c4810c729a2538b97bda06faeb3b92799c878"),
+	HAPPY_GHAST(getEntityTypeSafely("HAPPY_GHAST"), TranslationManager.string(Translations.MOB_NAME_HAPPY_GHAST), MobBehaviour.PASSIVE, "http://textures.minecraft.net/texture/7daee8834188fec1c32e1f62c1485ff972ea9b771693424e012b6ab8a071351a"),
+	COPPER_GOLEM(getEntityTypeSafely("COPPER_GOLEM"), TranslationManager.string(Translations.MOB_NAME_COPPER_GOLEM), MobBehaviour.PASSIVE, "http://textures.minecraft.net/texture/982d5c944f80795d613c22405c027edbd2a5544882acbab974a02f547c15468d"),
+
+	//	1.21.11
+	NAUTILUS(getEntityTypeSafely("NAUTILUS"),TranslationManager.string(Translations.MOB_NAME_NAUTILUS), MobBehaviour.PASSIVE, "http://textures.minecraft.net/texture/b53d63eb175b00fb35285f4330d0be68a0713db94e00e6fdd85832d41e3a08b"),
+	ZOMBIE_NAUTILUS(getEntityTypeSafely("ZOMBIE_NAUTILUS"),TranslationManager.string(Translations.MOB_NAME_ZOMBIE_NAUTILUS), MobBehaviour.PASSIVE, "http://textures.minecraft.net/texture/fd9a933376da44c3391307cb9f4cf03f16f3a54f495fd5a11bad8a373f9d5720"),
+
 
 	OCELOT(EntityType.OCELOT, TranslationManager.string(Translations.MOB_NAME_OCELOT), MobBehaviour.PASSIVE, "https://textures.minecraft.net/texture/8c433c1347313b23b67eec92f8807aed2566ec29fd416bdf7a59c22596628355"),
 	MUSHROOM_COW((Bukkit.getServer().getBukkitVersion().contains("1.20.5") || Bukkit.getServer().getBukkitVersion().contains("1.20.6")) ? EntityType.MOOSHROOM : EntityType.valueOf("MUSHROOM_COW"), TranslationManager.string(Translations.MOB_NAME_MUSHROOM_COW), MobBehaviour.PASSIVE, "https://textures.minecraft.net/texture/d0bc61b9757a7b83e03cd2507a2157913c2cf016e7c096a4d6cf1fe1b8db"),
@@ -87,9 +98,9 @@ public enum SpawnerMob {
 	CAMEL(EntityType.CAMEL, TranslationManager.string(Translations.MOB_NAME_CAMEL), MobBehaviour.NEUTRAL, "https://textures.minecraft.net/texture/3642c9f71131b5df4a8c21c8c6f10684f22abafb8cd68a1d55ac4bf263a53a31"),
 
 	// hostile
-	CREAKING(EntityType.CREAKING, TranslationManager.string(Translations.MOB_NAME_CREAKING), MobBehaviour.HOSTILE, "http://textures.minecraft.net/texture/77b5be72769ccff1a6cb77c5848e01d7e5704a3d349c0737ff93cb54d02380ac"),
-	BREEZE(EntityType.BREEZE, TranslationManager.string(Translations.MOB_NAME_BREEZE), MobBehaviour.HOSTILE, "https://textures.minecraft.net/texture/a275728af7e6a29c88125b675a39d88ae9919bb61fdc200337fed6ab0c49d65c"),
-	BOGGED(EntityType.BOGGED, TranslationManager.string(Translations.MOB_NAME_BOGGED), MobBehaviour.HOSTILE, "https://textures.minecraft.net/texture/a3b9003ba2d05562c75119b8a62185c67130e9282f7acbac4bc2824c21eb95d9"),
+	CREAKING(getEntityTypeSafely("CREAKING"), TranslationManager.string(Translations.MOB_NAME_CREAKING), MobBehaviour.HOSTILE, "http://textures.minecraft.net/texture/77b5be72769ccff1a6cb77c5848e01d7e5704a3d349c0737ff93cb54d02380ac"),
+	BREEZE(getEntityTypeSafely("BREEZE"), TranslationManager.string(Translations.MOB_NAME_BREEZE), MobBehaviour.HOSTILE, "https://textures.minecraft.net/texture/a275728af7e6a29c88125b675a39d88ae9919bb61fdc200337fed6ab0c49d65c"),
+	BOGGED(getEntityTypeSafely("BOGGED"), TranslationManager.string(Translations.MOB_NAME_BOGGED), MobBehaviour.HOSTILE, "https://textures.minecraft.net/texture/a3b9003ba2d05562c75119b8a62185c67130e9282f7acbac4bc2824c21eb95d9"),
 	WARDEN(EntityType.WARDEN, TranslationManager.string(Translations.MOB_NAME_WARDEN), MobBehaviour.HOSTILE, "https://textures.minecraft.net/texture/53c4970510fb0f99be3f0c3d5a5919c6eeef04e433120e20107c66aba675a9b7"),
 	ELDER_GUARDIAN(EntityType.ELDER_GUARDIAN, TranslationManager.string(Translations.MOB_NAME_ELDER_GUARDIAN), MobBehaviour.HOSTILE, "https://textures.minecraft.net/texture/4340a268f25fd5cc276ca147a8446b2630a55867a2349f7ca107c26eb58991"),
 	WITHER_SKELETON(EntityType.WITHER_SKELETON, TranslationManager.string(Translations.MOB_NAME_WITHER_SKELETON), MobBehaviour.HOSTILE, "https://textures.minecraft.net/texture/2d26f2dfdf5dffc16fc80811a843524daf12c4931ec850307775c6d35a5f46c1"),
@@ -130,5 +141,51 @@ public enum SpawnerMob {
 	final String mobName;
 	final MobBehaviour behaviour;
 	final String headTexture;
+
+	/**
+	 * Safely gets an EntityType by name, returning null if it doesn't exist.
+	 * This prevents NoClassDefFoundError when running on older Minecraft versions.
+	 */
+	private static EntityType getEntityTypeSafely(String name) {
+		try {
+			return EntityType.valueOf(name);
+		} catch (IllegalArgumentException e) {
+			return null;
+		} catch (LinkageError e) {
+			// Handle cases where the EntityType enum doesn't have the field at runtime
+			// NoSuchFieldError is a subclass of LinkageError, so catching LinkageError covers both
+			return null;
+		}
+	}
+
+	/**
+	 * Checks if this SpawnerMob is valid (has a non-null EntityType).
+	 * Invalid mobs are those whose EntityType doesn't exist in the current Minecraft version.
+	 */
+	public boolean isValid() {
+		return this.entityType != null;
+	}
+
+	/**
+	 * Returns a list of all valid SpawnerMob values (those that exist in the current Minecraft version).
+	 * Use this instead of values() when you need to filter out mobs that don't exist.
+	 */
+	public static List<SpawnerMob> getValidValues() {
+		return Arrays.stream(values())
+				.filter(SpawnerMob::isValid)
+				.collect(Collectors.toList());
+	}
+
+	/**
+	 * Safely gets a SpawnerMob by EntityType name, returning null if not found or invalid.
+	 */
+	public static SpawnerMob getByEntityTypeName(String name) {
+		try {
+			SpawnerMob mob = valueOf(name);
+			return mob.isValid() ? mob : null;
+		} catch (IllegalArgumentException e) {
+			return null;
+		}
+	}
 
 }

@@ -25,6 +25,7 @@ import ca.tweetzy.spawners.api.spawner.Level;
 import ca.tweetzy.spawners.guis.SpawnersBaseGUI;
 import ca.tweetzy.spawners.model.UserInput;
 import lombok.NonNull;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 
 /**
@@ -37,8 +38,8 @@ public final class LevelEditGUI extends SpawnersBaseGUI {
 
 	private final Level level;
 
-	public LevelEditGUI(@NonNull final Level level) {
-		super(new LevelListGUI(level.getLevelOption()), "<GRADIENT:fc67fa>&LSpawners</GRADIENT:f4c4f3> &8> &7" + ChatUtil.capitalizeFully(level.getLevelOption()), 6);
+	public LevelEditGUI(Player player, @NonNull final Level level) {
+		super(new LevelListGUI(player, level.getLevelOption()),player, "<GRADIENT:fc67fa>&LSpawners</GRADIENT:f4c4f3> &8> &7" + ChatUtil.capitalizeFully(level.getLevelOption()), 6);
 		this.level = level;
 		draw();
 	}
@@ -79,7 +80,7 @@ public final class LevelEditGUI extends SpawnersBaseGUI {
 						"&fEnter new value in chat",
 						input -> {
 							this.level.setValue(input);
-							event.manager.showGUI(event.player, new LevelEditGUI(this.level));
+							event.manager.showGUI(event.player, new LevelEditGUI(this.player, this.level));
 							this.level.sync();
 						});
 
@@ -89,7 +90,7 @@ public final class LevelEditGUI extends SpawnersBaseGUI {
 						"&fEnter new cost in chat",
 						input -> {
 							this.level.setCost(input);
-							event.manager.showGUI(event.player, new LevelEditGUI(this.level));
+							event.manager.showGUI(event.player, new LevelEditGUI(this.player, this.level));
 							this.level.sync();
 						});
 		});

@@ -23,29 +23,37 @@ import ca.tweetzy.flight.settings.TranslationManager;
 import ca.tweetzy.flight.utils.QuickItem;
 import ca.tweetzy.spawners.settings.Settings;
 import ca.tweetzy.spawners.settings.Translations;
+import lombok.Getter;
 import lombok.NonNull;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public abstract class SpawnersBaseGUI extends BaseGUI {
 
-	public SpawnersBaseGUI(Gui parent, @NonNull String title, int rows) {
+	@Getter
+	protected final Player player;
+
+	public SpawnersBaseGUI(Gui parent, @NonNull final Player player, @NonNull String title, int rows) {
 		super(parent, title, rows);
+		this.player = player;
 	}
 
-	public SpawnersBaseGUI(Gui parent, @NonNull String title) {
-		super(parent, title);
+	public SpawnersBaseGUI(Gui parent, @NonNull final Player player, @NonNull String title) {
+		super(parent, title,1);
+		this.player = player;
 	}
 
-	public SpawnersBaseGUI(@NonNull String title) {
+	public SpawnersBaseGUI(@NonNull final Player player, @NonNull String title) {
 		super(title);
+		this.player = player;
 	}
 
 	@Override
 	protected ItemStack getBackButton() {
 		return QuickItem
 				.of(Settings.GUI_SHARED_ITEMS_BACK_BUTTON.getItemStack())
-				.name(TranslationManager.string(Translations.GUI_SHARED_ITEMS_BACK_BUTTON_NAME))
-				.lore(TranslationManager.list(Translations.GUI_SHARED_ITEMS_BACK_BUTTON_LORE, "left_click", TranslationManager.string(Translations.MOUSE_LEFT_CLICK)))
+				.name(TranslationManager.string(this.player, Translations.GUI_SHARED_ITEMS_BACK_BUTTON_NAME))
+				.lore(TranslationManager.list(this.player, Translations.GUI_SHARED_ITEMS_BACK_BUTTON_LORE, "left_click", TranslationManager.string(this.player, Translations.MOUSE_LEFT_CLICK)))
 				.make();
 	}
 
@@ -53,8 +61,8 @@ public abstract class SpawnersBaseGUI extends BaseGUI {
 	protected ItemStack getExitButton() {
 		return QuickItem
 				.of(Settings.GUI_SHARED_ITEMS_EXIT_BUTTON.getItemStack())
-				.name(TranslationManager.string(Translations.GUI_SHARED_ITEMS_EXIT_BUTTON_NAME))
-				.lore(TranslationManager.list(Translations.GUI_SHARED_ITEMS_EXIT_BUTTON_LORE, "left_click", TranslationManager.string(Translations.MOUSE_LEFT_CLICK)))
+				.name(TranslationManager.string(this.player, Translations.GUI_SHARED_ITEMS_EXIT_BUTTON_NAME))
+				.lore(TranslationManager.list(this.player, Translations.GUI_SHARED_ITEMS_EXIT_BUTTON_LORE, "left_click", TranslationManager.string(this.player, Translations.MOUSE_LEFT_CLICK)))
 				.make();
 	}
 
@@ -62,8 +70,8 @@ public abstract class SpawnersBaseGUI extends BaseGUI {
 	protected ItemStack getPreviousButton() {
 		return QuickItem
 				.of(Settings.GUI_SHARED_ITEMS_PREVIOUS_BUTTON.getItemStack())
-				.name(TranslationManager.string(Translations.GUI_SHARED_ITEMS_PREVIOUS_BUTTON_NAME))
-				.lore(TranslationManager.list(Translations.GUI_SHARED_ITEMS_PREVIOUS_BUTTON_LORE, "left_click", TranslationManager.string(Translations.MOUSE_LEFT_CLICK)))
+				.name(TranslationManager.string(this.player, Translations.GUI_SHARED_ITEMS_PREVIOUS_BUTTON_NAME))
+				.lore(TranslationManager.list(this.player, Translations.GUI_SHARED_ITEMS_PREVIOUS_BUTTON_LORE, "left_click", TranslationManager.string(this.player, Translations.MOUSE_LEFT_CLICK)))
 				.make();
 	}
 
@@ -71,8 +79,8 @@ public abstract class SpawnersBaseGUI extends BaseGUI {
 	protected ItemStack getNextButton() {
 		return QuickItem
 				.of(Settings.GUI_SHARED_ITEMS_NEXT_BUTTON.getItemStack())
-				.name(TranslationManager.string(Translations.GUI_SHARED_ITEMS_NEXT_BUTTON_NAME))
-				.lore(TranslationManager.list(Translations.GUI_SHARED_ITEMS_NEXT_BUTTON_LORE, "left_click", TranslationManager.string(Translations.MOUSE_LEFT_CLICK)))
+				.name(TranslationManager.string(this.player, Translations.GUI_SHARED_ITEMS_NEXT_BUTTON_NAME))
+				.lore(TranslationManager.list(this.player, Translations.GUI_SHARED_ITEMS_NEXT_BUTTON_LORE, "left_click", TranslationManager.string(this.player, Translations.MOUSE_LEFT_CLICK)))
 				.make();
 	}
 

@@ -77,6 +77,7 @@ public final class Settings extends FlightSettings {
 	public static final ConfigEntry MINE_DROP_CHANCE = config.createEntry("mine.drop chance", 50D).withComment("Chance for the spawner to drop when mined");
 	public static final ConfigEntry MINE_REQUIRES_SILK_TOUCH = config.createEntry("mine.requires silk touch", true).withComment("Should silk touch be required to mine spawners?");
 	public static final ConfigEntry MINE_WITHOUT_SILK_BREAKS = config.createEntry("mine.no silk drops nothing", true).withComment("If a player mines a spawner (natural) without silk touch, it drops nothing");
+	public static final ConfigEntry MINE_PREVENT_NATURAL_MINING = config.createEntry("mine.prevent natural mining", true).withComment("Prevents players from mining natural spawners if enabled");
 
 	public static final ConfigEntry EXPLOSION_DROP_ENABLED = config.createEntry("explosion.drop enabled", true).withComment("Should spawners break during an explosion");
 	public static final ConfigEntry EXPLOSION_DROP_CHANCE = config.createEntry("explosion.drop chance", 25D).withComment("The chance for the spawner to drop if exploded by tnt");
@@ -309,6 +310,18 @@ public final class Settings extends FlightSettings {
 
 	public static final ConfigEntry MOB_CHANGE_CREAKING_ENABLED = config.createEntry("mob change.creaking.enabled", true).withComment("Should players be able to set their spawner to a Creaking");
 	public static final ConfigEntry MOB_CHANGE_CREAKING_COST = config.createEntry("mob change.creaking.cost", 5000D).withComment("The cost to switch the spawner to a Creaking");
+
+	public static final ConfigEntry MOB_CHANGE_HAPPY_GHAST_ENABLED = config.createEntry("mob change.happy ghast.enabled", true).withComment("Should players be able to set their spawner to a Happy Ghast");
+	public static final ConfigEntry MOB_CHANGE_HAPPY_GHAST_COST = config.createEntry("mob change.happy ghast.cost", 5000D).withComment("The cost to switch the spawner to a Happy Ghast");
+
+	public static final ConfigEntry MOB_CHANGE_COPPER_GOLEM_ENABLED = config.createEntry("mob change.copper golem.enabled", true).withComment("Should players be able to set their spawner to a Copper Golem");
+	public static final ConfigEntry MOB_CHANGE_COPPER_GOLEM_COST = config.createEntry("mob change.copper golem.cost", 5000D).withComment("The cost to switch the spawner to a Copper Golem");
+
+	public static final ConfigEntry MOB_CHANGE_NAUTILUS_ENABLED = config.createEntry("mob change.nautilus.enabled", true).withComment("Should players be able to set their spawner to a nautilus");
+	public static final ConfigEntry MOB_CHANGE_NAUTILUS_COST = config.createEntry("mob change.nautilus.cost", 5000D).withComment("The cost to switch the spawner to a nautilus");
+
+	public static final ConfigEntry MOB_CHANGE_ZOMBIE_NAUTILUS_ENABLED = config.createEntry("mob change.zombie nautilus.enabled", true).withComment("Should players be able to set their spawner to a zombie nautilus");
+	public static final ConfigEntry MOB_CHANGE_ZOMBIE_NAUTILUS_COST = config.createEntry("mob change.zombie nautilus.cost", 5000D).withComment("The cost to switch the spawner to a zombie nautilus");
 
 
 	@SneakyThrows

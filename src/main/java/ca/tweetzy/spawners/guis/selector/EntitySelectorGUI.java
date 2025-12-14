@@ -30,9 +30,9 @@ import ca.tweetzy.spawners.guis.SpawnersPagedGUI;
 import ca.tweetzy.spawners.settings.Translations;
 import lombok.NonNull;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Consumer;
@@ -50,12 +50,12 @@ public final class EntitySelectorGUI extends SpawnersPagedGUI<SpawnerMob> {
 	private final Consumer<EntityType> selected;
 	private final EntityViewMode entityViewMode;
 
-	public EntitySelectorGUI(Gui parent, @NonNull final EntityViewMode entityViewMode, @NonNull final Consumer<EntityType> selected) {
-		super(parent, TranslationManager.string(Translations.GUI_ENTITY_SELECTOR_TITLE), 6,
+	public EntitySelectorGUI(Gui parent, Player player, @NonNull final EntityViewMode entityViewMode, @NonNull final Consumer<EntityType> selected) {
+		super(parent,player,TranslationManager.string(Translations.GUI_ENTITY_SELECTOR_TITLE), 6,
 				entityViewMode == EntityViewMode.ALL ?
-						Arrays.stream(SpawnerMob.values()).sorted(Comparator.comparing(SpawnerMob::getMobName)).collect(Collectors.toList())
+						SpawnerMob.getValidValues().stream().sorted(Comparator.comparing(SpawnerMob::getMobName)).collect(Collectors.toList())
 						:
-						Arrays.stream(SpawnerMob.values()).filter(mob -> mob.getBehaviour() == MobBehaviour.valueOf(entityViewMode.name())).sorted(Comparator.comparing(SpawnerMob::getMobName)).collect(Collectors.toList())
+						SpawnerMob.getValidValues().stream().filter(mob -> mob.getBehaviour() == MobBehaviour.valueOf(entityViewMode.name())).sorted(Comparator.comparing(SpawnerMob::getMobName)).collect(Collectors.toList())
 		);
 
 		this.parent = parent;
@@ -79,11 +79,11 @@ public final class EntitySelectorGUI extends SpawnersPagedGUI<SpawnerMob> {
 	}
 
 	@Override
-	protected void drawAdditional() {
+	protected void drawFixed() {
 		setButton(5, 4, QuickItem.of(CompMaterial.REPEATER)
 				.name(TranslationManager.string(Translations.GUI_ENTITY_SELECTOR_ITEMS_MODE_NAME))
 				.lore(TranslationManager.list(Translations.GUI_ENTITY_SELECTOR_ITEMS_MODE_LORE, "entity_behaviour", ChatUtil.capitalizeFully(this.entityViewMode)))
-				.make(), click -> click.manager.showGUI(click.player, new EntitySelectorGUI(this.parent, this.entityViewMode.next(), this.selected)));
+				.make(), click -> click.manager.showGUI(click.player, new EntitySelectorGUI(this.parent,this.player, this.entityViewMode.next(), this.selected)));
 	}
 
 	@Override

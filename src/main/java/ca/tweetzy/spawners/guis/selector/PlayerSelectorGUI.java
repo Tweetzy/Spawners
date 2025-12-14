@@ -47,7 +47,7 @@ public final class PlayerSelectorGUI extends SpawnersPagedGUI<Player> {
 	private final BiConsumer<Player, Boolean> selected;
 
 	public PlayerSelectorGUI(Gui parent, @NonNull final Player viewer, @NonNull final BiConsumer<Player, Boolean> selected) {
-		super(parent, TranslationManager.string(Translations.GUI_PLAYER_SELECT_TITLE), Settings.GUI_PLAYER_SELECT_ROWS.getInt(), Bukkit.getOnlinePlayers().stream().filter(player -> !player.getUniqueId().equals(viewer.getUniqueId())).collect(Collectors.toList()));
+		super(parent, viewer, TranslationManager.string(Translations.GUI_PLAYER_SELECT_TITLE), Settings.GUI_PLAYER_SELECT_ROWS.getInt(), Bukkit.getOnlinePlayers().stream().filter(player -> !player.getUniqueId().equals(viewer.getUniqueId())).collect(Collectors.toList()));
 		setDefaultItem(QuickItem.of(Settings.GUI_PLAYER_SELECT_BG.getMaterial()).name(" ").make());
 		this.selected = selected;
 		draw();
@@ -62,7 +62,7 @@ public final class PlayerSelectorGUI extends SpawnersPagedGUI<Player> {
 	}
 
 	@Override
-	protected void drawAdditional() {
+	protected void drawFixed() {
 		Settings.GUI_PLAYER_SELECT_FILL_DECORATION.getStringList().forEach(deco -> {
 			final String[] split = deco.split(":");
 
@@ -79,7 +79,7 @@ public final class PlayerSelectorGUI extends SpawnersPagedGUI<Player> {
 
 	@Override
 	protected void onClick(Player player, GuiClickEvent clickEvent) {
-		clickEvent.manager.showGUI(clickEvent.player, new ConfirmGUI(this, confirmed -> this.selected.accept(player, confirmed)));
+		clickEvent.manager.showGUI(clickEvent.player, new ConfirmGUI(this, player, confirmed -> this.selected.accept(player, confirmed)));
 	}
 
 	@Override

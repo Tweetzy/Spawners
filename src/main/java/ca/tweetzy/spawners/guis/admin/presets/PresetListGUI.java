@@ -53,8 +53,8 @@ import java.util.List;
  */
 public final class PresetListGUI extends SpawnersPagedGUI<Preset> {
 
-	public PresetListGUI() {
-		super(new SpawnersAdminGUI(), "<GRADIENT:fc67fa>&LLevels</GRADIENT:f4c4f3> &8> &7Presets", 6, Spawners.getPresetManager().getContents());
+	public PresetListGUI(Player player) {
+		super(new SpawnersAdminGUI(player),player,"<GRADIENT:fc67fa>&LLevels</GRADIENT:f4c4f3> &8> &7Presets", 6, Spawners.getPresetManager().getContents());
 		draw();
 	}
 
@@ -94,7 +94,7 @@ public final class PresetListGUI extends SpawnersPagedGUI<Preset> {
 	}
 
 	@Override
-	protected void drawAdditional() {
+	protected void drawFixed() {
 		setButton(5, 4, QuickItem
 				.of(CompMaterial.SLIME_BALL)
 				.name("&a&lNew Preset")
@@ -135,7 +135,7 @@ public final class PresetListGUI extends SpawnersPagedGUI<Preset> {
 
 					Spawners.getPresetManager().createPreset(preset, (created, createdPreset) -> {
 						if (created)
-							clickEvent.manager.showGUI(clickEvent.player, new PresetListGUI());
+							clickEvent.manager.showGUI(clickEvent.player, new PresetListGUI(clickEvent.player));
 					});
 
 					return true;
@@ -147,10 +147,10 @@ public final class PresetListGUI extends SpawnersPagedGUI<Preset> {
 	@Override
 	protected void onClick(Preset preset, GuiClickEvent clickEvent) {
 		if (clickEvent.clickType == ClickType.LEFT)
-			clickEvent.manager.showGUI(clickEvent.player, new PresetEditGUI(preset));
+			clickEvent.manager.showGUI(clickEvent.player, new PresetEditGUI(clickEvent.player, preset));
 
 		if (clickEvent.clickType == ClickType.NUMBER_KEY)
-			Spawners.getPresetManager().deletePreset(preset, success -> clickEvent.manager.showGUI(clickEvent.player, new PresetListGUI()));
+			Spawners.getPresetManager().deletePreset(preset, success -> clickEvent.manager.showGUI(clickEvent.player, new PresetListGUI(clickEvent.player)));
 	}
 
 	@Override

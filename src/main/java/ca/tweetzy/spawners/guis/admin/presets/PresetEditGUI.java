@@ -28,6 +28,7 @@ import ca.tweetzy.spawners.guis.SpawnersBaseGUI;
 import ca.tweetzy.spawners.guis.selector.EntitySelectorGUI;
 import ca.tweetzy.spawners.guis.selector.LevelSelectorGUI;
 import lombok.NonNull;
+import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 
@@ -41,8 +42,8 @@ public final class PresetEditGUI extends SpawnersBaseGUI {
 
 	private final Preset preset;
 
-	public PresetEditGUI(@NonNull final Preset preset) {
-		super(new PresetListGUI(), "<GRADIENT:fc67fa>&lPresets</GRADIENT:f4c4f3> &8> &7" + preset.getId());
+	public PresetEditGUI(Player player, @NonNull final Preset preset) {
+		super(new PresetListGUI(player), player, "<GRADIENT:fc67fa>&lPresets</GRADIENT:f4c4f3> &8> &7" + preset.getId());
 		this.preset = preset;
 		draw();
 	}
@@ -50,8 +51,16 @@ public final class PresetEditGUI extends SpawnersBaseGUI {
 	@Override
 	protected void draw() {
 
-		setButton(1, 4, QuickItem
-				.of(SpawnerMob.valueOf(this.preset.getEntityType().name()).getHeadTexture())
+		final SpawnerMob presetMob = SpawnerMob.getByEntityTypeName(this.preset.getEntityType().name());
+
+		QuickItem entityItem;
+		if (presetMob != null && presetMob.isValid()) {
+			entityItem = QuickItem.of(presetMob.getHeadTexture());
+		} else {
+			entityItem = QuickItem.of(CompMaterial.BARRIER);
+		}
+
+		setButton(1, 4, entityItem
 				.name("<GRADIENT:fc67fa>&lEntity Type</GRADIENT:f4c4f3>")
 				.lore(Replacer.replaceVariables(Arrays.asList(
 								"",
@@ -60,11 +69,11 @@ public final class PresetEditGUI extends SpawnersBaseGUI {
 								"&e&lClick &8» &7To change entity"
 						),
 						"entity_type", ChatUtil.capitalizeFully(this.preset.getEntityType())
-				)).make(), click -> click.manager.showGUI(click.player, new EntitySelectorGUI(this, EntitySelectorGUI.EntityViewMode.ALL, selected -> {
+				)).make(), click -> click.manager.showGUI(click.player, new EntitySelectorGUI(this, click.player, EntitySelectorGUI.EntityViewMode.ALL, selected -> {
 
 			this.preset.setEntityType(selected);
 			this.preset.sync();
-			click.manager.showGUI(click.player, new PresetEditGUI(this.preset));
+			click.manager.showGUI(click.player, new PresetEditGUI(click.player, this.preset));
 		})));
 
 		// spawn interval
@@ -79,11 +88,11 @@ public final class PresetEditGUI extends SpawnersBaseGUI {
 						),
 						"spawn_delay_level", this.preset.getLevels().get(LevelOption.SPAWN_INTERVAL).getLevelNumber(),
 						"spawn_delay", String.format(String.valueOf(this.preset.getLevels().get(LevelOption.SPAWN_INTERVAL).getValue() / 20), "%,.2f")
-				)).make(), click -> click.manager.showGUI(click.player, new LevelSelectorGUI(this, LevelOption.SPAWN_INTERVAL, selected -> {
+				)).make(), click -> click.manager.showGUI(click.player, new LevelSelectorGUI(this, click.player, LevelOption.SPAWN_INTERVAL, selected -> {
 
 			this.preset.getLevels().put(LevelOption.SPAWN_INTERVAL, selected);
 			this.preset.sync();
-			click.manager.showGUI(click.player, new PresetEditGUI(this.preset));
+			click.manager.showGUI(click.player, new PresetEditGUI(click.player, this.preset));
 		})));
 
 		// spawn count
@@ -98,11 +107,11 @@ public final class PresetEditGUI extends SpawnersBaseGUI {
 						),
 						"spawn_count_level", this.preset.getLevels().get(LevelOption.SPAWN_COUNT).getLevelNumber(),
 						"spawn_count", this.preset.getLevels().get(LevelOption.SPAWN_COUNT).getValue()
-				)).make(), click -> click.manager.showGUI(click.player, new LevelSelectorGUI(this, LevelOption.SPAWN_COUNT, selected -> {
+				)).make(), click -> click.manager.showGUI(click.player, new LevelSelectorGUI(this, click.player, LevelOption.SPAWN_COUNT, selected -> {
 
 			this.preset.getLevels().put(LevelOption.SPAWN_COUNT, selected);
 			this.preset.sync();
-			click.manager.showGUI(click.player, new PresetEditGUI(this.preset));
+			click.manager.showGUI(click.player, new PresetEditGUI(click.player, this.preset));
 		})));
 
 		// max nearby
@@ -117,11 +126,11 @@ public final class PresetEditGUI extends SpawnersBaseGUI {
 						),
 						"max_nearby_entities_level", this.preset.getLevels().get(LevelOption.MAX_NEARBY_ENTITIES).getLevelNumber(),
 						"max_nearby_entities", this.preset.getLevels().get(LevelOption.MAX_NEARBY_ENTITIES).getValue()
-				)).make(), click -> click.manager.showGUI(click.player, new LevelSelectorGUI(this, LevelOption.MAX_NEARBY_ENTITIES, selected -> {
+				)).make(), click -> click.manager.showGUI(click.player, new LevelSelectorGUI(this, click.player, LevelOption.MAX_NEARBY_ENTITIES, selected -> {
 
 			this.preset.getLevels().put(LevelOption.MAX_NEARBY_ENTITIES, selected);
 			this.preset.sync();
-			click.manager.showGUI(click.player, new PresetEditGUI(this.preset));
+			click.manager.showGUI(click.player, new PresetEditGUI(click.player, this.preset));
 		})));
 
 		// Activation range
@@ -136,11 +145,11 @@ public final class PresetEditGUI extends SpawnersBaseGUI {
 						),
 						"activation_range_level", this.preset.getLevels().get(LevelOption.ACTIVATION_RANGE).getLevelNumber(),
 						"activation_range", this.preset.getLevels().get(LevelOption.ACTIVATION_RANGE).getValue()
-				)).make(), click -> click.manager.showGUI(click.player, new LevelSelectorGUI(this, LevelOption.ACTIVATION_RANGE, selected -> {
+				)).make(), click -> click.manager.showGUI(click.player, new LevelSelectorGUI(this, click.player, LevelOption.ACTIVATION_RANGE, selected -> {
 
 			this.preset.getLevels().put(LevelOption.ACTIVATION_RANGE, selected);
 			this.preset.sync();
-			click.manager.showGUI(click.player, new PresetEditGUI(this.preset));
+			click.manager.showGUI(click.player, new PresetEditGUI(click.player, this.preset));
 		})));
 
 		applyBackExit();

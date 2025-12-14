@@ -23,6 +23,7 @@ import ca.tweetzy.flight.settings.TranslationManager;
 import ca.tweetzy.flight.utils.QuickItem;
 import ca.tweetzy.spawners.settings.Translations;
 import lombok.NonNull;
+import org.bukkit.entity.Player;
 
 import java.util.function.Consumer;
 
@@ -36,8 +37,8 @@ public final class ConfirmGUI extends SpawnersBaseGUI {
 
 	private final Consumer<Boolean> confirmed;
 
-	public ConfirmGUI(Gui parent, @NonNull final Consumer<Boolean> confirmed) {
-		super(parent, TranslationManager.string(Translations.GUI_CONFIRM_TITLE), 3);
+	public ConfirmGUI(Gui parent, Player player, @NonNull final Consumer<Boolean> confirmed) {
+		super(parent,player, TranslationManager.string(Translations.GUI_CONFIRM_TITLE), 3);
 		this.confirmed = confirmed;
 		draw();
 	}

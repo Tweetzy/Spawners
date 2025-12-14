@@ -123,7 +123,15 @@ public enum MobUpgrade {
 	// 1.21.4
 	CREAKING(Settings.MOB_CHANGE_CREAKING_ENABLED.getBoolean(), Settings.MOB_CHANGE_CREAKING_COST.getDouble(), SpawnerMob.CREAKING),
 
+	// 1.21.6/7
+	HAPPY_GHAST(Settings.MOB_CHANGE_HAPPY_GHAST_ENABLED.getBoolean(), Settings.MOB_CHANGE_HAPPY_GHAST_COST.getDouble(), SpawnerMob.HAPPY_GHAST),
 
+	// 1.21.9
+	COPPER_GOLEM(Settings.MOB_CHANGE_COPPER_GOLEM_ENABLED.getBoolean(), Settings.MOB_CHANGE_COPPER_GOLEM_COST.getDouble(), SpawnerMob.COPPER_GOLEM),
+
+	// 1.21.11
+	NAUTILUS(Settings.MOB_CHANGE_NAUTILUS_ENABLED.getBoolean(), Settings.MOB_CHANGE_NAUTILUS_COST.getDouble(), SpawnerMob.NAUTILUS),
+	ZOMBIE_NAUTILUS(Settings.MOB_CHANGE_ZOMBIE_NAUTILUS_ENABLED.getBoolean(), Settings.MOB_CHANGE_ZOMBIE_NAUTILUS_COST.getDouble(), SpawnerMob.ZOMBIE_NAUTILUS),
 	;
 
 	private boolean enabled;

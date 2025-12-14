@@ -30,6 +30,7 @@ import ca.tweetzy.spawners.guis.SpawnersPagedGUI;
 import ca.tweetzy.spawners.model.LevelFactory;
 import ca.tweetzy.spawners.settings.Settings;
 import lombok.NonNull;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
@@ -47,8 +48,8 @@ public final class LevelListGUI extends SpawnersPagedGUI<Level> {
 
 	private final LevelOption levelOption;
 
-	public LevelListGUI(@NonNull final LevelOption levelOption) {
-		super(new LevelOptionSelectGUI(), "<GRADIENT:fc67fa>&LLevels</GRADIENT:f4c4f3> &8> &7" + ChatUtil.capitalizeFully(levelOption.name()), 6, Spawners.getLevelManager().getLevels(levelOption).stream().sorted(Comparator.comparing(Level::getLevelNumber)).collect(Collectors.toList()));
+	public LevelListGUI(Player player, @NonNull final LevelOption levelOption) {
+		super(new LevelOptionSelectGUI(player), player,"<GRADIENT:fc67fa>&LLevels</GRADIENT:f4c4f3> &8> &7" + ChatUtil.capitalizeFully(levelOption.name()), 6, Spawners.getLevelManager().getLevels(levelOption).stream().sorted(Comparator.comparing(Level::getLevelNumber)).collect(Collectors.toList()));
 		this.levelOption = levelOption;
 		draw();
 	}
@@ -70,7 +71,7 @@ public final class LevelListGUI extends SpawnersPagedGUI<Level> {
 	}
 
 	@Override
-	protected void drawAdditional() {
+	protected void drawFixed() {
 		setButton(5, 4, QuickItem
 				.of(CompMaterial.SLIME_BALL)
 				.name("&a&lCreate Level")
@@ -83,19 +84,19 @@ public final class LevelListGUI extends SpawnersPagedGUI<Level> {
 				.make(), click -> Spawners.getLevelManager().createLevel(
 				LevelFactory.build(this.levelOption, Spawners.getLevelManager().getHighestLevel(this.levelOption) + 1, LevelFactory.getDefaultValue(this.levelOption), Settings.DEFAULT_LEVEL_COST.getDouble()), (created, createdLevel) -> {
 					if (created)
-						click.manager.showGUI(click.player, new LevelListGUI(this.levelOption));
+						click.manager.showGUI(click.player, new LevelListGUI(this.player, this.levelOption));
 				}));
 	}
 
 	@Override
 	protected void onClick(Level level, GuiClickEvent clickEvent) {
 		if (clickEvent.clickType == ClickType.LEFT)
-			clickEvent.manager.showGUI(clickEvent.player, new LevelEditGUI(level));
+			clickEvent.manager.showGUI(clickEvent.player, new LevelEditGUI(player, level));
 
 		if (clickEvent.clickType == ClickType.NUMBER_KEY)
 			Spawners.getLevelManager().deleteLevel(level, (success) -> {
 				if (success)
-					clickEvent.manager.showGUI(clickEvent.player, new LevelListGUI(this.levelOption));
+					clickEvent.manager.showGUI(clickEvent.player, new LevelListGUI(this.player, this.levelOption));
 			});
 	}
 

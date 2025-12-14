@@ -30,6 +30,7 @@ import ca.tweetzy.spawners.guis.user.SpawnerOverviewGUI;
 import ca.tweetzy.spawners.model.SpawnerBuilder;
 import ca.tweetzy.spawners.settings.Translations;
 import lombok.NonNull;
+import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -41,8 +42,8 @@ public final class SpawnerSplitGUI extends SpawnersBaseGUI {
 
 	private final Map<LevelOption, Integer> splitAmount = new HashMap<>();
 
-	public SpawnerSplitGUI(@NonNull final Spawner spawner, final boolean canUpgrade) {
-		super(new MergeSplitGUI(spawner, canUpgrade), TranslationManager.string(Translations.GUI_SPAWNER_SPLIT_TITLE), 6);
+	public SpawnerSplitGUI(Player player, @NonNull final Spawner spawner, final boolean canUpgrade) {
+		super(new MergeSplitGUI(player, spawner, canUpgrade), player,TranslationManager.string(Translations.GUI_SPAWNER_SPLIT_TITLE), 6);
 		this.spawner = spawner;
 		this.canUpgrade = canUpgrade;
 
@@ -161,7 +162,7 @@ public final class SpawnerSplitGUI extends SpawnersBaseGUI {
 			this.spawner.setLevels(levelMap);
 			this.spawner.reApplyLevels();
 
-			click.manager.showGUI(click.player, new SpawnerOverviewGUI(this.spawner, this.canUpgrade));
+			click.manager.showGUI(click.player, new SpawnerOverviewGUI(click.player, this.spawner, this.canUpgrade));
 		});
 	}
 

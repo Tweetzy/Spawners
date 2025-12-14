@@ -29,6 +29,7 @@ import ca.tweetzy.spawners.guis.admin.presets.PresetListGUI;
 import ca.tweetzy.spawners.guis.admin.shop.SpawnerShopAdminGUI;
 import ca.tweetzy.spawners.guis.admin.spawners.SpawnerListAdminGUI;
 import ca.tweetzy.spawners.settings.Translations;
+import org.bukkit.entity.Player;
 
 /**
  * Date Created: May 04 2022
@@ -38,8 +39,8 @@ import ca.tweetzy.spawners.settings.Translations;
  */
 public final class SpawnersAdminGUI extends SpawnersBaseGUI {
 
-	public SpawnersAdminGUI() {
-		super(null, TranslationManager.string(Translations.GUI_ADMIN_MAIN_TITLE, "plugin_version", Spawners.getInstance().getVersion()), 5);
+	public SpawnersAdminGUI(Player player) {
+		super(null,player, TranslationManager.string(Translations.GUI_ADMIN_MAIN_TITLE, "plugin_version", Spawners.getInstance().getVersion()), 5);
 		draw();
 	}
 
@@ -49,20 +50,20 @@ public final class SpawnersAdminGUI extends SpawnersBaseGUI {
 				.of(CompMaterial.TRIPWIRE_HOOK)
 				.name(TranslationManager.string(Translations.GUI_ADMIN_MAIN_ITEMS_LEVELS_NAME))
 				.lore(TranslationManager.list(Translations.GUI_ADMIN_MAIN_ITEMS_LEVELS_LORE))
-				.make(), click -> click.manager.showGUI(click.player, new LevelOptionSelectGUI()));
+				.make(), click -> click.manager.showGUI(click.player, new LevelOptionSelectGUI(click.player)));
 
 		setButton(1, 4, QuickItem
 				.of(CompMaterial.SPAWNER)
 				.name(TranslationManager.string(Translations.GUI_ADMIN_MAIN_ITEMS_SPAWNERS_NAME))
 				.lore(TranslationManager.list(Translations.GUI_ADMIN_MAIN_ITEMS_SPAWNERS_LORE))
 				.hideTags(true)
-				.make(), click -> click.manager.showGUI(click.player, new SpawnerListAdminGUI()));
+				.make(), click -> click.manager.showGUI(click.player, new SpawnerListAdminGUI(click.player)));
 
 		setButton(1, 7, QuickItem
 				.of(CompMaterial.CARTOGRAPHY_TABLE)
 				.name(TranslationManager.string(Translations.GUI_ADMIN_MAIN_ITEMS_PRESETS_NAME))
 				.lore(TranslationManager.list(Translations.GUI_ADMIN_MAIN_ITEMS_PRESETS_LORE))
-				.make(), click -> click.manager.showGUI(click.player, new PresetListGUI()));
+				.make(), click -> click.manager.showGUI(click.player, new PresetListGUI(click.player)));
 
 		setButton(3, 2, QuickItem
 				.of(CompMaterial.GOLD_INGOT)
@@ -75,7 +76,7 @@ public final class SpawnersAdminGUI extends SpawnersBaseGUI {
 				return;
 			}
 
-			click.manager.showGUI(click.player, new SpawnerShopAdminGUI());
+			click.manager.showGUI(click.player, new SpawnerShopAdminGUI(click.player));
 		});
 
 		setButton(3, 6, QuickItem.of(CompMaterial.DIAMOND)

@@ -38,7 +38,11 @@ import ca.tweetzy.spawners.listeners.*;
 import ca.tweetzy.spawners.model.manager.*;
 import ca.tweetzy.spawners.settings.Settings;
 import ca.tweetzy.spawners.settings.Translations;
+import co.aikar.taskchain.BukkitTaskChainFactory;
+import co.aikar.taskchain.TaskChain;
+import co.aikar.taskchain.TaskChainFactory;
 import net.milkbowl.vault.economy.Economy;
+import org.bukkit.NamespacedKey;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
 import java.util.Arrays;
@@ -51,7 +55,11 @@ import java.util.Arrays;
  */
 public final class Spawners extends FlightPlugin {
 
+	private static TaskChainFactory taskChainFactory;
 	private final TweetzyYamlConfig coreConfig = new TweetzyYamlConfig(this, "config.yml");
+
+	public NamespacedKey ADMIN_MODE;
+
 
 	private final GuiManager guiManager = new GuiManager(this);
 	private final CommandManager commandManager = new CommandManager(this);
@@ -81,6 +89,8 @@ public final class Spawners extends FlightPlugin {
 		Translations.init();
 
 		Common.setPrefix(Settings.PREFIX.getString());
+		taskChainFactory = BukkitTaskChainFactory.create(this);
+
 
 		// Set up the database if enabled
 		this.databaseConnector = new SQLiteConnector(this);
@@ -107,6 +117,8 @@ public final class Spawners extends FlightPlugin {
 		getServer().getPluginManager().registerEvents(new EntityListeners(), this);
 		getServer().getPluginManager().registerEvents(new EggListeners(), this);
 		getServer().getPluginManager().registerEvents(new PlayerListeners(), this);
+
+		ADMIN_MODE = new NamespacedKey(Spawners.getInstance(), "ADMIN_MODE");
 
 	}
 
@@ -165,6 +177,9 @@ public final class Spawners extends FlightPlugin {
 		return getInstance().regionHookManager;
 	}
 
+	public static NamespacedKey getAdminModeKey() {
+		return getInstance().ADMIN_MODE;
+	}
 
 	// economy
 	public static Economy getEconomy() {
@@ -179,6 +194,11 @@ public final class Spawners extends FlightPlugin {
 	protected int getBStatsId() {
 		return 12416;
 	}
+
+	public static <T> TaskChain<T> newChain() {
+		return taskChainFactory.newChain();
+	}
+
 
 	// helpers
 	private void setupEconomy() {

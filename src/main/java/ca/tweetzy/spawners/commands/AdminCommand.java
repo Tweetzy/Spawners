@@ -20,12 +20,18 @@ package ca.tweetzy.spawners.commands;
 import ca.tweetzy.flight.command.AllowedExecutor;
 import ca.tweetzy.flight.command.Command;
 import ca.tweetzy.flight.command.ReturnType;
+import ca.tweetzy.flight.settings.TranslationManager;
+import ca.tweetzy.flight.utils.Common;
 import ca.tweetzy.spawners.Spawners;
 import ca.tweetzy.spawners.guis.admin.SpawnersAdminGUI;
+import ca.tweetzy.spawners.settings.Translations;
+import org.bukkit.NamespacedKey;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.List;
+
 
 /**
  * Date Created: June 02 2022
@@ -42,12 +48,31 @@ public final class AdminCommand extends Command {
 	@Override
 	protected ReturnType execute(CommandSender sender, String... args) {
 		if (!(sender instanceof final Player player)) return ReturnType.FAIL;
-		Spawners.getGuiManager().showGUI(player, new SpawnersAdminGUI());
+
+		if (args.length == 0) {
+			Spawners.getGuiManager().showGUI(player, new SpawnersAdminGUI(player));
+			return ReturnType.SUCCESS;
+		}
+
+		switch(args[0]) {
+			case "bypass":
+				if (!player.getPersistentDataContainer().has(Spawners.getAdminModeKey())) {
+					player.getPersistentDataContainer().set(new NamespacedKey(Spawners.getInstance(), "ADMIN_MODE"), PersistentDataType.BOOLEAN, true);
+					Common.tell(player, TranslationManager.string(Translations.ADMIN_MODE_ENABLED));
+				} else {
+					player.getPersistentDataContainer().remove(Spawners.getAdminModeKey());
+					Common.tell(player, TranslationManager.string(Translations.ADMIN_MODE_DISABLED));
+				}
+				break;
+		}
+
 		return ReturnType.SUCCESS;
 	}
 
 	@Override
 	protected List<String> tab(CommandSender sender, String... args) {
+		if (args.length == 1)
+			return List.of("bypass");
 		return null;
 	}
 

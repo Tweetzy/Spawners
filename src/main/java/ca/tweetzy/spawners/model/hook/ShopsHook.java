@@ -43,7 +43,7 @@ public final class ShopsHook {
 	public void handleCommand(GuiClickEvent click, SpawnerUser spawnerUser) {
 		final Shop shop = ShopsHook.getSpawnerShop();
 		if (shop == null)
-			click.manager.showGUI(click.player, new SpawnerShopGUI(spawnerUser));
+			click.manager.showGUI(click.player, new SpawnerShopGUI(click.player, spawnerUser));
 		else
 			Shops.getGuiManager().showGUI(click.player, new ShopContentsGUI(null, click.player, shop, true));
 	}

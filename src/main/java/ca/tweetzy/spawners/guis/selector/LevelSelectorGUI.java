@@ -28,6 +28,7 @@ import ca.tweetzy.spawners.api.LevelOption;
 import ca.tweetzy.spawners.api.spawner.Level;
 import ca.tweetzy.spawners.guis.SpawnersPagedGUI;
 import lombok.NonNull;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
@@ -43,8 +44,8 @@ public final class LevelSelectorGUI extends SpawnersPagedGUI<Level> {
 
 	private final Consumer<Level> selected;
 
-	public LevelSelectorGUI(Gui parent, @NonNull final LevelOption option, @NonNull final Consumer<Level> selected) {
-		super(parent, "<GRADIENT:fc67fa>&lLevels</GRADIENT:f4c4f3> &8> &7Select Level", 6, Spawners.getLevelManager().getLevels(option));
+	public LevelSelectorGUI(Gui parent, Player player, @NonNull final LevelOption option, @NonNull final Consumer<Level> selected) {
+		super(parent, player,"<GRADIENT:fc67fa>&lLevels</GRADIENT:f4c4f3> &8> &7Select Level", 6, Spawners.getLevelManager().getLevels(option));
 		this.selected = selected;
 		draw();
 	}

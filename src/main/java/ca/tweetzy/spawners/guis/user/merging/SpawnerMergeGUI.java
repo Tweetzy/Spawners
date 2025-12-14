@@ -33,6 +33,7 @@ import ca.tweetzy.spawners.settings.Translations;
 import lombok.NonNull;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -48,8 +49,8 @@ public final class SpawnerMergeGUI extends SpawnersBaseGUI {
 
 	private BukkitTask spawnerChecker;
 
-	public SpawnerMergeGUI(@NonNull final Spawner spawner, final boolean canUpgrade) {
-		super(new SpawnerOverviewGUI(spawner, canUpgrade), TranslationManager.string(Translations.GUI_SPAWNER_MERGE_TITLE));
+	public SpawnerMergeGUI(Player player, @NonNull final Spawner spawner, final boolean canUpgrade) {
+		super(new SpawnerOverviewGUI(player, spawner, canUpgrade),player, TranslationManager.string(Translations.GUI_SPAWNER_MERGE_TITLE));
 		this.spawner = spawner;
 		this.canUpgrade = canUpgrade;
 
@@ -79,7 +80,7 @@ public final class SpawnerMergeGUI extends SpawnersBaseGUI {
 		drawStatusRing();
 		setButton(getRows() - 1, 0, getBackButton(), click -> {
 			click.gui.close();
-			click.manager.showGUI(click.player, new MergeSplitGUI(this.spawner, this.canUpgrade));
+			click.manager.showGUI(click.player, new MergeSplitGUI(click.player, this.spawner, this.canUpgrade));
 		});
 
 		setButton(getRows() - 1, 4, QuickItem.of(CompMaterial.LIME_DYE)

@@ -26,14 +26,15 @@ import ca.tweetzy.spawners.guis.user.SpawnerOverviewGUI;
 import ca.tweetzy.spawners.settings.Settings;
 import ca.tweetzy.spawners.settings.Translations;
 import lombok.NonNull;
+import org.bukkit.entity.Player;
 
 public final class MergeSplitGUI extends SpawnersBaseGUI {
 
 	private final Spawner spawner;
 	private final boolean canUpgrade;
 
-	public MergeSplitGUI(@NonNull final Spawner spawner, final boolean canUpgrade) {
-		super(new SpawnerOverviewGUI(spawner, canUpgrade), TranslationManager.string(Translations.GUI_SPAWNER_MERGE_OR_SPLIT_TITLE), Settings.GUI_MERGE_OR_SPLIT_ROWS.getInt());
+	public MergeSplitGUI(Player player, @NonNull final Spawner spawner, final boolean canUpgrade) {
+		super(new SpawnerOverviewGUI(player, spawner, canUpgrade),player, TranslationManager.string(Translations.GUI_SPAWNER_MERGE_OR_SPLIT_TITLE), Settings.GUI_MERGE_OR_SPLIT_ROWS.getInt());
 		this.spawner = spawner;
 		this.canUpgrade = canUpgrade;
 
@@ -49,12 +50,12 @@ public final class MergeSplitGUI extends SpawnersBaseGUI {
 				.of(CompMaterial.SHULKER_BOX)
 				.name(TranslationManager.string(Translations.GUI_SPAWNER_MERGE_OR_SPLIT_ITEMS_MERGE_NAME))
 				.lore(TranslationManager.list(Translations.GUI_SPAWNER_MERGE_OR_SPLIT_ITEMS_MERGE_LORE))
-				.make(), click -> click.manager.showGUI(click.player, new SpawnerMergeGUI(this.spawner, this.canUpgrade)));
+				.make(), click -> click.manager.showGUI(click.player, new SpawnerMergeGUI(click.player, this.spawner, this.canUpgrade)));
 
 		setButton(1, 6, QuickItem
 				.of(CompMaterial.PRISMARINE_SHARD)
 				.name(TranslationManager.string(Translations.GUI_SPAWNER_MERGE_OR_SPLIT_ITEMS_SPLIT_NAME))
 				.lore(TranslationManager.list(Translations.GUI_SPAWNER_MERGE_OR_SPLIT_ITEMS_SPLIT_LORE))
-				.make(), click -> click.manager.showGUI(click.player, new SpawnerSplitGUI(this.spawner, this.canUpgrade)));
+				.make(), click -> click.manager.showGUI(click.player, new SpawnerSplitGUI(click.player, this.spawner, this.canUpgrade)));
 	}
 }

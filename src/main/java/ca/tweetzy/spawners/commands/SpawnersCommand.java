@@ -46,10 +46,10 @@ public final class SpawnersCommand extends Command {
 			final SpawnerUser user = Spawners.getPlayerManager().findUser(player);
 
 			if (user != null)
-				Spawners.getGuiManager().showGUI(player, new SpawnersMainGUI(user));
+				Spawners.getGuiManager().showGUI(player, new SpawnersMainGUI(player, user));
 			else
 				Spawners.getPlayerManager().createPlayer(player, (created, createdUser) -> {
-					Spawners.getGuiManager().showGUI(player, new SpawnersMainGUI(createdUser));
+					Spawners.getGuiManager().showGUI(player, new SpawnersMainGUI(player, createdUser));
 				});
 		}
 

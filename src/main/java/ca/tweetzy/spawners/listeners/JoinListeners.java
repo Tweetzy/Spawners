@@ -18,10 +18,12 @@
 package ca.tweetzy.spawners.listeners;
 
 import ca.tweetzy.spawners.Spawners;
+import ca.tweetzy.spawners.model.manager.PlayerManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 /**
  * Date Created: May 04 2022
@@ -39,4 +41,10 @@ public final class JoinListeners implements Listener {
 			Spawners.getPlayerManager().createPlayer(player, null);
 	}
 
+	@EventHandler
+	public void onPlayerLeave(PlayerQuitEvent event) {
+		final Player player = event.getPlayer();
+		if (player.getPersistentDataContainer().has(Spawners.getAdminModeKey()))
+			player.getPersistentDataContainer().remove(Spawners.getAdminModeKey());
+	}
 }

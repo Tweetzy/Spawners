@@ -68,7 +68,7 @@ public final class PlayerListeners implements Listener {
 			return;
 		}
 
-		Spawners.getGuiManager().showGUI(player, new SpawnerOverviewGUI(spawner, Boolean.parseBoolean(creatureSpawner.getPersistentDataContainer().get(new NamespacedKey(Spawners.getInstance(), "SpawnersUpgradeable"), PersistentDataType.STRING))));
+		Spawners.getGuiManager().showGUI(player, new SpawnerOverviewGUI(player, spawner, Boolean.parseBoolean(creatureSpawner.getPersistentDataContainer().get(new NamespacedKey(Spawners.getInstance(), "SpawnersUpgradeable"), PersistentDataType.STRING))));
 		event.setUseItemInHand(Event.Result.DENY);
 	}
 }

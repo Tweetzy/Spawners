@@ -51,9 +51,9 @@ public final class EntityChangeGUI extends SpawnersPagedGUI<MobUpgrade> {
 	private final Consumer<MobUpgrade> selected;
 
 	public EntityChangeGUI(@NonNull final Gui parent, @NonNull final Player player, @NonNull final Consumer<MobUpgrade> selected) {
-		super(parent, TranslationManager.string(Translations.GUI_ENTITY_CHANGE_TITLE), Settings.GUI_ENTITY_CHANGE_ROWS.getInt(), Stream
+		super(parent,player, TranslationManager.string(Translations.GUI_ENTITY_CHANGE_TITLE), Settings.GUI_ENTITY_CHANGE_ROWS.getInt(), Stream
 				.of(MobUpgrade.values())
-				.filter(mobUpgrade -> mobUpgrade.isEnabled() && player.hasPermission("spawners.upgrade." + mobUpgrade.name().toLowerCase().replace("_", "")))
+				.filter(mobUpgrade -> mobUpgrade.isEnabled() && mobUpgrade.getSpawnerMob().isValid() && player.hasPermission("spawners.upgrade." + mobUpgrade.name().toLowerCase().replace("_", "")))
 				.sorted(Comparator.comparing(mob -> mob.getSpawnerMob().getMobName()))
 				.collect(Collectors.toList()));
 
@@ -75,7 +75,7 @@ public final class EntityChangeGUI extends SpawnersPagedGUI<MobUpgrade> {
 	}
 
 	@Override
-	protected void drawAdditional() {
+	protected void drawFixed() {
 		Settings.GUI_ENTITY_CHANGE_FILL_DECORATION.getStringList().forEach(deco -> {
 			final String[] split = deco.split(":");
 

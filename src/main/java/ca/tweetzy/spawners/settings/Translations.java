@@ -57,6 +57,9 @@ public final class Translations extends TranslationManager {
 	public static final TranslationEntry SPAWNER_PLACE_LIMIT_REACHED = create("misc.spawner place limit reached", "&cYou cannot place anymore spawners!");
 
 
+	public static final TranslationEntry ADMIN_MODE_ENABLED = create("misc.admin mode.enabled", "&aAdmin mode enabled, you can now freely break player spawners");
+	public static final TranslationEntry ADMIN_MODE_DISABLED = create("misc.admin mode.disabled", "&cAdmin mode is now disabled.");
+
 	public static TranslationEntry GUI_SHARED_ITEMS_BACK_BUTTON_NAME = create("gui.shared buttons.back button.name", "<GRADIENT:65B1B4>&LGo Back</GRADIENT:2B6F8A>");
 	public static TranslationEntry GUI_SHARED_ITEMS_BACK_BUTTON_LORE = create("gui.shared buttons.back button.lore",
 			"&e&l%left_click% &7to go back"
@@ -157,9 +160,13 @@ public final class Translations extends TranslationManager {
 	public static final TranslationEntry MOB_NAME_CAMEL = create("mob names.camel", "Camel");
 	public static final TranslationEntry MOB_NAME_SNIFFER = create("mob names.sniffer", "Sniffer");
 	public static final TranslationEntry MOB_NAME_ARMADILLO = create("mob names.armadillo", "Armadillo");
+	public static final TranslationEntry MOB_NAME_HAPPY_GHAST = create("mob names.happy ghast", "Happy Ghast");
 	public static final TranslationEntry MOB_NAME_BREEZE = create("mob names.breeze", "Breeze");
 	public static final TranslationEntry MOB_NAME_BOGGED = create("mob names.bogged", "Bogged");
 	public static final TranslationEntry MOB_NAME_CREAKING = create("mob names.creaking", "Creaking");
+	public static final TranslationEntry MOB_NAME_COPPER_GOLEM = create("mob names.copper golem", "Copper Golem");
+	public static final TranslationEntry MOB_NAME_NAUTILUS = create("mob names.nautilus", "Nautilus");
+	public static final TranslationEntry MOB_NAME_ZOMBIE_NAUTILUS = create("mob names.zombie nautilus", "Zombie Nautilus");
 
 	public static final TranslationEntry SPAWNER_NO_OWNER = create("spawner.no owner", "No Owner");
 	public static final TranslationEntry SPAWNER_REQUIRE_SILK = create("spawner.requires silk touch", "&cYou need silk touch to mine spawners!");

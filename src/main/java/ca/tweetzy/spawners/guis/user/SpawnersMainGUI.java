@@ -29,6 +29,7 @@ import ca.tweetzy.spawners.settings.Settings;
 import ca.tweetzy.spawners.settings.Translations;
 import lombok.NonNull;
 import org.apache.commons.lang.math.NumberUtils;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -41,8 +42,8 @@ public final class SpawnersMainGUI extends SpawnersBaseGUI {
 
 	final SpawnerUser spawnerUser;
 
-	public SpawnersMainGUI(@NonNull final SpawnerUser spawnerUser) {
-		super(null, TranslationManager.string(Translations.GUI_MAIN_TITLE), Settings.GUI_MAIN_ROWS.getInt());
+	public SpawnersMainGUI(Player player, @NonNull final SpawnerUser spawnerUser) {
+		super(null, player, TranslationManager.string(Translations.GUI_MAIN_TITLE), Settings.GUI_MAIN_ROWS.getInt());
 		setDefaultItem(QuickItem.of(Settings.GUI_MAIN_BG.getMaterial()).name(" ").make());
 		this.spawnerUser = spawnerUser;
 		draw();
@@ -69,7 +70,7 @@ public final class SpawnersMainGUI extends SpawnersBaseGUI {
 				.name(TranslationManager.string(Translations.GUI_MAIN_ITEMS_YOUR_SPAWNERS_NAME))
 				.lore(TranslationManager.list(Translations.GUI_MAIN_ITEMS_YOUR_SPAWNERS_LORE, "total_placed_spawners", this.spawnerUser.getPlacedSpawners().size()))
 				.hideTags(true)
-				.make(), click -> click.manager.showGUI(click.player, new SpawnerListGUI(this.spawnerUser)));
+				.make(), click -> click.manager.showGUI(click.player, new SpawnerListGUI(this.player, this.spawnerUser)));
 
 		if (Settings.ENABLE_SHOP.getBoolean())
 			setButton(1, 6, QuickItem.of(CompMaterial.EMERALD)
@@ -87,7 +88,7 @@ public final class SpawnersMainGUI extends SpawnersBaseGUI {
 					return;
 				}
 
-				click.manager.showGUI(click.player, new SpawnerShopGUI(this.spawnerUser));
+				click.manager.showGUI(click.player, new SpawnerShopGUI(this.player, this.spawnerUser));
 			});
 	}
 }

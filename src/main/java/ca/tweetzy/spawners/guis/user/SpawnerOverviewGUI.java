@@ -34,6 +34,7 @@ import ca.tweetzy.spawners.settings.Settings;
 import ca.tweetzy.spawners.settings.Translations;
 import lombok.NonNull;
 import org.bukkit.block.CreatureSpawner;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,16 +53,16 @@ public final class SpawnerOverviewGUI extends SpawnersBaseGUI {
 	private final Spawner spawner;
 	private final boolean canUpgrade;
 
-	public SpawnerOverviewGUI(@NonNull final Spawner spawner, final boolean canUpgrade) {
-		super(null, TranslationManager.string(Translations.GUI_SPAWNER_OVERVIEW_TITLE), Settings.GUI_SPAWNER_OVERVIEW_ROWS.getInt());
+	public SpawnerOverviewGUI(Player player, @NonNull final Spawner spawner, final boolean canUpgrade) {
+		super(null, player, TranslationManager.string(Translations.GUI_SPAWNER_OVERVIEW_TITLE), Settings.GUI_SPAWNER_OVERVIEW_ROWS.getInt());
 		this.spawner = spawner;
 		this.canUpgrade = canUpgrade;
 		setDefaultItem(QuickItem.bg(Settings.GUI_SPAWNER_OVERVIEW_BG.getString()));
 		draw();
 	}
 
-	public SpawnerOverviewGUI(@NonNull final Spawner spawner) {
-		this(spawner, true);
+	public SpawnerOverviewGUI(Player player, @NonNull final Spawner spawner) {
+		this(player, spawner, true);
 	}
 
 	@Override
@@ -79,7 +80,7 @@ public final class SpawnerOverviewGUI extends SpawnersBaseGUI {
 			final String rawSlots = keyed.get("slot").get(0);
 			if (rawSlots.contains("-")) {
 				final String[] slotSplit = rawSlots.split("-");
-				possibleSlots.addAll(IntStream.rangeClosed(Integer.parseInt(slotSplit[0]),Integer.parseInt(slotSplit[1])).boxed().toList());
+				possibleSlots.addAll(IntStream.rangeClosed(Integer.parseInt(slotSplit[0]), Integer.parseInt(slotSplit[1])).boxed().toList());
 			} else {
 				possibleSlots.add(Integer.parseInt(rawSlots));
 			}
@@ -102,12 +103,20 @@ public final class SpawnerOverviewGUI extends SpawnersBaseGUI {
 				.of(CompMaterial.PACKED_ICE)
 				.name(TranslationManager.string(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_MERGE_NAME))
 				.lore(TranslationManager.list(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_MERGE_LORE))
-				.make(), click -> click.manager.showGUI(click.player, new MergeSplitGUI(this.spawner, this.canUpgrade)));
+				.make(), click -> click.manager.showGUI(click.player, new MergeSplitGUI(click.player, this.spawner, this.canUpgrade)));
 
 		if (this.canUpgrade && Spawners.getEconomy() != null) {
 			// entity type
-			setButton(Settings.GUI_SPAWNER_OVERVIEW_ITEMS_ENTITY_SLOT.getInt(), QuickItem
-					.of(SpawnerMob.valueOf(this.spawner.getEntityType().name()).getHeadTexture())
+			final SpawnerMob spawnerMob = SpawnerMob.getByEntityTypeName(this.spawner.getEntityType().name());
+
+			QuickItem entityItem;
+			if (spawnerMob != null && spawnerMob.isValid()) {
+				entityItem = QuickItem.of(spawnerMob.getHeadTexture());
+			} else {
+				entityItem = QuickItem.of(CompMaterial.BARRIER);
+			}
+
+			setButton(Settings.GUI_SPAWNER_OVERVIEW_ITEMS_ENTITY_SLOT.getInt(), entityItem
 					.name(TranslationManager.string(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_ENTITY_NAME))
 					.lore(TranslationManager.list(Translations.GUI_SPAWNER_OVERVIEW_ITEMS_ENTITY_LORE,
 							"entity_type", ChatUtil.capitalizeFully(this.spawner.getEntityType())
@@ -166,7 +175,7 @@ public final class SpawnerOverviewGUI extends SpawnersBaseGUI {
 					))
 					.make(), click -> {
 				spawner.tryUpgrade(click.player, LevelOption.SPAWN_INTERVAL);
-				click.manager.showGUI(click.player, new SpawnerOverviewGUI(this.spawner));
+				click.manager.showGUI(click.player, new SpawnerOverviewGUI(click.player, this.spawner));
 			});
 
 			// spawn count
@@ -182,7 +191,7 @@ public final class SpawnerOverviewGUI extends SpawnersBaseGUI {
 					))
 					.make(), click -> {
 				spawner.tryUpgrade(click.player, LevelOption.SPAWN_COUNT);
-				click.manager.showGUI(click.player, new SpawnerOverviewGUI(this.spawner));
+				click.manager.showGUI(click.player, new SpawnerOverviewGUI(click.player, this.spawner));
 			});
 
 			// max nearby entities
@@ -198,7 +207,7 @@ public final class SpawnerOverviewGUI extends SpawnersBaseGUI {
 					))
 					.make(), click -> {
 				spawner.tryUpgrade(click.player, LevelOption.MAX_NEARBY_ENTITIES);
-				click.manager.showGUI(click.player, new SpawnerOverviewGUI(this.spawner));
+				click.manager.showGUI(click.player, new SpawnerOverviewGUI(click.player, this.spawner));
 			});
 
 			// activation range
@@ -214,7 +223,7 @@ public final class SpawnerOverviewGUI extends SpawnersBaseGUI {
 					))
 					.make(), click -> {
 				spawner.tryUpgrade(click.player, LevelOption.ACTIVATION_RANGE);
-				click.manager.showGUI(click.player, new SpawnerOverviewGUI(this.spawner));
+				click.manager.showGUI(click.player, new SpawnerOverviewGUI(click.player, this.spawner));
 			});
 		}
 	}

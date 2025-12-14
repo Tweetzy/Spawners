@@ -36,6 +36,7 @@ import ca.tweetzy.spawners.settings.Settings;
 import ca.tweetzy.spawners.settings.Translations;
 import lombok.NonNull;
 import org.apache.commons.lang.math.NumberUtils;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
@@ -48,8 +49,8 @@ import java.util.List;
  */
 public final class SpawnerShopGUI extends SpawnersPagedGUI<ShopItem> {
 
-	public SpawnerShopGUI(@NonNull final SpawnerUser spawnerUser) {
-		super(new SpawnersMainGUI(spawnerUser), TranslationManager.string(Translations.GUI_SPAWNER_SHOP_TITLE), Settings.GUI_SHOP_ROWS.getInt(), Spawners.getShopItemManager().getContents());
+	public SpawnerShopGUI(Player player, @NonNull final SpawnerUser spawnerUser) {
+		super(new SpawnersMainGUI(player, spawnerUser), player, TranslationManager.string(Translations.GUI_SPAWNER_SHOP_TITLE), Settings.GUI_SHOP_ROWS.getInt(), Spawners.getShopItemManager().getContents());
 		setDefaultItem(QuickItem.of(Settings.GUI_SHOP_BG.getMaterial()).name(" ").make());
 		draw();
 	}
@@ -59,9 +60,17 @@ public final class SpawnerShopGUI extends SpawnersPagedGUI<ShopItem> {
 		SpawnerMob spawnerMob;
 
 		if (shopItem instanceof final EntityShopItem eShopItem)
-			spawnerMob = SpawnerMob.valueOf(eShopItem.getEntityType().name());
+			spawnerMob = SpawnerMob.getByEntityTypeName(eShopItem.getEntityType().name());
 		else {
-			spawnerMob = SpawnerMob.valueOf(Spawners.getPresetManager().find(((PresetShopItem) shopItem).getPresetId()).getEntityType().name());
+			spawnerMob = SpawnerMob.getByEntityTypeName(Spawners.getPresetManager().find(((PresetShopItem) shopItem).getPresetId()).getEntityType().name());
+		}
+
+		// Skip invalid mobs (those that don't exist in current Minecraft version)
+		if (spawnerMob == null || !spawnerMob.isValid()) {
+			return QuickItem.of(CompMaterial.BARRIER)
+					.name("&c&lInvalid Mob")
+					.lore("&7This mob type is not available", "&7in your Minecraft version.")
+					.make();
 		}
 
 		QuickItem quickItem = QuickItem.of(spawnerMob.getHeadTexture());
@@ -103,7 +112,7 @@ public final class SpawnerShopGUI extends SpawnersPagedGUI<ShopItem> {
 	}
 
 	@Override
-	protected void drawAdditional() {
+	protected void drawFixed() {
 		Settings.GUI_SHOP_FILL_DECORATION.getStringList().forEach(deco -> {
 			final String[] split = deco.split(":");
 

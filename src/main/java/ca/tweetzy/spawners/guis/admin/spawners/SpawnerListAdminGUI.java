@@ -30,6 +30,7 @@ import ca.tweetzy.spawners.guis.SpawnersPagedGUI;
 import ca.tweetzy.spawners.guis.admin.SpawnersAdminGUI;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.ItemStack;
@@ -49,12 +50,12 @@ public final class SpawnerListAdminGUI extends SpawnersPagedGUI<Spawner> {
 
 	final UUID spawnerOwner;
 
-	public SpawnerListAdminGUI() {
-		this(null);
+	public SpawnerListAdminGUI(Player player) {
+		this(player, null);
 	}
 
-	public SpawnerListAdminGUI(final UUID spawnerOwner) {
-		super(new SpawnersAdminGUI(), "<GRADIENT:fc67fa>&LSpawners</GRADIENT:f4c4f3> &8> &7Known Spawners", 6, spawnerOwner != null ?
+	public SpawnerListAdminGUI(Player player, final UUID spawnerOwner) {
+		super(new SpawnersAdminGUI(player), player, "<GRADIENT:fc67fa>&LSpawners</GRADIENT:f4c4f3> &8> &7Known Spawners", 6, spawnerOwner != null ?
 				Spawners.getSpawnerManager().getContents().stream().filter(spawner -> spawner.getOwner().equals(spawnerOwner)).collect(Collectors.toList())
 				:
 				Spawners.getSpawnerManager().getContents()
@@ -118,7 +119,7 @@ public final class SpawnerListAdminGUI extends SpawnersPagedGUI<Spawner> {
 			Spawners.getSpawnerManager().deleteSpawner(spawner, success -> {
 				assert CompMaterial.AIR.parseMaterial() != null;
 				Bukkit.getScheduler().runTaskLater(Spawners.getInstance(), () -> location.getBlock().setType(CompMaterial.AIR.parseMaterial()), 1L);
-				event.manager.showGUI(event.player, new SpawnerListAdminGUI());
+				event.manager.showGUI(event.player, new SpawnerListAdminGUI(event.player));
 			});
 		}
 	}

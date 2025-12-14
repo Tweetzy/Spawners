@@ -30,6 +30,7 @@ import ca.tweetzy.spawners.api.spawner.Level;
 import ca.tweetzy.spawners.api.spawner.Preset;
 import ca.tweetzy.spawners.guis.SpawnersPagedGUI;
 import lombok.NonNull;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
@@ -46,8 +47,8 @@ public final class PresetSelectorGUI extends SpawnersPagedGUI<Preset> {
 
 	private final Consumer<Preset> selected;
 
-	public PresetSelectorGUI(Gui parent, @NonNull final Consumer<Preset> selected) {
-		super(parent, "<GRADIENT:fc67fa>&lPresets</GRADIENT:f4c4f3> &8> &7Select Preset", 6, Spawners.getPresetManager().getContents());
+	public PresetSelectorGUI(Gui parent, Player player, @NonNull final Consumer<Preset> selected) {
+		super(parent, player,"<GRADIENT:fc67fa>&lPresets</GRADIENT:f4c4f3> &8> &7Select Preset", 6, Spawners.getPresetManager().getContents());
 		this.selected = selected;
 		draw();
 	}

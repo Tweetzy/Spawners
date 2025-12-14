@@ -8,7 +8,7 @@
 
     <name>Spawners</name>
     <description>The ultimate spawner plugin</description>
-    <version>1.19.0</version>
+    <version>1.22.0</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -16,7 +16,7 @@
         <jarName>${project.name}</jarName>
         <main.class>${project.groupId}.${project.artifactId}.${project.name}</main.class>
         <java.version>16</java.version>
-        <flight.version>3.36.0</flight.version>
+        <flight.version>3.44.0</flight.version>
         <flight.path>ca.tweetzy</flight.path>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -55,6 +55,10 @@
             <id>factionsuuid</id>
             <url>https://dependency.download/releases</url>
         </repository>
+        <repository>
+            <id>aikar</id>
+            <url>https://repo.aikar.co/content/groups/aikar/</url>
+        </repository>
     </repositories>
 
     <pluginRepositories>
@@ -68,7 +72,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
-            <version>1.21.5-R0.1-SNAPSHOT</version>
+            <version>1.21.10-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -127,6 +131,11 @@
             <version>1.18.30</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>co.aikar</groupId>
+            <artifactId>taskchain-bukkit</artifactId>
+            <version>3.7.2</version>
+        </dependency>
     </dependencies>
     <build>
         <finalName>${jarName}</finalName>
@@ -183,6 +192,8 @@
                     <artifactSet>
                         <includes>
                             <include>${flight.path}:flight*</include>
+                            <include>co.aikar:taskchain-bukkit</include>
+                            <include>co.aikar:taskchain-core</include>
                         </includes>
                     </artifactSet>
                     <filters>

@@ -30,6 +30,7 @@ import ca.tweetzy.spawners.settings.Settings;
 import ca.tweetzy.spawners.settings.Translations;
 import lombok.NonNull;
 import org.apache.commons.lang.math.NumberUtils;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
@@ -42,8 +43,8 @@ import java.util.List;
  */
 public final class SpawnerListGUI extends SpawnersPagedGUI<Spawner> {
 
-	public SpawnerListGUI(@NonNull final SpawnerUser spawnerUser) {
-		super(new SpawnersMainGUI(spawnerUser), TranslationManager.string(Translations.GUI_YOUR_SPAWNERS_TITLE), Settings.GUI_YOUR_SPAWNERS_ROWS.getInt(), spawnerUser.getPlacedSpawners());
+	public SpawnerListGUI(Player player, @NonNull final SpawnerUser spawnerUser) {
+		super(new SpawnersMainGUI(player, spawnerUser), player, TranslationManager.string(Translations.GUI_YOUR_SPAWNERS_TITLE), Settings.GUI_YOUR_SPAWNERS_ROWS.getInt(), spawnerUser.getPlacedSpawners());
 		setDefaultItem(QuickItem.of(Settings.GUI_YOUR_SPAWNERS_BG.getMaterial()).name(" ").make());
 		draw();
 	}
@@ -77,7 +78,7 @@ public final class SpawnerListGUI extends SpawnersPagedGUI<Spawner> {
 	}
 
 	@Override
-	protected void drawAdditional() {
+	protected void drawFixed() {
 		Settings.GUI_YOUR_SPAWNERS_FILL_DECORATION.getStringList().forEach(deco -> {
 			final String[] split = deco.split(":");
 

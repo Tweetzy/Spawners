@@ -40,6 +40,7 @@ import ca.tweetzy.spawners.impl.shopitem.PresetShopItem;
 import ca.tweetzy.spawners.model.UserInput;
 import ca.tweetzy.spawners.settings.Translations;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
@@ -54,8 +55,8 @@ import java.util.List;
  */
 public final class SpawnerShopAdminGUI extends SpawnersPagedGUI<ShopItem> {
 
-	public SpawnerShopAdminGUI() {
-		super(new SpawnersAdminGUI(), "<GRADIENT:fc67fa>&lSpawner Shop</GRADIENT:f4c4f3> &8> &7Edit", 6, Spawners.getShopItemManager().getContents());
+	public SpawnerShopAdminGUI(Player player) {
+		super(new SpawnersAdminGUI(player),player, "<GRADIENT:fc67fa>&lSpawner Shop</GRADIENT:f4c4f3> &8> &7Edit", 6, Spawners.getShopItemManager().getContents());
 		draw();
 	}
 
@@ -64,9 +65,17 @@ public final class SpawnerShopAdminGUI extends SpawnersPagedGUI<ShopItem> {
 		SpawnerMob spawnerMob;
 
 		if (shopItem instanceof final EntityShopItem eShopItem)
-			spawnerMob = SpawnerMob.valueOf(eShopItem.getEntityType().name());
+			spawnerMob = SpawnerMob.getByEntityTypeName(eShopItem.getEntityType().name());
 		else {
-			spawnerMob = SpawnerMob.valueOf(Spawners.getPresetManager().find(((PresetShopItem) shopItem).getPresetId()).getEntityType().name());
+			spawnerMob = SpawnerMob.getByEntityTypeName(Spawners.getPresetManager().find(((PresetShopItem) shopItem).getPresetId()).getEntityType().name());
+		}
+
+		// Skip invalid mobs (those that don't exist in current Minecraft version)
+		if (spawnerMob == null || !spawnerMob.isValid()) {
+			return QuickItem.of(CompMaterial.BARRIER)
+					.name("&c&lInvalid Mob")
+					.lore("&7This mob type is not available", "&7in your Minecraft version.")
+					.make();
 		}
 
 		QuickItem quickItem = QuickItem.of(spawnerMob.getHeadTexture());
@@ -127,7 +136,7 @@ public final class SpawnerShopAdminGUI extends SpawnersPagedGUI<ShopItem> {
 	}
 
 	@Override
-	protected void drawAdditional() {
+	protected void drawFixed() {
 		setButton(5, 4, QuickItem
 				.of(CompMaterial.SLIME_BALL)
 				.name("&a&lCreate Shop Item")
@@ -144,13 +153,13 @@ public final class SpawnerShopAdminGUI extends SpawnersPagedGUI<ShopItem> {
 					return;
 				}
 
-				click.manager.showGUI(click.player, new PresetSelectorGUI(this, selectedPreset -> {
+				click.manager.showGUI(click.player, new PresetSelectorGUI(this, click.player, selectedPreset -> {
 					UserInput.askInteger(click.player, this, "<GRADIENT:fc67fa>&lNew Shop Item</GRADIENT:f4c4f3>", "&fEnter stack/purchase quantity", quantity -> {
 						// run synchronously coz of inventory close
 						Bukkit.getScheduler().runTaskLater(Spawners.getInstance(), () -> UserInput.askDouble(click.player, this, "<GRADIENT:fc67fa>&lNew Shop Item</GRADIENT:f4c4f3>", "&fEnter price of item", cost -> {
 							Spawners.getShopItemManager().createShopItem(new PresetShopItem(selectedPreset.getId(), quantity, cost), (created, shopItem) -> {
 								if (created)
-									click.manager.showGUI(click.player, new SpawnerShopAdminGUI());
+									click.manager.showGUI(click.player, new SpawnerShopAdminGUI(this.player));
 							});
 						}), 1L);
 					});
@@ -158,13 +167,13 @@ public final class SpawnerShopAdminGUI extends SpawnersPagedGUI<ShopItem> {
 			}
 
 			if (click.clickType == ClickType.RIGHT) {
-				click.manager.showGUI(click.player, new EntitySelectorGUI(this, EntitySelectorGUI.EntityViewMode.ALL, selectedEntity -> {
+				click.manager.showGUI(click.player, new EntitySelectorGUI(this, player, EntitySelectorGUI.EntityViewMode.ALL, selectedEntity -> {
 					UserInput.askInteger(click.player, this, "<GRADIENT:fc67fa>&lNew Shop Item</GRADIENT:f4c4f3>", "&fEnter stack/purchase quantity", quantity -> {
 						// run synchronously coz of inventory close
 						Bukkit.getScheduler().runTaskLater(Spawners.getInstance(), () -> UserInput.askDouble(click.player, this, "<GRADIENT:fc67fa>&lNew Shop Item</GRADIENT:f4c4f3>", "&fEnter price of item", cost -> {
 							Spawners.getShopItemManager().createShopItem(new EntityShopItem(selectedEntity, quantity, cost), (created, shopItem) -> {
 								if (created)
-									click.manager.showGUI(click.player, new SpawnerShopAdminGUI());
+									click.manager.showGUI(click.player, new SpawnerShopAdminGUI(this.player));
 							});
 						}), 1L);
 					});
@@ -178,7 +187,7 @@ public final class SpawnerShopAdminGUI extends SpawnersPagedGUI<ShopItem> {
 		if (clickEvent.clickType == ClickType.NUMBER_KEY)
 			Spawners.getShopItemManager().deleteShopItem(shopItem, success -> {
 				if (success)
-					clickEvent.manager.showGUI(clickEvent.player, new SpawnerShopAdminGUI());
+					clickEvent.manager.showGUI(clickEvent.player, new SpawnerShopAdminGUI(this.player));
 			});
 
 		if (clickEvent.clickType == ClickType.LEFT)
@@ -186,7 +195,7 @@ public final class SpawnerShopAdminGUI extends SpawnersPagedGUI<ShopItem> {
 				shopItem.setPrice(newPrice);
 				shopItem.sync();
 
-				clickEvent.manager.showGUI(clickEvent.player, new SpawnerShopAdminGUI());
+				clickEvent.manager.showGUI(clickEvent.player, new SpawnerShopAdminGUI(this.player));
 			});
 
 		if (clickEvent.clickType == ClickType.RIGHT)
@@ -194,7 +203,7 @@ public final class SpawnerShopAdminGUI extends SpawnersPagedGUI<ShopItem> {
 				shopItem.setQuantity(newQty);
 				shopItem.sync();
 
-				clickEvent.manager.showGUI(clickEvent.player, new SpawnerShopAdminGUI());
+				clickEvent.manager.showGUI(clickEvent.player, new SpawnerShopAdminGUI(this.player));
 			});
 	}
 
